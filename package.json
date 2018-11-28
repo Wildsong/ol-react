@@ -1,6 +1,6 @@
 {
   "name": "ol-react",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "React interface for openlayers",
   "main": "lib/index.js",
   "scripts": {
@@ -10,10 +10,12 @@
     "prepublish": "npm run compile"
   },
   "author": "richard.hills@gmail.com",
-  "contributors": [ "Brian H Wilson <brian@wildsong.biz>"],
+  "contributors": [
+    "Brian H Wilson <brian@wildsong.biz>"
+  ],
   "repository": {
-      "type": "git",
-      "url": "git@github.com:brian32768/ol-react.git"
+    "type": "git",
+    "url": "git@github.com:brian32768/ol-react.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
