@@ -8,7 +8,7 @@
     "test": "We need to write unit tests! Tsk",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "postversion": "git push"
+    "postversion": "git --verbose push"
   },
   "author": "richard.hills@gmail.com",
   "contributors": [
