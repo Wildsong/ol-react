@@ -4,16 +4,22 @@
   "description": "React interface for openlayers",
   "main": "lib/index.js",
   "scripts": {
+    "start": "parcel serve index.html --open",
+    "test": "We need to write unit tests! Tsk",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
   },
   "author": "richard.hills@gmail.com",
-  "scripts": {
-    "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile",
-    "postinstall": "node scripts/postinstall.js"
+  "contributors": [ "Brian H Wilson <brian@wildsong.biz>"],
+  "repository": {
+      "type": "git",
+      "url": "git@github.com:brian32768/ol-react.git"
   },
   "devDependencies": {
-    "babel": "^4.6.0",
-    "babel-loader": "^6.2.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1"
   },
@@ -22,6 +28,7 @@
     "react-dom": "^15.0.1"
   },
   "dependencies": {
-    "openlayers": "^3.16.0"
+    "ol": "^5.2.0",
+    "openlayers": "^4.6.5"
   }
 }
