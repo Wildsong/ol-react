@@ -3,12 +3,11 @@
   "version": "0.1.6",
   "license": "MIT",
   "description": "React interface for openlayers",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "start": "parcel serve index.html --open",
     "test": "We need to write unit tests! Tsk",
     "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile",
     "postversion": "git push && git push --tags"
   },
   "author": "richard.hills@gmail.com",
@@ -20,20 +19,14 @@
     "url": "git@github.com:brian32768/ol-react.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1"
-  },
-  "peerDependencies": {
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1"
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0"
   },
   "dependencies": {
-    "lib": "^3.0.2",
-    "ol": "^5.2.0",
-    "openlayers": "^4.6.5"
+    "openlayers": "^4.6.5",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   }
 }
