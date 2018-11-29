@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from './ol-component';
 
-export default class View extends OLComponent {
+class View extends OLComponent {
   constructor(props) {
     super(props);
     this.view = new ol.View();
@@ -61,3 +61,5 @@ View.propTypes = {
 View.contextTypes = {
   map: PropTypes.instanceOf(ol.Map)
 }
+
+export default View;
