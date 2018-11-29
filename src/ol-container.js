@@ -1,4 +1,3 @@
-import React from 'react';
 import OLComponent from './ol-component';
 
 export default class OLContainer extends OLComponent {

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from './ol-component';
@@ -21,7 +20,7 @@ export default class Feature extends OLComponent {
       feature: this.feature
     }
   }
-  
+
   componentDidMount() {
     this.context.source.addFeature(this.feature);
   }

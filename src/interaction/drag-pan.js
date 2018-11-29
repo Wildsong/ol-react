@@ -1,4 +1,3 @@
-import React from 'react';
 import ol from 'openlayers';
 import OLInteraction from './ol-interaction';
 

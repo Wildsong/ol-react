@@ -1,9 +1,9 @@
-import React from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from './ol-component';
 
-export default class Map extends React.Component {
+export default class Map extends Component {
   constructor (props) {
     super(props)
     this.map = new ol.Map({
