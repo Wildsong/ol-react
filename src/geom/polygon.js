@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from '../ol-component';
 
@@ -27,11 +28,11 @@ export default class Polygon extends OLComponent {
 }
 
 Polygon.propTypes = {
-  children: React.PropTypes.arrayOf(
-    React.PropTypes.arrayOf(React.PropTypes.number)
+  children: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.number)
   ).isRequired,
 }
 
 Polygon.contextTypes = {
-  feature: React.PropTypes.instanceOf(ol.Feature)
+  feature: PropTypes.instanceOf(ol.Feature)
 }

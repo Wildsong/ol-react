@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLInteraction from './ol-interaction';
 
@@ -13,7 +14,7 @@ export default class KeyboardPan extends OLInteraction {
 }
 
 KeyboardPan.propTypes = Object.assign({}, OLInteraction.propTypes, {
-  condition: React.PropTypes.func,
-  duration: React.PropTypes.number,
-  pixelDelta: React.PropTypes.number
+  condition: PropTypes.func,
+  duration: PropTypes.number,
+  pixelDelta: PropTypes.number
 })

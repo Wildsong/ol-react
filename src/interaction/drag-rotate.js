@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLInteraction from './ol-interaction';
 
@@ -12,6 +13,6 @@ export default class DragRotate extends OLInteraction {
 }
 
 DragRotate.propTypes = Object.assign({}, OLInteraction.propTypes, {
-  condition: React.PropTypes.func,
-  duration: React.PropTypes.number
+  condition: PropTypes.func,
+  duration: PropTypes.number
 })

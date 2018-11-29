@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLInteraction from './ol-interaction';
 
@@ -13,7 +14,7 @@ export default class KeyboardZoom extends OLInteraction {
 }
 
 KeyboardZoom.propTypes = Object.assign({}, OLInteraction.propTypes, {
-  condition: React.PropTypes.func,
-  delta: React.PropTypes.number,
-  duration: React.PropTypes.number
+  condition: PropTypes.func,
+  delta: PropTypes.number,
+  duration: PropTypes.number
 })

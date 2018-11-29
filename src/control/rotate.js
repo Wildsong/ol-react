@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLControl from './ol-control';
 
@@ -16,10 +17,10 @@ export default class Rotate extends OLControl {
 }
 
 Rotate.propTypes = Object.assign({}, OLControl.propTypes, {
-  autoHide: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  duration: React.PropTypes.number,
-  label: React.PropTypes.node,
-  resetNorth: React.PropTypes.func,
-  tipLabel: React.PropTypes.string
+  autoHide: PropTypes.bool,
+  className: PropTypes.string,
+  duration: PropTypes.number,
+  label: PropTypes.node,
+  resetNorth: PropTypes.func,
+  tipLabel: PropTypes.string
 })

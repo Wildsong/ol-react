@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLInteraction from './ol-interaction';
 
@@ -11,5 +12,5 @@ export default class PinchZoom extends OLInteraction {
 }
 
 PinchZoom.propTypes = Object.assign({}, OLInteraction.propTypes, {
-  duration: React.PropTypes.number
+  duration: PropTypes.number
 })

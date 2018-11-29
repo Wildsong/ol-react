@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from '../ol-component';
 
 export default class RawGeometry extends OLComponent {
   /*
-   * Allows combining a ol.geom.Geometry class with ol-react. Useful if you have
+   * Allows combining a ol.geom.Geometry class with ol- Useful if you have
    * retrieved the object from somewhere else, and don't want to convert back
    * into an ol-react component.
    */
@@ -18,11 +19,11 @@ export default class RawGeometry extends OLComponent {
 }
 
 RawGeometry.propTypes = {
-  geometry: React.PropTypes.instanceOf(
+  geometry: PropTypes.instanceOf(
     ol.geom.Geometry
   ).isRequired,
 }
 
 RawGeometry.contextTypes = {
-  feature: React.PropTypes.instanceOf(ol.Feature)
+  feature: PropTypes.instanceOf(ol.Feature)
 }

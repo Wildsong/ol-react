@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import OLComponent from './ol-component';
 
@@ -59,18 +60,18 @@ export default class Map extends React.Component {
 }
 
 Map.propTypes = {
-  loadTilesWhileAnimating: React.PropTypes.bool,
-  loadTilesWhileInteracting: React.PropTypes.bool,
-  onSingleClick: React.PropTypes.func,
-  onChangeSize: React.PropTypes.func,
-  view: React.PropTypes.element.isRequired,
-  useDefaultInteractions: React.PropTypes.bool.isRequired,
-  useDefaultControls: React.PropTypes.bool.isRequired,
-  focusOnMount: React.PropTypes.bool.isRequired,
+  loadTilesWhileAnimating: PropTypes.bool,
+  loadTilesWhileInteracting: PropTypes.bool,
+  onSingleClick: PropTypes.func,
+  onChangeSize: PropTypes.func,
+  view: PropTypes.element.isRequired,
+  useDefaultInteractions: PropTypes.bool.isRequired,
+  useDefaultControls: PropTypes.bool.isRequired,
+  focusOnMount: PropTypes.bool.isRequired,
 
-  children: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.element),
-    React.PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
   ])
 }
 
@@ -81,5 +82,5 @@ Map.defaultProps = {
 }
 
 Map.childContextTypes = {
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: PropTypes.instanceOf(ol.Map)
 }
