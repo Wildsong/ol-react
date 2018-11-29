@@ -31,6 +31,18 @@ To understand what each element does, read the [OpenLayers API documentation](ht
 In theory, ````npm start```` will launch the test setup in a browser,
 but I have not written it yet. :-)
 
+### Update git
+
+When I do significant changes I bump the patch version number or possibly the minor version
+
+If the current version in package.json is 0.1.9 then
+````npm version patch```` would bump the third digit (eg 0.1.10)
+and
+````npm version minor```` would bump the second digit (eg 0.2.0)
+and in either case, it's all pushed up to github.
+
+The command fails if changes are left uncommitted, so 'git commit' first.
+
 ### Deploy
 
 The original version can be installed in your project with ````npm install ol-react````.
