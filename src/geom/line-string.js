@@ -1,5 +1,6 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers';
+import ol from 'ol';
 import OLComponent from '../ol-component';
 
 export default class LineString extends OLComponent {

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers'
-import OLComponent from '../ol-component'
+import ol from 'ol';
+import OLComponent from '../ol-component';
 
 export default class BingMaps extends OLComponent {
   constructor(props) {

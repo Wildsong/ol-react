@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers';
+import ol from 'ol';
 import OLControl from './ol-control';
 import { ScaleLineUnits } from './scale-line-units'
 

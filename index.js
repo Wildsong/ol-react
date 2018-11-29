@@ -2,11 +2,11 @@
 //
 import React from 'react';
 import { render } from 'react-dom';
-import {Map} from './src';
+import {Map, View, layer, source, Feature, geom} from './src';
 
 const App = () => (
     <div>
-    <p>here's my declarative map app</p>
+    <p>Here's my declarative map app</p>
 
     <Map view=<View resolution={10000} center={[0, 0]}/>>
       <layer.Tile>

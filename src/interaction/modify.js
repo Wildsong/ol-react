@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers';
+import ol from 'ol';
 import OLInteraction from './ol-interaction';
 
 export default class Modify extends OLInteraction {

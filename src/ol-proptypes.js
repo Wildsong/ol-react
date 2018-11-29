@@ -1,6 +1,7 @@
 /**
  * @file Property type validators for OpenLayers custom typedefs.
  */
+import React from 'react';
 import {PropTypes} from 'prop-types'
 
 let OLPropTypes = {}

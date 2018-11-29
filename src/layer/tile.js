@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers'
-import OLContainer from '../ol-container'
+import ol from 'ol';
+import OLContainer from '../ol-container';
 
 export default class Tile extends OLContainer {
   constructor (props) {

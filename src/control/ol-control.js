@@ -1,6 +1,7 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import OLComponent from '../ol-component';
-import ol from 'openlayers';
+import ol from 'ol';
 
 export default class OLControl extends OLComponent {
   constructor (props) {

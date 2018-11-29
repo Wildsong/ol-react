@@ -1,4 +1,4 @@
-import ol from 'openlayers';
+import ol from 'ol';
 
 const STYLE_KEY_FACTORIES = {
   geometry: (value) => new ol.style.Geometry(value),
