@@ -5,7 +5,7 @@
   "description": "React interface for openlayers",
   "main": "./lib/index.js",
   "scripts": {
-    "start": "parcel serve index.html --open",
+    "start": "parcel serve index.html --no-autoinstall --open",
     "test": "We need to write unit tests! Tsk",
     "compile": "babel -d lib/ src/",
     "postversion": "git push && git push --tags"
