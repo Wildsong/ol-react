@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Map} from 'ol';
-import {
-    Source,
-    ImageArcGISRest
-} from 'ol/source';
+import {Source, ImageArcGISRest} from 'ol/source';
 import BaseLayer from 'ol/layer/Base';
 
 import OLComponent from '../ol-component'
@@ -32,7 +29,7 @@ class ReactImageArcGISRest extends OLComponent {
 
 ReactImageArcGISRest.propTypes = {
   ratio: PropTypes.number,
-  url: PropTypes.string.isRequired
+  //url: PropTypes.string.isRequired
 }
 
 ReactImageArcGISRest.defaultProps = {
