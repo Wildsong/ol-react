@@ -28,8 +28,9 @@ To understand what each element does, read the [OpenLayers API documentation](ht
 
 ### Test
 
-In theory, ````npm start```` will launch the test setup in a browser,
-but I have not written it yet. :-)
+The command `npm start` will launch the test setup in a browser.
+
+I added --no-autoinstall option in package.json to prevent parcel from installing openlayers 4 while I am upgrading the source to ol5. This means (for now anyway) you need to run `npm install` before `npm start` to get the dependencies installed.
 
 ### Update git
 
