@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+
 import OLComponent from '../ol-component';
 
 export default class RawGeometry extends OLComponent {
@@ -19,11 +22,9 @@ export default class RawGeometry extends OLComponent {
 }
 
 RawGeometry.propTypes = {
-  geometry: PropTypes.instanceOf(
-    ol.geom.Geometry
-  ).isRequired,
+  geometry: PropTypes.instanceOf(Geometry).isRequired
 }
 
 RawGeometry.contextTypes = {
-  feature: PropTypes.instanceOf(ol.Feature)
+  feature: PropTypes.instanceOf(Feature)
 }

@@ -1,28 +1,35 @@
-import ol from 'ol';
+import {
+    Style,
+    Geometry as GeometryStyle,
+    Fill as FillStyle,
+    Image as ImageStyle,
+    Stroke as StrokeStyle,
+    Text as TexStyle
+} from 'ol/style';
 
 const STYLE_KEY_FACTORIES = {
-  geometry: (value) => new ol.style.Geometry(value),
-  fill: (value) => new ol.style.Fill(value),
-  image: (value) => new ol.style.Image(value),
-  stroke: (value) => new ol.style.Stroke(value),
-  text: (value) => new ol.style.Text(value),
+  geometry: (value) => new GeometryStyle(value),
+  fill: (value) => new FillStyle(value),
+  image: (value) => new ImageStyle(value),
+  stroke: (value) => new StrokeStyle(value),
+  text: (value) => new TextStyle(value),
   zIndex: (value) => value
 };
 
 export function buildStyle(style) {
-  if(!style) {
+  if (!style) {
     return null;
   }
 
-  if(Array.isArray(style)) {
+  if (Array.isArray(style)) {
     return style.map(buildStyle);
   }
 
-  if(typeof style === "function") {
+  if (typeof style === "function") {
     return style;
   }
 
-  if(ol.style.Style.prototype.isPrototypeOf(style)) {
+  if (Style.prototype.isPrototypeOf(style)) {
     return style;
   }
 
@@ -34,5 +41,5 @@ export function buildStyle(style) {
     result[key] = STYLE_KEY_FACTORIES[key](style[key]);
   });
 
-  return new ol.style.Style(result);
+  return new Style(result);
 }

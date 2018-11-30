@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Select as olSelect} from 'ol/interaction';
+
 import OLInteraction from './ol-interaction';
 
 export default class Select extends OLInteraction {
   createInteraction (props) {
-    return new ol.interaction.Select({
+    return new olSelect({
       condition: props.condition
     })
   }

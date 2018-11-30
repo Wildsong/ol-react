@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Source} from 'ol/source';
+import {Feature as olFeature} from 'ol';
+
 import OLComponent from './ol-component';
 import { buildStyle } from './style';
 
 export default class Feature extends OLComponent {
   constructor(props) {
     super(props);
-    this.feature = new ol.Feature({});
+    this.feature = new olFeature({});
     this.feature.setId(props.id);
     this.updateFromProps(props);
   }
@@ -42,9 +45,9 @@ Feature.propTypes = {
 }
 
 Feature.contextTypes = {
-  source: PropTypes.instanceOf(ol.source.Source)
+  source: PropTypes.instanceOf(Source)
 }
 
 Feature.childContextTypes = {
-  feature: PropTypes.instanceOf(ol.Feature)
+  feature: PropTypes.instanceOf(olFeature)
 }

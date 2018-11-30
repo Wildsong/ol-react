@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Map} from 'ol';
+import {
+    Source,
+    ImageArcGISRest
+} from 'ol/source';
+import BaseLayer from 'ol/layer/Base';
+
 import OLComponent from '../ol-component'
 import * as interaction from '../interaction'
 
-export default class ImageArcGISRest extends OLComponent {
+class ReactImageArcGISRest extends OLComponent {
   constructor(props) {
     super(props)
-    this.source = new ol.source.ImageArcGISRest(Object.assign({}, this.props))
+    this.source = new ImageArcGISRest(Object.assign({}, props))
   }
 
   getChildContext() {
@@ -23,20 +30,22 @@ export default class ImageArcGISRest extends OLComponent {
   componentWillUnmount() {}
 }
 
-ImageArcGISRest.propTypes = {
+ReactImageArcGISRest.propTypes = {
   ratio: PropTypes.number,
   url: PropTypes.string.isRequired
 }
 
-ImageArcGISRest.defaultProps = {
+ReactImageArcGISRest.defaultProps = {
   ratio: 1
 }
 
-ImageArcGISRest.contextTypes = {
-  layer: PropTypes.instanceOf(ol.layer.Base),
-  map: PropTypes.instanceOf(ol.Map)
+ReactImageArcGISRest.contextTypes = {
+  layer: PropTypes.instanceOf(BaseLayer),
+  map: PropTypes.instanceOf(Map)
 }
 
-ImageArcGISRest.childContextTypes = {
-  source: PropTypes.instanceOf(ol.source.Source)
+ReactImageArcGISRest.childContextTypes = {
+  source: PropTypes.instanceOf(Source)
 }
+
+export default ReactImageArcGISRest;

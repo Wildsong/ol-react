@@ -1,43 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
-import OLComponent from '../ol-component'
-import * as interaction from '../interaction'
 
-export default class Vector extends OLComponent {
-  constructor(props) {
-    super(props)
-    this.source = new ol.source.Vector(
-      Object.assign({
-        features: new ol.Collection()
-      }, this.props)
-    )
-  }
+import {Map, Collection} from 'ol';
+import Source from 'ol/source/Source';
+import Vector from 'ol/source/Vector';
+import BaseLayer from 'ol/layer/Base';
 
-  getChildContext() {
-    return {
-      source: this.source
+import OLComponent from '../ol-component';
+import * as interaction from '../interaction';
+
+class ReactVector extends OLComponent {
+    constructor(props) {
+        super(props)
+        this.source = new Vector(
+            Object.assign({
+                features: new Collection()
+            }, props)
+        )
     }
-  }
 
-  componentDidMount() {
-    this.context.layer.setSource(this.source)
-  }
+    getChildContext() {
+        return {
+            source: this.source
+        }
+    }
 
-  componentWillUnmount () {}
+    componentDidMount() {
+        this.context.layer.setSource(this.source)
+    }
+
+    componentWillUnmount () {}
 }
 
-Vector.propTypes = {
+ReactVector.propTypes = {
 }
 
-Vector.defaultProps = {
+ReactVector.defaultProps = {
 }
 
-Vector.contextTypes = {
-  layer: PropTypes.instanceOf(ol.layer.Base),
-  map: PropTypes.instanceOf(ol.Map)
+ReactVector.contextTypes = {
+    layer: PropTypes.instanceOf(BaseLayer),
+    map: PropTypes.instanceOf(Map)
 }
 
-Vector.childContextTypes = {
-  source: PropTypes.instanceOf(ol.source.Source)
+ReactVector.childContextTypes = {
+    source: PropTypes.instanceOf(Source)
 }
+
+export default ReactVector;

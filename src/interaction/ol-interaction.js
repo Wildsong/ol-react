@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Map} from 'ol';
+
 import OLComponent from '../ol-component';
 
 export default class OLInteraction extends OLComponent {
@@ -71,5 +73,5 @@ OLInteraction.defaultProps = {
 }
 
 OLInteraction.contextTypes = {
-  map: PropTypes.instanceOf(ol.Map)
+  map: PropTypes.instanceOf(Map)
 }

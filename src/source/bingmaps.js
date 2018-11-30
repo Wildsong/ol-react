@@ -1,28 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {BingMaps} from 'ol/source';
+import BaseLayer from 'ol/layer/Base';
+
 import OLComponent from '../ol-component';
 
-export default class BingMaps extends OLComponent {
-  constructor(props) {
-    let spreadedProps = Object.assign({}, props)
-    spreadedProps.key = spreadedProps.apiKey
-    delete spreadedProps.apiKey
+class ReactBingMaps extends OLComponent {
+    constructor(props) {
+        let spreadedProps = Object.assign({}, props)
+        spreadedProps.key = spreadedProps.apiKey
+        delete spreadedProps.apiKey
+        super(props)
+        this.source = new BingMaps(spreadedProps)
+    }
 
-    super(props)
-
-    this.source = new ol.source.BingMaps(spreadedProps)
-  }
-
-  componentDidMount() {
-    this.context.layer.setSource(this.source)
-  }
+    componentDidMount() {
+        this.context.layer.setSource(this.source)
+    }
 }
 
-BingMaps.propTypes = {
-  apiKey: PropTypes.string.isRequired
+ReactBingMaps.propTypes = {
+    apiKey: PropTypes.string.isRequired
 }
 
-BingMaps.contextTypes = {
-  layer: PropTypes.instanceOf(ol.layer.Base)
+ReactBingMaps.contextTypes = {
+    layer: PropTypes.instanceOf(BaseLayer)
 }
+
+export default ReactBingMaps;

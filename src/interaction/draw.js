@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Draw as olDraw} from 'ol/interaction';
+
 import OLInteraction from './ol-interaction';
 
 export default class Draw extends OLInteraction {
   createInteraction (props) {
-    return new ol.interaction.Draw({
+    return new olDraw({
       type: props.type
     })
   }

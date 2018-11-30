@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Map} from 'ol';
+import {Source, MapQuest} from 'ol/source';
+import BaseLayer from 'ol/layer/Base';
+
 import OLComponent from '../ol-component';
 
-export default class MapQuest extends OLComponent {
+class ReactMapQuest extends OLComponent {
   constructor(props) {
     super(props);
-    this.source = new ol.source.MapQuest(this.props);
+    console.log("MapQuest is ", MapQuest);
+    this.source = new MapQuest(this.props);
   }
 
   componentDidMount() {
@@ -14,10 +19,12 @@ export default class MapQuest extends OLComponent {
   }
 }
 
-MapQuest.propTypes = {
-  layer: PropTypes.string.isRequired
+ReactMapQuest.propTypes = {
+    //layer: PropTypes.string.isRequired
 }
 
-MapQuest.contextTypes = {
-  layer: PropTypes.instanceOf(ol.layer.Base)
+ReactMapQuest.contextTypes = {
+    layer: PropTypes.instanceOf(BaseLayer)
 }
+
+export default ReactMapQuest;

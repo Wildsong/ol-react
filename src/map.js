@@ -1,17 +1,21 @@
 import React from 'react';
 import {Component} from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {Map as olMap} from 'ol';
+import {defaults as defaultInteractions} from 'ol/interaction';
+import {defaults as defaultControls} from 'ol/control';
+
 import OLComponent from './ol-component';
 
 export default class Map extends Component {
   constructor (props) {
     super(props)
-    this.map = new ol.Map({
+    this.map = new olMap({
       loadTilesWhileAnimating: props.loadTilesWhileAnimating,
       loadTilesWhileInteracting: props.loadTilesWhileInteracting,
-      interactions: props.useDefaultInteractions ? ol.interaction.defaults() : [],
-      controls: props.useDefaultControls ? ol.control.defaults() : []
+      interactions: props.useDefaultInteractions ? defaultInteractions() : [],
+      controls: props.useDefaultControls ? defaultControls() : []
     })
 
     if (props.onChangeSize) {
@@ -83,5 +87,5 @@ Map.defaultProps = {
 }
 
 Map.childContextTypes = {
-  map: PropTypes.instanceOf(ol.Map)
+  map: PropTypes.instanceOf(olMap)
 }

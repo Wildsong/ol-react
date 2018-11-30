@@ -1,22 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {OSM} from 'ol/source';
+import BaseLayer from 'ol/layer/Base';
+
 import OLComponent from '../ol-component';
 
-export default class OSM extends OLComponent {
-  constructor(props) {
-    super(props);
-    this.source = new ol.source.OSM(this.props);
-  }
+class ReactOSM extends OLComponent {
+    constructor(props) {
+        super(props);
+        this.source = new OSM(props);
+    }
 
-  componentDidMount() {
-    this.context.layer.setSource(this.source);
-  }
+    componentDidMount() {
+        this.context.layer.setSource(this.source);
+    }
 }
 
-OSM.propTypes = {
+ReactOSM.propTypes = {
 }
 
-OSM.contextTypes = {
-  layer: PropTypes.instanceOf(ol.layer.Base)
+ReactOSM.contextTypes = {
+    layer: PropTypes.instanceOf(BaseLayer)
 }
+
+export default ReactOSM;

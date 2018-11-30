@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+
+import {DragRotate as olDragRotate} from 'ol/interaction';
+
 import OLInteraction from './ol-interaction';
 
 export default class DragRotate extends OLInteraction {
   createInteraction (props) {
-    return new ol.interaction.DragRotate({
+    return new olDragRotate({
       condition: props.condition,
       duration: props.duration
     })
