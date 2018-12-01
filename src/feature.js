@@ -10,6 +10,7 @@ import { buildStyle } from './style';
 export default class Feature extends OLComponent {
   constructor(props) {
     super(props);
+    console.log("feature props=", props);
     this.feature = new olFeature({});
     this.feature.setId(props.id);
     this.updateFromProps(props);
@@ -41,7 +42,7 @@ export default class Feature extends OLComponent {
 Feature.propTypes = {
   style: PropTypes.object,
   children: PropTypes.element,
-  //id: PropTypes.any.isRequired
+  id: PropTypes.any.isRequired
 }
 
 Feature.contextTypes = {
