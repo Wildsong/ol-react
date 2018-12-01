@@ -24,7 +24,22 @@ The goal is to be able to write applications using OpenLayers maps in a declarat
 
 To understand what each element does, read the [OpenLayers API documentation](http://openlayers.org/en/latest/apidoc/).
 
-## How to use it
+### Styles
+
+Styles are declared using a JSON object, passing through the properties you'd like on the final object.
+When creating an Icon, Circle or RegularShape, a `type` parameter must be present, with the value of `icon`, `circle`, or `regular-shape`.
+
+Example:
+```
+image: {
+    type: 'circle',
+    radius: 10,
+    fill: { color: '#666666' },
+    stroke: { color: '#bada55', width: 1 }
+}
+```
+
+## Test and development notes
 
 ### Test
 
@@ -48,6 +63,7 @@ The command fails if changes are left uncommitted, so 'git commit' first.
 
 The original version can be installed in your project with ````npm install ol-react````.
 I haven't gotten past testing yet so I don't have a plan for deployment yet.
+
 
 ## The cry for help
 
