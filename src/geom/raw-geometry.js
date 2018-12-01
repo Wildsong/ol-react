@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 
-import OLComponent from '../ol-component';
+import OLGeometry from './OLGeometry';
 
-export default class RawGeometry extends OLComponent {
+export default class RawGeometry extends OLGeometry {
   /*
    * Allows combining a ol.geom.Geometry class with ol- Useful if you have
    * retrieved the object from somewhere else, and don't want to convert back
