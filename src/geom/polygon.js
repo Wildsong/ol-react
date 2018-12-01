@@ -4,38 +4,46 @@ import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Polygon from 'ol/geom/Polygon';
 
-import OLComponent from '../ol-component';
+import OLGeometry from './OLGeometry';
 
-export default class ReactPolygon extends OLComponent {
-  constructor(props) {
-    super(props);
-    this.geometry = new Polygon();
-    this.updateFromProps(props);
-  }
+class ReactPolygon extends OLGeometry {
+    constructor(props) {
+        super(props);
+        this.geometry = new Polygon();
+        this.updateFromProps(props);
+    }
 
-  updateFromProps(props) {
-    this.geometry.setCoordinates([this.props.children]);
-  }
+    updateFromProps(props) {
+        this.geometry.setCoordinates([this.props.children]);
+    }
 
-  componentDidMount() {
-    this.context.feature.setGeometry(this.geometry);
-  }
+    componentDidMount() {
+        this.context.feature.setGeometry(this.geometry);
+    }
 
-  componentWillReceiveProps(newProps) {
-    this.updateFromProps(newProps);
-  }
+    componentWillReceiveProps(newProps) {
+        this.updateFromProps(newProps);
+    }
 
-  render() {
-    return false;
-  }
+    render() {
+        return false;
+    }
 }
 
-Polygon.propTypes = {
-  children: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.number)
-  ).isRequired,
+// A polygon is an array of linear rings,
+//  an optional layout,
+// and optional ends
+//
+// A linear ring is a set of points and optional layout
+
+ReactPolygon.propTypes = {
+    children: PropTypes.arrayOf(
+        PropTypes.arrayOf(PropTypes.number)
+    ).isRequired,
 }
 
-Polygon.contextTypes = {
-  feature: PropTypes.instanceOf(Feature)
+ReactPolygon.contextTypes = {
+    feature: PropTypes.instanceOf(Feature)
 }
+
+export default ReactPolygon;
