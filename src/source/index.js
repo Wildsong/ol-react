@@ -1,4 +1,4 @@
-// Every source is documented here but commented out until it's implemented.
+// Every supported OL5 source is documented here but commented out until it's implemented.
 // When you implement a new source, add a test to testapp.js.
 
 export {default as BingMaps} from './bingmaps'
