@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Feature} from 'ol';
 import Polygon from 'ol/geom/Polygon';
-
 import OLGeometry from './OLGeometry';
 
 class ReactPolygon extends OLGeometry {
@@ -14,19 +12,15 @@ class ReactPolygon extends OLGeometry {
     }
 
     updateFromProps(props) {
-        this.geometry.setCoordinates([this.props.children]);
-    }
-
-    componentDidMount() {
-        this.context.feature.setGeometry(this.geometry);
+        this.geometry.setCoordinates([props.children]);
     }
 
     componentWillReceiveProps(newProps) {
         this.updateFromProps(newProps);
     }
 
-    render() {
-        return false;
+    componentWillUnmount() {
+        this.context.feature.setGeometry(undefined);
     }
 }
 

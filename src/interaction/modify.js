@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Collection} from 'ol';
 import {Modify as olModify} from 'ol/interaction';
-
 import OLInteraction from './ol-interaction';
 
 export default class Modify extends OLInteraction {

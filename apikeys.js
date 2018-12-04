@@ -1,5 +1,9 @@
+// ol-react 2018-12-03
+// Once you've started adding real API keys here
+// you should not check this in to Github.
+//
 const apiKeys = {
-    'BingMaps': 'PUT YOUR API KEY HERE BUT DON'T CHECK IT IN TO GITHUB!'
+    'BingMaps': 'ArPlrqaHcjrTNar0QBV1-V1N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5'
 }
 
 export default apiKeys;

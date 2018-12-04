@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map} from 'ol';
-
 import OLComponent from '../ol-component';
 
 export default class OLInteraction extends OLComponent {

@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Feature} from 'ol';
 import Circle from 'ol/geom/Circle';
-
 import OLGeometry from './OLGeometry';
 
 class ReactCircle extends OLGeometry {
     constructor(props) {
-        super(props);
+        //super(props);
         console.log('debug circle', props);
         this.geometry = new Circle(props);
         this.updateFromProps(props);

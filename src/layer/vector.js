@@ -1,71 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map} from 'ol';
 import {Style} from 'ol/style';
 import {Vector as olVector} from 'ol/layer';
+import OLLayer from './OLLayer';
+import {buildStyle} from '../style';
 
-import OLContainer from '../ol-container';
-import { buildStyle } from '../style';
-
-export default class Vector extends OLContainer {
-  constructor (props) {
-    super(props)
-    this.layer = new olVector({
-      updateWhileAnimating: props.updateWhileAnimating,
-      updateWhileInteracting: props.updateWhileInteracting,
-      style: buildStyle(this.props.style),
-      visible: this.props.visible
-    })
-    this.layer.setZIndex(props.zIndex)
-  }
-
-  getChildContext () {
-    return {
-      layer: this.layer,
-      map: this.context.map
+class ReactVector extends OLContainer {
+    constructor(props) {
+        super(props)
+        let layerProps = this.buildLayerProps(props);
+        this.layer = new olVector({
+            updateWhileAnimating: props.updateWhileAnimating,
+            updateWhileInteracting: props.updateWhileInteracting,
+        })
     }
-  }
 
-  componentDidMount () {
-    this.context.map.addLayer(this.layer)
-  }
+    getChildContext() {
+        return {
+          layer: this.layer,
+          map: this.context.map
+        }
+    }
 
-  componentWillReceiveProps (newProps) {
-    this.layer.setStyle(buildStyle(newProps.style));
-    this.layer.setVisible(newProps.visible)
-    this.layer.setZIndex(newProps.zIndex)
-  }
+    componentDidMount() {
+        super.componentDidMount();
+        this.context.map.addLayer(this.layer)
+    }
 
-  componentWillUnmount () {
-    this.context.map.removeLayer(this.layer)
-  }
+    componentWillReceiveProps(newProps) {
+        this.layer.setStyle(buildStyle(newProps.style));
+        this.layer.setVisible(newProps.visible)
+        this.layer.setZIndex(newProps.zIndex)
+    }
+
+    componentWillUnmount () {
+        this.context.map.removeLayer(this.layer)
+    }
 }
 
-Vector.propTypes = {
-  updateWhileAnimating: PropTypes.bool,
-  updateWhileInteracting: PropTypes.bool,
-  style: PropTypes.oneOfType([
-    PropTypes.instanceOf(Style),
-    PropTypes.object,
-    PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.instanceOf(Style),
-      PropTypes.object
-    ]))
-  ]),
-  visible: PropTypes.bool,
-  zIndex: PropTypes.number
+ReactVector.propTypes = {
+    updateWhileAnimating: PropTypes.bool,
+    updateWhileInteracting: PropTypes.bool,
+    style: PropTypes.oneOfType([
+        PropTypes.instanceOf(Style),
+        PropTypes.object,
+        PropTypes.arrayOf(PropTypes.oneOfType([
+          PropTypes.instanceOf(Style),
+          PropTypes.object
+        ]))
+    ])
 }
 
-Vector.defaultProps = {
-  visible: true
-}
-
-Vector.contextTypes = {
+ReactVector.contextTypes = {
   map: PropTypes.instanceOf(Map)
 }
 
-Vector.childContextTypes = {
+ReactVector.childContextTypes = {
   layer: PropTypes.instanceOf(olVector),
   map: PropTypes.instanceOf(Map)
 }
+
+export default ReactVector

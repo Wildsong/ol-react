@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {MouseWheelZoom as olMouseWheelZoom} from 'ol/interaction';
-
 import OLInteraction from './ol-interaction';
 
 export default class MouseWheelZoom extends OLInteraction {

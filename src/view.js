@@ -1,67 +1,86 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import {Map, View as olView} from 'ol';
-
+import {Map, View} from 'ol';
 import OLComponent from './ol-component';
 
-class View extends OLComponent {
-  constructor(props) {
-    super(props);
-    this.view = new olView();
-    //this.view.on("change:center", this.onCenterChanged, this);
-    //this.view.on("change:resolution", this.onResolutionChanged, this);
-  }
-
-  onCenterChanged (event) {
-    this.props.onNavigation({
-      center: this.view.getCenter()
-    })
-  }
-
-  onResolutionChanged (event) {
-    this.props.onNavigation({
-      resolution: this.view.getResolution()
-    })
-    return true
-  }
-
-  updateCenterAndResolutionFromProps_ (props) {
-    this.view.setCenter(props.center);
-    if (typeof props.resolution !== 'undefined') {
-      this.view.setResolution(props.resolution);
-    } else if (typeof props.zoom !== 'undefined') {
-      this.view.setZoom(props.zoom);
+class ReactView extends OLComponent {
+    constructor(props) {
+        super(props);
+        var opts = {
+            center: props.initialCenter,
+            resolution: props.initialResolution,
+            rotation: props.initialRotation,
+            zoom: props.initialZoom,
+        };
+        this.view = new View(opts);
     }
-  }
 
-  updateFromProps_ (props, isMounting) {
-    if (isMounting) {
-      // Update the center and the resolution of the view only when it is
-      // mounted the first time but not when the properties are updated
-      this.updateCenterAndResolutionFromProps_(props)
+    onMoveEnd(event) {
+        if (this.props.onNavigation && this.props.initialCenter[0] !== this.view.getCenter()[0]) {
+            // Don't fire an event unless we've actually moved from initial location
+            this.props.onNavigation(
+                this.view.getCenter(),
+                this.view.getResolution(),
+                this.view.getZoom(),
+                this.view.getRotation()
+            );
+        }
     }
-  }
 
-  componentDidMount () {
-    this.context.map.setView(this.view)
-    this.updateFromProps_(this.props, /* isMounting = */ true)
-  }
+    updateFromProps_(nextProps) {
+        if (typeof nextProps.center !== 'undefined') {
+            this.view.setCenter(nextProps.center);
+        }
+        if (typeof nextProps.rotation !== 'undefined') {
+            this.view.setRotation(nextProps.rotation);
+        }
+        // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
+        if (typeof nextProps.resolution !== 'undefined' && nextProps.resolution !== 0) {
+            this.view.setResolution(nextProps.resolution);
+        } else if (typeof nextProps.zoom !== 'undefined') {
+            this.view.setZoom(nextProps.zoom);
+        }
+    }
 
-  componentWillReceiveProps (newProps) {
-    this.updateFromProps_(newProps);
-  }
+    componentDidMount() {
+        this.context.map.setView(this.view);
+        this.updateFromProps_(this.props);
+
+        this.context.map.on("movend", this.onMoveEnd, this);
+    }
+
+    animate(options) {
+        this.view.animate(options);
+    }
+
+    fit(geometry, size, options) {
+        this.view.fit(geometry, size, options);
+    }
 }
 
-View.propTypes = {
-	center: PropTypes.arrayOf(PropTypes.number).isRequired,
-	resolution: PropTypes.number,
-	zoom: PropTypes.number,
-	onNavigation: PropTypes.func
+ReactView.propTypes = {
+    center: PropTypes.arrayOf(PropTypes.number),
+    resolution: PropTypes.number,
+    zoom: PropTypes.number,
+    rotation: PropTypes.number,
+    initialCenter: PropTypes.arrayOf(PropTypes.number),
+    initialResolution: PropTypes.number,
+    initialZoom: PropTypes.number,
+    initialRotation: PropTypes.number,
+    onResolutionChanged: PropTypes.func,
+    onZoomChanged: PropTypes.func,
+    onCenterChanged: PropTypes.func,
 }
 
-View.contextTypes = {
+ReactView.defaultProps = {
+    initialCenter: [0, 0],
+    initialResolution: 10000,
+    initialZoom: 0,
+    initialRotation: 0
+}
+
+ReactView.contextTypes = {
   map: PropTypes.instanceOf(Map)
 }
 
-export default View;
+export default ReactView;

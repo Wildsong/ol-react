@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {DragZoom as olDragZoom} from 'ol/interaction';
-
 import OLInteraction from './ol-interaction';
 
 export default class DragZoom extends OLInteraction {

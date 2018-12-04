@@ -6,7 +6,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "start": "parcel serve index.html --no-autoinstall --open",
-    "test": "We need to write unit tests! Tsk",
+    "test": "echo 'We need to write unit tests!'",
     "compile": "babel -d lib/ src/",
     "postversion": "git push && git push --tags"
   },
@@ -21,6 +21,8 @@
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0"
   },

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {DoubleClickZoom as olDoubleClickZoom} from 'ol/interaction';
 import OLInteraction from './ol-interaction';
 

@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map} from 'ol';
 import {Source, ImageArcGISRest} from 'ol/source';
 import BaseLayer from 'ol/layer/Base';
-
 import OLComponent from '../ol-component'
 import * as interaction from '../interaction'
 
 class ReactImageArcGISRest extends OLComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.source = new ImageArcGISRest(Object.assign({}, props))
   }
 

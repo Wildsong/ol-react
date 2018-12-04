@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {DragBox as olDragBox} from 'ol/interaction';
-
 import OLInteraction from './ol-interaction';
 
 export default class DragBox extends OLInteraction {

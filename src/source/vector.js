@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map, Collection} from 'ol';
 import Source from 'ol/source/Source';
 import Vector from 'ol/source/Vector';
 import BaseLayer from 'ol/layer/Base';
-
 import OLComponent from '../ol-component';
 import * as interaction from '../interaction';
 
 class ReactVector extends OLComponent {
     constructor(props) {
-        super(props)
+        super(props);
         this.source = new Vector(
             Object.assign({
                 features: new Collection()

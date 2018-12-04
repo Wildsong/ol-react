@@ -1,44 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map} from 'ol';
 import {Style} from 'ol/style';
 import Tile from 'ol/layer/Tile';
+import OLLayer from './OLLayer';
 
-import OLContainer from '../ol-container';
-
-class ReactTile extends OLContainer {
-  constructor (props) {
-    super(props)
+class ReactTile extends OLLayer {
+  constructor(props) {
+    super(props);
+    let layerProps = this.buildLayerProps(props);
     this.layer = new Tile({
-      visible: props.visible
+        ...layerProps,
     })
-    this.layer.setZIndex(props.zIndex)
   }
 
-  getChildContext () {
+  getChildContext() {
     return {
       layer: this.layer
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.context.map.addLayer(this.layer)
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.layer.setVisible(newProps.visible)
     this.layer.setZIndex(newProps.zIndex)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.context.map.removeLayer(this.layer)
   }
 }
 
 ReactTile.propTypes = {
-  visible: PropTypes.bool,
-  zIndex: PropTypes.number
+
 }
 
 ReactTile.defaultProps = {
@@ -53,4 +50,4 @@ ReactTile.childContextTypes = {
   layer: PropTypes.instanceOf(Tile)
 }
 
-export default ReactTile;
+export default ReactTile

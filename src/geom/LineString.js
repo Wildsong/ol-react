@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Feature} from 'ol';
 import LineString from 'ol/geom/LineString';
 import GeometryLayout from 'ol/geom/GeometryLayout';
-
 import OLGeometry from './OLGeometry';
 
 class ReactLineString extends OLGeometry {
@@ -18,16 +16,16 @@ class ReactLineString extends OLGeometry {
     }
 
     updateFromProps(props) {
+        // I think this is redundant, happens in "new LineString()"
     //  this.geometry.setCoordinates(props.children);
     }
 
     componentWillReceiveProps(newProps) {
-        // I should probably be worried about what this does
         this.updateFromProps(newProps);
     }
 
-    render() {
-        return false;
+    componentWillUnmount() {
+        this.context.feature.setGeometry(undefined);
     }
 }
 

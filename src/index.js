@@ -12,3 +12,4 @@ export {control, geom, interaction, layer, source};
 export {default as Feature} from './feature';
 export {default as Map} from './map';
 export {default as View} from './view';
+export {default as Overlay} from './overlay';

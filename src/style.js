@@ -18,8 +18,8 @@ import {
 
 const STYLE_KEY_FACTORIES = {
     geometry: (value) => new GeometryStyle(value),
-    image:    (value) => new ImageStyle(value),
-    text:     (value) => new TextStyle(value),
+    image:    (value) => new buildImage(value),
+    text:     (value) => new buildText(value),
     zIndex:   (value) => value,
 
     fill:     (value) => new Fill(value),
@@ -108,14 +108,54 @@ export function buildStyle(style) {
     }
 
     const result = {};
-
-    Object.keys(STYLE_KEY_FACTORIES)
-        .filter((key) => !!style[key])
-        .forEach((key) => {
-    result[key] = STYLE_KEY_FACTORIES[key](style[key]);
-    });
-
+    evaluateKeys(style, result);
     let s = new Style(result);
     console.log("buildStyle: proto: ", style, result, " =====> ", s);
     return s;
+}
+
+function evaluateKeys(style, result) {
+    Object.keys(STYLE_KEY_FACTORIES)
+    .filter((key) => !!style[key])
+    .forEach((key) => {
+        result[key] = STYLE_KEY_FACTORIES[key](style[key]);
+    });
+    return result;
+}
+
+function buildText(style) {
+    if (!style) {
+        return null;
+    }
+    if (typeof style === "function") {
+        return style;
+    }
+
+    // Prevent an infinite loop..
+    let textContent = style.text;
+    delete style.text;
+    let textStyle = style;
+    evaluateKeys(style, textStyle);
+    textStyle.text = textContent;
+    return new ol.style.Text(textStyle);
+}
+
+function buildImage(style) {
+    if (!style) {
+        return null;
+    }
+    if (typeof style === "function") {
+        return style;
+    }
+
+    var imageStyle = style;
+    evaluateKeys(style, imageStyle);
+    switch (style.type) {
+    case 'circle':
+      return new ol.style.Circle(imageStyle);
+    case 'icon':
+      return new ol.style.Icon(imageStyle);
+    case 'regular-shape':
+      return new ol.style.RegularShape(imageStyle);
+    }
 }

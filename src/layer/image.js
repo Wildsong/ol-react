@@ -1,54 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Map} from 'ol';
 import {Style} from 'ol/style';
-import {Image as olImage} from 'ol/layer';
+import {Image} from 'ol/layer';
+import OLLayer from './OLLayer';
 
-import OLContainer from '../ol-container';
-
-export default class Image extends OLContainer {
-  constructor (props) {
-    super(props)
-    this.layer = new olImage({
-      visible: this.props.visible
-    })
-    this.layer.setZIndex(props.zIndex)
-  }
-
-  getChildContext () {
-    return {
-      layer: this.layer
+class ReactImage extends OLLayer {
+    constructor(props) {
+        super(props)
+        let layerProps = this.buildLayerProps(props);
+        this.layer = new Image({
+            ...layerProps,
+        })
     }
-  }
 
-  componentDidMount () {
-    this.context.map.addLayer(this.layer)
-  }
+    getChildContext() {
+        return {
+            layer: this.layer
+        }
+    }
 
-  componentWillReceiveProps (newProps) {
-    this.layer.setVisible(newProps.visible)
-    this.layer.setZIndex(newProps.zIndex)
-  }
+    componentDidMount() {
+        this.context.map.addLayer(this.layer)
+    }
 
-  componentWillUnmount () {
-    this.context.map.removeLayer(this.layer)
-  }
+    componentWillReceiveProps(newProps) {
+        this.layer.setVisible(newProps.visible)
+        this.layer.setZIndex(newProps.zIndex)
+    }
+
+    componentWillUnmount() {
+        this.context.map.removeLayer(this.layer)
+    }
 }
 
-Image.propTypes = {
-  visible: PropTypes.bool,
-  zIndex: PropTypes.number
+ReactImage.propTypes = {
+
 }
 
-Image.defaultProps = {
-  visible: true
+ReactImage.defaultProps = {
+    visible: true
 }
 
-Image.contextTypes = {
-  map: PropTypes.instanceOf(Map)
+ReactImage.contextTypes = {
+    map: PropTypes.instanceOf(Map)
 }
 
-Image.childContextTypes = {
-  layer: PropTypes.instanceOf(olImage)
+ReactImage.childContextTypes = {
+    layer: PropTypes.instanceOf(Image)
 }
+
+export default ReactImage
