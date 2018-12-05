@@ -5,12 +5,11 @@ import LineString from 'ol/geom/LineString';
 import GeometryLayout from 'ol/geom/GeometryLayout';
 import OLGeometry from './OLGeometry';
 
-class ReactLineString extends OLGeometry {
+class OLLineString extends OLGeometry {
     constructor(props) {
         super(props);
         console.log('debug line:', props.children);
         console.log('debug line layout:', props.layout);
-
         this.geometry = new LineString(props.children, props.layout);
         this.updateFromProps(props);
     }
@@ -29,15 +28,15 @@ class ReactLineString extends OLGeometry {
     }
 }
 
-ReactLineString.propTypes = {
+OLLineString.propTypes = {
     children: PropTypes.arrayOf(
                   PropTypes.arrayOf(PropTypes.number)
               ).isRequired,
 //    layout: PropTypes.instanceOf(GeometryLayout)
 }
 
-ReactLineString.contextTypes = {
-  feature: PropTypes.instanceOf(Feature)
+OLLineString.contextTypes = {
+    feature: PropTypes.instanceOf(Feature)
 }
 
-export default ReactLineString
+export default OLLineString

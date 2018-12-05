@@ -4,50 +4,53 @@ import {Map} from 'ol';
 import {Style} from 'ol/style';
 import Tile from 'ol/layer/Tile';
 import OLLayer from './OLLayer';
+import {buildLayerProps, baseLayerPropTypes} from './';
 
-class ReactTile extends OLLayer {
-  constructor(props) {
-    super(props);
-    let layerProps = this.buildLayerProps(props);
-    this.layer = new Tile({
-        ...layerProps,
-    })
-  }
 
-  getChildContext() {
-    return {
-      layer: this.layer
+class OLTile extends OLLayer {
+    constructor(props) {
+        super(props);
+
+        let layerProps = this.buildLayerProps(props);
+
+        this.layer = new Tile({
+            ...layerProps,
+        })
     }
-  }
 
-  componentDidMount() {
-    this.context.map.addLayer(this.layer)
-  }
+    getChildContext() {
+        return {
+            layer: this.layer
+        }
+    }
 
-  componentWillReceiveProps(newProps) {
-    this.layer.setVisible(newProps.visible)
-    this.layer.setZIndex(newProps.zIndex)
-  }
+    componentDidMount() {
+        this.context.map.addLayer(this.layer)
+    }
 
-  componentWillUnmount() {
-    this.context.map.removeLayer(this.layer)
-  }
+    componentWillReceiveProps(newProps) {
+        this.layer.setVisible(newProps.visible)
+        this.layer.setZIndex(newProps.zIndex)
+    }
+
+    componentWillUnmount() {
+        this.context.map.removeLayer(this.layer)
+    }
 }
 
-ReactTile.propTypes = {
-
+OLTile.propTypes = {
 }
 
-ReactTile.defaultProps = {
+OLTile.defaultProps = {
   visible: true
 }
 
-ReactTile.contextTypes = {
+OLTile.contextTypes = {
   map: PropTypes.instanceOf(Map)
 }
 
-ReactTile.childContextTypes = {
+OLTile.childContextTypes = {
   layer: PropTypes.instanceOf(Tile)
 }
 
-export default ReactTile
+export default OLTile

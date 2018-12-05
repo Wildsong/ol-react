@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {View, Collection} from 'ol';
 import {Layer} from 'ol/layer';
-
 import OLControl from './ol-control';
 
-export default class OverviewMap extends OLControl {
+class OverviewMap extends OLControl {
   createControl (props) {
     return new ol.control.OverviewMap({
       className: props.className,
@@ -34,3 +32,5 @@ OverviewMap.propTypes = Object.assign({}, OLControl.propTypes, {
   tipLabel: PropTypes.string,
   view: PropTypes.instanceOf(View)
 })
+
+export default OverviewMap

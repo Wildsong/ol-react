@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import OLComponent from '../ol-component';
-import {Map as olMap} from 'ol';
+import {Map} from 'ol';
 
-export default class OLControl extends OLComponent {
+class OLControl extends OLComponent {
   constructor (props) {
     super(props);
     this.control = this.createControl(props)
@@ -30,5 +30,7 @@ OLControl.defaultProps = {
 }
 
 OLControl.contextTypes = {
-  map: PropTypes.instanceOf(olMap)
+  map: PropTypes.instanceOf(Map)
 }
+
+export default OLControl;

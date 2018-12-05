@@ -5,6 +5,7 @@
 /// <reference types="react" />
 /// <reference types="openlayers" />
 
+
 declare module "ol-react" {
     export import control = __OLReact.control;
     export import geom = __OLReact.geom;
@@ -14,49 +15,76 @@ declare module "ol-react" {
     export import Feature = __OLReact.Feature;
     export import Map = __OLReact.Map;
     export import View = __OLReact.View;
+    export import Overlay = __OLReact.Overlay;
 }
 
 declare namespace __OLReact {
     export class OLComponent<P, S> extends React.Component<P, S> {
     }
-     export class OLContainer<P, S> extends OLComponent<P, S> {
-     }
-     interface FeatureProps {
+
+    export class OLContainer<P, S> extends OLComponent<P, S> {
+    }
+    interface FeatureProps {
         style?: Object;
         children?: JSX.Element;
         id: any;
     }
-     export class Feature extends OLComponent<FeatureProps, any> {
+
+    export class Feature extends OLComponent<FeatureProps, any> {
+        getGeometry(): Geometry;
     }
-     interface MapProps {
+
+    interface MapProps {
         loadTilesWhileAnimating?: boolean;
         loadTilesWhileInteracting?: boolean;
-        onSingleClick?: Function;
-        onChangeSize?: Function;
+        onSingleClick?: (evt: MapBrowserEvent) => void;
+        onChangeSize?: (evt: MapBrowserEvent) => void;
+        onFeatureHover?: (feature: Feature) => void;
+        onFeatureClick?: (feature: Feature, coordinate: number[]) => void;
         view: JSX.Element;
         useDefaultInteractions?: boolean;
         useDefaultControls?: boolean;
         focusOnMount?: boolean;
         children?: JSX.Element | JSX.Element[];
+        style?: React.CSSProperties;
     }
-     export class Map extends React.Component<MapProps, any> {
-        focus(): void;
-    }
-     interface ViewProps {
-        center: number[];
-        resolution?: number;
-        rotation?: number;
-        zoom?: number;
-        onNavigation?: Function;
-    }
-     export class View extends OLComponent<ViewProps, any> {
-        onCenterChanged(event: any): void;
-        onResolutionChanged(event: any): void;
-     }
 
-     namespace OLProps {
-         export function Extent();
-     }
+    export class Map extends React.Component<MapProps, any> {
+        focus(): void;
+        getSize(): Size;
+    }
+
+    interface ViewProps {
+        center?: number[];
+        resolution?: number;
+        zoom?: number;
+        rotation?: number;
+        initialCenter?: number[];
+        initialResolution?: number;
+        initialZoom?: number;
+        initialRotation?: number;
+        onNavigation?: (center: number[], resolution: number, zoom: number, rotation: number): void;
+    }
+
+    export class View extends OLComponent<ViewProps, any> {
+        animate(options: any) : void;
+        fit(geometry: Geometry | Extent, size: Size, options?: Object): void;
+    }
+
+    interface OverlayProps {
+        id: number | string;
+        element?: JSX.Element;
+        offset?: number[];
+        position?: number[];
+        positioning?: string;
+        stopEvent?: boolean;
+        insertFirst?: boolean;
+        animate?: boolean;
+        animationLength?: number;
+    }
+
+    export class Overlay extends OLComponent<OverlayProps, any> {
+    }
 
     export namespace control {
         type ScaleLineUnit = 'degrees' | 'imperial' | 'nautical' | 'metric' | 'us';
@@ -113,15 +141,19 @@ declare namespace __OLReact {
             resetNorth?: Function;
             tipLabel?: string;
         }
+
         export class Rotate extends OLControl<RotateProps, any> {
         }
+
         interface ScaleLineProps {
             className?: string;
             minWidth?: number;
             units?: ScaleLineUnits
         }
+
         export class ScaleLine extends OLControl<ScaleLineProps, any> {
         }
+
         interface ZoomProps {
             className?: string;
             delta?: number;
@@ -131,48 +163,62 @@ declare namespace __OLReact {
             zoomOutLabel?: React.ReactNode;
             zoomOutTipLabel?: string;
         }
+
         export class Zoom extends OLControl<ZoomProps, any> {
         }
+
         interface ZoomSliderProps {
             className?: string;
             duration?: number;
             maxResolution?: number;
             minResolution?: number;
         }
+
         export class ZoomSlider extends OLControl<ZoomSliderProps, any> {
         }
+
         interface ZoomToExtentProps {
             className?: string;
             extent?: Extent,
             label?: React.ReactNode;
             tipLabel?: string;
         }
+
         export class ZoomToExtent extends OLControl<ZoomToExtentProps, any> {
         }
     }
 
     export namespace geom {
-        interface LineStringProps {
+
+        interface LineStringProps extends OLGeometryProps {
             children?: number[][];
-        }
-        export class LineString extends OLComponent<LineStringProps, any> {
         }
 
-        interface PolygonProps {
-            children?: number[][];
+        export class LineString extends OLGeometry<LineStringProps, any> {
         }
-        export class Polygon extends OLComponent<PolygonProps, any> {
+
+        interface PolygonProps extends OLGeometryProps {
+            children?: number[][];
+            editable?: boolean;
+            modifyEnd?: (e: Modify.Event) => void;
+            insertVertexCondition?: (e: MapBrowserEvent) => boolean
+        }
+
+        export class Polygon extends OLGeometry<PolygonProps, any> {
         }
 
         interface RawGeometryProps {
             geometry: ol.geom.Geometry;
         }
+
         export class RawGeometry extends OLComponent<RawGeometryProps, any> {
         }
 
         interface PointProps {
             children?: number[];
-        }
+            animate?: boolean;
+            animationLength?: number;        }
+
         export class Point extends OLComponent<PointProps, any> {
         }
     }
@@ -193,7 +239,7 @@ declare namespace __OLReact {
             boxdrag?: Function;
             boxend?: Function;
             boxstart?: Function;
-            condition?: Function;
+            condition?: EventsConditionType;
         }
         export class DragBox extends OLInteraction<DragBoxProps, any> { }
 
@@ -202,13 +248,13 @@ declare namespace __OLReact {
         export class DragPan extends OLInteraction<DragPanProps, any> { }
 
         interface DragRotateProps extends OLInteractionProps {
-            condition?: Function;
+            condition?: EventsConditionType;
             duration?: number;
         }
         export class DragRotate extends OLInteraction<DragRotateProps, any> { }
 
         interface DragRotateAndZoomProps extends OLInteractionProps {
-            condition?: Function,
+            condition?: EventsConditionType,
             duration?: number;
         }
         export class DragRotateAndZoom extends OLInteraction<DragRotateAndZoomProps, any> { }
@@ -217,7 +263,7 @@ declare namespace __OLReact {
             boxdrag?: Function;
             boxend?: Function;
             boxstart?: Function;
-            condition?: Function;
+            condition?: EventsConditionType;
             duration?: number;
             out?: boolean;
         }
@@ -227,25 +273,27 @@ declare namespace __OLReact {
             drawend?: Function;
             drawstart?: Function;
             type: string;
+            maxPoints?: number;
+            minPoints?: number;
         }
         export class Draw extends OLInteraction<DrawProps, any> { }
 
         interface KeyboardPanProps extends OLInteractionProps {
-            condition?: Function;
+            condition?: EventsConditionType;
             duration?: number;
             pixelDelta?: number;
         }
         export class KeyboardPan extends OLInteraction<KeyboardPanProps, any> { }
 
         interface KeyboardZoomProps extends OLInteractionProps {
-            condition?: Function;
+            condition?: EventsConditionType;
             delta?: number;
             duration?: number;
         }
         export class KeyboardZoom extends OLInteraction<KeyboardZoomProps, any> { }
 
         interface ModifyProps extends OLInteractionProps {
-            condition?: Function;
+            condition?: EventsConditionType;
             modifyend?: Function;
             modifystart?: Function;
             features: ol.Collection<ol.Feature>;
@@ -270,33 +318,41 @@ declare namespace __OLReact {
         export class PinchZoom extends OLInteraction<PinchZoomProps, any> { }
 
         interface SelectProps extends OLInteractionProps {
-            condition?: Function;
+            condition?: EventsConditionType;
             select?: Function;
         }
         export class Select extends OLInteraction<SelectProps, any> { }
     }
 
     export namespace layer {
-        interface ImageProps {
-            visible?: boolean;
-            zIndex?: number;
+        interface LayerProps {
+            opacity?: number
+            source?: ol.source.Source
+            visible?: boolean
+            extent?: ol.Extent
+            zIndex?: number
+            minResolution?: number
+            maxResolution?: number
+            selectable?: boolean
+            onSelect?: (event: ol.interaction.Select.Event) => void
+            hoverable?: boolean
+            onHover?: (event: ol.interaction.Select.Event) => void
+        }
+
+        interface ImageProps extends LayerProps {
         }
         export class Image extends OLContainer<ImageProps, any> {
         }
 
-        interface TileProps {
-            visible?: boolean;
-            zIndex?: number;
+        interface TileProps extends LayerProps {
         }
         export class Tile extends OLContainer<TileProps, any> {
         }
 
-        interface VectorProps {
+        interface VectorProps extends LayerProps {
             updateWhileAnimating?: boolean;
             updateWhileInteracting?: boolean;
             style?: ol.style.Style | Object | ol.style.Style[] | Object[];
-            visible?: boolean;
-            zIndex?: number;
         }
         export class Vector extends OLContainer<VectorProps, any> {
         }
@@ -305,6 +361,7 @@ declare namespace __OLReact {
     export namespace source {
         interface BingMapsProps {
             apiKey: string;
+            imagerySet: string;
         }
         export class BingMaps extends OLComponent<BingMapsProps, any> {
         }
@@ -335,6 +392,7 @@ declare namespace __OLReact {
         interface XYZProps {
             url?: string;
             urls?: string[];
+            tileSize?: number[];
         }
         export class XYZ extends OLComponent<XYZProps, any> {
         }

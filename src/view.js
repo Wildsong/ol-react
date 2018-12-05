@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Map, View} from 'ol';
 import OLComponent from './ol-component';
 
-class ReactView extends OLComponent {
+class OLView extends OLComponent {
     constructor(props) {
         super(props);
         var opts = {
@@ -58,7 +58,7 @@ class ReactView extends OLComponent {
     }
 }
 
-ReactView.propTypes = {
+OLView.propTypes = {
     center: PropTypes.arrayOf(PropTypes.number),
     resolution: PropTypes.number,
     zoom: PropTypes.number,
@@ -72,15 +72,15 @@ ReactView.propTypes = {
     onCenterChanged: PropTypes.func,
 }
 
-ReactView.defaultProps = {
+OLView.defaultProps = {
     initialCenter: [0, 0],
     initialResolution: 10000,
     initialZoom: 0,
     initialRotation: 0
 }
 
-ReactView.contextTypes = {
+OLView.contextTypes = {
   map: PropTypes.instanceOf(Map)
 }
 
-export default ReactView;
+export default OLView;

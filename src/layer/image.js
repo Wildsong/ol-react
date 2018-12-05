@@ -5,10 +5,12 @@ import {Style} from 'ol/style';
 import {Image} from 'ol/layer';
 import OLLayer from './OLLayer';
 
-class ReactImage extends OLLayer {
+class OLImage extends OLLayer {
     constructor(props) {
-        super(props)
+        super(props);
+
         let layerProps = this.buildLayerProps(props);
+
         this.layer = new Image({
             ...layerProps,
         })
@@ -34,20 +36,19 @@ class ReactImage extends OLLayer {
     }
 }
 
-ReactImage.propTypes = {
-
+OLImage.propTypes = {
 }
 
-ReactImage.defaultProps = {
+OLImage.defaultProps = {
     visible: true
 }
 
-ReactImage.contextTypes = {
+OLImage.contextTypes = {
     map: PropTypes.instanceOf(Map)
 }
 
-ReactImage.childContextTypes = {
+OLImage.childContextTypes = {
     layer: PropTypes.instanceOf(Image)
 }
 
-export default ReactImage
+export default OLImage

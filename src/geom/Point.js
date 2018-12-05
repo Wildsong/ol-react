@@ -4,7 +4,7 @@ import {Feature} from 'ol';
 import Point from 'ol/geom/Point';
 import OLGeometry from './OLGeometry';
 
-class ReactPoint extends OLComponent {
+class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
         console.log('debug point', props.children);
@@ -48,14 +48,20 @@ class ReactPoint extends OLComponent {
     componentWillReceiveProps(newProps) {
         this.updateFromProps(newProps);
     }
+
+    render() {
+        return false;
+    }
 }
 
-ReactPoint.propTypes = {
+OLPoint.propTypes = {
     children: PropTypes.arrayOf(PropTypes.number).isRequired,
+    animate: PropTypes.bool,
+    animationLength: PropTypes.number
 }
 
-ReactPoint.contextTypes = {
+OLPoint.contextTypes = {
     feature: PropTypes.instanceOf(Feature)
 }
 
-export default ReactPoint;
+export default OLPoint;

@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Draw as olDraw} from 'ol/interaction';
+import {Draw} from 'ol/interaction';
 import OLInteraction from './ol-interaction';
 
-export default class Draw extends OLInteraction {
+class ReactDraw extends OLInteraction {
     createInteraction (props) {
-        return new olDraw({
-            type: props.type
+        return new Draw({
+            type: props.type,
+            maxPoints: props.maxPoints,
+            minPoints: props.minPoints
         })
     }
 }
 
-Draw.propTypes = Object.assign({}, OLInteraction.propTypes, {
+ReactDraw.propTypes = Object.assign({}, OLInteraction.propTypes, {
     drawend: PropTypes.func,
     drawstart: PropTypes.func,
     type: PropTypes.string.isRequired,
@@ -19,4 +21,6 @@ Draw.propTypes = Object.assign({}, OLInteraction.propTypes, {
     minPoints: PropTypes.number
 })
 
-Draw.olEvents = ["drawend", "drawstart"]
+ReactDraw.olEvents = ["drawend", "drawstart"]
+
+export default ReactDraw

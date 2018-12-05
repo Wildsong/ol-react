@@ -4,9 +4,9 @@ import {Feature} from 'ol';
 import Circle from 'ol/geom/Circle';
 import OLGeometry from './OLGeometry';
 
-class ReactCircle extends OLGeometry {
+class OLCircle extends OLGeometry {
     constructor(props) {
-        //super(props);
+        super(props);
         console.log('debug circle', props);
         this.geometry = new Circle(props);
         this.updateFromProps(props);
@@ -30,7 +30,7 @@ class ReactCircle extends OLGeometry {
 //   optionally radius (default 0)
 //   and layout (default XY, I hope!)
 
-ReactCircle.propTypes = {
+OLCircle.propTypes = {
 //    children:
 //        PropTypes.arrayOf(PropTypes.number).isRequired, // center requirement
 //        PropTypes.instanceOf(PropTypes.number),         // radius option
@@ -38,8 +38,8 @@ ReactCircle.propTypes = {
 //    }
 }
 
-ReactCircle.contextTypes = {
+OLCircle.contextTypes = {
     feature: PropTypes.instanceOf(Feature)
 }
 
-export default ReactCircle;
+export default OLCircle;

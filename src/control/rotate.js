@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+import {Rotate} from 'ol/control';
 import OLControl from './ol-control';
 
-export default class Rotate extends OLControl {
+class OLRotate extends OLControl {
   createControl (props) {
-    return new ol.control.Rotate({
+    return new Rotate({
       autoHide: props.autoHide,
       className: props.className,
       duration: props.duration,
@@ -16,7 +16,7 @@ export default class Rotate extends OLControl {
   }
 }
 
-Rotate.propTypes = Object.assign({}, OLControl.propTypes, {
+OLRotate.propTypes = Object.assign({}, OLControl.propTypes, {
   autoHide: PropTypes.bool,
   className: PropTypes.string,
   duration: PropTypes.number,
@@ -24,3 +24,5 @@ Rotate.propTypes = Object.assign({}, OLControl.propTypes, {
   resetNorth: PropTypes.func,
   tipLabel: PropTypes.string
 })
+
+export default OLRotate

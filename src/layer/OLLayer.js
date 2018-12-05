@@ -9,7 +9,8 @@ class OLLayer extends OLContainer {
     constructor(props) {
         super(props)
     }
-     buildLayerProps(props) {
+
+    buildLayerProps(props) {
         return {
             opacity: props.opacity,
             visible: props.visible,
@@ -19,7 +20,8 @@ class OLLayer extends OLContainer {
             maxResolution: props.maxResolution,
         }
     }
-     componentWillReceiveProps(newProps) {
+
+    componentWillReceiveProps(newProps) {
         if (newProps.opacity !== undefined) this.layer.setOpacity(newProps.opacity)
         if (newProps.visible !== undefined) this.layer.setVisible(newProps.visible)
         if (newProps.extent !== undefined) this.layer.setExtent(newProps.extent)
@@ -27,7 +29,8 @@ class OLLayer extends OLContainer {
         if (newProps.minResolution !== undefined) this.layer.setMinResolution(newProps.minResolution)
         if (newProps.maxResolution !== undefined) this.layer.setMaxResolution(newProps.maxResolution)
     }
-     componentDidMount() {
+
+    componentDidMount() {
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({
@@ -47,8 +50,9 @@ class OLLayer extends OLContainer {
              interactions.push(this.hoverInteraction);
         }
     }
-     componentWillUnmount() {
-        let interactions = this.context.map.getInteractions()
+
+    componentWillUnmount() {
+        let interactions = this.context.map.getInteractions();
         if (this.selectInteraction) {
             interactions.remove(this.selectInteraction)
         }
@@ -69,10 +73,12 @@ class OLLayer extends OLContainer {
     hoverable: PropTypes.bool,
     onHover: PropTypes.func,
 }
+
  OLLayer.defaultProps = {
     visible: true,
     selectable: false
 }
+
  OLLayer.contextTypes = {
     map: PropTypes.instanceOf(Map)
 }

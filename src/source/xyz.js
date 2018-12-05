@@ -1,27 +1,20 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {XYZ} from 'ol/source';
-import {BaseLayer} from 'ol/layer/Base';
-import OLComponent from '../ol-component';
+import OLSourceComponent from './ol-source-component';
 
-class ReactXYZ extends OLComponent {
+class OLXYZ extends OLSourceComponent {
     constructor(props) {
         super(props);
-        this.source = new XYZ(this.props);
     }
-    componentDidMount() {
-        this.context.layer.setSource(this.source);
+
+    _createSourceFromProps(props) {
+        return new XYZ(Object.assign({}, props))
     }
 }
 
-ReactXYZ.propTypes = {
-    url: PropTypes.string,
-    urls: PropTypes.arrayOf(PropTypes.string),
-    tileSize: PropTypes.arrayOf(PropTypes.number)
+OLXYZ.propTypes = {
+    url: PropTypes.string
 }
 
-ReactXYZ.contextTypes = {
-    layer: PropTypes.instanceOf(BaseLayer)
-}
-
-export default ReactXYZ
+export default OLXYZ

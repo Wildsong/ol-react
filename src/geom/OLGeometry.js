@@ -1,13 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Map, Feature, Collection} from 'ol';
 import {Modify} from 'ol/interaction';
 import OLComponent from '../ol-component';
 
-export class OLGeometry extends OLComponent {
+class OLGeometry extends OLComponent {
     constructor(props) {
         super(props);
     }
+
     componentDidMount() {
         this.context.feature.setGeometry(this.geometry);
         if (this.props.modify) {
@@ -26,6 +27,7 @@ export class OLGeometry extends OLComponent {
             interactions.push(this.interaction);
         }
     }
+
     componentWillUnmount() {
         if (this.props.modify && this.interaction) {
             let interactions = this.context.map.getInteractions()
@@ -39,13 +41,17 @@ export class OLGeometry extends OLComponent {
         }
     }
 }
+
 OLGeometry.propTypes = {
     modify: PropTypes.bool,
     modifyStart: PropTypes.func,
     modifyEnd: PropTypes.func,
     insertVertexCondition: PropTypes.func
 }
+
 OLGeometry.contextTypes = {
     feature: PropTypes.instanceOf(Feature),
     map: PropTypes.instanceOf(Map),
 }
+
+export default OLGeometry

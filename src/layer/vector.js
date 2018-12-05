@@ -2,15 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Map} from 'ol';
 import {Style} from 'ol/style';
-import {Vector as olVector} from 'ol/layer';
+import Vector from 'ol/layer/Vector';
 import OLLayer from './OLLayer';
+import {buildLayerProps, baseLayerPropTypes} from './';
 import {buildStyle} from '../style';
 
-class ReactVector extends OLContainer {
+class OLVector extends OLLayer {
     constructor(props) {
-        super(props)
+        super(props);
+
         let layerProps = this.buildLayerProps(props);
-        this.layer = new olVector({
+
+        this.layer = new Vector({
+            ...layerProps,
+            style: buildStyle(props.style),
             updateWhileAnimating: props.updateWhileAnimating,
             updateWhileInteracting: props.updateWhileInteracting,
         })
@@ -29,17 +34,17 @@ class ReactVector extends OLContainer {
     }
 
     componentWillReceiveProps(newProps) {
+        super.componentWillReceiveProps(newProps);
         this.layer.setStyle(buildStyle(newProps.style));
-        this.layer.setVisible(newProps.visible)
-        this.layer.setZIndex(newProps.zIndex)
     }
 
     componentWillUnmount () {
+        super.componentWillUnmount();
         this.context.map.removeLayer(this.layer)
     }
 }
 
-ReactVector.propTypes = {
+OLVector.propTypes = {
     updateWhileAnimating: PropTypes.bool,
     updateWhileInteracting: PropTypes.bool,
     style: PropTypes.oneOfType([
@@ -52,13 +57,13 @@ ReactVector.propTypes = {
     ])
 }
 
-ReactVector.contextTypes = {
+OLVector.contextTypes = {
   map: PropTypes.instanceOf(Map)
 }
 
-ReactVector.childContextTypes = {
-  layer: PropTypes.instanceOf(olVector),
+OLVector.childContextTypes = {
+  layer: PropTypes.instanceOf(Vector),
   map: PropTypes.instanceOf(Map)
 }
 
-export default ReactVector
+export default OLVector

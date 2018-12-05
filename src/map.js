@@ -1,15 +1,16 @@
 import React from 'react';
 import {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Map as olMap} from 'ol';
+import {Map} from 'ol';
+import {toLatLon} from 'ol/proj';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls} from 'ol/control';
 import OLComponent from './ol-component';
 
-export default class Map extends Component {
+class OLMap extends Component {
     constructor(props) {
         super(props)
-        this.map = new olMap({
+        this.map = new Map({
             loadTilesWhileAnimating: props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: props.loadTilesWhileInteracting,
             interactions: props.useDefaultInteractions ? defaultInteractions() : [],
@@ -43,12 +44,6 @@ export default class Map extends Component {
         this.map.setTarget(undefined)
     }
 
-    focus() {
-        const viewport = this.map.getViewport()
-        viewport.tabIndex = 0
-        viewport.focus()
-    }
-
     getChildContext() {
         return {
           map: this.map
@@ -68,6 +63,12 @@ export default class Map extends Component {
         )
     }
 
+    focus() {
+        const viewport = this.map.getViewport()
+        viewport.tabIndex = 0
+        viewport.focus()
+    }
+
     onFeatureHover(evt) {
         if (evt.dragging) {
             return;
@@ -84,7 +85,7 @@ export default class Map extends Component {
         let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
             return x
         });
-        let lonLat = ol.proj.toLonLat(evt.coordinate);
+        let lonLat = toLonLat(evt.coordinate);
         this.props.onFeatureClick(feature, lonLat);
     }
 
@@ -97,7 +98,7 @@ export default class Map extends Component {
     }
 }
 
-Map.propTypes = {
+OLMap.propTypes = {
     loadTilesWhileAnimating: PropTypes.bool,
     loadTilesWhileInteracting: PropTypes.bool,
     onSingleClick: PropTypes.func,
@@ -115,12 +116,14 @@ Map.propTypes = {
     ])
 }
 
-Map.defaultProps = {
+OLMap.defaultProps = {
     useDefaultInteractions: true,
     useDefaultControls: true,
     focusOnMount: false
 }
 
-Map.childContextTypes = {
-    map: PropTypes.instanceOf(olMap)
+OLMap.childContextTypes = {
+    map: PropTypes.instanceOf(Map)
 }
+
+export default OLMap

@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import {MousePosition as olMousePosition} from 'ol/control';
+import {MousePosition} from 'ol/control';
 import {Projection} from 'ol/proj';
-
 import OLControl from './ol-control';
 
-export default class MousePosition extends OLControl {
+class OLMousePosition extends OLControl {
   createControl (props) {
-    return new olMousePosition({
+    return new MousePosition({
       className: props.className,
       coordinateFormat: props.coordinateFormat,
       projection: props.projection,
@@ -17,7 +15,7 @@ export default class MousePosition extends OLControl {
   }
 }
 
-MousePosition.propTypes = Object.assign({}, OLControl.propTypes, {
+OLMousePosition.propTypes = Object.assign({}, OLControl.propTypes, {
   className: PropTypes.string,
   coordinateFormat: PropTypes.func,
   projection: PropTypes.oneOfType([
@@ -26,3 +24,5 @@ MousePosition.propTypes = Object.assign({}, OLControl.propTypes, {
   ]),
   undefinedHTML: PropTypes.string
 })
+
+export default OLMousePosition

@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Map, Collection} from 'ol';
-import Source from 'ol/source/Source';
-import Vector from 'ol/source/Vector';
+import {Source, Vector} from 'ol/source';
 import BaseLayer from 'ol/layer/Base';
-import OLComponent from '../ol-component';
-import * as interaction from '../interaction';
+import OLSourceComponent from './ol-source-component';
+//?? import * as interaction from '../interaction';
 
-class ReactVector extends OLComponent {
+class OLVector extends OLSourceComponent {
     constructor(props) {
         super(props);
-        this.source = new Vector(
+    }
+
+    _createSourceFromProps(props) {
+        return new Vector(
             Object.assign({
                 features: new Collection()
             }, props)
-        )
+        );
     }
 
     getChildContext() {
@@ -27,22 +29,14 @@ class ReactVector extends OLComponent {
         this.context.layer.setSource(this.source)
     }
 
-    componentWillUnmount () {}
+    componentWillUnmount () {
+    }
 }
 
-ReactVector.propTypes = {
+OLVector.propTypes = {
 }
 
-ReactVector.defaultProps = {
+OLVector.defaultProps = {
 }
 
-ReactVector.contextTypes = {
-    layer: PropTypes.instanceOf(BaseLayer),
-    map: PropTypes.instanceOf(Map)
-}
-
-ReactVector.childContextTypes = {
-    source: PropTypes.instanceOf(Source)
-}
-
-export default ReactVector;
+export default OLVector;

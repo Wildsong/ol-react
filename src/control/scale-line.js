@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+import {ScaleLine} from 'ol/control';
 import OLControl from './ol-control';
-import { ScaleLineUnits } from './scale-line-units'
+import {ScaleLineUnits} from './scale-line-units'
 
-export default class ScaleLine extends OLControl {
+class OLScaleLine extends OLControl {
   createControl (props) {
-    return new ol.control.ScaleLine({
+    return new ScaleLine({
       className: props.className,
       minWidth: props.minWidth,
       units: props.units
@@ -19,3 +19,5 @@ ScaleLine.propTypes = Object.assign({}, OLControl.propTypes, {
   minWidth: PropTypes.number,
   units: PropTypes.oneOf(ScaleLineUnits)
 })
+
+export default OLScaleLine;

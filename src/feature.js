@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {Source} from 'ol/source';
-import {Feature as olFeature} from 'ol';
-
+import {Feature} from 'ol';
 import OLComponent from './ol-component';
 import { buildStyle } from './style';
 
-export default class Feature extends OLComponent {
+class OLFeature extends OLComponent {
   constructor(props) {
     super(props);
     console.log("feature props=", props);
-    this.feature = new olFeature({});
+    this.feature = new Feature({});
     this.feature.setId(props.id);
     this.updateFromProps(props);
   }
@@ -37,18 +35,24 @@ export default class Feature extends OLComponent {
   componentWillUnmount() {
     this.context.source.removeFeature(this.feature);
   }
+
+  getGeometry() {
+   return this.feature.getGeometry();
+  }
 }
 
-Feature.propTypes = {
+OLFeature.propTypes = {
   style: PropTypes.object,
   children: PropTypes.element,
   id: PropTypes.any.isRequired
 }
 
-Feature.contextTypes = {
+OLFeature.contextTypes = {
   source: PropTypes.instanceOf(Source)
 }
 
-Feature.childContextTypes = {
-  feature: PropTypes.instanceOf(olFeature)
+OLFeature.childContextTypes = {
+  feature: PropTypes.instanceOf(Feature)
 }
+
+export default OLFeature

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Feature} from 'ol';
+import {Map, Feature} from 'ol';
 import Polygon from 'ol/geom/Polygon';
 import OLGeometry from './OLGeometry';
 
-class ReactPolygon extends OLGeometry {
+class OLPolygon extends OLGeometry {
     constructor(props) {
         super(props);
         this.geometry = new Polygon();
@@ -15,8 +15,26 @@ class ReactPolygon extends OLGeometry {
         this.geometry.setCoordinates([props.children]);
     }
 
+    componentDidMount() {
+        this.context.feature.setGeometry(this.geometry);
+        if (this.props.editable) {
+            let interactions = this.context.map.getInteractions()
+            let polyInteraction = new ol.interaction.Modify({
+                features: new ol.Collection([this.context.feature])
+            })
+            if (this.props.modifyEnd) {
+                polyInteraction.on('modifyend', this.props.modifyEnd);
+            }
+            interactions.push(polyInteraction);
+        }
+    }
+
     componentWillReceiveProps(newProps) {
         this.updateFromProps(newProps);
+    }
+
+    render() {
+        return false;
     }
 
     componentWillUnmount() {
@@ -30,14 +48,17 @@ class ReactPolygon extends OLGeometry {
 //
 // A linear ring is a set of points and optional layout
 
-ReactPolygon.propTypes = {
+OLPolygon.propTypes = {
     children: PropTypes.arrayOf(
         PropTypes.arrayOf(PropTypes.number)
     ).isRequired,
+    editable: PropTypes.bool,
+    modifyEnd: PropTypes.func
 }
 
-ReactPolygon.contextTypes = {
-    feature: PropTypes.instanceOf(Feature)
+OLPolygon.contextTypes = {
+    feature: PropTypes.instanceOf(Feature),
+    map: PropTypes.instanceOf(Map)
 }
 
-export default ReactPolygon;
+export default OLPolygon;
