@@ -7,15 +7,18 @@ import OLGeometry from './OLGeometry';
 class OLPolygon extends OLGeometry {
     constructor(props) {
         super(props);
-        this.geometry = new Polygon();
+        console.log('debug polygon:', props.children);
+        this.geometry = new Polygon(props.children);
         this.updateFromProps(props);
     }
 
     updateFromProps(props) {
-        this.geometry.setCoordinates([props.children]);
+        // I think this is redundant, happens in "new Polygon()"
+    //  this.geometry.setCoordinates(props.children);
     }
 
     componentDidMount() {
+        console.log("componentDidMount polygon")
         this.context.feature.setGeometry(this.geometry);
         if (this.props.editable) {
             let interactions = this.context.map.getInteractions()
@@ -34,6 +37,7 @@ class OLPolygon extends OLGeometry {
     }
 
     render() {
+        console.log("render polygon")
         return false;
     }
 
