@@ -10,7 +10,7 @@ import {buildStyle} from '../style';
 class OLVector extends OLLayer {
     constructor(props) {
         super(props);
-
+        console.log("Vector layer style", props.style)
         let layerProps = this.buildLayerProps(props);
 
         this.layer = new Vector({
@@ -58,12 +58,12 @@ OLVector.propTypes = {
 }
 
 OLVector.contextTypes = {
-  map: PropTypes.instanceOf(Map)
+    map: PropTypes.instanceOf(Map)
 }
 
 OLVector.childContextTypes = {
-  layer: PropTypes.instanceOf(Vector),
-  map: PropTypes.instanceOf(Map)
+    layer: PropTypes.instanceOf(Vector),
+    map: PropTypes.instanceOf(Map)
 }
 
 export default OLVector

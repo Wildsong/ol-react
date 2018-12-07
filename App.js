@@ -12,6 +12,20 @@ import apiKeys from './apikeys';
 
 class App extends Component {
     render(props) {
+        let pointStyle = {
+            stroke: {color: [0, 0, 0, 1], width:1},
+            fill: {color: [0, 255, 255, .250]},
+        };
+        let lineStyle = {
+            stroke: {
+                color: [255, 255, 0, 1],
+                width: 3
+            }
+        };
+        let polyStyle = {
+            stroke: {color: [0, 0, 0, 1], width:4},
+            fill: {color: [255, 0, 0, .250]},
+        };
         return (
             <div>
             <h1>{this.props.title}</h1>
@@ -19,9 +33,9 @@ class App extends Component {
             <ul>
                 <li>Vector source</li>
                 <ul>
-                <li> Point: circle near Null Island </li>
-                <li> Circle: circle near Null Island </li>
-                <li> LineString: partial red box around Null Island</li>
+                <li> Point: small circle near Null Island </li>
+                <li> Circle: circle south of Null Island </li>
+                <li> LineString: yellow line near Null Island</li>
                 </ul>
             </ul>
             <Map view=<View resolution={2500} center={[0, 0]}/>>
@@ -29,38 +43,27 @@ class App extends Component {
                     <source.OSM />
                 </layer.Tile>
 
-                <layer.Vector>
+                <layer.Vector style={polyStyle}>
                     <source.Vector>
-                        <Feature id="test-point">
+                        <Feature id="test-line" style={lineStyle}>
+                            <geom.LineString layout="XY">
+                                { [[-70000,200000], [0, 30000], [100000, 0], [200000, 140000], [1000, 80000]] }
+                            </geom.LineString>
+                        </Feature>
+
+                        <Feature id="test-circle" style={polyStyle}>
+                            <geom.Circle>{[[0,-100000], 60000]}</geom.Circle>
+                        </Feature>
+
+                        <Feature id="test-polygon" style={polyStyle}>
+                            <geom.Polygon>{[[1000, 0], [40000, 0], [100000, 100000], [0, 100000], [1000, 0]]}</geom.Polygon>
+                        </Feature>
+
+                        <Feature id="test-point" style={pointStyle}>
                             <geom.Point>
                                 {[0, 0]}
                             </geom.Point>
                         </Feature>
-
-                        <Feature id="test-line" style={{stroke: {color: [255, 0, 0, 1]}}}>
-                            <geom.LineString layout="XY">
-                                { [[0, 0], [100000, 0], [100000, 100000], [0, 100000]] }
-                            </geom.LineString>
-                        </Feature>
-
-                        <Feature id="test-circle">
-                            <geom.Circle> { [[0,0], 1000] }</geom.Circle>
-                        </Feature>
-
-                        <Feature id="test-polygon">
-                            <geom.Polygon>
-                                {[[1000, 0], [40000, 0], [100000, 100000], [0, 100000], [1000, 0]]}
-                            </geom.Polygon>
-                        </Feature>
-
-                        {/*
-                            <Feature style={{image: {circle: {fill: {color: [255, 0, 0, 1]}}, radius:5,stroke:{color:"#ff0",width:1}}}}>
-                                <geom.Point>
-                                    {[0, 0]}
-                                </geom.Point>
-                            </Feature>
-
-        */}
                     </source.Vector>
                 </layer.Vector>
 

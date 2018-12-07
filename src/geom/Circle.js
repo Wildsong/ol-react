@@ -7,22 +7,8 @@ import OLGeometry from './OLGeometry';
 class OLCircle extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log('debug circle', props);
-        this.geometry = new Circle(props);
-        this.updateFromProps(props);
-    }
-
-    updateFromProps(props) {
-        console.log('debug circle update', props.children);
-        this.geometry.setCoordinates(props.children);
-    }
-
-    componentDidMount() {
-        this.context.feature.setGeometry(this.geometry);
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.updateFromProps(newProps);
+//        console.log('debug circle center=', props.children[0], "radius=", props.children[1]);
+        this.geometry = new Circle(props.children[0], props.children[1]);
     }
 }
 
@@ -31,10 +17,10 @@ class OLCircle extends OLGeometry {
 //   and layout (default XY, I hope!)
 
 OLCircle.propTypes = {
-//    children:
+//    children: [
 //        PropTypes.arrayOf(PropTypes.number).isRequired, // center requirement
-//        PropTypes.instanceOf(PropTypes.number),         // radius option
-//                                                        // layout option
+//        PropTypes.instanceOf(PropTypes.number)         // radius option
+//    ]                                        // layout option
 //    }
 }
 

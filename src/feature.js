@@ -6,53 +6,53 @@ import OLComponent from './ol-component';
 import { buildStyle } from './style';
 
 class OLFeature extends OLComponent {
-  constructor(props) {
-    super(props);
-    console.log("feature props=", props);
-    this.feature = new Feature({});
-    this.feature.setId(props.id);
-    this.updateFromProps(props);
-  }
-
-  updateFromProps(props) {
-    this.feature.setStyle(buildStyle(props.style));
-  }
-
-  getChildContext() {
-    return {
-      feature: this.feature
+    constructor(props) {
+        super(props);
+        console.log("feature props=", props);
+        this.feature = new Feature({});
+        this.feature.setId(props.id);
+        this.updateFromProps(props);
     }
-  }
 
-  componentDidMount() {
-    this.context.source.addFeature(this.feature);
-  }
+    updateFromProps(props) {
+        this.feature.setStyle(buildStyle(props.style));
+    }
 
-  componentWillReceiveProps(newProps) {
-    this.updateFromProps(newProps);
-  }
+    getChildContext() {
+        return {
+            feature: this.feature
+        }
+    }
 
-  componentWillUnmount() {
-    this.context.source.removeFeature(this.feature);
-  }
+    componentDidMount() {
+        this.context.source.addFeature(this.feature);
+    }
 
-  getGeometry() {
-   return this.feature.getGeometry();
-  }
+    componentWillReceiveProps(newProps) {
+        this.updateFromProps(newProps);
+    }
+
+    componentWillUnmount() {
+        this.context.source.removeFeature(this.feature);
+    }
+
+    getGeometry() {
+        return this.feature.getGeometry();
+    }
 }
 
 OLFeature.propTypes = {
-  style: PropTypes.object,
-  children: PropTypes.element,
-  id: PropTypes.any.isRequired
+    style: PropTypes.object,
+    children: PropTypes.element,
+    id: PropTypes.any.isRequired
 }
 
 OLFeature.contextTypes = {
-  source: PropTypes.instanceOf(Source)
+    source: PropTypes.instanceOf(Source)
 }
 
 OLFeature.childContextTypes = {
-  feature: PropTypes.instanceOf(Feature)
+    feature: PropTypes.instanceOf(Feature)
 }
 
 export default OLFeature

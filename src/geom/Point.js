@@ -2,13 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Point from 'ol/geom/Point';
+import Circle from 'ol/geom/Circle';
 import OLGeometry from './OLGeometry';
+
+// how should I style this?
+// I should be able to show it as a circle,
+// that's what my other demo did.
 
 class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
         console.log('debug point', props.children);
-        this.geometry = new Point(props);
+
+//       this.geometry = new Point(props);
+        this.geometry = new Circle(props.children, 5000);
         this.updateFromProps(props);
     }
 
@@ -47,10 +54,6 @@ class OLPoint extends OLGeometry {
 
     componentWillReceiveProps(newProps) {
         this.updateFromProps(newProps);
-    }
-
-    render() {
-        return false;
     }
 }
 
