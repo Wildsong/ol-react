@@ -7,12 +7,11 @@ import OLGeometry from './OLGeometry';
 class OLCircle extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log('debug circle props=', props);
+//        console.log('debug circle props=', props);
 
-        // props can be "center" or "center, radius"
         let center = props.children[0];
-        console.log(typeof center)
         if (typeof center === 'number') {
+            // center only
             center = props.children;
             console.log("coords=", center);
             this.geometry = new Circle(center);
@@ -26,14 +25,16 @@ class OLCircle extends OLGeometry {
 
 // Circle requires a center x,y point
 //   optionally radius (default 0)
-//   and layout (default XY, I hope!)
+//   and layout (default XY, I hope!)  UNSUPPORTED
+//
+//  <Circle>{[[x,y], radius]}</Circle>
+//  <Circle>{[x,y]}</Circle>
 
 OLCircle.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.number),
         PropTypes.node // [[x,y],radius]
     ]).isRequired
-// layout option
 }
 
 //OLCircle.defaultProps = {
