@@ -78,6 +78,10 @@ class App extends Component {
                             <geom.Circle>{[[0,-100000], 60000]}</geom.Circle>
                         </Feature>
 
+                        <Feature id="test-circle-zeroradius" style={polyStyle}>
+                            <geom.Circle>{[100000,-100000]}</geom.Circle>
+                        </Feature>
+
                         <Feature id="test-polygon" style={polyStyle}>
                             <geom.Polygon>{[[1000, 0], [40000, 0], [100000, 100000], [0, 100000], [1000, 0]]}</geom.Polygon>
                         </Feature>
