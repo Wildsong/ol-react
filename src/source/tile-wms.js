@@ -12,10 +12,16 @@ class OLTileWMS extends OLSourceComponent {
     _createSourceFromProps(props) {
         return new TileWMS(Object.assign({}, props))
     }
+
+    getChildContext() {
+        return {
+            source: this.source
+        }
+    }
 }
 
 OLTileWMS.propTypes = {
-    params: PropTypes.object.isRequired,
+//    params: PropTypes.object.isRequired,
     url: PropTypes.string
 }
 
