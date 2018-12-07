@@ -12,6 +12,7 @@ class OLImageArcGISRest extends OLSourceComponent {
   }
 
   _createSourceFromProps(props) {
+      console.log("basemap=", props)
       return new ImageArcGISRest(Object.assign({}, props))
   }
 
@@ -21,16 +22,18 @@ class OLImageArcGISRest extends OLSourceComponent {
     }
   }
 
+/*
   componentDidMount() {
     this.context.layer.setSource(this.source)
   }
 
   componentWillUnmount() {}
+  */
 }
 
 OLImageArcGISRest.propTypes = {
   ratio: PropTypes.number,
-  //url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 }
 
 OLImageArcGISRest.defaultProps = {

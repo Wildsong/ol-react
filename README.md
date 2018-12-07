@@ -39,10 +39,47 @@ image: {
 }
 ```
 
-## Test and development notes
+## Project status
+
+### Tested and working in the sample app:
+* Sources
+ * OSM
+ * Tile ArcGISRest
+* Layers
+ * Tile
+ * Vector
+* Feature
+* Geometry
+ * LineString
+ * Point
+* Map
+* View
+* Style (needs more tests)
+
+#### Work in progress / untested
+* Controls
+ * Attribution
+ * Full screen
+ * Mouse position
+ * Overview map
+ * Rotate
+ * Scale line units
+ * Scale line
+ * Zoom slider
+ * Zoom to extent
+ * Zoom
+* Interactions
+* Sources
+ * BingMaps
+ * Tile WMS
+ * XYZ
+* Geometry
+ * Polygons
+* Overlay - not sure what this even is right now
+
+## How to test and develop
 
 ### Test
-
 The command `npm start` will launch the test setup in a browser.
 
 I added --no-autoinstall option in package.json to prevent parcel from installing openlayers 4 while I am upgrading the source to ol5. This means (for now anyway) you need to run `npm install` before `npm start` to get the dependencies installed.
@@ -67,11 +104,11 @@ I haven't gotten past testing yet so I don't have a plan for deployment yet.
 
 ## The cry for help
 
-It's early days! If you're familiar with react and/or openlayers and are interested in helping, please get in touch.
+It's early days! If you're familiar with React and/or OpenLayers and are interested in helping, please get in touch.
 
-Original OL3 version available on [github](https://github.com/richardhills/ol-react) and [npm](https://www.npmjs.com/package/ol-react).
+The original OL3 version available on [github](https://github.com/richardhills/ol-react) and [npm](https://www.npmjs.com/package/ol-react).
 Brian's fork for OL5 at [github](https://github.com/brian32768/ol-react)
 
-Richard says he is especially interested in assistance with having each component be optionally [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components). This would allow binding of the components with, say, Redux and for sophisticated state management outside of OpenLayers.
+Richard says he is "especially interested in assistance with having each component be optionally [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components). This would allow binding of the components with, say, Redux and for sophisticated state management outside of OpenLayers."
 
 Brian says "This means nothing to me today, maybe tomorrow? :-) Every day is like Monday to me at this stage."

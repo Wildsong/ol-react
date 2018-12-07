@@ -1,5 +1,3 @@
-// App.js ol-react
-//
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -29,7 +27,10 @@ class App extends Component {
         return (
             <div>
             <h1>{this.props.title}</h1>
-            <h2>Source: OpenStreetMap</h2>
+            <ul>
+                <li>Tile Source: ArcGIS sample: United States map</li>
+                <li>Source OSM: OpenStreetMap</li>
+            </ul>
             <ul>
                 <li>Vector source</li>
                 <ul>
@@ -38,9 +39,16 @@ class App extends Component {
                 <li> LineString: yellow line near Null Island</li>
                 </ul>
             </ul>
+
             <Map view=<View resolution={2500} center={[0, 0]}/>>
+
                 <layer.Tile>
                     <source.OSM />
+                </layer.Tile>
+                <layer.Tile opacity={0.5}>
+                        <source.TileArcGISRest
+                        extent={[-13884991, 2870341, -7455066, 6338219]}
+                        url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer" />
                 </layer.Tile>
 
                 <layer.Vector style={polyStyle}>
@@ -69,12 +77,6 @@ class App extends Component {
 
             </Map>
         {/*
-            <h2>Source: ArcGIS image source</h2>
-            <Map view=<View resolution={10000} center={[0, 0]}/>>
-                <layer.Tile>
-                    <source.ImageArcGISRest />
-                </layer.Tile>
-            </Map>
 
             <h2>Source: BingMaps</h2>
             <Map view=<View resolution={10000} center={[0, 0]}/>>
