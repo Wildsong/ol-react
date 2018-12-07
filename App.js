@@ -27,25 +27,36 @@ class App extends Component {
         return (
             <div>
             <h1>{this.props.title}</h1>
+            Sources
             <ul>
-                <li>Tile Source: ArcGIS sample: United States map</li>
-                <li>Source OSM: OpenStreetMap</li>
+                <li>Tile Source: ArcGIS REST sample: United States map</li>
+                <li>Source OSM: OpenStreetMap of the world</li>
+                <li>XYZ tiles: ESRI world street map</li>
             </ul>
             <ul>
                 <li>Vector source</li>
-                <ul>
-                <li> Point: small circle near Null Island </li>
-                <li> Circle: circle south of Null Island </li>
-                <li> LineString: yellow line near Null Island</li>
-                </ul>
+                    <ul>
+                    <li> Point: small circle near Astoria </li>
+                    <li> Circle: circle north of Astoria </li>
+                    <li> LineString: yellow line near Astoria</li>
+                    </ul>
             </ul>
 
-            <Map view=<View resolution={2500} center={[0, 0]}/>>
-
-                <layer.Tile>
+            <Map view=<View zoom={4} center={[-13884991, 3970341]}/>>
+                <layer.Tile opacity={1.0}>
+                    <source.TileWMS
+                    url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                    />
+                </layer.Tile>
+                <layer.Tile opacity={1.0}>
+                    <source.XYZ
+                    url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                    />
+                </layer.Tile>
+                <layer.Tile opacity={0.1}>
                     <source.OSM />
                 </layer.Tile>
-                <layer.Tile opacity={0.5}>
+                <layer.Tile opacity={0.1}>
                         <source.TileArcGISRest
                         extent={[-13884991, 2870341, -7455066, 6338219]}
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer" />
@@ -55,7 +66,7 @@ class App extends Component {
                     <source.Vector>
                         <Feature id="test-line" style={lineStyle}>
                             <geom.LineString layout="XY">
-                                { [[-70000,200000], [0, 30000], [100000, 0], [200000, 140000], [1000, 80000]] }
+                                { [[-70000,2000000], [0, 30000], [100000, 0], [200000, 140000], [1000, 80000]] }
                             </geom.LineString>
                         </Feature>
 

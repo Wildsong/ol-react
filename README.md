@@ -45,6 +45,7 @@ image: {
 * Sources
  * OSM
  * Tile ArcGISRest
+ * XYZ tiles
 * Layers
  * Tile
  * Vector
@@ -72,7 +73,6 @@ image: {
 * Sources
  * BingMaps
  * Tile WMS
- * XYZ
 * Geometry
  * Polygons
 * Overlay - not sure what this even is right now

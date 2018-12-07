@@ -5,33 +5,28 @@ import BaseLayer from 'ol/layer/Base';
 import OLSourceComponent from './ol-source-component'
 
 class OLTileArcGISRest extends OLSourceComponent {
-  constructor(props) {
-    super(props);
-  }
-
-  _createSourceFromProps(props) {
-        console.log("tile-arcgis-rest ", props)
-        return new TileArcGISRest(props);
-  }
-
-  getChildContext() {
-    return {
-      source: this.source
+    constructor(props) {
+        super(props);
     }
-  }
 
-/*
-  componentDidMount() {
-    this.context.layer.setSource(this.source)
-  }
+    _createSourceFromProps(props) {
+        return new TileArcGISRest(Object.assign({}, props));
+    }
 
-  componentWillUnmount() {}
-  */
+    getChildContext() {
+        return {
+            source: this.source
+        }
+    }
 }
 
 OLTileArcGISRest.propTypes = {
 //  ratio: PropTypes.number,
-//  url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired
+}
+
+OLTileArcGISRest.childContextTypes = {
+    source: PropTypes.instanceOf(Source)
 }
 
 //OLTileArcGISRest.defaultProps = {
@@ -41,9 +36,9 @@ OLTileArcGISRest.propTypes = {
 //OLTileArcGISRest.contextTypes = {
 //  layer: PropTypes.instanceOf(BaseLayer)
 //}
-//
-//OLTileArcGISRest.childContextTypes = {
-//  source: PropTypes.instanceOf(Source)
-//}
+
+OLTileArcGISRest.childContextTypes = {
+    source: PropTypes.instanceOf(Source)
+}
 
 export default OLTileArcGISRest;

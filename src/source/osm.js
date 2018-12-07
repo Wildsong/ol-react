@@ -14,9 +14,9 @@ class OLOSM extends OLSourceComponent {
     }
 
     getChildContext() {
-      return {
-        source: this.source
-      }
+        return {
+            source: this.source
+        }
     }
 }
 
