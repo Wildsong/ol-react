@@ -2,14 +2,14 @@
 
 import {
     Atlas as AtlasStyle,
-    Circle,
-    Fill,
+    Circle as CircleStyle,
+    Fill as FillStyle,
     Icon as IconStyle,
     IconImage as IconImageStyle,
     IconImageCache as IconImageCacheStyle,
     ImageStyle,
     RegularShape as RegularShapeStyle,
-    Stroke,
+    Stroke as StrokeStyle,
     Style,
     Text as TextStyle,
     TextPlacement as TextPlacementStyle,
@@ -22,74 +22,14 @@ const STYLE_KEY_FACTORIES = {
     text:     (value) => new buildText(value),
     zIndex:   (value) => value,
 
-    fill:     (value) => new Fill(value),
-    stroke:   (value) => new Stroke(value)
-};
-
-let defaultStyle = {
-    'Point': new Style({
-        image: new Circle({
-            fill: new Fill({
-        	       color: 'rgba(0,128,128,0.5)'
-            }),
-            radius: 5,
-            stroke: new Stroke({
-        	       color: '#ff0',
-        	       width: 1
-            })
-        })
-    }),
-    'LineString': new Style({
-        stroke: new Stroke({
-            color: '#f00',
-            width: 3
-        })
-    }),
-    'Polygon': new Style({
-        fill: new Fill({
-            color: 'rgba(0,255,128,0.5)'
-        }),
-        stroke: new Stroke({
-            color: '#0ff',
-            width: 1
-        })
-    }),
-    'MultiPoint': new Style({
-        image: new Circle({
-            fill: new Fill({
-        	       color: 'rgba(255,0,255,0.5)'
-            }),
-            radius: 5,
-            stroke: new Stroke({
-        	       color: '#f0f',
-        	       width: 1
-            })
-        })
-    }),
-    'MultiLineString': new Style({
-        stroke: new Stroke({
-            color: '#0f0',
-            width: 3
-        })
-    }),
-    'MultiPolygon': new Style({
-        fill: new Fill({
-            color: 'rgba(0,0,255,0.5)'
-        }),
-        stroke: new Stroke({
-            color: '#00f',
-            width: 1
-        })
-    })
+    fill:     (value) => new FillStyle(value),
+    stroke:   (value) => new StrokeStyle(value)
 };
 
 export function buildStyle(style) {
     if (!style) {
-        style = defaultStyle;
-        console.log("buildStyle: using default: ", style);
-        //return null;
-    } else {
-        console.log("buildStyle: style: ", style);
+        console.log('buildStyle(null)');
+        return null;
     }
 
     if (Array.isArray(style)) {
@@ -109,9 +49,7 @@ export function buildStyle(style) {
 
     const result = {};
     evaluateKeys(style, result);
-    let s = new Style(result);
-    console.log("buildStyle: proto: ", style, result, " =====> ", s);
-    return s;
+    return new Style(result);
 }
 
 function evaluateKeys(style, result) {
@@ -137,7 +75,7 @@ function buildText(style) {
     let textStyle = style;
     evaluateKeys(style, textStyle);
     textStyle.text = textContent;
-    return new ol.style.Text(textStyle);
+    return new TextStyle(textStyle);
 }
 
 function buildImage(style) {
@@ -148,14 +86,17 @@ function buildImage(style) {
         return style;
     }
 
-    var imageStyle = style;
+    let imageStyle = style;
     evaluateKeys(style, imageStyle);
     switch (style.type) {
+
     case 'circle':
-      return new ol.style.Circle(imageStyle);
+      return new CircleStyle(imageStyle);
+
     case 'icon':
-      return new ol.style.Icon(imageStyle);
+      return new IconStyle(imageStyle);
+
     case 'regular-shape':
-      return new ol.style.RegularShape(imageStyle);
+      return new RegularShapeStyle(imageStyle);
     }
 }

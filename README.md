@@ -29,13 +29,13 @@ To understand what each element does, read the [OpenLayers API documentation](ht
 Styles are declared using a JSON object, passing through the properties you'd like on the final object.
 When creating an Icon, Circle or RegularShape, a `type` parameter must be present, with the value of `icon`, `circle`, or `regular-shape`.
 
-Example:
+Example: (See App.js)
 ```
 image: {
     type: 'circle',
     radius: 10,
-    fill: { color: '#666666' },
-    stroke: { color: '#bada55', width: 1 }
+    fill: { color: [100,100,100, 0.5] },
+    stroke: { color: 'green', width: 1 }
 }
 ```
 
@@ -56,6 +56,16 @@ image: {
 * Map
 * View
 * Style (needs more tests)
+ * Atlas ?? not yet, not sure what it is anyway
+ * Circle
+ * Fill
+ * Icon - untested
+ * Image - untested
+ * RegularShape
+ * Stroke
+ * Style - maybe I can attach a function with this?
+ * Text - untested
+ * TextPlacement - not yet
 
 #### Work in progress / untested
 * Controls

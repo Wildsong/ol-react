@@ -11,8 +11,12 @@ import apiKeys from './apikeys';
 class App extends Component {
     render(props) {
         let pointStyle = {
-            stroke: {color: [0, 0, 0, 1], width:1},
-            fill: {color: [0, 255, 255, .250]},
+            image: {
+                type: 'circle',
+                radius: 10,
+                fill: { color: [100,100,100, 0.5] },
+                stroke: { color: 'green', width: 1 }
+            }
         };
         let lineStyle = {
             stroke: {
@@ -36,7 +40,7 @@ class App extends Component {
             <ul>
                 <li>Vector source</li>
                     <ul>
-                    <li> Point: small circle near Astoria </li>
+                    <li> Point: small green circle near Astoria </li>
                     <li> Circle: circle north of Astoria </li>
                     <li> LineString: yellow line near Astoria</li>
                     </ul>

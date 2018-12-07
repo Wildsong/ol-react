@@ -12,10 +12,10 @@ import OLGeometry from './OLGeometry';
 class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log('debug point', props.children);
+        console.log('debug point', props.style);
 
-//       this.geometry = new Point(props);
-        this.geometry = new Circle(props.children, 5000);
+       this.geometry = new Point(props);
+//        this.geometry = new Circle(props.children, 5000);
         this.updateFromProps(props);
     }
 
