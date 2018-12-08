@@ -8,8 +8,8 @@ import OLGeometry from './OLGeometry';
 class OLLineString extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log('debug line:', props.children, 'debug line layout:', props.layout);
         this.geometry = new LineString(props.children, props.layout);
+        console.log('linestring props=', props);
     }
 
     componentWillUnmount() {
@@ -20,8 +20,8 @@ class OLLineString extends OLGeometry {
 OLLineString.propTypes = {
     children: PropTypes.arrayOf(
                   PropTypes.arrayOf(PropTypes.number)
-              ).isRequired,
-//    layout: PropTypes.instanceOf(GeometryLayout)
+              ).isRequired
+//    layout: PropTypes.instanceOf(GeometryLayout) maybe goes in OLGeometry?
 }
 
 OLLineString.contextTypes = {

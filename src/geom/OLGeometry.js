@@ -10,7 +10,12 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidMount() {
+        console.log('geometry ', this.props);
         this.context.feature.setGeometry(this.geometry);
+        if (typeof this.props.transform === 'function') {
+            this.geometry.applyTransform(this.props.transform);
+        }
+
         if (this.props.modify) {
             let interactions = this.context.map.getInteractions()
             this.interaction = new Modify({
@@ -46,7 +51,8 @@ OLGeometry.propTypes = {
     modify: PropTypes.bool,
     modifyStart: PropTypes.func,
     modifyEnd: PropTypes.func,
-    insertVertexCondition: PropTypes.func
+    insertVertexCondition: PropTypes.func,
+    transform: PropTypes.func
 }
 
 OLGeometry.contextTypes = {

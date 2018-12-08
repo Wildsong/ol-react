@@ -3,10 +3,22 @@ import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import {Map, View, layer, source, Feature, geom} from './src';
 import apiKeys from './apikeys';
+import {transform} from 'ol/proj';
 
-// For pedagogy,
-// title is a required prop
-//
+const wgs84 = "EPSG:4326";
+const wm = "EPSG:3857";
+
+const astoria = transform([-123.834,46.187], wgs84,wm)
+
+function transformfn(coordinates) {
+    console.log("input=", coordinates)
+    for (let i = 0; i < coordinates.length; i+=2) {
+        coordinates[i]   += astoria[0];
+        coordinates[i+1] += astoria[1];
+    }
+    console.log("output=", coordinates)
+    return coordinates
+}
 
 class App extends Component {
     render(props) {
@@ -31,7 +43,10 @@ class App extends Component {
         return (
             <div>
             <h1>{this.props.title}</h1>
-            Sources
+
+            <h2>Transformations</h2>
+
+            <h2>Sources</h2>
             <ul>
                 <li>Tile Source: ArcGIS REST sample: United States map</li>
                 <li>Source OSM: OpenStreetMap of the world</li>
@@ -41,12 +56,12 @@ class App extends Component {
                 <li>Vector source</li>
                     <ul>
                     <li> Point: small green circle near Astoria </li>
-                    <li> Circle: circle north of Astoria </li>
+                    <li> Circle: circle around Astoria </li>
                     <li> LineString: yellow line near Astoria</li>
                     </ul>
             </ul>
 
-            <Map view=<View zoom={4} center={[-13884991, 3970341]}/>>
+            <Map view=<View zoom={12} center={astoria}/>>
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
                     url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
@@ -62,24 +77,23 @@ class App extends Component {
                 </layer.Tile>
                 <layer.Tile opacity={0.1}>
                         <source.TileArcGISRest
-                        extent={[-13884991, 2870341, -7455066, 6338219]}
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer" />
                 </layer.Tile>
 
                 <layer.Vector style={polyStyle}>
                     <source.Vector>
                         <Feature id="test-line" style={lineStyle}>
-                            <geom.LineString layout="XY">
-                                { [[-70000,2000000], [0, 30000], [100000, 0], [200000, 140000], [1000, 80000]] }
+                            <geom.LineString transform={transformfn} layout="XY">
+                                { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
 
                         <Feature id="test-circle" style={polyStyle}>
-                            <geom.Circle>{[[0,-100000], 60000]}</geom.Circle>
+                            <geom.Circle>{[astoria, 4000]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-circle-zeroradius" style={polyStyle}>
-                            <geom.Circle>{[100000,-100000]}</geom.Circle>
+                            <geom.Circle transform={transformfn}>{[6000,0]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-polygon" style={polyStyle}>
@@ -96,7 +110,6 @@ class App extends Component {
 
             </Map>
         {/*
-
             <h2>Source: BingMaps</h2>
             <Map view=<View resolution={10000} center={[0, 0]}/>>
                 <layer.Tile>

@@ -84,6 +84,7 @@ image: {
  * BingMaps
  * Tile WMS
 * Geometry
+ * Point animation
  * Polygons
 * Overlay - not sure what this even is right now
 
