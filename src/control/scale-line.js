@@ -7,7 +7,6 @@ import {enumScaleLineUnits} from './scale-line-units'
 class OLScaleLine extends OLControl {
 
     createControl (props) {
-        console.log("scaleline", props.units)
         return new ScaleLine({
             className: props.className,
             minWidth: props.minWidth,
