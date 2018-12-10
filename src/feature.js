@@ -8,7 +8,6 @@ import { buildStyle } from './style';
 class OLFeature extends OLComponent {
     constructor(props) {
         super(props);
-        console.log("feature props=", props);
         this.feature = new Feature({});
         this.feature.setId(props.id);
         this.updateFromProps(props);

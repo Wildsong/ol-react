@@ -8,7 +8,6 @@ class OLLineString extends OLGeometry {
     constructor(props) {
         super(props);
         this.geometry = new LineString(props.children, props.layout);
-        console.log('linestring props=', props);
     }
 
     componentWillUnmount() {
