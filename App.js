@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import {Map, View, layer, source, Feature, geom} from './src';
+import {Map, View, Feature, control, geom, layer, source} from './src';
 import apiKeys from './apikeys';
 import {transform} from 'ol/proj';
+import './App.css';
 
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
@@ -11,12 +12,10 @@ const wm = "EPSG:3857";
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
 function transformfn(coordinates) {
-    console.log("input=", coordinates)
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
         coordinates[i+1] += astoria_wm[1];
     }
-    console.log("output=", coordinates)
     return coordinates
 }
 
@@ -63,12 +62,13 @@ class App extends Component {
             </ul>
 
             <Map view=<View zoom={12} center={astoria_wm}/>>
+            <control.Attribution>map46</control.Attribution>
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
                     url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
                     />
                 </layer.Tile>
-                <layer.Tile opacity={1.0}>
+                <layer.Tile opacity={0.5}>
                     <source.XYZ
                     url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     />
@@ -113,7 +113,7 @@ class App extends Component {
                 </layer.Vector>
 
             </Map>
-        {/*
+        {/* not planning on using Bing so have not tested it yet
             <h2>Source: BingMaps</h2>
             <Map view=<View resolution={10000} center={[0, 0]}/>>
                 <layer.Tile>

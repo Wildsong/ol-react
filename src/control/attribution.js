@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+import {Attribution} from 'ol/control';
 import OLControl from './ol-control';
 
-export default class Attribution extends OLControl {
+class OLAttribution extends OLControl {
   createControl (props) {
-    return new ol.control.Attribution({
+    return new Attribution({
       className: props.className,
       collapsed: props.collapsed,
       collapseLabel: props.collapseLabel,
@@ -16,7 +16,7 @@ export default class Attribution extends OLControl {
   }
 }
 
-Attribution.propTypes = Object.assign({}, OLControl.propTypes, {
+OLAttribution.propTypes = Object.assign({}, OLControl.propTypes, {
   className: PropTypes.string,
   collapsed: PropTypes.bool,
   collapseLabel: PropTypes.string,
@@ -24,3 +24,5 @@ Attribution.propTypes = Object.assign({}, OLControl.propTypes, {
   label: PropTypes.node,
   tipLabel: PropTypes.string
 })
+
+export default OLAttribution
