@@ -10,7 +10,6 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidMount() {
-        console.log('geometry ', this.props);
         this.context.feature.setGeometry(this.geometry);
         if (typeof this.props.transform === 'function') {
             this.geometry.applyTransform(this.props.transform);
