@@ -20,8 +20,6 @@ let transformfn = (coordinates) => {
     return coordinates
 }
 
-// Attribution control needs help
-// It's not hiding the text on the basemap
 let attributions = [
     osmAttribution,
     'and ESRI too.'
@@ -73,6 +71,7 @@ class App extends Component {
 
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
+                <control.MousePosition projection={wgs84}/>
 
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
