@@ -19,3 +19,12 @@
 .ol-overviewmap {
 
 }
+
+.ol-scale-line {
+    font-family: fantasy;
+    font-size: 28pt;
+    position: relative;
+    bottom: 40px;
+    width: 120px;
+    background-color: rgba(0,0,0,1);
+}
