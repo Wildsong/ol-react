@@ -14,7 +14,7 @@ class OLZoomSlider extends OLControl {
   }
 }
 
-ZoomSlider.propTypes = Object.assign({}, OLControl.propTypes, {
+OLZoomSlider.propTypes = Object.assign({}, OLControl.propTypes, {
   className: PropTypes.string,
   duration: PropTypes.number,
   maxResolution: PropTypes.number,
