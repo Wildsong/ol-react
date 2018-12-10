@@ -1,4 +1,4 @@
-export const ScaleLineUnit = {
+export const ScaleLineUnits = {
   DEGREES: 'degrees',
   IMPERIAL: 'imperial',
   NAUTICAL: 'nautical',
@@ -6,7 +6,7 @@ export const ScaleLineUnit = {
   US: 'us'
 }
 
-export const ScaleLineUnits = [
+export const enumScaleLineUnits = [
   'degrees',
   'imperial',
   'nautical',

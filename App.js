@@ -76,7 +76,7 @@ class App extends Component {
                 <control.MousePosition projection={wgs84}/>
                 <control.OverviewMap/>
                 <control.Rotate autoHide={false}/>
-                <control.ScaleLine />
+                <control.ScaleLine units={control.ScaleLineUnits.US}/>
 
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
