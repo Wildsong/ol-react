@@ -25,6 +25,8 @@ let attributions = [
     'and ESRI too.'
 ];
 
+let pi = 3.1416;
+
 class App extends Component {
     render(props) {
         let pointStyle = {
@@ -67,12 +69,13 @@ class App extends Component {
                     </ul>
             </ul>
 
-            <Map view=<View zoom={12} center={astoria_wm}/>>
+            <Map view=<View rotation={pi*.25} zoom={12} center={astoria_wm}/>>
 
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
                 <control.MousePosition projection={wgs84}/>
                 <control.OverviewMap/>
+                <control.Rotate autoHide={false}/>
 
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
