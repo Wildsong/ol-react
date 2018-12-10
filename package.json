@@ -1,11 +1,11 @@
 {
-  "name": "ol-react",
+  "name": "ol5-react",
   "version": "0.1.7",
   "license": "MIT",
   "description": "React interface for openlayers",
   "main": "./lib/index.js",
   "scripts": {
-    "start": "parcel serve index.html --no-autoinstall --open",
+    "start": "parcel serve index.html --open",
     "test": "echo 'We need to write unit tests!'",
     "compile": "babel -d lib/ src/",
     "postversion": "git push && git push --tags"
@@ -19,13 +19,14 @@
     "url": "git@github.com:brian32768/ol-react.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-object-assign": "^7.0.0",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0"
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
     "ol": "^5.3.0",

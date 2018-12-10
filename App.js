@@ -101,8 +101,8 @@ class App extends Component {
                         </Feature>
 
                         <Feature id="test-point" style={pointStyle}>
-                            <geom.Point>
-                                {[0, 0]}
+                            <geom.Point transform={transformfn}>
+                                {[1835, -910]}
                             </geom.Point>
                         </Feature>
                     </source.Vector>
