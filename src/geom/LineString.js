@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import LineString from 'ol/geom/LineString';
-import GeometryLayout from 'ol/geom/GeometryLayout';
 import OLGeometry from './OLGeometry';
 
 class OLLineString extends OLGeometry {
@@ -17,11 +16,12 @@ class OLLineString extends OLGeometry {
     }
 }
 
+// A linestring is an array of points and an optional layout.
+
 OLLineString.propTypes = {
     children: PropTypes.arrayOf(
                   PropTypes.arrayOf(PropTypes.number)
               ).isRequired
-//    layout: PropTypes.instanceOf(GeometryLayout) maybe goes in OLGeometry?
 }
 
 OLLineString.contextTypes = {

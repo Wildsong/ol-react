@@ -8,13 +8,13 @@ import {transform} from 'ol/proj';
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
 
-const astoria = transform([-123.834,46.187], wgs84,wm)
+const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
 function transformfn(coordinates) {
     console.log("input=", coordinates)
     for (let i = 0; i < coordinates.length; i+=2) {
-        coordinates[i]   += astoria[0];
-        coordinates[i+1] += astoria[1];
+        coordinates[i]   += astoria_wm[0];
+        coordinates[i+1] += astoria_wm[1];
     }
     console.log("output=", coordinates)
     return coordinates
@@ -55,13 +55,14 @@ class App extends Component {
             <ul>
                 <li>Vector source</li>
                     <ul>
-                    <li> Point: small green circle near Astoria </li>
-                    <li> Circle: circle around Astoria </li>
+                    <li> Point: small green circle near Astor Column</li>
+                    <li> Circle: big circle around Astoria </li>
                     <li> LineString: yellow line near Astoria</li>
+                    <li> Polygon: triangle with a triangle hole inside it</li>
                     </ul>
             </ul>
 
-            <Map view=<View zoom={12} center={astoria}/>>
+            <Map view=<View zoom={12} center={astoria_wm}/>>
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
                     url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
@@ -89,7 +90,7 @@ class App extends Component {
                         </Feature>
 
                         <Feature id="test-circle" style={polyStyle}>
-                            <geom.Circle>{[astoria, 4000]}</geom.Circle>
+                            <geom.Circle>{[astoria_wm, 4000]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-circle-zeroradius" style={polyStyle}>
@@ -97,7 +98,10 @@ class App extends Component {
                         </Feature>
 
                         <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon>{[[1000, 0], [40000, 0], [100000, 100000], [0, 100000], [1000, 0]]}</geom.Polygon>
+                            <geom.Polygon transform={transformfn}>{[
+                                [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                                [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                            ]}</geom.Polygon>
                         </Feature>
 
                         <Feature id="test-point" style={pointStyle}>
