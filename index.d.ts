@@ -87,7 +87,7 @@ declare namespace __OLReact {
     }
 
     export namespace control {
-        type ScaleLineUnit = 'degrees' | 'imperial' | 'nautical' | 'metric' | 'us';
+        type enumScaleLineUnits = 'degrees' | 'imperial' | 'nautical' | 'metric' | 'us';
         }
         interface OLControlProps {
         }
