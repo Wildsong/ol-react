@@ -12,7 +12,10 @@
   },
   "author": "richard.hills@gmail.com",
   "contributors": [
-    "Brian H Wilson <brian@wildsong.biz>"
+    "Brian H Wilson <brian@wildsong.biz>",
+    "Tamás Nepusz ntamas",
+    "Jono Rogers @statusas",
+    "Victor Grigoriu vgrigoriu@gmail.com"
   ],
   "repository": {
     "type": "git",
