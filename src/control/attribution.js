@@ -5,6 +5,7 @@ import OLControl from './ol-control';
 
 class OLAttribution extends OLControl {
   createControl (props) {
+      console.log("control.Attribution props=", props)
     return new Attribution({
       className: props.className,
       collapsed: props.collapsed,

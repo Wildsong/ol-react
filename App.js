@@ -62,7 +62,7 @@ class App extends Component {
             </ul>
 
             <Map view=<View zoom={12} center={astoria_wm}/>>
-            <control.Attribution>map46</control.Attribution>
+            <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
                     url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
