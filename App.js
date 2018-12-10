@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import {Map, View, Feature, control, geom, layer, source} from './src';
 import apiKeys from './apikeys';
+import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM';
 import {transform} from 'ol/proj';
 import './App.css';
 
@@ -11,13 +12,20 @@ const wm = "EPSG:3857";
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
-function transformfn(coordinates) {
+let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
         coordinates[i+1] += astoria_wm[1];
     }
     return coordinates
 }
+
+// Attribution control needs help
+// It's not hiding the text on the basemap
+let attributions = [
+    osmAttribution,
+    'and ESRI too.'
+];
 
 class App extends Component {
     render(props) {
@@ -65,20 +73,23 @@ class App extends Component {
             <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
-                    url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                        attributions={attributions}
                     />
                 </layer.Tile>
                 <layer.Tile opacity={0.5}>
                     <source.XYZ
-                    url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                    />
+                        url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                        attributions={attributions}
+                     />
                 </layer.Tile>
                 <layer.Tile opacity={0.1}>
-                    <source.OSM />
+                    <source.OSM  attributions={attributions} />
                 </layer.Tile>
                 <layer.Tile opacity={0.1}>
-                        <source.TileArcGISRest
-                        url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer" />
+                    <source.TileArcGISRest
+                        url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                        attributions={attributions} />
                 </layer.Tile>
 
                 <layer.Vector style={polyStyle}>
