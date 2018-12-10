@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, Collection} from 'ol';
+import {OverviewMap} from 'ol/control';
 import {Layer} from 'ol/layer';
 import OLControl from './ol-control';
 
-class OverviewMap extends OLControl {
+class OLOverviewMap extends OLControl {
   createControl (props) {
-    return new ol.control.OverviewMap({
+    return new OverviewMap({
       className: props.className,
       collapsed: props.collapsed,
       collapseLabel: props.collapseLabel,
@@ -19,7 +20,7 @@ class OverviewMap extends OLControl {
   }
 }
 
-OverviewMap.propTypes = Object.assign({}, OLControl.propTypes, {
+OLOverviewMap.propTypes = Object.assign({}, OLControl.propTypes, {
   className: PropTypes.string,
   collapsed: PropTypes.bool,
   collapseLabel: PropTypes.string,
@@ -33,4 +34,4 @@ OverviewMap.propTypes = Object.assign({}, OLControl.propTypes, {
   view: PropTypes.instanceOf(View)
 })
 
-export default OverviewMap
+export default OLOverviewMap

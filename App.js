@@ -72,6 +72,7 @@ class App extends Component {
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
                 <control.MousePosition projection={wgs84}/>
+                <control.OverviewMap/>
 
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS
