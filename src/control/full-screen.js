@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'ol';
+import {FullScreen} from 'ol/control';
 import OLControl from './ol-control';
 
-export default class FullScreen extends OLControl {
+export default class OLFullScreen extends OLControl {
   createControl (props) {
-    return new ol.control.FullScreen({
+    return new FullScreen({
       className: props.className,
       keys: props.keys,
       label: props.label,
@@ -16,7 +16,7 @@ export default class FullScreen extends OLControl {
   }
 }
 
-FullScreen.propTypes = Object.assign({}, OLControl.propTypes, {
+OLFullScreen.propTypes = Object.assign({}, OLControl.propTypes, {
   className: PropTypes.string,
   keys: PropTypes.bool,
   label: PropTypes.node,
