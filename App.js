@@ -50,9 +50,7 @@ class App extends Component {
         return (
             <div>
             <h1>{this.props.title}</h1>
-
-            <h2>Transformations</h2>
-
+            <div id="external_control">External Map Control Test</div>
             <h2>Sources</h2>
             <ul>
                 <li>Tile Source: ArcGIS REST sample: United States map</li>
@@ -69,7 +67,7 @@ class App extends Component {
                     </ul>
             </ul>
 
-            <Map view=<View rotation={pi*.25} zoom={12} center={astoria_wm}/>>
+            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
 
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
@@ -78,6 +76,7 @@ class App extends Component {
                 <control.Rotate autoHide={false}/>
                 <control.ScaleLine units={control.ScaleLineUnits.US} />
                 <control.ZoomSlider />
+                <control.Zoom duration="50" target="external_control"/>
 
                 <layer.Tile opacity={1.0}>
                     <source.TileWMS

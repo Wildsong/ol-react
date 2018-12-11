@@ -10,6 +10,7 @@ import OLComponent from './ol-component';
 class OLMap extends Component {
     constructor(props) {
         super(props)
+        console.log("map props=", props)
         this.map = new Map({
             loadTilesWhileAnimating: props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: props.loadTilesWhileInteracting,

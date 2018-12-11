@@ -1,25 +1,40 @@
-.ol-full-screen .ol-rotate .ol-mouse-position {
+// These are default classNames from OpenLayers.
+// You can override them with your own names when you create the components.
+
+.ol-full-screen .ol-rotate .ol-zoom-extent .ol-mouse-position {
     position: relative;
     top: 4px;
     width: 16px;
 }
 
-.ol-attribution {
-    font-family: cursive;
+.ol-zoom-in .ol-zoom-out {
+    position: relative;
+    left: 50px;
 }
 
-.ol-full-screen {
-    right: 8px;
+.ol-zoom-in {
 }
 
-.ol-rotate {
-    right: 36px;
+.ol-zoom-out {
+}
+
+.ol-zoom-extent {
+    top: 4px;
+    left: 38px;
 }
 
 .ol-mouse-position {
-    left: 40px;
     font-family: sans-serif;
     font-size: 8pt;
+    left: 64px;
+}
+
+.ol-full-screen {
+    right: 4px;
+}
+
+.ol-rotate {
+    right: 32px;
 }
 
 .ol-overviewmap {
@@ -34,7 +49,7 @@
     font-family: arial;
     position: relative;
     left: 180px;
-    bottom: 10px;
+    bottom: 30px;
     width: 180px;
     background-color: rgba(0,0,0,0.4);
 }
@@ -43,4 +58,18 @@
     left: 8px;
     top: 70px;
     background-color: rgba(50,50,240,0.4);
+}
+
+.ol-attribution {
+    position: relative;
+    bottom: 40px;
+    right: 10px;
+    width: 400px;
+    font-family: cursive;
+}
+
+#external_control {
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
 }

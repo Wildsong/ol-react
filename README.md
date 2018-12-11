@@ -42,6 +42,10 @@ image: {
 ## Project status
 
 ### Tested and working in the sample app:
+* Controls
+ * FullScreen
+ * Rotate (actually "set rotation to 0")
+ * Zoom slider
 * Sources
  * OSM
  * Tile ArcGISRest
@@ -69,14 +73,10 @@ image: {
 
 #### Work in progress / untested
 * Controls
- * Attribution
- * Full screen
- * Mouse position
- * Overview map
- * Rotate
- * Scale line units
- * Scale line
- * Zoom slider
+ * Attribution - not hiding the attributions in basemap layer
+ * Mouse position - works; need to show how to do formatting
+ * Overview map - works; needs more testing
+ * Scale line - works, needs styling in example
  * Zoom to extent
  * Zoom
 * Interactions

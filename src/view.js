@@ -80,7 +80,7 @@ OLView.defaultProps = {
 }
 
 OLView.contextTypes = {
-  map: PropTypes.instanceOf(Map)
+    map: PropTypes.instanceOf(Map)
 }
 
 export default OLView;
