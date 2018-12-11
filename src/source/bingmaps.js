@@ -4,10 +4,6 @@ import {BingMaps} from 'ol/source';
 import OLSourceComponent from './ol-source-component';
 
 class OLBingMaps extends OLSourceComponent {
-    constructor(props) {
-        super(props);
-    }
-
     _createSourceFromProps(props) {
         let spreadedProps = Object.assign({}, props)
         spreadedProps.key = spreadedProps.apiKey

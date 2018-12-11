@@ -1,16 +1,15 @@
-import React from 'react';
-import {Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import MapContext from './map-context';
 import {Map} from 'ol';
 import {toLatLon} from 'ol/proj';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls} from 'ol/control';
 import OLComponent from './ol-component';
 
-class OLMap extends Component {
+class OLMap extends React.Component {
     constructor(props) {
         super(props)
-        console.log("map props=", props)
         this.map = new Map({
             loadTilesWhileAnimating: props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: props.loadTilesWhileInteracting,
@@ -18,6 +17,8 @@ class OLMap extends Component {
             controls: props.useDefaultControls ? defaultControls() : [],
             overlays: []
         })
+
+        MapContext.map = this.map;
 
         if (props.onChangeSize) {
             this.map.on('change:size', this.props.onChangeSize);
@@ -34,8 +35,7 @@ class OLMap extends Component {
     }
 
     componentDidMount() {
-        this.map.setTarget(this.refs.target)
-
+        this.map.setTarget(this.refs.target) // this comes from the div in render()
         if (this.props.focusOnMount) {
             this.focus()
         }
@@ -43,12 +43,6 @@ class OLMap extends Component {
 
     componentWillUnmount() {
         this.map.setTarget(undefined)
-    }
-
-    getChildContext() {
-        return {
-          map: this.map
-        }
     }
 
     render() {
@@ -121,10 +115,6 @@ OLMap.defaultProps = {
     useDefaultInteractions: true,
     useDefaultControls: true,
     focusOnMount: false
-}
-
-OLMap.childContextTypes = {
-    map: PropTypes.instanceOf(Map)
 }
 
 export default OLMap

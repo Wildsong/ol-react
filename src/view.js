@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MapContext from './map-context';
 import {Map, View} from 'ol';
 import OLComponent from './ol-component';
 
@@ -43,10 +44,10 @@ class OLView extends OLComponent {
     }
 
     componentDidMount() {
-        this.context.map.setView(this.view);
+        MapContext.map.setView(this.view);
         this.updateFromProps_(this.props);
 
-        this.context.map.on("movend", this.onMoveEnd, this);
+        MapContext.map.on("movend", this.onMoveEnd, this);
     }
 
     animate(options) {
@@ -77,10 +78,6 @@ OLView.defaultProps = {
     initialResolution: 10000,
     initialZoom: 0,
     initialRotation: 0
-}
-
-OLView.contextTypes = {
-    map: PropTypes.instanceOf(Map)
 }
 
 export default OLView;

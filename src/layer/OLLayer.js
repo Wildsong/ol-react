@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MapContext from '../map-context';
 import OLContainer from '../ol-container';
-import {Map, Extent} from 'ol';
+import {Extent} from 'ol';
 import {Select} from 'ol/interaction';
 import {click, pointerMove} from 'ol/events/condition';
 
@@ -32,36 +33,39 @@ class OLLayer extends OLContainer {
 
     componentDidMount() {
         if (this.props.selectable) {
-            let interactions = this.context.map.getInteractions()
+            let interactions = MapContext.map.getInteractions()
             this.selectInteraction = new Select({
                 condition: click,
                 layers: [this.layer],
             })
             this.selectInteraction.on('select', this.props.onSelect)
-             interactions.push(this.selectInteraction);
+            interactions.push(this.selectInteraction);
         }
         if (this.props.hoverable) {
-            let interactions = this.context.map.getInteractions()
+            let interactions = MapContext.map.getInteractions()
             this.hoverInteraction = new Select({
                 condition: pointerMove,
                 layers: [this.layer],
             })
             this.hoverInteraction.on('select', this.props.onHover)
-             interactions.push(this.hoverInteraction);
+            interactions.push(this.hoverInteraction);
         }
+        MapContext.map.addLayer(this.layer)
     }
 
     componentWillUnmount() {
-        let interactions = this.context.map.getInteractions();
+        let interactions = MapContext.map.getInteractions();
         if (this.selectInteraction) {
             interactions.remove(this.selectInteraction)
         }
         if (this.hoverInteraction) {
             interactions.remove(this.hoverInteraction)
         }
+        MapContext.map.removeLayer(this.layer)
     }
 }
- OLLayer.PropTypes = {
+
+OLLayer.PropTypes = {
     opacity: PropTypes.number,
     visible: PropTypes.bool,
     extent: PropTypes.instanceOf(Extent),
@@ -71,16 +75,12 @@ class OLLayer extends OLContainer {
     selectable: PropTypes.bool,
     onSelect: PropTypes.func,
     hoverable: PropTypes.bool,
-    onHover: PropTypes.func,
+    onHover: PropTypes.func
 }
 
  OLLayer.defaultProps = {
     visible: true,
     selectable: false
-}
-
- OLLayer.contextTypes = {
-    map: PropTypes.instanceOf(Map)
 }
 
 export default OLLayer
