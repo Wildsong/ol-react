@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Polygon from 'ol/geom/Polygon';
-import OLGeometry from './OLGeometry';
+import OLGeometry from './ol-geometry';
 
 class OLPolygon extends OLGeometry {
     constructor(props) {

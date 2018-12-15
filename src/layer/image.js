@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Style} from 'ol/style';
 import {Image} from 'ol/layer';
-import OLLayer from './OLLayer';
+import OLLayer from './ol-layer';
 
 class OLImage extends OLLayer {
     constructor(props) {

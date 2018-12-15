@@ -7,15 +7,16 @@
     width: 16px;
 }
 
-.ol-zoom-in .ol-zoom-out {
-    position: relative;
-    left: 50px;
-}
-
 .ol-zoom-in {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .ol-zoom-out {
+    position: absolute;
+    top: 0px;
+    left: 30px;
 }
 
 .ol-zoom-extent {
@@ -69,7 +70,7 @@
 }
 
 #external_control {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-color: #eee;
 }

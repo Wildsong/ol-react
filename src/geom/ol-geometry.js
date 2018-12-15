@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Map, Feature, Collection} from 'ol';
+import MapContext from '../map-context';
+import FeatureContext from '../feature-context';
+import {Collection} from 'ol';
 import {Modify} from 'ol/interaction';
 import OLComponent from '../ol-component';
 
 class OLGeometry extends OLComponent {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
-        this.context.feature.setGeometry(this.geometry);
+        console.log("OLGeometry componentDidMount")
+        FeatureContext.feature.setGeometry(this.geometry);
         if (typeof this.props.transform === 'function') {
             this.geometry.applyTransform(this.props.transform);
         }
 
         if (this.props.modify) {
-            let interactions = this.context.map.getInteractions()
+            let interactions = MapContext.map.getInteractions()
             this.interaction = new Modify({
-                features: new Collection([this.context.feature]),
+                features: new Collection([FeatureContext.feature]),
                 //insertVertexCondition: this.props.insertVertexCondition
                 // Note; as of 27/06/2017, insertVertexCondition is in 4.2.0 of OpenLayers, we can't upgrade yet as the @types package hasn't been updated
             })
@@ -34,7 +33,7 @@ class OLGeometry extends OLComponent {
 
     componentWillUnmount() {
         if (this.props.modify && this.interaction) {
-            let interactions = this.context.map.getInteractions()
+            let interactions = MapContext.map.getInteractions()
             if (this.props.modifyStart) {
                 this.interaction.un('modifystart', this.props.modifyStart)
             }
@@ -43,6 +42,7 @@ class OLGeometry extends OLComponent {
             }
             interactions.remove(this.interaction);
         }
+        FeatureContext.feature.setGeometry(undefined);
     }
 }
 
@@ -52,11 +52,6 @@ OLGeometry.propTypes = {
     modifyEnd: PropTypes.func,
     insertVertexCondition: PropTypes.func,
     transform: PropTypes.func
-}
-
-OLGeometry.contextTypes = {
-    feature: PropTypes.instanceOf(Feature),
-    map: PropTypes.instanceOf(Map),
 }
 
 export default OLGeometry

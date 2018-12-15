@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Point from 'ol/geom/Point';
 import Circle from 'ol/geom/Circle';
-import OLGeometry from './OLGeometry';
+import OLGeometry from './ol-geometry';
 
 // how should I style this?
 // I should be able to show it as a circle,

@@ -1,6 +1,4 @@
-import React from 'react';
-
-const MapContext = React.createContext(
-);
-
-export default MapContext;
+import React from 'react'
+export const MapContext = React.createContext({
+    map: null
+});

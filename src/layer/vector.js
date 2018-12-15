@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Style} from 'ol/style';
 import Vector from 'ol/layer/Vector';
-import OLLayer from './OLLayer';
+import OLLayer from './ol-layer';
 import {buildLayerProps, baseLayerPropTypes} from './';
 import {buildStyle} from '../style';
 
@@ -28,12 +28,12 @@ OLVector.propTypes = {
     updateWhileAnimating: PropTypes.bool,
     updateWhileInteracting: PropTypes.bool,
     style: PropTypes.oneOfType([
-        PropTypes.instanceOf(Style),
-        PropTypes.object,
-        PropTypes.arrayOf(PropTypes.oneOfType([
-          PropTypes.instanceOf(Style),
-          PropTypes.object
-        ]))
+            PropTypes.instanceOf(Style),
+            PropTypes.object,
+            PropTypes.arrayOf(PropTypes.oneOfType([
+                PropTypes.instanceOf(Style),
+                PropTypes.object
+            ]))
     ])
 }
 

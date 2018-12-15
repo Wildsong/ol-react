@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
-import OLGeometry from './OLGeometry';
+import OLGeometry from './ol-geometry';
 
 class RawGeometry extends OLGeometry {
   /*

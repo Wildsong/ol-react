@@ -2,16 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Feature} from 'ol';
 import LineString from 'ol/geom/LineString';
-import OLGeometry from './OLGeometry';
+import OLGeometry from './ol-geometry';
 
 class OLLineString extends OLGeometry {
     constructor(props) {
         super(props);
         this.geometry = new LineString(props.children, props.layout);
-    }
-
-    componentWillUnmount() {
-        this.context.feature.setGeometry(undefined);
     }
 }
 

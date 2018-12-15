@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContext from './map-context';
+import {MapContext} from './map-context';
 import {Map, View} from 'ol';
 import OLComponent from './ol-component';
 
@@ -44,10 +44,10 @@ class OLView extends OLComponent {
     }
 
     componentDidMount() {
-        MapContext.map.setView(this.view);
+        console.log("OLView.componentDidMount context", this.context)
+        this.context.map.setView(this.view);
         this.updateFromProps_(this.props);
-
-        MapContext.map.on("movend", this.onMoveEnd, this);
+        this.context.map.on("movend", this.onMoveEnd, this);
     }
 
     animate(options) {
@@ -58,6 +58,7 @@ class OLView extends OLComponent {
         this.view.fit(geometry, size, options);
     }
 }
+OLView.contextType = MapContext;
 
 OLView.propTypes = {
     center: PropTypes.arrayOf(PropTypes.number),

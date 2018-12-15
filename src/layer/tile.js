@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LayerContext from '../layer-context';
 import {Style} from 'ol/style';
 import Tile from 'ol/layer/Tile';
-import OLLayer from './OLLayer';
+import OLLayer from './ol-layer';
 import {buildLayerProps, baseLayerPropTypes} from './';
 
 class OLTile extends OLLayer {

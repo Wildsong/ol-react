@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
+import {MapContext} from './src/map-context';
 import {Map, View, Feature, control, geom, layer, source} from './src';
 import apiKeys from './apikeys';
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM';
@@ -28,6 +29,11 @@ let attributions = [
 let pi = 3.1416;
 
 class App extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+        }
+    }
     render(props) {
         let pointStyle = {
             image: {
@@ -47,10 +53,18 @@ class App extends Component {
             stroke: {color: [0, 0, 0, 1], width:4},
             fill: {color: [255, 0, 0, .250]},
         };
+
         return (
             <div>
+
             <h1>{this.props.title}</h1>
-            <div id="external_control">External Map Control Test</div>
+
+            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+            {/*
+            <div id="external_control">
+                <control.Zoom/>
+            </div>
+*/}
             <h2>Sources</h2>
             <ul>
                 <li>Tile Source: ArcGIS REST sample: United States map</li>
@@ -67,32 +81,26 @@ class App extends Component {
                     </ul>
             </ul>
 
-            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
 
-                <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
-                <control.FullScreen />
-                <control.MousePosition projection={wgs84}/>
-                <control.OverviewMap/>
-                <control.Rotate autoHide={false}/>
-                <control.ScaleLine units={control.ScaleLineUnits.US} />
-                <control.ZoomSlider />
-                <control.Zoom duration="50" target="external_control"/>
-
-                <layer.Tile opacity={1.0}>
-                    <source.TileWMS
-                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
-                        attributions={attributions}
-                    />
-                </layer.Tile>
                 <layer.Tile opacity={0.5}>
+                <source.OSM attributions={attributions}/>
+                </layer.Tile>
+
+{/*                <layer.Tile opacity={0.3}>
                     <source.XYZ
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                      />
                 </layer.Tile>
-                <layer.Tile opacity={0.1}>
-                    <source.OSM  attributions={attributions} />
+
+
+                <layer.Tile opacity={0.5}>
+                    <source.TileWMS
+                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                        attributions={attributions}
+                    />
                 </layer.Tile>
+
                 <layer.Tile opacity={0.1}>
                     <source.TileArcGISRest
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
@@ -129,16 +137,25 @@ class App extends Component {
                         </Feature>
                     </source.Vector>
                 </layer.Vector>
-
-            </Map>
-        {/* not planning on using Bing so have not tested it yet
+*/}
+                {/*
+         not planning on using Bing so have not tested it yet
             <h2>Source: BingMaps</h2>
             <Map view=<View resolution={10000} center={[0, 0]}/>>
                 <layer.Tile>
                     <source.BingMaps apiKey={apiKeys['BingMaps']} />
                 </layer.Tile>
-            </Map>
+
+            <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
+            <control.FullScreen />
+            <control.MousePosition projection={wgs84}/>
+            <control.OverviewMap/>
+            <control.Rotate autoHide={false}/>
+            <control.ScaleLine units={control.ScaleLineUnits.US} />
+            <control.ZoomSlider />
         */}
+
+        </Map>
             </div>
         );
     }
