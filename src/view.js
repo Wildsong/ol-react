@@ -81,4 +81,4 @@ OLView.defaultProps = {
     initialRotation: 0
 }
 
-export default OLView;
+export default OLView

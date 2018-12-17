@@ -1,7 +1,4 @@
-import React from 'react';
-
-const LayerContext = React.createContext({
-    layer: null
+import React from 'react'
+export const LayerContext = React.createContext({
+    onSetSource: ()=>{}
 });
-
-export default LayerContext;

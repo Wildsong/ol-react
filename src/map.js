@@ -10,7 +10,7 @@ import OLComponent from './ol-component';
 class OLMap extends Component {
     constructor(props) {
         super(props);
-        console.log("new OLMap props=", this.props)
+//        console.log("new OLMap props=", this.props)
         this.map = new Map({
             loadTilesWhileAnimating: props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: props.loadTilesWhileInteracting,
@@ -34,8 +34,8 @@ class OLMap extends Component {
     }
 
     componentDidMount() {
-        console.log("OLMap.componentDidMount context=", this.context)
-        this.context.map.setTarget(this.refs.target) // this comes from the div in render()
+//        console.log("OLMap.componentDidMount refs=", this.refs)
+        this.map.setTarget(this.refs.target) // this comes from the div in render()
         if (this.props.focusOnMount) {
             this.focus()
         }
@@ -46,22 +46,24 @@ class OLMap extends Component {
     }
 
     render() {
-        this.context.map = this.map;
-        console.log("OLMap.render() context=", this.context)
+//        console.log("OLMap.render() props=", this.props)
         return (
             <div style={this.props.style}>
+            <MapContext.Provider value={{map: this.map}}>
                 <div ref="target" style={{ width: '100%', height: '100%' }}>
+                This is not a map.
                 </div>
                 <div>
                     {this.props.children}
                     {this.props.view}
                 </div>
-          </div>
+            </MapContext.Provider>
+            </div>
         )
     }
 
     focus() {
-        const viewport = this.state.map.getViewport()
+        const viewport = this.map.getViewport()
         viewport.tabIndex = 0
         viewport.focus()
     }
@@ -70,16 +72,16 @@ class OLMap extends Component {
         if (evt.dragging) {
             return;
         }
-        let pixel = this.state.map.getEventPixel(evt.originalEvent);
-        let feature = this.state.map.forEachFeatureAtPixel(pixel, function (x) {
+        let pixel = this.map.getEventPixel(evt.originalEvent);
+        let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
             return x
         });
         this.props.onFeatureHover(feature);
     }
 
     onFeatureClick(evt) {
-        let pixel = this.state.map.getEventPixel(evt.originalEvent);
-        let feature = this.state.map.forEachFeatureAtPixel(pixel, function (x) {
+        let pixel = this.map.getEventPixel(evt.originalEvent);
+        let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
             return x
         });
         let lonLat = toLonLat(evt.coordinate);
@@ -87,14 +89,13 @@ class OLMap extends Component {
     }
 
     updateSize () {
-        this.state.map.updateSize()
+        this.map.updateSize()
     }
 
     getSize() {
         return this.map.getSize();
     }
 }
-OLMap.contextType = MapContext;
 
 OLMap.propTypes = {
     loadTilesWhileAnimating: PropTypes.bool,

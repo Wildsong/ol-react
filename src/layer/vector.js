@@ -10,7 +10,7 @@ class OLVector extends OLLayer {
     constructor(props) {
         super(props);
         let layerProps = this.buildLayerProps(props);
-        this.layer = new Vector({
+        this.state.layer = new Vector({
             ...layerProps,
             style: buildStyle(props.style),
             updateWhileAnimating: props.updateWhileAnimating,
@@ -20,7 +20,7 @@ class OLVector extends OLLayer {
 
     componentWillReceiveProps(newProps) {
         super.componentWillReceiveProps(newProps);
-        this.layer.setStyle(buildStyle(newProps.style));
+        this.state.layer.setStyle(buildStyle(newProps.style));
     }
 }
 

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {OSM} from 'ol/source';
 import BaseLayer from 'ol/layer/Base';
-import OLSourceComponent from './ol-source-component';
+import OLSource from './ol-source';
 
-class OLOSM extends OLSourceComponent {
+class OLOSM extends OLSource {
     _createSourceFromProps(props) {
         return new OSM(Object.assign({}, props));
     }

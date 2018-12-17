@@ -1,18 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {MapContext} from '../map-context';
-import OLContainer from '../ol-container';
-import {Extent} from 'ol';
-import {Select} from 'ol/interaction';
-import {click, pointerMove} from 'ol/events/condition';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from '../map-context'
+import {LayerContext} from '../layer-context'
+import OLComponent from '../ol-component'
+import {Extent} from 'ol'
+import {Select} from 'ol/interaction'
+import {click, pointerMove} from 'ol/events/condition'
 
-class OLLayer extends OLContainer {
+class OLLayer extends OLComponent {
     constructor(props) {
         super(props)
-        console.log("OLLayer new() props=", props)
-        let mySource = props.children;
+//        console.log("OLLayer new() props=", props)
+        this.setSource = this.setSource.bind(this);
         this.state = {
-            source: mySource
+            layer : null
         }
     }
 
@@ -27,24 +28,29 @@ class OLLayer extends OLContainer {
         }
     }
 
+    setSource(olsource) {
+        // This is called from our child Source component
+//        console.log("OLLayer.setSource(",this.props.name,") olsource=", olsource);
+        this.state.layer.setSource(olsource)
+    }
+
     componentWillReceiveProps(newProps) {
         console.log("OLLayer willreceiveprops context", this.context);
-        if (newProps.opacity !== undefined) this.layer.setOpacity(newProps.opacity)
-        if (newProps.visible !== undefined) this.layer.setVisible(newProps.visible)
-        if (newProps.extent !== undefined) this.layer.setExtent(newProps.extent)
-        if (newProps.zIndex !== undefined) this.layer.setZIndex(newProps.zIndex)
-        if (newProps.minResolution !== undefined) this.layer.setMinResolution(newProps.minResolution)
-        if (newProps.maxResolution !== undefined) this.layer.setMaxResolution(newProps.maxResolution)
+        if (newProps.opacity !== undefined) this.state.layer.setOpacity(newProps.opacity)
+        if (newProps.visible !== undefined) this.state.layer.setVisible(newProps.visible)
+        if (newProps.extent !== undefined) this.state.layer.setExtent(newProps.extent)
+        if (newProps.zIndex !== undefined) this.state.layer.setZIndex(newProps.zIndex)
+        if (newProps.minResolution !== undefined) this.state.layer.setMinResolution(newProps.minResolution)
+        if (newProps.maxResolution !== undefined) this.state.layer.setMaxResolution(newProps.maxResolution)
     }
 
     componentDidMount() {
-        console.log("OLLayer.componentDidMount context",
-            this.context,  this.state);
+        console.log("OLLayer.componentDidMount context", this.context,  this.state);
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({
                 condition: click,
-                layers: [this.layer],
+                layers: [this.state.layer],
             })
             this.selectInteraction.on('select', this.props.onSelect)
             interactions.push(this.selectInteraction);
@@ -53,12 +59,12 @@ class OLLayer extends OLContainer {
             let interactions = this.context.map.getInteractions()
             this.hoverInteraction = new Select({
                 condition: pointerMove,
-                layers: [this.layer],
+                layers: [this.state.layer],
             })
             this.hoverInteraction.on('select', this.props.onHover)
             interactions.push(this.hoverInteraction);
         }
-        this.context.map.addLayer(this.layer)
+        this.context.map.addLayer(this.state.layer)
     }
 
     componentWillUnmount() {
@@ -69,7 +75,18 @@ class OLLayer extends OLContainer {
         if (this.hoverInteraction) {
             interactions.remove(this.hoverInteraction)
         }
-        this.context.map.removeLayer(this.layer)
+        this.context.map.removeLayer(this.state.layer)
+    }
+
+    render() {
+//        console.log("OLLayer.render props=", this.props.children);
+        return (
+            <div>
+            <LayerContext.Provider value={{onSetSource:this.setSource}}>
+                {this.props.children}
+            </LayerContext.Provider>
+            </div>
+        );
     }
 }
 

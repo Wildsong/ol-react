@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {TileArcGISRest} from 'ol/source';
-import OLSourceComponent from './ol-source-component'
+import React from 'react'
+import PropTypes from 'prop-types'
+import {TileArcGISRest} from 'ol/source'
+import OLSource from './ol-source'
 
-class OLTileArcGISRest extends OLSourceComponent {
+class OLTileArcGISRest extends OLSource {
     _createSourceFromProps(props) {
         return new TileArcGISRest(Object.assign({}, props));
     }
@@ -22,4 +22,4 @@ OLTileArcGISRest.propTypes = {
 //  layer: PropTypes.instanceOf(BaseLayer)
 //}
 
-export default OLTileArcGISRest;
+export default OLTileArcGISRest

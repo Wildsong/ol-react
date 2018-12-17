@@ -8,14 +8,14 @@ class OLImage extends OLLayer {
     constructor(props) {
         super(props);
         let layerProps = this.buildLayerProps(props);
-        this.layer = new Image({
+        this.state.layer = new Image({
             ...layerProps,
         })
     }
 
     componentWillReceiveProps(newProps) {
-        this.layer.setVisible(newProps.visible)
-        this.layer.setZIndex(newProps.zIndex)
+        this.state.layer.setVisible(newProps.visible)
+        this.state.layer.setZIndex(newProps.zIndex)
     }
 }
 
@@ -24,10 +24,6 @@ OLImage.propTypes = {
 
 OLImage.defaultProps = {
     visible: true
-}
-
-OLImage.contextTypes = {
-    map: PropTypes.instanceOf(Map)
 }
 
 export default OLImage
