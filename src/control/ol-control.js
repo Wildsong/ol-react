@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContext from '../map-context';
+import {MapContext} from '../map-context';
 import OLComponent from '../ol-component';
 
 class OLControl extends OLComponent {
-
     constructor(props) {
         super(props);
         this.control = this.createControl(props)
     }
 
     componentDidMount() {
-        MapContext.map.addControl(this.control)
+        this.context.map.addControl(this.control)
     }
 
     componentWillUnmount() {
-        MapContext.map.removeControl(this.control)
+        this.context.map.removeControl(this.control)
     }
 
     createControl(props) {
@@ -23,6 +22,7 @@ class OLControl extends OLComponent {
                             'from OLControl')
     }
 }
+OLControl.contextType = MapContext;
 
 OLControl.propTypes = {
     //element: OLPropTypes.HTMLElement,

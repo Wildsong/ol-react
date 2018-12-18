@@ -139,6 +139,7 @@ class App extends Component {
                             </geom.MultiPoint>
                         </Feature>
 
+
                         {/*
     Implement and test...
                         Test MultiLineString
@@ -148,6 +149,16 @@ class App extends Component {
                     </source.Vector>
                 </layer.Vector>
 
+                <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
+                <control.FullScreen />
+                <control.MousePosition projection={wgs84}/>
+                <control.OverviewMap/>
+                <control.Rotate autoHide={false}/>
+                <control.ScaleLine units={control.ScaleLineUnits.US} />
+                <control.Zoom />
+                <control.ZoomSlider />
+                <control.ZoomToExtent />
+
                 {/*
          not planning on using Bing so have not tested it yet
             <h2>Source: BingMaps</h2>
@@ -155,14 +166,6 @@ class App extends Component {
                 <layer.Tile>
                     <source.BingMaps apiKey={apiKeys['BingMaps']} />
                 </layer.Tile>
-
-            <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
-            <control.FullScreen />
-            <control.MousePosition projection={wgs84}/>
-            <control.OverviewMap/>
-            <control.Rotate autoHide={false}/>
-            <control.ScaleLine units={control.ScaleLineUnits.US} />
-            <control.ZoomSlider />
         */}
 
             </Map>
