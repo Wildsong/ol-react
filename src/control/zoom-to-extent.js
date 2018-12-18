@@ -15,11 +15,11 @@ class OLZoomToExtent extends OLControl {
     }
 }
 
-OLZoomToExtent.propTypes = Object.assign({}, OLControl.propTypes, {
+OLZoomToExtent.propTypes = {
     className: PropTypes.string,
     extent: OLPropTypes.Extent,
     label: PropTypes.node,
     tipLabel: PropTypes.string
-})
+}
 
 export default OLZoomToExtent
