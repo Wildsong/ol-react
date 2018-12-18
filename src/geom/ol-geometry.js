@@ -7,16 +7,22 @@ import {Modify} from 'ol/interaction';
 import OLComponent from '../ol-component';
 
 class OLGeometry extends OLComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            geometry: null
+        }
+    }
+
     componentDidMount() {
-        console.log("OLGeometry.componentDidMount()")
-        this.context.feature.setGeometry(this.geometry);
+        //console.log("OLGeometry.componentDidMount() context=", this.context)
+        this.context.feature.setGeometry(this.state.geometry);
         if (typeof this.props.transform === 'function') {
-            this.geometry.applyTransform(this.props.transform);
+            this.state.geometry.applyTransform(this.props.transform);
         }
 
-console.log("OLGeometry Fix map context here")
-/*
         if (this.props.modify) {
+            console.log("FIXME MapContext needed here")
             let interactions = MapContext.map.getInteractions()
             this.interaction = new Modify({
                 features: new Collection([FeatureContext.feature]),
@@ -31,14 +37,13 @@ console.log("OLGeometry Fix map context here")
             }
             interactions.push(this.interaction);
         }
-        */
     }
 
     componentWillUnmount() {
-        console.log("OLGeometry.componentWillUnmount()")
+        //console.log("OLGeometry.componentWillUnmount()")
         if (this.props.modify && this.interaction) {
             console.log("OLGeometry Fix map context here")
-/*            let interactions = MapContext.map.getInteractions()
+            let interactions = MapContext.map.getInteractions()
             if (this.props.modifyStart) {
                 this.interaction.un('modifystart', this.props.modifyStart)
             }
@@ -46,13 +51,12 @@ console.log("OLGeometry Fix map context here")
                 this.interaction.un('modifyend', this.props.modifyEnd);
             }
             interactions.remove(this.interaction);
-            */
         }
-        this.context.setGeometry(undefined);
+        this.context.feature.setGeometry(undefined);
     }
 
     render() {
-        console.log("OLGeometry.render() props=", this.props)
+        //console.log("OLGeometry.render() props=", this.props)
         return (
             <div>
             {this.props.children}

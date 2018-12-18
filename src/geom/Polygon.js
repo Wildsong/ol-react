@@ -7,8 +7,8 @@ import OLGeometry from './ol-geometry';
 class OLPolygon extends OLGeometry {
     constructor(props) {
         super(props);
-        this.geometry = new Polygon(props.children);
-        console.log('polygon props=', props);
+        this.state.geometry = new Polygon(props.children);
+        //console.log('polygon props=', props);
     }
 
     componentWillUnmount() {
@@ -34,10 +34,6 @@ OLPolygon.propTypes = {
     ).isRequired,
     editable: PropTypes.bool,
     modifyEnd: PropTypes.func
-}
-
-OLPolygon.contextTypes = {
-    feature: PropTypes.instanceOf(Feature)
 }
 
 export default OLPolygon

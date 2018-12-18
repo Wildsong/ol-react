@@ -10,11 +10,11 @@ import {buildStyle} from './style';
 class OLFeature extends OLComponent {
     constructor(props) {
         super(props);
-        console.log("OLFeature new() props=", props)
-        this.updateFromProps(props);
+        //console.log("OLFeature new() props=", props)
         this.state = {
             feature: new Feature()
         }
+        this.updateFromProps(props);
         this.state.feature.setId(props.id);
     }
 
@@ -23,33 +23,36 @@ class OLFeature extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLFeature.componentDidMount() source=", this.context.source)
+        //console.log("OLFeature.componentDidMount() source=", this.context.source)
+        this.context.source.addFeature(this.state.feature)
     }
 
     componentWillReceiveProps(newProps) {
-        console.log("OLFeature.componentWillReceiveProps() newProps=", newProps)
+        //console.log("OLFeature.componentWillReceiveProps() newProps=", newProps)
         this.updateFromProps(newProps);
     }
 
     componentWillUnmount() {
-        console.log("OLFeature.componentWillUnmount()")
-        this.state.source.removeFeature(this.feature);
+        //console.log("OLFeature.componentWillUnmount() context=", this.context)
+        this.context.source.removeFeature(this.state.feature);
     }
 
     getGeometry() {
-        return this.feature.getGeometry();
+        return this.state.feature.getGeometry();
     }
 
     render() {
+        //console.log("OLFeature.render() state=", this.state)
         return (
             <div>
-            <FeatureContext.Provider value={{feature: this.feature}}>
+            <FeatureContext.Provider value={{feature: this.state.feature}}>
             {this.props.children}
             </FeatureContext.Provider>
             </div>
         );
     }
 }
+OLFeature.contextType = SourceContext;
 
 OLFeature.propTypes = {
     style: PropTypes.object,

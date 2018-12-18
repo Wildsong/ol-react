@@ -11,10 +11,10 @@ class OLCircle extends OLGeometry {
         if (typeof center === 'number') {
             // center only
             center = props.children;
-            this.geometry = new Circle(center);
+            this.state.geometry = new Circle(center);
         } else {
             let radius = props.children[1];
-            this.geometry = new Circle(center, radius);
+            this.state.geometry = new Circle(center, radius);
         }
     }
 }
@@ -36,9 +36,5 @@ OLCircle.propTypes = {
 //OLCircle.defaultProps = {
 //
 //}
-
-OLCircle.contextTypes = {
-    feature: PropTypes.instanceOf(Feature)
-}
 
 export default OLCircle;

@@ -12,7 +12,7 @@ import OLGeometry from './ol-geometry';
 class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
-        this.geometry = new Point(props);
+        this.state.geometry = new Point(props);
         this.updateFromProps(props);
     }
 
@@ -24,13 +24,13 @@ class OLPoint extends OLGeometry {
         if (props.animate) {
             this.animate(props.children, props.animationLength);
         } else {
-            this.geometry.setCoordinates(this.props.children);
+            this.state.geometry.setCoordinates(this.props.children);
         }
     }
 
     animate(finishCoords, animationLength) {
         let frame = animationLength * 1000;
-        let startCoords = this.geometry.getCoordinates()
+        let startCoords = this.state.geometry.getCoordinates()
         let delta = [finishCoords[0] - startCoords[0], finishCoords[1] - startCoords[1]];
         let finish = null;
         step = (timestamp) => {
@@ -39,10 +39,10 @@ class OLPoint extends OLGeometry {
             }
             if (timestamp < finish) {
                 let progress = 1 - ((finish - timestamp) / frame);
-                this.geometry.setCoordinates([startCoords[0] + (delta[0] * progress), startCoords[1] + (delta[1] * progress)]);
+                this.state.geometry.setCoordinates([startCoords[0] + (delta[0] * progress), startCoords[1] + (delta[1] * progress)]);
                 window.requestAnimationFrame(step);
             } else {
-                this.geometry.setCoordinates(finishCoords);
+                this.state.geometry.setCoordinates(finishCoords);
             }
         }
         window.requestAnimationFrame(step);
@@ -57,10 +57,6 @@ OLPoint.propTypes = {
     children: PropTypes.arrayOf(PropTypes.number).isRequired,
     animate: PropTypes.bool,
     animationLength: PropTypes.number
-}
-
-OLPoint.contextTypes = {
-    feature: PropTypes.instanceOf(Feature)
 }
 
 export default OLPoint;

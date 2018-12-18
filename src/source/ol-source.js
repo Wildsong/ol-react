@@ -14,9 +14,9 @@ class OLSource extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLSource.componentDidMount() context=", this.context);
-        // Issue a callback to set the source on the parent Layer object
-        this.context.onSetSource(this.state.source);
+        //console.log("OLSource.componentDidMount() context=", this.context);
+        // Set the source on the parent Layer object
+        this.context.layer.setSource(this.state.source);
     }
 
     componentWillReceiveProps(newProps) {
@@ -29,11 +29,10 @@ class OLSource extends OLComponent {
     }
 
     render() {
-        console.log("OLSource.render() props", this.props)
-// Pass the source down to our child geometry object they can add themselves to this Feature
+        //console.log("OLSource.render() props", this.props)
         return (
             <div>
-            <SourceContext.Provider value={this.state.source}>
+            <SourceContext.Provider value={{source: this.state.source}}>
             {this.props.children}
             </SourceContext.Provider>
             </div>

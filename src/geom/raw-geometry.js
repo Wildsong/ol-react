@@ -23,8 +23,4 @@ RawGeometry.propTypes = {
   geometry: PropTypes.instanceOf(Geometry).isRequired
 }
 
-RawGeometry.contextTypes = {
-  feature: PropTypes.instanceOf(Feature)
-}
-
 export default RawGeometry

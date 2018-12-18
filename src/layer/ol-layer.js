@@ -10,11 +10,10 @@ import {click, pointerMove} from 'ol/events/condition'
 class OLLayer extends OLComponent {
     constructor(props) {
         super(props)
-//        console.log("OLLayer new() props=", props)
-        this.setSource = this.setSource.bind(this);
+        //console.log("OLLayer new() props=", props)
         this.state = {
-            layer : null
-        }
+            layer: null
+        };
     }
 
     buildLayerProps(props) {
@@ -28,14 +27,8 @@ class OLLayer extends OLComponent {
         }
     }
 
-    setSource(olsource) {
-        // This is called from our child Source component
-//        console.log("OLLayer.setSource(",this.props.name,") olsource=", olsource);
-        this.state.layer.setSource(olsource)
-    }
-
     componentWillReceiveProps(newProps) {
-        console.log("OLLayer willreceiveprops context", this.context);
+        //console.log("OLLayer willreceiveprops context", this.context);
         if (newProps.opacity !== undefined) this.state.layer.setOpacity(newProps.opacity)
         if (newProps.visible !== undefined) this.state.layer.setVisible(newProps.visible)
         if (newProps.extent !== undefined) this.state.layer.setExtent(newProps.extent)
@@ -45,7 +38,7 @@ class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLLayer.componentDidMount context", this.context,  this.state);
+        //console.log("OLLayer.componentDidMount context", this.context,  this);
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({
@@ -79,10 +72,10 @@ class OLLayer extends OLComponent {
     }
 
     render() {
-//        console.log("OLLayer.render props=", this.props.children);
+        //console.log("OLLayer.render props=", this.props.children);
         return (
             <div>
-            <LayerContext.Provider value={{onSetSource:this.setSource}}>
+            <LayerContext.Provider value={{layer: this.state.layer}}>
                 {this.props.children}
             </LayerContext.Provider>
             </div>
