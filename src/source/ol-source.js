@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
+import {SourceContext} from '../source-context'
 import OLComponent from '../ol-component'
 
 class OLSource extends OLComponent {
@@ -14,14 +15,13 @@ class OLSource extends OLComponent {
 
     componentDidMount() {
         console.log("OLSource.componentDidMount() context=", this.context);
+        // Issue a callback to set the source on the parent Layer object
         this.context.onSetSource(this.state.source);
     }
 
     componentWillReceiveProps(newProps) {
         console.log("OLSource.componentWillReceiveProps() newprops", newProps)
-        this.source = this._createSourceFromProps(newProps)
-        //LayerContext.source = this.source
-        //LayerContext.layer.setSource(this.source)
+        this.state.source = this._createSourceFromProps(newProps)
     }
 
     _createSourceFromProps(props) {
@@ -29,10 +29,13 @@ class OLSource extends OLComponent {
     }
 
     render() {
-//        console.log("OLSource.render() props", this.props, " context=", this.context)
+        console.log("OLSource.render() props", this.props)
+// Pass the source down to our child geometry object they can add themselves to this Feature
         return (
             <div>
+            <SourceContext.Provider value={this.state.source}>
             {this.props.children}
+            </SourceContext.Provider>
             </div>
         );
     }

@@ -1,6 +1,4 @@
-import React from 'react';
-
-const FeatureContext = React.createContext(
-);
-
-export default FeatureContext;
+import React from 'react'
+export const FeatureContext = React.createContext({
+    onSetGeometry: ()=>{}
+});

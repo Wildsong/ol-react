@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import {MapContext} from './src/map-context';
 import {Map, View, Feature, control, geom, layer, source} from './src';
 import apiKeys from './apikeys';
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM';
@@ -56,43 +55,39 @@ class App extends Component {
 
         return (
             <div>
-
             <h1>{this.props.title}</h1>
-
             <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
             {/*
-            <div id="external_control">
-                <control.Zoom/>
-            </div>
+                <div id="external_control">
+                    <control.Zoom/>
+                </div>
 */}
-            <h2>Sources</h2>
-            <ul>
-                <li>Tile Source: ArcGIS REST sample: United States map</li>
-                <li>Source OSM: OpenStreetMap of the world</li>
-                <li>XYZ tiles: ESRI world street map</li>
-            </ul>
-            <ul>
-                <li>Vector source</li>
-                    <ul>
-                    <li> Point: small green circle near Astor Column</li>
-                    <li> Circle: big circle around Astoria </li>
-                    <li> LineString: yellow line near Astoria</li>
-                    <li> Polygon: triangle with a triangle hole inside it</li>
-                    </ul>
-            </ul>
-
+                <h2>Sources</h2>
+                <ul>
+                    <li>Tile Source: ArcGIS REST sample: United States map</li>
+                    <li>Source OSM: OpenStreetMap of the world</li>
+                    <li>XYZ tiles: ESRI world street map</li>
+                </ul>
+                <ul>
+                    <li>Vector source</li>
+                        <ul>
+                        <li> Point: small green circle near Astor Column</li>
+                        <li> Circle: big circle around Astoria </li>
+                        <li> LineString: yellow line near Astoria</li>
+                        <li> Polygon: triangle with a triangle hole inside it</li>
+                        </ul>
+                </ul>
 
                 <layer.Tile opacity={0.5}>
-                <source.OSM attributions={attributions}/>
+                    <source.OSM attributions={attributions}/>
                 </layer.Tile>
 
-{/*                <layer.Tile opacity={0.3}>
+                <layer.Tile opacity={0.3}>
                     <source.XYZ
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                      />
                 </layer.Tile>
-
 
                 <layer.Tile opacity={0.5}>
                     <source.TileWMS
@@ -135,9 +130,21 @@ class App extends Component {
                                 {[1835, -910]}
                             </geom.Point>
                         </Feature>
+{/*
+    Implement and test...
+                        <Feature id="test-point" style={pointStyle}>
+                        <geom.MultiPoint transform={transformfn}>{[
+                            [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                            [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                        ]}</geom.MultiPoint>
+                        </Feature>
+                        Test MultiLineString
+                        Test MultiPolygon
+                        Test GeometryCollection
+*/}
                     </source.Vector>
                 </layer.Vector>
-*/}
+
                 {/*
          not planning on using Bing so have not tested it yet
             <h2>Source: BingMaps</h2>
@@ -155,7 +162,7 @@ class App extends Component {
             <control.ZoomSlider />
         */}
 
-        </Map>
+            </Map>
             </div>
         );
     }

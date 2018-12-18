@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapContext from '../map-context';
-import FeatureContext from '../feature-context';
+import {MapContext} from '../map-context';
+import {FeatureContext} from '../feature-context';
 import {Collection} from 'ol';
 import {Modify} from 'ol/interaction';
 import OLComponent from '../ol-component';
 
 class OLGeometry extends OLComponent {
     componentDidMount() {
-        console.log("OLGeometry componentDidMount")
-        FeatureContext.feature.setGeometry(this.geometry);
+        console.log("OLGeometry.componentDidMount()")
+        this.context.feature.setGeometry(this.geometry);
         if (typeof this.props.transform === 'function') {
             this.geometry.applyTransform(this.props.transform);
         }
 
+console.log("OLGeometry Fix map context here")
+/*
         if (this.props.modify) {
             let interactions = MapContext.map.getInteractions()
             this.interaction = new Modify({
@@ -29,11 +31,14 @@ class OLGeometry extends OLComponent {
             }
             interactions.push(this.interaction);
         }
+        */
     }
 
     componentWillUnmount() {
+        console.log("OLGeometry.componentWillUnmount()")
         if (this.props.modify && this.interaction) {
-            let interactions = MapContext.map.getInteractions()
+            console.log("OLGeometry Fix map context here")
+/*            let interactions = MapContext.map.getInteractions()
             if (this.props.modifyStart) {
                 this.interaction.un('modifystart', this.props.modifyStart)
             }
@@ -41,10 +46,21 @@ class OLGeometry extends OLComponent {
                 this.interaction.un('modifyend', this.props.modifyEnd);
             }
             interactions.remove(this.interaction);
+            */
         }
-        FeatureContext.feature.setGeometry(undefined);
+        this.context.setGeometry(undefined);
+    }
+
+    render() {
+        console.log("OLGeometry.render() props=", this.props)
+        return (
+            <div>
+            {this.props.children}
+            </div>
+        );
     }
 }
+OLGeometry.contextType = FeatureContext;
 
 OLGeometry.propTypes = {
     modify: PropTypes.bool,
