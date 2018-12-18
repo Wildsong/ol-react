@@ -55,8 +55,11 @@ image: {
  * Vector
 * Feature
 * Geometry
+ * Circle
  * LineString
+ * MultiPoint
  * Point
+ * Polygon
 * Map
 * View
 * Style (needs more tests)
@@ -84,7 +87,7 @@ image: {
  * BingMaps
  * Tile WMS
 * Geometry
- * Point animation
+ * Point and MultiPoint animation
  * Polygons
 * Overlay - not sure what this even is right now
 
