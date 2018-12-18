@@ -119,10 +119,12 @@ class App extends Component {
                         </Feature>
 
                         <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon transform={transformfn}>{[
-                                [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
-                                [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
-                            ]}</geom.Polygon>
+                            <geom.Polygon transform={transformfn}>
+                                {[
+                                    [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                                    [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                                ]}
+                            </geom.Polygon>
                         </Feature>
 
                         <Feature id="test-point" style={pointStyle}>
@@ -130,18 +132,19 @@ class App extends Component {
                                 {[1835, -910]}
                             </geom.Point>
                         </Feature>
-{/*
-    Implement and test...
-                        <Feature id="test-point" style={pointStyle}>
-                        <geom.MultiPoint transform={transformfn}>{[
-                            [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
-                            [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
-                        ]}</geom.MultiPoint>
+
+                        <Feature id="test-multipoint" style={pointStyle}>
+                            <geom.MultiPoint transform={transformfn}>
+                                { [[-6000, -4000], [6000, -3000], [0, 6400]] }
+                            </geom.MultiPoint>
                         </Feature>
+
+                        {/*
+    Implement and test...
                         Test MultiLineString
                         Test MultiPolygon
                         Test GeometryCollection
-*/}
+                        */}
                     </source.Vector>
                 </layer.Vector>
 
