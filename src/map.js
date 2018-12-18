@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {MapContext} from './map-context';
-import {Map} from 'ol';
-//import Map from 'ol/WebGLMap';
+//import {Map} from 'ol';
+import Map from 'ol/WebGLMap'; // Maybe this works better with vector maps?
 import {toLatLon} from 'ol/proj';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls} from 'ol/control';
