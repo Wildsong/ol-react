@@ -4,7 +4,7 @@ import OLPropTypes from '../ol-proptypes'
 import {ZoomToExtent} from 'ol/control';
 import OLControl from './ol-control';
 
-class OLZoomToExtent extends OLControl {
+export default class OLZoomToExtent extends OLControl {
     createControl (props) {
         return new ZoomToExtent({
             className: props.className,
@@ -17,9 +17,7 @@ class OLZoomToExtent extends OLControl {
 
 OLZoomToExtent.propTypes = {
     className: PropTypes.string,
-    extent: OLPropTypes.Extent,
+    extent: PropTypes.arrayOf(PropTypes.number),
     label: PropTypes.node,
     tipLabel: PropTypes.string
 }
-
-export default OLZoomToExtent

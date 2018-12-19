@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {ZoomSlider} from 'ol/control';
 import OLControl from './ol-control';
 
-class OLZoomSlider extends OLControl {
+export default class OLZoomSlider extends OLControl {
   createControl (props) {
     return new ZoomSlider({
       className: props.className,
@@ -20,5 +20,3 @@ OLZoomSlider.propTypes = Object.assign({}, OLControl.propTypes, {
   maxResolution: PropTypes.number,
   minResolution: PropTypes.number
 })
-
-export default OLZoomSlider

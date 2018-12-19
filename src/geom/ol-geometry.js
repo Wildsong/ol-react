@@ -55,6 +55,7 @@ class OLGeometry extends OLComponent {
         this.context.feature.setGeometry(undefined);
     }
 
+/*
     render() {
         //console.log("OLGeometry.render() props=", this.props)
         return (
@@ -63,6 +64,7 @@ class OLGeometry extends OLComponent {
             </div>
         );
     }
+*/
 }
 OLGeometry.contextType = FeatureContext;
 

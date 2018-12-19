@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import {MapContext} from '../map-context';
 import OLComponent from '../ol-component';
 
-class OLControl extends OLComponent {
+export default class OLControl extends OLComponent {
     constructor(props) {
         super(props);
         this.control = this.createControl(props)
     }
 
     componentDidMount() {
+        console.log("OLControl.componentDidMount", this.context);
         this.context.map.addControl(this.control)
     }
 
@@ -32,5 +33,3 @@ OLControl.propTypes = {
 
 OLControl.defaultProps = {
 }
-
-export default OLControl;

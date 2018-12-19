@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {MapContext} from './map-context';
-//import {Map} from 'ol';
-import Map from 'ol/WebGLMap'; // Maybe this works better with vector maps?
+import {Map} from 'ol';
+//import Map from 'ol/WebGLMap'; // generates cross-origin errors
 import {toLatLon} from 'ol/proj';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls} from 'ol/control';
@@ -51,13 +51,11 @@ class OLMap extends Component {
         return (
             <div style={this.props.style}>
             <MapContext.Provider value={{map: this.map}}>
-                <div ref="target" style={{ width: '100%', height: '100%' }}>
-                This is not a map.
-                </div>
                 <div>
                     {this.props.children}
                     {this.props.view}
                 </div>
+                <div ref="target" style={{ width: '100%', height: '100%' }}></div>
             </MapContext.Provider>
             </div>
         )

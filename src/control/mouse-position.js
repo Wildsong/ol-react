@@ -4,7 +4,7 @@ import {MousePosition} from 'ol/control';
 import {Projection} from 'ol/proj';
 import OLControl from './ol-control';
 
-class OLMousePosition extends OLControl {
+export default class OLMousePosition extends OLControl {
   createControl (props) {
     return new MousePosition({
       className: props.className,
@@ -24,5 +24,3 @@ OLMousePosition.propTypes = Object.assign({}, OLControl.propTypes, {
   ]),
   undefinedHTML: PropTypes.string
 })
-
-export default OLMousePosition

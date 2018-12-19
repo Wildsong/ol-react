@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Zoom} from 'ol/control';
-import OLControl from './ol-control';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Zoom} from 'ol/control'
+import OLControl from './ol-control'
 
-class OLZoom extends OLControl {
+export default class OLZoom extends OLControl {
 
     createControl (props) {
         this.zoomControl = new Zoom({

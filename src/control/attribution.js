@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Attribution} from 'ol/control';
-import OLControl from './ol-control';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Attribution} from 'ol/control'
+import OLControl from './ol-control'
 
-class OLAttribution extends OLControl {
+export default class OLAttribution extends OLControl {
   createControl (props) {
       console.log("control.Attribution props=", props)
     return new Attribution({
@@ -25,5 +25,3 @@ OLAttribution.propTypes = Object.assign({}, OLControl.propTypes, {
   label: PropTypes.node,
   tipLabel: PropTypes.string
 })
-
-export default OLAttribution

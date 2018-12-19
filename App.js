@@ -56,13 +56,8 @@ class App extends Component {
         return (
             <div>
             <h1>{this.props.title}</h1>
-            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
-            {/*
-                <div id="external_control">
-                    <control.Zoom/>
-                </div>
-*/}
-                <h2>Sources</h2>
+
+            <h2>Sources</h2>
                 <ul>
                     <li>Tile Source: ArcGIS REST sample: United States map</li>
                     <li>Source OSM: OpenStreetMap of the world</li>
@@ -78,6 +73,7 @@ class App extends Component {
                         </ul>
                 </ul>
 
+            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
                 <layer.Tile opacity={0.5}>
                     <source.OSM attributions={attributions}/>
                 </layer.Tile>
@@ -149,6 +145,7 @@ class App extends Component {
                     </source.Vector>
                 </layer.Vector>
 
+
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
                 <control.MousePosition projection={wgs84}/>
@@ -177,6 +174,5 @@ class App extends Component {
 App.propTypes = {
     "title": PropTypes.string.isRequired
 };
-
 
 export default App;

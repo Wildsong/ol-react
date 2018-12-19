@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FullScreen} from 'ol/control';
-import OLControl from './ol-control';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {FullScreen} from 'ol/control'
+import OLControl from './ol-control'
 
 export default class OLFullScreen extends OLControl {
   createControl (props) {

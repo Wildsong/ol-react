@@ -7,10 +7,11 @@ import {PropTypes} from 'prop-types'
 let OLPropTypes = {}
 
 /*
- * Custom validator funciton for ol.Extent (an array of four numbers).
+ * Custom validator function for ol.Extent (an array of four numbers).
  */
 OLPropTypes.Extent = function(props, propName, componentName) {
   if (
+      // This cannot be a function call anymore. It throws a warning
     PropTypes.arrayOf(PropTypes.number)(props, propName, componentName) instanceof Error ||
     props[propName].length !== 4
   ) {

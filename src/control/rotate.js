@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Rotate} from 'ol/control';
 import OLControl from './ol-control';
 
-class OLRotate extends OLControl {
+export default class OLRotate extends OLControl {
   createControl (props) {
     return new Rotate({
       autoHide: props.autoHide,
@@ -24,5 +24,3 @@ OLRotate.propTypes = Object.assign({}, OLControl.propTypes, {
   resetNorth: PropTypes.func,
   tipLabel: PropTypes.string
 })
-
-export default OLRotate

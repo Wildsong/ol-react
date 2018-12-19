@@ -4,7 +4,7 @@ import {ScaleLine} from 'ol/control';
 import OLControl from './ol-control';
 import {enumScaleLineUnits} from './scale-line-units'
 
-class OLScaleLine extends OLControl {
+export default class OLScaleLine extends OLControl {
 
     createControl (props) {
         return new ScaleLine({
@@ -20,5 +20,3 @@ OLScaleLine.propTypes = Object.assign({}, OLControl.propTypes, {
     minWidth: PropTypes.number,
     units: PropTypes.oneOf(enumScaleLineUnits)
 })
-
-export default OLScaleLine;

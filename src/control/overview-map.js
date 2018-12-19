@@ -5,7 +5,7 @@ import {OverviewMap} from 'ol/control';
 import {Layer} from 'ol/layer';
 import OLControl from './ol-control';
 
-class OLOverviewMap extends OLControl {
+export default class OLOverviewMap extends OLControl {
   createControl (props) {
     return new OverviewMap({
       className: props.className,
@@ -33,5 +33,3 @@ OLOverviewMap.propTypes = Object.assign({}, OLControl.propTypes, {
   tipLabel: PropTypes.string,
   view: PropTypes.instanceOf(View)
 })
-
-export default OLOverviewMap
