@@ -14,7 +14,7 @@ class OLSource extends OLComponent {
     }
 
     componentDidMount() {
-        //console.log("OLSource.componentDidMount() context=", this.context);
+        console.log("OLSource.componentDidMount() context=", this.context);
         // Set the source on the parent Layer object
         this.context.layer.setSource(this.state.source);
     }

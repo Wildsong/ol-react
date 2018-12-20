@@ -23,7 +23,7 @@ class OLFeature extends OLComponent {
     }
 
     componentDidMount() {
-        //console.log("OLFeature.componentDidMount() source=", this.context.source)
+        console.log("OLFeature.componentDidMount() source=", this.context.source)
         this.context.source.addFeature(this.state.feature)
     }
 

@@ -37,5 +37,3 @@ OLZoom.propTypes = Object.assign({}, OLControl.propTypes, {
 OLZoom.defaultProps = {
     duration: 250
 }
-
-export default OLZoom

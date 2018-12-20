@@ -15,14 +15,13 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidMount() {
-        //console.log("OLGeometry.componentDidMount() context=", this.context)
+        console.log("OLGeometry.componentDidMount() context=", this.context)
         this.context.feature.setGeometry(this.state.geometry);
         if (typeof this.props.transform === 'function') {
             this.state.geometry.applyTransform(this.props.transform);
         }
 
         if (this.props.modify) {
-            console.log("FIXME MapContext needed here")
             let interactions = MapContext.map.getInteractions()
             this.interaction = new Modify({
                 features: new Collection([FeatureContext.feature]),

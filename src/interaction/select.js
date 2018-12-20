@@ -1,19 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Select as olSelect} from 'ol/interaction';
-import OLInteraction from './ol-interaction';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Select} from 'ol/interaction'
+import {Collection} from 'ol'
+import OLInteraction from './ol-interaction'
 
-export default class Select extends OLInteraction {
+export default class OLSelect extends OLInteraction {
   createInteraction (props) {
-    return new olSelect({
+    return new Select({
       condition: props.condition
     })
   }
 }
 
-Select.propTypes = Object.assign({}, OLInteraction.propTypes, {
+OLSelect.propTypes = Object.assign({}, OLInteraction.propTypes, {
   condition: PropTypes.func,
-  select: PropTypes.func
+  select: PropTypes.func,
+  features: PropTypes.instanceOf(Collection)
 })
 
-Select.olEvents = ["select"]
+OLSelect.olEvents = ["select"]

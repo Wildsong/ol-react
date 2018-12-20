@@ -38,7 +38,7 @@ class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
-        //console.log("OLLayer.componentDidMount context", this.context,  this);
+        console.log("OLLayer.componentDidMount context", this.context,  this);
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({

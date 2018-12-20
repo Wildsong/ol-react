@@ -60,6 +60,9 @@ image: {
  * MultiPoint
  * Point
  * Polygon
+* Interactions
+ * double click zoom
+
 * Map
 * View
 * Style (needs more tests)

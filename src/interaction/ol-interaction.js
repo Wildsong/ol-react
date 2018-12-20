@@ -1,25 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Map} from 'ol';
-import OLComponent from '../ol-component';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from '../map-context'
+import OLComponent from '../ol-component'
 
 export default class OLInteraction extends OLComponent {
-  constructor (props) {
-    super(props);
-    this.interaction = this.createInteraction(props)
-    this.eventHandlerKeys_ = {}
-  }
+    constructor (props) {
+        super(props);
+        console.log("OLInteraction.new() props=", props)
+        this.interaction = this.createInteraction(props)
+        this.eventHandlerKeys_ = {}
+    }
 
-  componentDidMount () {
-    this.updateActiveState_(this.props)
-    this.updateEventHandlersFromProps_(this.props)
-    this.context.map.addInteraction(this.interaction)
-  }
+    componentDidMount () {
+        console.log("OLInteraction.componentDidMount() context=", this.context)
+        this.updateActiveState_(this.props)
+        this.updateEventHandlersFromProps_(this.props)
+        this.context.map.addInteraction(this.interaction)
+    }
 
-  componentWillReceiveProps (newProps) {
-    this.updateActiveState_(newProps)
-    this.updateEventHandlersFromProps_(newProps, this.props)
-  }
+    componentWillReceiveProps (newProps) {
+        this.updateActiveState_(newProps)
+        this.updateEventHandlersFromProps_(newProps, this.props)
+    }
 
   componentWillUnmount () {
     this.context.map.removeInteraction(this.interaction)
@@ -61,15 +63,12 @@ export default class OLInteraction extends OLComponent {
     }
   }
 }
+OLInteraction.contextType = MapContext;
 
 OLInteraction.propTypes = {
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool
 }
 
 OLInteraction.defaultProps = {
   active: true
-}
-
-OLInteraction.contextTypes = {
-  map: PropTypes.instanceOf(Map)
 }

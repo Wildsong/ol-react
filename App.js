@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import {Map, View, Feature, control, geom, layer, source} from './src';
+import {Map, View, Feature, control, geom, interaction, layer, source} from './src';
 import apiKeys from './apikeys';
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM';
 import {transform} from 'ol/proj';
@@ -74,6 +74,8 @@ class App extends Component {
                 </ul>
 
             <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+
+{/*
                 <layer.Tile opacity={0.5}>
                     <source.OSM attributions={attributions}/>
                 </layer.Tile>
@@ -97,9 +99,10 @@ class App extends Component {
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                         attributions={attributions} />
                 </layer.Tile>
-
+*/}
                 <layer.Vector style={polyStyle}>
                     <source.Vector>
+                    {/*
                         <Feature id="test-line" style={lineStyle}>
                             <geom.LineString transform={transformfn} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
@@ -113,16 +116,16 @@ class App extends Component {
                         <Feature id="test-circle-zeroradius" style={polyStyle}>
                             <geom.Circle transform={transformfn}>{[6000,0]}</geom.Circle>
                         </Feature>
-
+*/}
                         <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon transform={transformfn}>
+                            <geom.Polygon transform={transformfn} modify={false}>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                     [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
                                 ]}
                             </geom.Polygon>
                         </Feature>
-
+{/*
                         <Feature id="test-point" style={pointStyle}>
                             <geom.Point transform={transformfn}>
                                 {[1835, -910]}
@@ -134,7 +137,7 @@ class App extends Component {
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
-
+*/}
 
                         {/*
     Implement and test...
@@ -145,6 +148,7 @@ class App extends Component {
                     </source.Vector>
                 </layer.Vector>
 
+                {/*
 
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
@@ -155,6 +159,26 @@ class App extends Component {
                 <control.Zoom />
                 <control.ZoomSlider />
                 <control.ZoomToExtent />
+
+                <interaction.DoubleClickZoom />
+                <interaction.DragBox />
+                <interaction.DragPan />
+                <interaction.DragRotate />
+                <interaction.DragRotateAndZoom />
+                <interaction.DragZoom />
+                <interaction.Draw />
+                <interaction.KeyboardPan />
+                <interaction.KeyboardZoom />
+                <interaction.MouseWheelZoom />
+                <interaction.PinchRotate />
+                <interaction.PinchZoom />
+
+                No need to declare Modify explicitly.
+                When you create a geometry and set modify=true on it
+                then the ol-geometry will automatically set up a modify interaction
+            <interaction.Modify features={selected_features}/>
+            <interaction.Select/>
+                */}
 
                 {/*
          not planning on using Bing so have not tested it yet
