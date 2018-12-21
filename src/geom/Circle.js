@@ -7,6 +7,7 @@ import OLGeometry from './ol-geometry';
 class OLCircle extends OLGeometry {
     constructor(props) {
         super(props);
+
         let center = props.children[0];
         if (typeof center === 'number') {
             // center only

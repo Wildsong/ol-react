@@ -6,8 +6,8 @@ import OLComponent from '../ol-component'
 export default class OLInteraction extends OLComponent {
     constructor (props) {
         super(props);
-        console.log("OLInteraction.new() props=", props)
-        this.interaction = this.createInteraction(props)
+        console.log("OLInteraction.new() props=", this.props)
+        this.interaction = this.createInteraction(this.props)
         this.eventHandlerKeys_ = {}
     }
 

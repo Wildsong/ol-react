@@ -6,7 +6,7 @@ import OLComponent from '../ol-component';
 export default class OLControl extends OLComponent {
     constructor(props) {
         super(props);
-        this.control = this.createControl(props)
+        this.control = this.createControl(this.props)
     }
 
     componentDidMount() {

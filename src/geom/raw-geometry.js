@@ -4,7 +4,7 @@ import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import OLGeometry from './ol-geometry';
 
-class RawGeometry extends OLGeometry {
+export default class RawGeometry extends OLGeometry {
   /*
    * Allows combining a ol.geom.Geometry class with ol- Useful if you have
    * retrieved the object from somewhere else, and don't want to convert back
@@ -22,5 +22,3 @@ class RawGeometry extends OLGeometry {
 RawGeometry.propTypes = {
   geometry: PropTypes.instanceOf(Geometry).isRequired
 }
-
-export default RawGeometry

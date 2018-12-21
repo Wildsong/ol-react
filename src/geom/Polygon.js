@@ -4,11 +4,11 @@ import {Feature} from 'ol';
 import Polygon from 'ol/geom/Polygon';
 import OLGeometry from './ol-geometry';
 
-class OLPolygon extends OLGeometry {
+export default class OLPolygon extends OLGeometry {
     constructor(props) {
         super(props);
-        this.state.geometry = new Polygon(props.children);
-        //console.log('polygon props=', props);
+        this.state.geometry = new Polygon(this.props.children);
+        //console.log('polygon props=', this.props);
     }
 
     componentWillUnmount() {
@@ -35,5 +35,3 @@ OLPolygon.propTypes = {
     editable: PropTypes.bool,
     modifyEnd: PropTypes.func
 }
-
-export default OLPolygon

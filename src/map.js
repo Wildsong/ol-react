@@ -57,7 +57,8 @@ class OLMap extends Component {
                     {this.props.children}
                     {this.props.view}
                 </div>
-                <div ref="target" style={{ width: '100%', height: '100%' }}></div>
+                <div ref="target" className='ol-react-map'>
+                </div>
             </MapContext.Provider>
             </div>
         )

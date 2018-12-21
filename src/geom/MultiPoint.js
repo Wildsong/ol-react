@@ -7,12 +7,13 @@ import OLGeometry from './ol-geometry';
 class OLMultiPoint extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log("OLMultiPoint.new() props=", props)
-        this.state.geometry = new MultiPoint(props.children, props.layout);
-        this.updateFromProps(props);
+        console.log("OLMultiPoint.new() props=", this.props)
+        this.state.geometry = new MultiPoint(this.props.children, this.props.layout);
+        this.updateFromProps(this.props);
     }
 
     shouldComponentUpdate(nextProps) {
+        // I'd like to know why this is here, seems redundant to me.
         return this.props.children != nextProps.children
     }
 
@@ -43,10 +44,6 @@ class OLMultiPoint extends OLGeometry {
             }
         }
         window.requestAnimationFrame(step);
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.updateFromProps(newProps);
     }
 }
 

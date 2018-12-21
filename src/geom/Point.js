@@ -12,11 +12,12 @@ import OLGeometry from './ol-geometry';
 class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
-        this.state.geometry = new Point(props);
-        this.updateFromProps(props);
+        this.state.geometry = new Point(this.props);
+        this.updateFromProps(this.props);
     }
 
     shouldComponentUpdate(nextProps) {
+        // I'd like to know why this is here, seems redundant to me.
         return this.props.children != nextProps.children
     }
 

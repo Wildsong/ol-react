@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {MapContext} from './map-context';
-import {Map, View} from 'ol';
-import OLComponent from './ol-component';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from './map-context'
+import {Map, View} from 'ol'
+import OLComponent from './ol-component'
 
-class OLView extends OLComponent {
+export default class OLView extends OLComponent {
     constructor(props) {
         super(props);
         var opts = {
@@ -80,5 +80,3 @@ OLView.defaultProps = {
     initialZoom: 0,
     initialRotation: 0
 }
-
-export default OLView

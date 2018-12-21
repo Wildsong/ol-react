@@ -23,6 +23,11 @@ class OLGeometry extends OLComponent {
             this.state.geometry.applyTransform(this.props.transform);
         }
 
+// FIXME putting this here means that you can't turn on modify later.
+// It needs to move to an updateFromProps() method
+// and there needs to be a test to see if there is already a
+// modify interaction or we need to throw away the modify
+// when we turn the flag off.
         if (this.props.modify) {
             let interactions = this.context.map.getInteractions()
 
@@ -41,6 +46,11 @@ class OLGeometry extends OLComponent {
         }
     }
 
+    componentWillReceiveProps(newProps) {
+        console.log("OLGeometry.componentWillReceiveProps() newProps=", newProps)
+        this.updateFromProps(newProps);
+    }
+
     componentWillUnmount() {
         //console.log("OLGeometry.componentWillUnmount()")
         if (this.props.modify && this.interaction) {
@@ -55,6 +65,11 @@ class OLGeometry extends OLComponent {
             interactions.remove(this.interaction);
         }
         this.context.feature.setGeometry(undefined);
+    }
+
+    updateFromProps(props) {
+        console.log("OLGeometry.updateFromProps() props=", props)
+        //throw("You need to override updateFromProps in your geometry class.")
     }
 
 /*
