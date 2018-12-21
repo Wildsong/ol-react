@@ -32,9 +32,16 @@ let pi = 3.1416;
 class App extends Component {
     constructor(props) {
         super(props)
+        this.toggleModify = this.toggleModify.bind(this);
         this.state = {
+            enableModify: false
         }
     }
+
+    toggleModify() {
+        this.setState( {enableModify: !this.state.enableModify} );
+    }
+
     render(props) {
         let pointStyle = {
             image: {
@@ -75,13 +82,14 @@ class App extends Component {
                         </ul>
                 </ul>
 
+                <button onClick={this.toggleModify} />
+
             <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
 
-{/*
                 <layer.Tile opacity={0.5}>
                     <source.OSM attributions={attributions}/>
                 </layer.Tile>
-
+{/*
                 <layer.Tile opacity={0.3}>
                     <source.XYZ
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
@@ -105,21 +113,21 @@ class App extends Component {
                 <layer.Vector style={polyStyle}>
                     <source.Vector>
                         <Feature id="test-line" style={lineStyle}>
-                            <geom.LineString transform={transformfn} layout="XY">
+                            <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
 
-                        <Feature id="test-circle" modify={true} style={polyStyle}>
-                            <geom.Circle>{[astoria_wm, 4000]}</geom.Circle>
+                        <Feature id="test-circle" style={polyStyle}>
+                            <geom.Circle modify={this.state.enableModify} >{[astoria_wm, 4000]}</geom.Circle>
                         </Feature>
 
-                        <Feature id="test-circle-zeroradius" modify={true} style={polyStyle}>
-                            <geom.Circle transform={transformfn}>{[6000,0]}</geom.Circle>
+                        <Feature id="test-circle-zeroradius" style={polyStyle}>
+                            <geom.Circle transform={transformfn} modify={this.state.enableModify} >{[6000,0]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon transform={transformfn} modify={true} insertVertexCondition={ ()=>{return true;} }>
+                            <geom.Polygon transform={transformfn} modify={this.state.enableModify} insertVertexCondition={ ()=>{return true;} }>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                     [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
@@ -128,28 +136,29 @@ class App extends Component {
                         </Feature>
 
                         <Feature id="test-point" style={pointStyle}>
-                            <geom.Point transform={transformfn}>
+                            <geom.Point transform={transformfn} modify={this.state.enableModify} >
                                 {[1835, -910]}
                             </geom.Point>
                         </Feature>
 
                         <Feature id="test-multipoint" style={pointStyle}>
-                            <geom.MultiPoint transform={transformfn}>
+                            <geom.MultiPoint transform={transformfn} modify={this.state.enableModify} >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
 
                         {/*
     Implement and test...
-                        Test MultiLineString
-                        Test MultiPolygon
-                        Test GeometryCollection
+                         MultiLineString
+                         MultiPolygon
+                         GeometryCollection
                         */}
                     </source.Vector>
                 </layer.Vector>
 
-                {/*
+                <interaction.Select/>
 
+                {/*
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                 <control.FullScreen />
                 <control.MousePosition projection={wgs84}/>
@@ -177,7 +186,6 @@ class App extends Component {
                 When you create a geometry and set modify=true on it
                 then the ol-geometry will automatically set up a modify interaction
             <interaction.Modify features={selected_features}/>
-            <interaction.Select/>
                 */}
 
                 {/*
