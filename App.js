@@ -1,3 +1,5 @@
+// App.js ol-react
+//
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -102,30 +104,29 @@ class App extends Component {
 */}
                 <layer.Vector style={polyStyle}>
                     <source.Vector>
-                    {/*
                         <Feature id="test-line" style={lineStyle}>
                             <geom.LineString transform={transformfn} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
 
-                        <Feature id="test-circle" style={polyStyle}>
+                        <Feature id="test-circle" modify={true} style={polyStyle}>
                             <geom.Circle>{[astoria_wm, 4000]}</geom.Circle>
                         </Feature>
 
-                        <Feature id="test-circle-zeroradius" style={polyStyle}>
+                        <Feature id="test-circle-zeroradius" modify={true} style={polyStyle}>
                             <geom.Circle transform={transformfn}>{[6000,0]}</geom.Circle>
                         </Feature>
-*/}
+
                         <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon transform={transformfn} modify={false}>
+                            <geom.Polygon transform={transformfn} modify={true} insertVertexCondition={ ()=>{return true;} }>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                     [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
                                 ]}
                             </geom.Polygon>
                         </Feature>
-{/*
+
                         <Feature id="test-point" style={pointStyle}>
                             <geom.Point transform={transformfn}>
                                 {[1835, -910]}
@@ -137,7 +138,6 @@ class App extends Component {
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
-*/}
 
                         {/*
     Implement and test...

@@ -23,7 +23,7 @@ class OLFeature extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLFeature.componentDidMount() source=", this.context.source)
+        //console.log("OLFeature.componentDidMount() source=", this.context.source)
         this.context.source.addFeature(this.state.feature)
     }
 
@@ -45,7 +45,10 @@ class OLFeature extends OLComponent {
         //console.log("OLFeature.render() state=", this.state)
         return (
             <div>
-            <FeatureContext.Provider value={{feature: this.state.feature}}>
+            <FeatureContext.Provider value={{
+                feature: this.state.feature,
+                map: this.context.map
+            }}>
             {this.props.children}
             </FeatureContext.Provider>
             </div>

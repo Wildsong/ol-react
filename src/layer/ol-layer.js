@@ -75,7 +75,10 @@ class OLLayer extends OLComponent {
         //console.log("OLLayer.render props=", this.props.children);
         return (
             <div>
-            <LayerContext.Provider value={{layer: this.state.layer}}>
+            <LayerContext.Provider value={{
+                map  : this.context.map,
+                layer: this.state.layer
+            }}>
                 {this.props.children}
             </LayerContext.Provider>
             </div>

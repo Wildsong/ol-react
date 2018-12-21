@@ -32,7 +32,10 @@ class OLSource extends OLComponent {
         //console.log("OLSource.render() props", this.props)
         return (
             <div>
-            <SourceContext.Provider value={{source: this.state.source}}>
+            <SourceContext.Provider value={{
+                source: this.state.source,
+                map: this.context.map
+            }}>
             {this.props.children}
             </SourceContext.Provider>
             </div>

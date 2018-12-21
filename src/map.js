@@ -1,3 +1,5 @@
+// map.js ol-react
+//
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {MapContext} from './map-context';

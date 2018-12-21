@@ -1,3 +1,5 @@
+// ol-geometry.js ol-react
+//
 import React from 'react';
 import PropTypes from 'prop-types';
 import {MapContext} from '../map-context';
@@ -15,17 +17,18 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLGeometry.componentDidMount() context=", this.context)
+        //console.log("OLGeometry.componentDidMount() props=", this.props)
         this.context.feature.setGeometry(this.state.geometry);
         if (typeof this.props.transform === 'function') {
             this.state.geometry.applyTransform(this.props.transform);
         }
 
         if (this.props.modify) {
-            let interactions = MapContext.map.getInteractions()
+            let interactions = this.context.map.getInteractions()
+
             this.interaction = new Modify({
-                features: new Collection([FeatureContext.feature]),
-                //insertVertexCondition: this.props.insertVertexCondition
+                features: new Collection([this.context.feature]),
+                insertVertexCondition: this.props.insertVertexCondition
                 // Note; as of 27/06/2017, insertVertexCondition is in 4.2.0 of OpenLayers, we can't upgrade yet as the @types package hasn't been updated
             })
             if (this.props.modifyStart) {
@@ -42,7 +45,7 @@ class OLGeometry extends OLComponent {
         //console.log("OLGeometry.componentWillUnmount()")
         if (this.props.modify && this.interaction) {
             console.log("OLGeometry Fix map context here")
-            let interactions = MapContext.map.getInteractions()
+            let interactions = this.context.map.getInteractions()
             if (this.props.modifyStart) {
                 this.interaction.un('modifystart', this.props.modifyStart)
             }
