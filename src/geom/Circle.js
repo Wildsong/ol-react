@@ -28,8 +28,8 @@ class OLCircle extends OLGeometry {
 
 OLCircle.propTypes = {
     children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.number),
-        PropTypes.node // [[x,y],radius]
+        PropTypes.arrayOf(PropTypes.number),  // [x,y]
+        PropTypes.node                        // [[x,y], radius]
     ]).isRequired,
 }
 
