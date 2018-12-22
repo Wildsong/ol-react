@@ -14,6 +14,7 @@ import {
     Button
 } from 'reactstrap'
 import {Example1, Example2, Example3} from './examples'
+import Slider from 'rc-slider'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -33,6 +34,7 @@ class PrimaryLayout extends Component {
     render(props) {
         return (
             <div>
+                <Slider />
                 <Navbar color="light" light expand="md">
                   <NavbarBrand href="/">
                     <span id="sitelogo"></span>

@@ -17,6 +17,7 @@ class OLLayer extends OLComponent {
     }
 
     buildLayerProps(props) {
+
         return {
             opacity: props.opacity,
             visible: props.visible,
@@ -28,7 +29,7 @@ class OLLayer extends OLComponent {
     }
 
     componentWillReceiveProps(newProps) {
-        //console.log("OLLayer willreceiveprops context", this.context);
+        console.log("OLLayer.componentWillReceivepProps() newProps=", newProps);
         if (newProps.opacity !== undefined) this.state.layer.setOpacity(newProps.opacity)
         if (newProps.visible !== undefined) this.state.layer.setVisible(newProps.visible)
         if (newProps.extent !== undefined) this.state.layer.setExtent(newProps.extent)
@@ -38,7 +39,7 @@ class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLLayer.componentDidMount context", this.context,  this);
+        //console.log("OLLayer.componentDidMount() context=", this.context);
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({

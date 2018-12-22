@@ -10,6 +10,8 @@ class OLVector extends OLLayer {
     constructor(props) {
         super(props);
         let layerProps = this.buildLayerProps(props);
+
+        console.log("layerProps", layerProps);
         this.state.layer = new Vector({
             ...layerProps,
             style: buildStyle(props.style),

@@ -83,6 +83,10 @@
     height: 300px;
 }
 
+.sliders {
+    width: 450px;
+}
+
 #external_control {
     width: 200px;
     height: 200px;

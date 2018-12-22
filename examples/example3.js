@@ -3,8 +3,8 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {transform} from 'ol/proj'
+import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -16,7 +16,7 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-
+import SliderControl from './slider-control'
 import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -44,20 +44,43 @@ export default class Example extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            enableModify: true // can't change this in the app yet
+            opacityLayer1 : 100,
+            opacityLayer2 : 100,
+            opacityLayer3 : 100,
         }
     }
 
     render(props) {
+        let changeOpacity1 = (value) => {
+            this.setState({opacityLayer1 : value});
+        }
+        let changeOpacity2 = (value) => {
+            this.setState({opacityLayer2 : value});
+        }
+        let changeOpacity3 = (value) => {
+            this.setState({opacityLayer3 : value});
+        }
         return (
             <div>
                 <h2>{this.props.title}</h2>
                     Sources
-                    <ul>
-                        <li>Tile Source: ArcGIS REST sample: United States map</li>
-                        <li>Source OSM: OpenStreetMap of the world</li>
-                        <li>XYZ tiles: ESRI world street map</li>
-                    </ul>
+
+                    <SliderControl
+                        onChange={changeOpacity1}
+                        title="US Map"
+                        value={this.state.opacityLayer1}
+                    />
+                    <SliderControl
+                        onChange={changeOpacity2}
+                        title="OSM"
+                        value={this.state.opacityLayer2}
+                    />
+                    <SliderControl
+                        onChange={changeOpacity3}
+                        title="ESRI streets"
+                        value={this.state.opacityLayer3}
+                    />
+
                     Controls
                     <ul>
                         <li>FullScreen</li>
@@ -67,21 +90,21 @@ export default class Example extends Component {
 
             <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
-                <layer.Tile opacity={0.3}>
+                <layer.Tile opacity={this.state.opacityLayer1/100}>
                     <source.XYZ
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                      />
                 </layer.Tile>
 
-                <layer.Tile opacity={0.5}>
+                <layer.Tile opacity={this.state.opacityLayer2/100}>
                     <source.TileWMS
                         url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
                         attributions={attributions}
                     />
                 </layer.Tile>
 
-                <layer.Tile opacity={0.1}>
+                <layer.Tile opacity={this.state.opacityLayer3/100}>
                     <source.TileArcGISRest
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                         attributions={attributions} />

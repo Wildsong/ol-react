@@ -20,7 +20,7 @@ class OLSource extends OLComponent {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log("OLSource.componentWillReceiveProps() newprops", newProps)
+        console.log("OLSource.componentWillReceiveProps() newprops", newProps, " context=", this.context)
         this.state.source = this._createSourceFromProps(newProps)
     }
 
