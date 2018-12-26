@@ -17,7 +17,7 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLGeometry.componentDidMount() props=", this.props, this.context)
+        //console.log("OLGeometry.componentDidMount() props=", this.props, this.context)
         this.context.feature.setGeometry(this.state.geometry);
         if (typeof this.props.transform === 'function') {
             this.state.geometry.applyTransform(this.props.transform);
@@ -47,7 +47,7 @@ class OLGeometry extends OLComponent {
     }
 
     componentDidUpdate() {
-        console.log("OLGeometry.componentDidUpdate() ", this.props)
+        //console.log("OLGeometry.componentDidUpdate() ", this.props)
         this.updateFromProps();
     }
 
@@ -56,6 +56,7 @@ class OLGeometry extends OLComponent {
         if (this.props.modify && this.interaction) {
             console.log("OLGeometry Fix map context here")
             let interactions = this.context.map.getInteractions()
+            console.log("OLGeometry.componentWillUnmount() interactions = ", interactions);
             if (this.props.modifyStart) {
                 this.interaction.un('modifystart', this.props.modifyStart)
             }
@@ -68,7 +69,7 @@ class OLGeometry extends OLComponent {
     }
 
     updateFromProps() {
-        console.log("OLGeometry.updateFromProps()", this.props)
+        //console.log("OLGeometry.updateFromProps()", this.props)
         //throw("You need to override updateFromProps in your geometry class.")
     }
 

@@ -7,19 +7,19 @@ import OLGeometry from './ol-geometry';
 class OLMultiPoint extends OLGeometry {
     constructor(props) {
         super(props);
-        console.log("OLMultiPoint.new() props=", this.props)
+        //console.log("OLMultiPoint.new() props=", this.props)
         this.state.geometry = new MultiPoint(this.props.children, this.props.layout);
         this.updateFromProps();
     }
 
     shouldComponentUpdate(nextProps) {
         // Pretty sure we don't need this at all.
-        console.log("geom.MultiPoint.shouldComponentUpdate()");
+        //console.log("geom.MultiPoint.shouldComponentUpdate()");
         return this.props.children != nextProps.children
     }
 
     updateFromProps() {
-        console.log("OLMultiPoint.updateFromProps()", this.props)
+        //console.log("OLMultiPoint.updateFromProps()", this.props)
         if (this.props.animate) {
             this.animate(this.props.children, this.props.animationLength);
         } else {

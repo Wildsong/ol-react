@@ -29,17 +29,18 @@ class OLVector extends OLLayer {
     }
 
     buildSourceProps() {
-        console.log("No really build sourceProps here really", this.props);
+        console.log("FIXME build sourceProps here really", this.props);
         return Object.assign({}, this.props);
     }
 
+/* I think the super class handles all of this???
     componentDidUpdate(prevProps) {
         console.log("layer.OLVector.componentDidUpdate()");
         super.componentDidUpdate(prevProps);
-
         // I think I need to see if style changed first...
         this.state.layer.setStyle(buildStyle(this.props.style));
     }
+    */
 }
 
 OLVector.propTypes = {

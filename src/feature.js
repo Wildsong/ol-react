@@ -10,7 +10,7 @@ import {buildStyle} from './style';
 class OLFeature extends OLComponent {
     constructor(props) {
         super(props);
-        console.log("OLFeature new() props=", this.props)
+        //console.log("OLFeature new() props=", this.props)
         this.state = {
             feature: new Feature()
         }
@@ -19,12 +19,12 @@ class OLFeature extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLFeature.componentDidMount()", this.context);
+        //console.log("OLFeature.componentDidMount()", this.context);
         this.context.layer.getSource().addFeature(this.state.feature)
     }
 
     componentDidUpdate() {
-        console.log("OLFeature.componentDidUpdate() props=", this.props)
+        //console.log("OLFeature.componentDidUpdate() props=", this.props)
         this.updateFromProps();
     }
 
@@ -34,7 +34,7 @@ class OLFeature extends OLComponent {
 
     componentWillUnmount() {
         //console.log("OLFeature.componentWillUnmount() context=", this.context)
-        this.context.source.removeFeature(this.state.feature);
+        this.context.layer.getSource().removeFeature(this.state.feature);
     }
 
     getGeometry() {

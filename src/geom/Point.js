@@ -23,7 +23,7 @@ class OLPoint extends OLGeometry {
     }
 
     updateFromProps() {
-        console.log("OLMultiPoint.updateFromProps()", this.props)
+        //console.log("OLMultiPoint.updateFromProps()", this.props)
         if (this.props.animate) {
             this.animate(this.props.children, this.props.animationLength);
         } else {

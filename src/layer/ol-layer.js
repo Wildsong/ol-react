@@ -51,13 +51,18 @@ class OLLayer extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("layer.OLLayer.componentDidUpdate() prevProps=",prevProps, " this.props=",this.props);
-        if (this.props.opacity !== prevProps.opacity) this.state.layer.getSource().setOpacity(this.props.opacity)
+        // I wonder about using this.state.layer.setProperties here?
+        // It's so easy it feels like cheating.
+//      console.log("layer.OLLayer.componentDidUpdate() ",prevProps, " this.props=",this.props);
+/*
+        if (this.props.opacity !== prevProps.opacity) this.state.layer.setOpacity(this.props.opacity)
         if (this.props.visible !== prevProps.visible) this.state.layer.setVisible(this.props.visible)
         if (this.props.extent !== prevProps.extent) this.state.layer.setExtent(this.props.extent)
         if (this.props.zIndex !== prevProps.zIndex) this.state.layer.setZIndex(this.props.zIndex)
         if (this.props.minResolution !== prevProps.minResolution) this.state.layer.setMinResolution(this.props.minResolution)
         if (this.props.maxResolution !== prevProps.maxResolution) this.state.layer.setMaxResolution(this.props.maxResolution)
+*/
+        this.state.layer.setProperties(this.props);
     }
 
     componentWillUnmount() {
