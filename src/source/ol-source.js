@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
-import {SourceContext} from '../source-context'
 import OLComponent from '../ol-component'
 
 class OLSource extends OLComponent {
@@ -29,12 +28,7 @@ class OLSource extends OLComponent {
         //console.log("OLSource.render() props", this.props)
         return (
             <div>
-            <SourceContext.Provider value={{
-                source: this.state.source,
-                map: this.context.map
-            }}>
             {this.props.children}
-            </SourceContext.Provider>
             </div>
         );
     }
