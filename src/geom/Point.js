@@ -13,17 +13,19 @@ class OLPoint extends OLGeometry {
     constructor(props) {
         super(props);
         this.state.geometry = new Point(this.props);
-        this.updateFromProps(this.props);
+        this.updateFromProps();
     }
 
     shouldComponentUpdate(nextProps) {
-        // I'd like to know why this is here, seems redundant to me.
+        // Pretty sure we don't need this at all.
+        console.log("geom.Point.shouldComponentUpdate()");
         return this.props.children != nextProps.children
     }
 
-    updateFromProps(props) {
-        if (props.animate) {
-            this.animate(props.children, props.animationLength);
+    updateFromProps() {
+        console.log("OLMultiPoint.updateFromProps()", this.props)
+        if (this.props.animate) {
+            this.animate(this.props.children, this.props.animationLength);
         } else {
             this.state.geometry.setCoordinates(this.props.children);
         }
@@ -47,10 +49,6 @@ class OLPoint extends OLGeometry {
             }
         }
         window.requestAnimationFrame(step);
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.updateFromProps(newProps);
     }
 }
 

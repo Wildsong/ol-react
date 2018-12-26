@@ -4,8 +4,9 @@ import TileWMS from 'ol/source/TileWMS'
 import OLSource from './ol-source'
 
 class OLTileWMS extends OLSource {
-    _createSourceFromProps(props) {
-        return new TileWMS(Object.assign({}, props))
+    constructor(props) {
+        super(props);
+        this.state = { source: new TileWMS(this.props) };
     }
 }
 

@@ -5,8 +5,9 @@ import BaseLayer from 'ol/layer/Base';
 import OLSource from './ol-source';
 
 class OLOSM extends OLSource {
-    _createSourceFromProps(props) {
-        return new OSM(Object.assign({}, props));
+    constructor(props) {
+        super(props);
+        this.state = { source: new OSM(this.props) };
     }
 }
 

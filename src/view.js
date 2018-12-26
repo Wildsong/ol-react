@@ -44,7 +44,7 @@ export default class OLView extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLView.componentDidMount context", this.context)
+        //console.log("OLView.componentDidMount context", this.context)
         this.context.map.setView(this.view);
         this.updateFromProps_(this.props);
         this.context.map.on("movend", this.onMoveEnd, this);

@@ -16,26 +16,15 @@ class OLLayer extends OLComponent {
         };
     }
 
-    buildLayerProps(props) {
-
+    buildLayerProps() {
         return {
-            opacity: props.opacity,
-            visible: props.visible,
-            extent: props.extent,
-            zIndex: props.zIndex,
-            minResolution: props.minResolution,
-            maxResolution: props.maxResolution,
+            opacity: this.props.opacity,
+            visible: this.props.visible,
+            extent: this.props.extent,
+            zIndex: this.props.zIndex,
+            minResolution: this.props.minResolution,
+            maxResolution: this.props.maxResolution,
         }
-    }
-
-    componentWillReceiveProps(newProps) {
-        console.log("OLLayer.componentWillReceivepProps() newProps=", newProps);
-        if (newProps.opacity !== undefined) this.state.layer.setOpacity(newProps.opacity)
-        if (newProps.visible !== undefined) this.state.layer.setVisible(newProps.visible)
-        if (newProps.extent !== undefined) this.state.layer.setExtent(newProps.extent)
-        if (newProps.zIndex !== undefined) this.state.layer.setZIndex(newProps.zIndex)
-        if (newProps.minResolution !== undefined) this.state.layer.setMinResolution(newProps.minResolution)
-        if (newProps.maxResolution !== undefined) this.state.layer.setMaxResolution(newProps.maxResolution)
     }
 
     componentDidMount() {
@@ -61,6 +50,16 @@ class OLLayer extends OLComponent {
         this.context.map.addLayer(this.state.layer)
     }
 
+    componentDidUpdate(prevProps) {
+        console.log("layer.OLLayer.componentDidUpdate() prevProps=",prevProps, " this.props=",this.props);
+        if (this.props.opacity !== prevProps.opacity) this.state.layer.getSource().setOpacity(this.props.opacity)
+        if (this.props.visible !== prevProps.visible) this.state.layer.setVisible(this.props.visible)
+        if (this.props.extent !== prevProps.extent) this.state.layer.setExtent(this.props.extent)
+        if (this.props.zIndex !== prevProps.zIndex) this.state.layer.setZIndex(this.props.zIndex)
+        if (this.props.minResolution !== prevProps.minResolution) this.state.layer.setMinResolution(this.props.minResolution)
+        if (this.props.maxResolution !== prevProps.maxResolution) this.state.layer.setMaxResolution(this.props.maxResolution)
+    }
+
     componentWillUnmount() {
         let interactions = this.context.map.getInteractions();
         if (this.selectInteraction) {
@@ -78,7 +77,7 @@ class OLLayer extends OLComponent {
             <div>
             <LayerContext.Provider value={{
                 map  : this.context.map,
-                layer: this.state.layer
+                layer: this.state.layer,
             }}>
                 {this.props.children}
             </LayerContext.Provider>

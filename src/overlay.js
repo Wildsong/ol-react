@@ -25,40 +25,37 @@ class OLOverlay extends OLComponent {
         this.element.parentNode.removeChild(this.element);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props != nextProps
+    componentDidMount() {
+        this.context.map.addOverlay(this.overlay);
+        this.updateFromProps_();
     }
 
-    updateFromProps_(props) {
-        if (typeof props.element !== 'undefined') {
-            ReactDOM.render(props.element, this.element);
+    componentDidUpdate() {
+        console.log("overlay.componentDidUpdate()", this.props);
+        this.updateFromProps_();
+    }
+
+    updateFromProps_() {
+        if (typeof this.props.element !== 'undefined') {
+            ReactDOM.render(this.props.element, this.element);
             this.overlay.setElement(this.element);
             this.element.onclick = function () {
                 console.log('ReactOverlay clicked');
             }
         }
-        if (typeof props.offset !== 'undefined') {
-            this.overlay.setOffset(props.offset);
+        if (typeof this.props.offset !== 'undefined') {
+            this.overlay.setOffset(this.props.offset);
         }
-        if (typeof props.position !== 'undefined') {
-            if (props.animate) {
-                this.animate(props.position, props.animationLength)
+        if (typeof this.props.position !== 'undefined') {
+            if (this.props.animate) {
+                this.animate(this.props.position, this.props.animationLength)
             } else {
-                this.overlay.setPosition(props.position);
+                this.overlay.setPosition(this.props.position);
             }
         }
-        if (typeof props.positioning !== 'undefined') {
-            this.overlay.setPositioning(props.positioning);
+        if (typeof this.props.positioning !== 'undefined') {
+            this.overlay.setPositioning(this.props.positioning);
         }
-    }
-
-    componentDidMount() {
-        this.context.map.addOverlay(this.overlay);
-        this.updateFromProps_(this.props);
-    }
-
-    componentWillReceiveProps(props) {
-        this.updateFromProps_(props);
     }
 
     animate(finishCoords, animationLength) {

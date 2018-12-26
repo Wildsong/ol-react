@@ -4,8 +4,9 @@ import {XYZ} from 'ol/source'
 import OLSource from './ol-source'
 
 class OLXYZ extends OLSource {
-    _createSourceFromProps(props) {
-        return new XYZ(Object.assign({}, props))
+    constructor(props) {
+        super(props);
+        this.state = { source: new XYZ(this.props) };
     }
 }
 

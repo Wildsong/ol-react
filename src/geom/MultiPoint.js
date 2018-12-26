@@ -9,18 +9,19 @@ class OLMultiPoint extends OLGeometry {
         super(props);
         console.log("OLMultiPoint.new() props=", this.props)
         this.state.geometry = new MultiPoint(this.props.children, this.props.layout);
-        this.updateFromProps(this.props);
+        this.updateFromProps();
     }
 
     shouldComponentUpdate(nextProps) {
-        // I'd like to know why this is here, seems redundant to me.
+        // Pretty sure we don't need this at all.
+        console.log("geom.MultiPoint.shouldComponentUpdate()");
         return this.props.children != nextProps.children
     }
 
-    updateFromProps(props) {
-        console.log("OLMultiPoint.updateFromProps() props=", props)
-        if (props.animate) {
-            this.animate(props.children, props.animationLength);
+    updateFromProps() {
+        console.log("OLMultiPoint.updateFromProps()", this.props)
+        if (this.props.animate) {
+            this.animate(this.props.children, this.props.animationLength);
         } else {
             this.state.geometry.setCoordinates(this.props.children);
         }

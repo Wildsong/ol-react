@@ -5,8 +5,9 @@ import OLSource from './ol-source'
 //???? import * as interaction from '../interaction'
 
 class OLImageArcGISRest extends OLSource {
-    _createSourceFromProps(props) {
-        return new ImageArcGISRest(Object.assign({}, props))
+    constructor(props) {
+        super(props);
+        this.state = { source: new ImageArcGISRest(props) };
     }
 }
 

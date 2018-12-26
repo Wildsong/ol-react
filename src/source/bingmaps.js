@@ -4,11 +4,15 @@ import {BingMaps} from 'ol/source';
 import OLSource from './ol-source';
 
 class OLBingMaps extends OLSource {
-    _createSourceFromProps(props) {
-        let spreadedProps = Object.assign({}, props)
+    constructor(props) {
+        super(props);
+
+        // This seems overly elaborate to me.
+        let spreadedProps = Object.assign({}, this.props)
         spreadedProps.key = spreadedProps.apiKey
         delete spreadedProps.apiKey
-        return new BingMaps(spreadedProps)
+
+        this.state = { source: new BingMaps(spreadedProps) }
     }
 }
 

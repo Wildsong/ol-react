@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SourceContext} from './source-context';
+import {LayerContext} from './layer-context';
 import {FeatureContext} from './feature-context';
 import {Source} from 'ol/source';
 import {Feature} from 'ol';
@@ -10,26 +10,26 @@ import {buildStyle} from './style';
 class OLFeature extends OLComponent {
     constructor(props) {
         super(props);
-        //console.log("OLFeature new() props=", props)
+        console.log("OLFeature new() props=", this.props)
         this.state = {
             feature: new Feature()
         }
-        this.updateFromProps(props);
-        this.state.feature.setId(props.id);
-    }
-
-    updateFromProps(props) {
-        this.state.feature.setStyle(buildStyle(props.style));
+        this.updateFromProps();
+        this.state.feature.setId(this.props.id);
     }
 
     componentDidMount() {
-        //console.log("OLFeature.componentDidMount() source=", this.context.source)
-        this.context.source.addFeature(this.state.feature)
+        console.log("OLFeature.componentDidMount()", this.context);
+        this.context.layer.getSource().addFeature(this.state.feature)
     }
 
-    componentWillReceiveProps(newProps) {
-        //console.log("OLFeature.componentWillReceiveProps() newProps=", newProps)
-        this.updateFromProps(newProps);
+    componentDidUpdate() {
+        console.log("OLFeature.componentDidUpdate() props=", this.props)
+        this.updateFromProps();
+    }
+
+    updateFromProps(props) {
+        this.state.feature.setStyle(buildStyle(this.props.style));
     }
 
     componentWillUnmount() {
@@ -55,7 +55,8 @@ class OLFeature extends OLComponent {
         );
     }
 }
-OLFeature.contextType = SourceContext;
+
+OLFeature.contextType = LayerContext;
 
 OLFeature.propTypes = {
     style: PropTypes.object,

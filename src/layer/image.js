@@ -7,13 +7,14 @@ import OLLayer from './ol-layer';
 class OLImage extends OLLayer {
     constructor(props) {
         super(props);
-        let layerProps = this.buildLayerProps(props);
+        let layerProps = this.buildLayerProps();
         this.state.layer = new Image({
             ...layerProps,
         })
     }
 
     componentWillReceiveProps(newProps) {
+        console.log("OLImage.componentWillReceiveProps()");
         this.state.layer.setVisible(newProps.visible)
         this.state.layer.setZIndex(newProps.zIndex)
     }

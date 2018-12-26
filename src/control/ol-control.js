@@ -10,7 +10,7 @@ export default class OLControl extends OLComponent {
     }
 
     componentDidMount() {
-        console.log("OLControl.componentDidMount", this.context);
+        //console.log("OLControl.componentDidMount", this.context);
         this.context.map.addControl(this.control)
     }
 

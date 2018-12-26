@@ -8,7 +8,7 @@ import {buildLayerProps, baseLayerPropTypes} from './';
 class OLTile extends OLLayer {
     constructor(props) {
         super(props);
-        let layerProps = this.buildLayerProps(props);
+        let layerProps = this.buildLayerProps();
         this.state.layer = new Tile({
             ...layerProps,
         })

@@ -7,25 +7,22 @@ import OLComponent from '../ol-component'
 class OLSource extends OLComponent {
     constructor(props) {
         super(props)
-        this.state = {
-            source: this._createSourceFromProps(props)
-        }
 //        console.log("OLSource.new(): props=",props, " source=",this.state.source)
     }
 
     componentDidMount() {
-        console.log("OLSource.componentDidMount() context=", this.context);
+        //console.log("OLSource.componentDidMount() context=", this.context);
         // Set the source on the parent Layer object
         this.context.layer.setSource(this.state.source);
     }
 
-    componentWillReceiveProps(newProps) {
-        console.log("OLSource.componentWillReceiveProps() newprops", newProps, " context=", this.context)
-        this.state.source = this._createSourceFromProps(newProps)
-    }
-
-    _createSourceFromProps(props) {
-        throw new Error("OLSource._createSouceFromProps() must be overridden in subclasses")
+    componentDidUpdate(prevProps) {
+//        console.log("OLSource.componentDidUpdate() prevProps", prevProps, " context=", this.context)
+        //this.state.source = this._createSourceFromProps(newProps)
+        if (this.props.opacity != prevProps.opacity) {
+            console.log("Opacity", prevProps.opacity, " =>", this.props.opacity)
+            this.context.layer.setOpacity(this.props.opacity)
+        }
     }
 
     render() {

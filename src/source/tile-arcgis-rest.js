@@ -4,8 +4,9 @@ import {TileArcGISRest} from 'ol/source'
 import OLSource from './ol-source'
 
 class OLTileArcGISRest extends OLSource {
-    _createSourceFromProps(props) {
-        return new TileArcGISRest(Object.assign({}, props));
+    constructor(props) {
+        super(props);
+        this.state = { source: new TileArcGISRest(this.props) };
     }
 }
 
