@@ -42,21 +42,24 @@ let pi = 3.1416;
 export default class Example extends Component {
     constructor(props) {
         super(props)
+        this.changeOpacity1 = this.changeOpacity1.bind(this);
+        this.changeOpacity2 = this.changeOpacity2.bind(this);
         this.state = {
-            enableModify: false, // can't change this in the app yet
+            enableModify: true, // can't change this in the app yet
             opacityOSM : 100,
             opacityVector : 100,
         }
     }
 
-    render(props) {
-        let changeOpacity1 = (value) => {
-            this.setState({opacityOSM : value});
-        }
-        let changeOpacity2 = (value) => {
-            this.setState({opacityVector : value});
-        }
+    changeOpacity1(value) {
+        this.setState({opacityOSM : value});
+    }
 
+    changeOpacity2(value) {
+        this.setState({opacityVector : value});
+    }
+
+    render(props) {
         let pointStyle = {
             image: {
                 type: 'circle',
@@ -90,12 +93,12 @@ export default class Example extends Component {
                             </ul>
 
                     <SliderControl
-                        onChange={changeOpacity1}
+                        onChange={this.changeOpacity1}
                         title="OSM"
                         value={this.state.opacityOSM}
                     />
                     <SliderControl
-                        onChange={changeOpacity2}
+                        onChange={this.changeOpacity2}
                         title="Vectors"
                         value={this.state.opacityVector}
                     />
@@ -147,10 +150,13 @@ export default class Example extends Component {
 
 
     Implement and test...
-                         MultiLineString
-                         MultiPolygon
-                         GeometryCollection
-
+    <ul>
+            <li>            MultiLineString </li>
+                <li>        MultiPolygon</li>
+                    <li>    GeometryCollection</li>
+                        <li>ANimation</li>
+                        <li>Overlay</li>
+        </ul>
                 </layer.Vector>
 
 
