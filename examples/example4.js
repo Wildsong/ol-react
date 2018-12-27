@@ -14,7 +14,6 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-import SliderControl from './slider-control'
 import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -41,20 +40,22 @@ let attributions = [
 export default class Example4 extends Component {
     constructor(props) {
         super(props)
-        this.changeOpacity1 = this.changeOpacity1.bind(this);
-        this.changeOpacity2 = this.changeOpacity2.bind(this);
+        this.toggleLayers = this.toggleLayers.bind(this);
         this.state = {
-            opacityXYZ : 100,
-            opacityWMS : 100,
+            bingVisible : true,
+            xyzVisible: false,
         }
     }
 
-    changeOpacity1(value) {
-        this.setState({opacityXYZ : value});
+    toggleLayers() {
+        this.setState({
+            bingVisible : !this.state.bingVisible,
+            xyzVisible :  !this.state.xyzVisible
+        });
     }
 
     changeOpacity2(value) {
-        this.setState({opacityWMS : value});
+        this.setState({opacityBing : value});
     }
 
 
@@ -62,39 +63,29 @@ export default class Example4 extends Component {
         return (
             <div>
                 <h2>{this.props.title}</h2>
-                    <h3>Sources</h3>
-
-                    BingMaps aerial
-                    ** It would be nice to add a selector here
-
-                    <SliderControl
-                        onChange={this.changeOpacity1}
-                        title="XYZ"
-                        value={this.state.opacityXYZ}
-                    />
-                    <SliderControl
-                        onChange={this.changeOpacity2}
-                        title="WMS"
-                        value={this.state.opacityWMS}
-                    />
+                    <h3>Tile and XYZ Sources</h3>
+                    <ul>
+                    <li>BingMaps aerial
+                    ** It would be nice to add a selector here</li>
+                    <li>ArcGIS using XYZ</li>
+                    </ul>
+                    Opacity did not seem to work for these so I added this button
+                    to control the 'visible' attribute.<br />
+                    <Button onClick={this.toggleLayers}>Toggle Layers</Button>
 
                 <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
-
-                    <layer.Tile source="BingMaps" />
 
                     <layer.Tile source="XYZ"
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
-                        opacity={this.state.opacityXYZ/100}
-                        opaque={false}
+                        visible={this.state.xyzVisible}
+                        transition={1000}
                     />
-                    {/*
-                    <layer.Tile source="WMS"
-                        url="http://www.WMS.net/data_and_products/WMS_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=WMS_LATEST&format=image/png&STYLE=default"
-                        attributions={attributions}
-                        opacity={this.state.opacityWMS/100}
+
+                    <layer.Tile source="BingMaps"
+                        visible={this.state.bingVisible}
+                        transition={1000}
                     />
-                    */}
 
                     {/*
                     <control.FullScreen />
