@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Style} from 'ol/style';
-import {Image} from 'ol/layer';
-import OLLayer from './ol-layer';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Style} from 'ol/style'
+import {Image} from 'ol/layer'
+import OLLayer from './ol-layer'
 
-class OLImage extends OLLayer {
+export default class OLImage extends OLLayer {
     constructor(props) {
         super(props);
         let layerProps = this.buildLayerProps();
@@ -13,10 +13,10 @@ class OLImage extends OLLayer {
         })
     }
 
-    componentWillReceiveProps(newProps) {
-        console.log("OLImage.componentWillReceiveProps()");
-        this.state.layer.setVisible(newProps.visible)
-        this.state.layer.setZIndex(newProps.zIndex)
+    componentDidUpdate(prevProps) {
+        console.log("OLImage.componentDidUpdate()", this.props);
+        this.state.layer.setVisible(this.props.visible)
+        this.state.layer.setZIndex(this.props.zIndex)
     }
 }
 
@@ -26,5 +26,3 @@ OLImage.propTypes = {
 OLImage.defaultProps = {
     visible: true
 }
-
-export default OLImage
