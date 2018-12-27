@@ -4,9 +4,8 @@ import {Style} from 'ol/style'
 import {Tile as TileLayer} from 'ol/layer'
 import {OSM, TileArcGISRest, TileWMS, XYZ} from 'ol/source'
 import OLLayer from './ol-layer'
-import {buildLayerProps, baseLayerPropTypes} from './'
 
-class OLTile extends OLLayer {
+export default class OLTile extends OLLayer {
     constructor(props) {
         super(props);
         let layerProps = this.buildLayerProps();
@@ -56,7 +55,5 @@ OLTile.propTypes = {
 }
 
 OLTile.defaultProps = {
-  visible: true
+    visible: true
 }
-
-export default OLTile
