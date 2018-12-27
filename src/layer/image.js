@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Style} from 'ol/style'
 import {Image as ImageLayer} from 'ol/layer'
-import {ImageWMS} from 'ol/source'
+import {ImageArcGISRest, ImageWMS} from 'ol/source'
 import OLLayer from './ol-layer'
 
 export default class OLImage extends OLLayer {
@@ -13,6 +13,10 @@ export default class OLImage extends OLLayer {
         let imageSource = null;
 
         switch (this.props.source) {
+            case 'ArcGISRest':
+                imageSource = new ImageArcGISRest(sourceProps);
+                break;
+
             case "WMS":
                 imageSource = new ImageWMS(sourceProps);
                 break;

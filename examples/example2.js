@@ -53,9 +53,9 @@ export default class Example extends Component {
         return (
             <div>
                 <h2>{this.props.title}</h2>
-                    Sources
+                    Image Sources
                     <ul>
-                        <li>Tile Source: ArcGIS REST sample: United States map</li>
+                        <li>Image ArcGIS REST sample: United States map</li>
                         <li>Image WMS: <a href="https://www.gebco.net/data_and_products/gebco_web_services/">GEBCO</a> bathymetry</li>
                     </ul>
                     Controls
@@ -73,8 +73,9 @@ export default class Example extends Component {
                         projection={wm}
                     />
 
-                    <layer.Tile source="ArcGISRest" opacity={0.3}
+                    <layer.Image source="ArcGISRest"
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                        opacity={.50}
                     />
 
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
