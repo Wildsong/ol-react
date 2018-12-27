@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Style} from 'ol/style'
 import {Image as ImageLayer} from 'ol/layer'
-import {BingMaps} from 'ol/source'
+import {ImageWMS} from 'ol/source'
 import OLLayer from './ol-layer'
 
 export default class OLImage extends OLLayer {
@@ -13,9 +13,10 @@ export default class OLImage extends OLLayer {
         let imageSource = null;
 
         switch (this.props.source) {
-            case "BingMaps":
-                imageSource = new BingMaps(sourceProps);
+            case "WMS":
+                imageSource = new ImageWMS(sourceProps);
                 break;
+
             default:
                 throw "Unknown Image source:" + this.props.source;
             break
@@ -25,6 +26,7 @@ export default class OLImage extends OLLayer {
             ...layerProps,
             source: imageSource
         })
+        console.log("layer.OLImage props=", sourceProps, imageSource, this.state);
     }
 
     componentDidUpdate(prevProps) {
@@ -34,7 +36,9 @@ export default class OLImage extends OLLayer {
     }
 
     buildSourceProps() {
-        console.log("layer.OLImage.buildSourceProps() FIXME")
+        console.log("layer.OLImage.buildSourceProps() FIXME; don't copy everything")
+        // but do copy:
+        // params, projection, url
         return Object.assign({}, this.props);
     }
 }

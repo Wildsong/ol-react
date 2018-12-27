@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import {transform} from 'ol/proj'
 // Bootstrap (reactstrap in this case)
 import {
@@ -36,7 +35,7 @@ let transformfn = (coordinates) => {
 }
 
 let attributions = [
-    osmAttribution,
+    'GEBCO',
     'and ESRI too.'
 ];
 
@@ -51,33 +50,13 @@ export default class Example extends Component {
     }
 
     render(props) {
-        let pointStyle = {
-            image: {
-                type: 'circle',
-                radius: 10,
-                fill: { color: [100,100,100, 0.5] },
-                stroke: { color: 'green', width: 1 }
-            }
-        };
-        let lineStyle = {
-            stroke: {
-                color: [255, 255, 0, 1],
-                width: 3
-            }
-        };
-        let polyStyle = {
-            stroke: {color: [0, 0, 0, 1], width:4},
-            fill: {color: [255, 0, 0, .250]},
-        };
-
         return (
             <div>
                 <h2>{this.props.title}</h2>
                     Sources
                     <ul>
                         <li>Tile Source: ArcGIS REST sample: United States map</li>
-                        <li>Source OSM: OpenStreetMap of the world</li>
-                        <li>XYZ tiles: ESRI world street map</li>
+                        <li>Image WMS: <a href="https://www.gebco.net/data_and_products/gebco_web_services/">GEBCO</a> bathymetry</li>
                     </ul>
                     Controls
                     <ul>
@@ -86,21 +65,16 @@ export default class Example extends Component {
                         <li>MousePosition</li>
                     </ul>
 
-                <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View rotation={pi*.25} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
-                    <layer.Tile source="XYZ" opacity={0.3}
-                        url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                        attributions={attributions}
-                     />
-
-                    <layer.Tile source="WMS" opacity={0.5}
-                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
-                        attributions={attributions}
+                    <layer.Image source="WMS"
+                        url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
+                        params={{LAYERS:"GEBCO_LATEST"}}
+                        projection={wm}
                     />
 
-                    <layer.Tile source="ArcGISRest" opacity={0.1}
+                    <layer.Tile source="ArcGISRest" opacity={0.3}
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        attributions={attributions}
                     />
 
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
