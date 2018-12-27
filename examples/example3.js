@@ -90,26 +90,23 @@ export default class Example extends Component {
 
             <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
-                <layer.Tile>
-                    <source.XYZ
-                        url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                        attributions={attributions}
-                        opacity={this.state.opacityLayer1/100} />
-                </layer.Tile>
+                <layer.Tile source="XYZ"
+                    url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                    attributions={attributions}
+                    opacity={this.state.opacityLayer1/100}
+                />
 
-                <layer.Tile>
-                    <source.TileWMS
-                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
-                        attributions={attributions}
-                        opacity={this.state.opacityLayer2/100} />
-                </layer.Tile>
+                <layer.Tile source="WMS"
+                    url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                    attributions={attributions}
+                    opacity={this.state.opacityLayer2/100}
+                />
 
-                <layer.Tile>
-                    <source.TileArcGISRest
-                        url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        attributions={attributions}
-                        opacity={this.state.opacityLayer3/100} />
-                </layer.Tile>
+                <layer.Tile source="ArcGISRest"
+                    url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                    attributions={attributions}
+                    opacity={this.state.opacityLayer3/100}
+                />
 
                 <control.FullScreen />
                 <control.OverviewMap/>

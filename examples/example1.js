@@ -103,16 +103,17 @@ export default class Example extends Component {
                         value={this.state.opacityVector}
                     />
 
-            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
 
-                <layer.Tile>
-                    <source.OSM attributions={attributions}
-                        opacity={this.state.opacityOSM/100} />
-                </layer.Tile>
+                    <layer.Tile source="OSM"
+                        attributions={attributions}
+                        opacity={this.state.opacityOSM/100}
+                    />
 
-                <layer.Vector
-                    style={polyStyle}
-                    opacity={this.state.opacityVector/100} >
+                    <layer.Vector
+                        style={polyStyle}
+                        opacity={this.state.opacityVector/100} >
+
                         <Feature id="test-line" style={lineStyle}>
                             <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
@@ -147,7 +148,8 @@ export default class Example extends Component {
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
-
+                    </layer.Vector>
+                </Map>
 
     Implement and test...
     <ul>
@@ -157,7 +159,6 @@ export default class Example extends Component {
                         <li>ANimation</li>
                         <li>Overlay</li>
         </ul>
-                </layer.Vector>
 
 
                 {/*
@@ -191,7 +192,6 @@ export default class Example extends Component {
             <interaction.Modify features={selected_features}/>
                 */}
 
-            </Map>
             </div>
         );
     }

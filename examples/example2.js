@@ -86,60 +86,55 @@ export default class Example extends Component {
                         <li>MousePosition</li>
                     </ul>
 
-            <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
 
-                <layer.Tile opacity={0.3}>
-                    <source.XYZ
+                    <layer.Tile source="XYZ" opacity={0.3}
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                      />
-                </layer.Tile>
 
-                <layer.Tile opacity={0.5}>
-                    <source.TileWMS
+                    <layer.Tile source="WMS" opacity={0.5}
                         url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
                         attributions={attributions}
                     />
-                </layer.Tile>
 
-                <layer.Tile opacity={0.1}>
-                    <source.TileArcGISRest
+                    <layer.Tile source="ArcGISRest" opacity={0.1}
                         url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        attributions={attributions} />
-                </layer.Tile>
+                        attributions={attributions}
+                    />
 
-                <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
-                <control.Rotate autoHide={false}/>
-                <control.MousePosition projection={wgs84}/>
+                    <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
+                    <control.Rotate autoHide={false}/>
+                    <control.MousePosition projection={wgs84}/>
 
-                {/*
-                <control.FullScreen />
-                <control.OverviewMap/>
-                <control.ScaleLine units={control.ScaleLineUnits.US} />
-                <control.Zoom />
-                <control.ZoomSlider />
-                <control.ZoomToExtent />
+                    {/*
+                    <control.FullScreen />
+                    <control.OverviewMap/>
+                    <control.ScaleLine units={control.ScaleLineUnits.US} />
+                    <control.Zoom />
+                    <control.ZoomSlider />
+                    <control.ZoomToExtent />
 
-                <interaction.DoubleClickZoom />
-                <interaction.DragBox />
-                <interaction.DragPan />
-                <interaction.DragRotate />
-                <interaction.DragRotateAndZoom />
-                <interaction.DragZoom />
-                <interaction.Draw />
-                <interaction.KeyboardPan />
-                <interaction.KeyboardZoom />
-                <interaction.MouseWheelZoom />
-                <interaction.PinchRotate />
-                <interaction.PinchZoom />
+                    <interaction.DoubleClickZoom />
+                    <interaction.DragBox />
+                    <interaction.DragPan />
+                    <interaction.DragRotate />
+                    <interaction.DragRotateAndZoom />
+                    <interaction.DragZoom />
+                    <interaction.Draw />
+                    <interaction.KeyboardPan />
+                    <interaction.KeyboardZoom />
+                    <interaction.MouseWheelZoom />
+                    <interaction.PinchRotate />
+                    <interaction.PinchZoom />
 
-                No need to declare Modify explicitly.
-                When you create a geometry and set modify=true on it
-                then the ol-geometry will automatically set up a modify interaction
-            <interaction.Modify features={selected_features}/>
-                */}
+                    No need to declare Modify explicitly.
+                    When you create a geometry and set modify=true on it
+                    then the ol-geometry will automatically set up a modify interaction
+                    <interaction.Modify features={selected_features}/>
+                    */}
 
-            </Map>
+                </Map>
             </div>
         );
     }
