@@ -41,58 +41,60 @@ let attributions = [
 export default class Example4 extends Component {
     constructor(props) {
         super(props)
+        this.changeOpacity1 = this.changeOpacity1.bind(this);
+        this.changeOpacity2 = this.changeOpacity2.bind(this);
         this.state = {
-            opacityLayer1 : 100,
-            opacityLayer2 : 100,
+            opacityXYZ : 100,
+            opacityWMS : 100,
         }
     }
 
-    render(props) {
-        let changeOpacity1 = (value) => {
-            this.setState({opacityLayer1 : value});
-        }
-        let changeOpacity2 = (value) => {
-            this.setState({opacityLayer2 : value});
-        }
+    changeOpacity1(value) {
+        this.setState({opacityXYZ : value});
+    }
 
+    changeOpacity2(value) {
+        this.setState({opacityWMS : value});
+    }
+
+
+    render(props) {
         return (
             <div>
                 <h2>{this.props.title}</h2>
-                    Sources
+                    <h3>Sources</h3>
+
+                    BingMaps aerial
+                    ** It would be nice to add a selector here
 
                     <SliderControl
-                        onChange={changeOpacity1}
-                        title="US Map"
-                        value={this.state.opacityLayer1}
+                        onChange={this.changeOpacity1}
+                        title="XYZ"
+                        value={this.state.opacityXYZ}
                     />
                     <SliderControl
-                        onChange={changeOpacity2}
-                        title="OSM"
-                        value={this.state.opacityLayer2}
+                        onChange={this.changeOpacity2}
+                        title="WMS"
+                        value={this.state.opacityWMS}
                     />
-
-                    Controls
-                    <ul>
-                        <li>FullScreen</li>
-                        <li>OverviewMap</li>
-                        <li>ScaleLine</li>
-                    </ul>
 
                 <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+
+                    <layer.Tile source="BingMaps" />
 
                     <layer.Tile source="XYZ"
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
-                        opacity={this.state.opacityLayer1/100}
+                        opacity={this.state.opacityXYZ/100}
+                        opaque={false}
                     />
-
+                    {/*
                     <layer.Tile source="WMS"
-                        url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
+                        url="http://www.WMS.net/data_and_products/WMS_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=WMS_LATEST&format=image/png&STYLE=default"
                         attributions={attributions}
-                        opacity={this.state.opacityLayer2/100}
+                        opacity={this.state.opacityWMS/100}
                     />
-
-                    <layer.Image source="BingMaps" />
+                    */}
 
                     {/*
                     <control.FullScreen />
