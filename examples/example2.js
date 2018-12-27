@@ -55,7 +55,7 @@ export default class Example extends Component {
                 <h2>{this.props.title}</h2>
                     Image Sources
                     <ul>
-                        <li>Image ArcGIS REST sample: United States map</li>
+                        <li>Image ArcGIS REST: United States map</li>
                         <li>Image WMS: <a href="https://www.gebco.net/data_and_products/gebco_web_services/">GEBCO</a> bathymetry</li>
                     </ul>
                     Controls

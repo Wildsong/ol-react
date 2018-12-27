@@ -63,7 +63,7 @@ export default class Example extends Component {
         return (
             <div>
                 <h2>{this.props.title}</h2>
-                    Sources
+                    Tile Sources
 
                     <SliderControl
                         onChange={changeOpacity1}
