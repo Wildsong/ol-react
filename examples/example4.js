@@ -14,6 +14,7 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
+import SliderControl from './slider-control'
 import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -40,17 +41,17 @@ let attributions = [
 export default class Example4 extends Component {
     constructor(props) {
         super(props)
-        this.toggleLayers = this.toggleLayers.bind(this);
+        this.toggleLayer = this.toggleLayer.bind(this);
         this.state = {
             bingVisible : true,
-            xyzVisible: false,
+            xyzVisible: true,
+            xyzOpacity: 50,
         }
     }
 
-    toggleLayers() {
+    toggleLayer() {
         this.setState({
             bingVisible : !this.state.bingVisible,
-            xyzVisible :  !this.state.xyzVisible
         });
     }
 
@@ -60,31 +61,39 @@ export default class Example4 extends Component {
 
 
     render(props) {
+        let changeOpacity = (value) => {
+            this.setState({xyzOpacity : value});
+        }
+
         return (
             <div>
                 <h2>{this.props.title}</h2>
                     <h3>Tile and XYZ Sources</h3>
                     <ul>
-                    <li>BingMaps aerial
-                    ** It would be nice to add a selector here</li>
                     <li>ArcGIS using XYZ</li>
+                    <li>BingMaps aerial
+                    ** It would be nice to add a selector here for other BingMaps</li>
                     </ul>
-                    Opacity did not seem to work for these so I added this button
-                    to control the 'visible' attribute.<br />
-                    <Button onClick={this.toggleLayers}>Toggle Layers</Button>
+
+                    <SliderControl
+                        onChange={changeOpacity}
+                        title="ArcGIS streets"
+                        value={this.state.xyzOpacity}
+                    />
+
+                    <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
 
                 <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+
+                    <layer.Tile source="BingMaps"
+                        visible={this.state.bingVisible}
+                    />
 
                     <layer.Tile source="XYZ"
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                         visible={this.state.xyzVisible}
-                        transition={1000}
-                    />
-
-                    <layer.Tile source="BingMaps"
-                        visible={this.state.bingVisible}
-                        transition={1000}
+                        opacity={this.state.xyzOpacity/100}
                     />
 
                     {/*

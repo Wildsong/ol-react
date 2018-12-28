@@ -8,18 +8,54 @@ import OLLayer from './ol-layer'
 export default class OLImage extends OLLayer {
     constructor(props) {
         super(props);
-        let layerProps = this.buildLayerProps();
-        let sourceProps = this.buildSourceProps();
+
+        this.dictLayer = [
+            "extent",
+            "minResolution",
+            "maxResolution",
+            "opacity",
+            "opaque",
+            "projection",
+            "visible",
+            "zIndex",
+        ];
+
+        // There are a few options here that are not supported by all image layer types
+        this.dictSource = [
+            'attributions',
+            'attributionsCollapsible',
+            'crossOrigin',
+            'params',
+            'projection',
+            'ratio',
+            'resolutions',
+            'state',
+            "url",
+            'wrapX'
+        ]
+
+        let layerProps = this.buildProps(this.dictLayer);
+        let sourceProps = {}
         let imageSource = null;
+
+        // NB There are other attributes I am not supporting yet.
+        // This is enough for today!
 
         switch (this.props.source) {
             case 'ArcGISRest':
+                sourceProps = this.buildProps(this.dictSource);
                 imageSource = new ImageArcGISRest(sourceProps);
                 break;
 
             case "WMS":
+                this.dictSource.push('serverType')
+                sourceProps = this.buildProps(this.dictSource);
                 imageSource = new ImageWMS(sourceProps);
                 break;
+
+            //case "Raster":
+            // and a few others... you add them please
+            // http://openlayers.org/en/latest/apidoc/module-ol_source_Image-ImageSource.html
 
             default:
                 throw "Unknown Image source:" + this.props.source;
@@ -31,19 +67,6 @@ export default class OLImage extends OLLayer {
             source: imageSource
         })
         console.log("layer.OLImage props=", sourceProps, imageSource, this.state);
-    }
-
-    componentDidUpdate(prevProps) {
-        console.log("OLImage.componentDidUpdate()", this.props);
-        this.state.layer.setVisible(this.props.visible)
-        this.state.layer.setZIndex(this.props.zIndex)
-    }
-
-    buildSourceProps() {
-        console.log("layer.OLImage.buildSourceProps() FIXME; don't copy everything")
-        // but do copy:
-        // params, projection, url
-        return Object.assign({}, this.props);
     }
 }
 

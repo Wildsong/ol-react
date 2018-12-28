@@ -40,14 +40,24 @@ let attributions = [
     'and ESRI too.'
 ];
 
-export default class Example extends Component {
+export default class Example3 extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            opacityLayer1 : 100,
+            hasError: false,
+            // Note we override draw order using zIndex, as a test
+            opacityLayer1 : 50,
             opacityLayer2 : 100,
-            opacityLayer3 : 100,
+            opacityLayer3 : 50,
         }
+    }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, info) {
+        console.log("We have a problem.", error, info)
     }
 
     render(props) {
@@ -63,22 +73,22 @@ export default class Example extends Component {
         return (
             <div>
                 <h2>{this.props.title}</h2>
-                    Tile Sources
+                    A mix of tile and image layers
 
                     <SliderControl
+                        onChange={changeOpacity3}
+                        title="ESRI streets tiles"
+                        value={this.state.opacityLayer3}
+                    />
+                    <SliderControl
                         onChange={changeOpacity1}
-                        title="US Map"
+                        title="US Map Tiles"
                         value={this.state.opacityLayer1}
                     />
                     <SliderControl
                         onChange={changeOpacity2}
-                        title="OSM"
+                        title="GEBCO Bathymetry Image"
                         value={this.state.opacityLayer2}
-                    />
-                    <SliderControl
-                        onChange={changeOpacity3}
-                        title="ESRI streets"
-                        value={this.state.opacityLayer3}
                     />
 
                     Controls
@@ -87,25 +97,27 @@ export default class Example extends Component {
                         <li>OverviewMap</li>
                         <li>ScaleLine</li>
                     </ul>
+                    Using zIndex to control order of layers.
 
             <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
-
                 <layer.Tile source="XYZ"
                     url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={attributions}
                     opacity={this.state.opacityLayer1/100}
+                    zIndex={1}
                 />
-
-                <layer.Tile source="WMS"
-                    url="http://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=GEBCO_LATEST&format=image/png&STYLE=default"
-                    attributions={attributions}
+                <layer.Image source="WMS"
+                    url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
+                    params={{LAYERS:"GEBCO_LATEST"}}
+                    projection={wm}
                     opacity={this.state.opacityLayer2/100}
+                    zIndex={0}
                 />
-
                 <layer.Tile source="ArcGISRest"
                     url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                     attributions={attributions}
                     opacity={this.state.opacityLayer3/100}
+                    zIndex={2}
                 />
 
                 <control.FullScreen />
@@ -137,6 +149,6 @@ export default class Example extends Component {
     }
 }
 
-Example.propTypes = {
+Example3.propTypes = {
     title: PropTypes.string
 };

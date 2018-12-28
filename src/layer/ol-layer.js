@@ -7,24 +7,57 @@ import {Extent} from 'ol'
 import {Select} from 'ol/interaction'
 import {click, pointerMove} from 'ol/events/condition'
 
+
+
+// These are properties that we want to use for sources
+let dictSource = [
+];
+
 class OLLayer extends OLComponent {
     constructor(props) {
         super(props)
-        //console.log("OLLayer new() props=", props)
+
+        // These options are accepted by any layer
+        // http://openlayers.org/en/latest/apidoc/module-ol_layer_Base.html#~Options
+        this.dictLayer = [
+            "opacity",
+            "visible",
+            "extent",
+            "zIndex",
+            "minResolution",
+            "maxResolution",
+        ];
+
+        // These options are attributes accepted by any source
+        // See http://openlayers.org/en/latest/apidoc/module-ol_source_Source-Source.html
+        this.dictSource = [
+            'attributions',
+            'attributionsCollapsible',
+            'projection',
+            'state',
+            'wrapX'
+        ]
+
         this.state = {
             layer: null
         };
     }
 
-    buildLayerProps() {
-        return {
-            opacity: this.props.opacity,
-            visible: this.props.visible,
-            extent: this.props.extent,
-            zIndex: this.props.zIndex,
-            minResolution: this.props.minResolution,
-            maxResolution: this.props.maxResolution,
+    buildProps(dict) {
+        // dict is a set of acceptable attributes
+        // if a property is in this set, copy it to the returned set
+        // the new set will then be passed to an openlayers constructor
+        let rProps = {};
+        for (let k in this.props) {
+            // If you have problems with map source or layer props
+            // try commenting out the next line, too many props are passed but
+            // it's usually not harmful. 'source' is bad :-)
+            if (dict.indexOf(k) >= 0)
+            //if (k !== 'source') // defining 'source breaks XYZ!!
+                rProps[k] = this.props[k]
         }
+        console.log("build props", this.props, "=>", rProps);
+        return rProps;
     }
 
     componentDidMount() {
@@ -51,10 +84,8 @@ class OLLayer extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // I wonder about using this.state.layer.setProperties here?
-        // It's so easy it feels like cheating.
-//      console.log("layer.OLLayer.componentDidUpdate() ",prevProps, " this.props=",this.props);
-/*
+        console.log("layer.OLLayer.componentDidUpdate() state=", this.state, " previous=", prevProps, " this.props=", this.props);
+        /*
         if (this.props.opacity !== prevProps.opacity) this.state.layer.setOpacity(this.props.opacity)
         if (this.props.visible !== prevProps.visible) this.state.layer.setVisible(this.props.visible)
         if (this.props.extent !== prevProps.extent) this.state.layer.setExtent(this.props.extent)
@@ -62,7 +93,8 @@ class OLLayer extends OLComponent {
         if (this.props.minResolution !== prevProps.minResolution) this.state.layer.setMinResolution(this.props.minResolution)
         if (this.props.maxResolution !== prevProps.maxResolution) this.state.layer.setMaxResolution(this.props.maxResolution)
 */
-        this.state.layer.setProperties(this.props);
+        let newProps = this.buildProps(this.dictLayer);
+        this.state.layer.setProperties(newProps);
     }
 
     componentWillUnmount() {
@@ -77,7 +109,7 @@ class OLLayer extends OLComponent {
     }
 
     render() {
-        //console.log("OLLayer.render props=", this.props.children);
+        console.log("OLLayer.render props=", this.props, this.props.children);
         return (
             <div>
             <LayerContext.Provider value={{

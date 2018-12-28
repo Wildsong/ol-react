@@ -11,8 +11,17 @@ import {buildStyle} from '../style';
 class OLVector extends OLLayer {
     constructor(props) {
         super(props);
-        let layerProps = this.buildLayerProps();
-        let sourceProps = this.buildSourceProps();
+
+        this.dictLayer.push('declutter');
+        this.dictLayer.push('updateWhileAnimating');
+        this.dictLayer.push('updateWhileInteracting');
+
+        this.dictSource.push('format');
+        //this.dictSource.push('features'); // gets created below
+        // It's possible to use a custom loader function as an option.
+
+        let layerProps = this.buildProps(this.dictLayer);
+        let sourceProps = this.buildProps(this.dictSource);
 
         let vectorSource = new VectorSource(
             Object.assign({features: new Collection()}, sourceProps)
@@ -41,6 +50,29 @@ class OLVector extends OLLayer {
         this.state.layer.setStyle(buildStyle(this.props.style));
     }
     */
+
+    buildLayerProps() {
+        // See http://openlayers.org/en/latest/apidoc/module-ol_source_TileImage-TileImage.html
+        // I should probably have a separate dictionary for each layer type??
+        let dictLayer = [
+            "extent",
+            "minResolution",
+            "maxResolution",
+            "opacity",
+            "opaque",
+            "projection",
+            "visible",
+            "url",
+            "zIndex",
+        ];
+        return this.buildProps(dictLayer);
+    }
+
+    buildSourceProps() {
+        let dictSource = [
+        ];
+        return this.buildProps(dictSource);
+    }
 }
 
 OLVector.propTypes = {
