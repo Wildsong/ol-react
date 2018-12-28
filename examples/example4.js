@@ -83,6 +83,10 @@ export default class Example4 extends Component {
 
                     <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
 
+                    Controls tested here:
+                        ScaleLine
+                    <br />
+
                 <Map view=<View projection={wm} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Tile source="BingMaps"

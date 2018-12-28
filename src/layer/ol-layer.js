@@ -7,8 +7,6 @@ import {Extent} from 'ol'
 import {Select} from 'ol/interaction'
 import {click, pointerMove} from 'ol/events/condition'
 
-
-
 // These are properties that we want to use for sources
 let dictSource = [
 ];
@@ -56,7 +54,7 @@ class OLLayer extends OLComponent {
             //if (k !== 'source') // defining 'source breaks XYZ!!
                 rProps[k] = this.props[k]
         }
-        console.log("build props", this.props, "=>", rProps);
+        //console.log("build props", this.props, "=>", rProps);
         return rProps;
     }
 
@@ -109,7 +107,7 @@ class OLLayer extends OLComponent {
     }
 
     render() {
-        console.log("OLLayer.render props=", this.props, this.props.children);
+        //console.log("OLLayer.render props=", this.props, this.props.children);
         return (
             <div>
             <LayerContext.Provider value={{

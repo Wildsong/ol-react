@@ -108,7 +108,6 @@ export default class Example3 extends Component {
                 <layer.Image source="WMS"
                     url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
                     params={{LAYERS:"GEBCO_LATEST"}}
-                    projection={wm}
                     opacity={this.state.opacityLayer2/100}
                     zIndex={0}
                 />
@@ -119,9 +118,8 @@ export default class Example3 extends Component {
                     zIndex={2}
                 />
 
-                <control.FullScreen />
                 <control.OverviewMap/>
-                <control.ScaleLine units={control.ScaleLineUnits.US} />
+                <control.FullScreen />
 
                 {/*
                 <control.Zoom />
