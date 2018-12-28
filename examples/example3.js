@@ -91,12 +91,11 @@ export default class Example3 extends Component {
                         value={this.state.opacityLayer2}
                     />
 
-                    Controls
-                    <ul>
-                        <li>FullScreen</li>
-                        <li>OverviewMap</li>
-                        <li>ScaleLine</li>
-                    </ul>
+                    Controls tested here:
+                        FullScreen
+                        OverviewMap
+                        ScaleLine
+                    <br />
                     Using zIndex to control order of layers.
 
             <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>

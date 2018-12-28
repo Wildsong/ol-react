@@ -4,16 +4,26 @@ import {MapContext} from './map-context'
 import {Map, View} from 'ol'
 import OLComponent from './ol-component'
 
+const wgs84 = "EPSG:4326";
+const wm = "EPSG:3857";
+
 export default class OLView extends OLComponent {
     constructor(props) {
         super(props);
+        let p = wm;
+        if (typeof this.props.projection !== 'undefined') {
+            p = this.props.projection;
+            console.log("Overrdigin projection", p);
+        }
         var opts = {
             center: props.initialCenter,
             resolution: props.initialResolution,
             rotation: props.initialRotation,
             zoom: props.initialZoom,
+            projection: p
         };
         this.view = new View(opts);
+        console.log("View projection", this.view.getProjection(), this.props);
     }
 
     onMoveEnd(event) {
@@ -28,25 +38,26 @@ export default class OLView extends OLComponent {
         }
     }
 
-    updateFromProps_(nextProps) {
-        if (typeof nextProps.center !== 'undefined') {
-            this.view.setCenter(nextProps.center);
-        }
-        if (typeof nextProps.rotation !== 'undefined') {
-            this.view.setRotation(nextProps.rotation);
-        }
+    updateFromProps_() {
+        // FIXME we're probably ignoring some useful props here!!
+
+        if (typeof this.props.center !== 'undefined')
+            this.view.setCenter(this.props.center);
+
+        if (typeof this.props.rotation !== 'undefined')
+            this.view.setRotation(this.props.rotation);
+
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
-        if (typeof nextProps.resolution !== 'undefined' && nextProps.resolution !== 0) {
-            this.view.setResolution(nextProps.resolution);
-        } else if (typeof nextProps.zoom !== 'undefined') {
-            this.view.setZoom(nextProps.zoom);
-        }
+        if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0)
+            this.view.setResolution(this.props.resolution);
+        else if (typeof this.props.zoom !== 'undefined')
+            this.view.setZoom(this.props.zoom);
     }
 
     componentDidMount() {
         //console.log("OLView.componentDidMount context", this.context)
         this.context.map.setView(this.view);
-        this.updateFromProps_(this.props);
+        this.updateFromProps_();
         this.context.map.on("movend", this.onMoveEnd, this);
     }
 
@@ -72,6 +83,7 @@ OLView.propTypes = {
     onResolutionChanged: PropTypes.func,
     onZoomChanged: PropTypes.func,
     onCenterChanged: PropTypes.func,
+    projection: PropTypes.string,
 }
 
 OLView.defaultProps = {

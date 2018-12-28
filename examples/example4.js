@@ -83,7 +83,7 @@ export default class Example4 extends Component {
 
                     <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
 
-                <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View projection={wm} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Tile source="BingMaps"
                         visible={this.state.bingVisible}
@@ -95,6 +95,8 @@ export default class Example4 extends Component {
                         visible={this.state.xyzVisible}
                         opacity={this.state.xyzOpacity/100}
                     />
+
+                    <control.ScaleLine units={control.ScaleLineUnits.US} />
 
                     {/*
                     <control.FullScreen />
