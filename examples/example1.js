@@ -90,7 +90,9 @@ export default class Example extends Component {
                             <li> Circle: big circle around Astoria </li>
                             <li> LineString: yellow line near Astoria</li>
                             <li> Polygon: triangle with a triangle hole inside it</li>
-                            </ul>
+                        </ul>
+
+                    Interactions tested here: DRAW
 
                     <SliderControl
                         onChange={this.changeOpacity1}
@@ -149,6 +151,8 @@ export default class Example extends Component {
                             </geom.MultiPoint>
                         </Feature>
                     </layer.Vector>
+
+                    <interaction.Draw />
                 </Map>
 
     Implement and test...
@@ -179,7 +183,6 @@ export default class Example extends Component {
                 <interaction.DragRotate />
                 <interaction.DragRotateAndZoom />
                 <interaction.DragZoom />
-                <interaction.Draw />
                 <interaction.KeyboardPan />
                 <interaction.KeyboardZoom />
                 <interaction.MouseWheelZoom />

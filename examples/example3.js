@@ -95,7 +95,9 @@ export default class Example3 extends Component {
                         FullScreen
                         OverviewMap
                         ScaleLine
-                    <br />
+                        <br />
+                    Interactions tested here:
+                        <br />
                     Using zIndex to control order of layers.
 
             <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
