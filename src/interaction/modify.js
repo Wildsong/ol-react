@@ -1,3 +1,7 @@
+// THIS WILL BE DELETED SOON I THINK
+// It's just not needed.
+
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Collection} from 'ol'
