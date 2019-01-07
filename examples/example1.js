@@ -63,7 +63,6 @@ export default class Example extends Component {
         let textMarker = {
             text: {
                 text: 'Hee',
-                color: 'blue',
             }
         }
         let newMarker = {
