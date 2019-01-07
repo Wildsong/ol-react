@@ -16,6 +16,8 @@ import {
     Geometry as GeometryStyle,
 } from 'ol/style';
 
+// I think there must be a better way to do this
+
 const STYLE_KEY_FACTORIES = {
     geometry: (value) => new GeometryStyle(value),
     zIndex:   (value) => value,
