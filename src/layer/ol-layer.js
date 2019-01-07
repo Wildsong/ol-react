@@ -112,7 +112,7 @@ class OLLayer extends OLComponent {
             <div>
             <LayerContext.Provider value={{
                 map  : this.context.map,
-                layer: this.state.layer,
+                layer: this.state.layer
             }}>
                 {this.props.children}
             </LayerContext.Provider>

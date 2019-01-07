@@ -18,17 +18,18 @@ import {
 
 const STYLE_KEY_FACTORIES = {
     geometry: (value) => new GeometryStyle(value),
-    image:    (value) => new buildImage(value),
-    text:     (value) => new buildText(value),
     zIndex:   (value) => value,
 
     fill:     (value) => new FillStyle(value),
-    stroke:   (value) => new StrokeStyle(value)
+    stroke:   (value) => new StrokeStyle(value),
+
+    image:    (value) => new buildImage(value),
+    text:     (value) => new buildText(value),
 };
 
 export function buildStyle(style) {
     if (!style) {
-        console.log('buildStyle(null)');
+        console.log('buildStyle(null) IS PROBABLY A PROBLEM FOR US.');
         return null;
     }
 
@@ -49,6 +50,8 @@ export function buildStyle(style) {
 
     const result = {};
     evaluateKeys(style, result);
+
+    console.log("styling", style, "->", result);
     return new Style(result);
 }
 
@@ -88,15 +91,19 @@ function buildImage(style) {
 
     let imageStyle = style;
     evaluateKeys(style, imageStyle);
+
+    let s = new CircleStyle({radius:2});
     switch (style.type) {
-
-    case 'circle':
-      return new CircleStyle(imageStyle);
-
-    case 'icon':
-      return new IconStyle(imageStyle);
-
-    case 'regular-shape':
-      return new RegularShapeStyle(imageStyle);
+        case 'circle':
+            s = new CircleStyle(imageStyle);
+            break;
+        case 'icon':
+            s = new IconStyle(imageStyle);
+            break;
+        case 'regularShape':
+            s = new RegularShapeStyle(imageStyle);
+        default:
+            console.log("Unrecognized style type '" + style.type + "'");
     }
+    return s
 }

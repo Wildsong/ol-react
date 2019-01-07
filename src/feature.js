@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {LayerContext} from './layer-context';
-import {FeatureContext} from './feature-context';
-import {Source} from 'ol/source';
-import {Feature} from 'ol';
-import OLComponent from './ol-component';
-import {buildStyle} from './style';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {LayerContext} from './layer-context'
+import {FeatureContext} from './feature-context'
+import {Source} from 'ol/source'
+import {Feature} from 'ol'
+import OLComponent from './ol-component'
+import {buildStyle} from './style'
 
 class OLFeature extends OLComponent {
     constructor(props) {

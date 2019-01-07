@@ -4,36 +4,32 @@ import {MapContext} from '../map-context'
 import OLComponent from '../ol-component'
 
 export default class OLInteraction extends OLComponent {
-    constructor (props) {
-        super(props);
-        console.log("OLInteraction.new() props=", this.props)
-        this.interaction = this.createInteraction(this.props)
-        this.eventHandlerKeys_ = {}
-    }
 
     componentDidMount () {
-        console.log("OLInteraction.componentDidMount() context=", this.context)
+        this.interaction = this.createInteraction(this.props)
+        this.eventHandlerKeys_ = {}
+
         this.updateActiveState_(this.props)
         this.updateEventHandlersFromProps_(this.props)
         this.context.map.addInteraction(this.interaction)
     }
 
-    componentWillReceiveProps (newProps) {
+    componentWillReceiveProps(newProps) {
         this.updateActiveState_(newProps)
         this.updateEventHandlersFromProps_(newProps, this.props)
     }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.context.map.removeInteraction(this.interaction)
     this.updateEventHandlersFromProps_({})
   }
 
-  createInteraction (props) {
+  createInteraction(props) {
     throw new TypeError('You must override createInteraction() in classes derived ' +
                         'from OLInteraction')
   }
 
-  updateActiveState_ (props) {
+  updateActiveState_(props) {
     if (props.hasOwnProperty("active")) {
       this.interaction.setActive(props.active)
     } else {
@@ -41,7 +37,7 @@ export default class OLInteraction extends OLComponent {
     }
   }
 
-  updateEventHandler_ (name, handler) {
+  updateEventHandler_(name, handler) {
     const key = this.eventHandlerKeys_[name]
     if (key) {
       this.interaction.unByKey(key)
@@ -52,7 +48,7 @@ export default class OLInteraction extends OLComponent {
     }
   }
 
-  updateEventHandlersFromProps_ (props, oldProps) {
+  updateEventHandlersFromProps_(props, oldProps) {
     const events = this.constructor.olEvents || []
     for (let prop of events) {
       const handler = props[prop]
@@ -66,9 +62,9 @@ export default class OLInteraction extends OLComponent {
 OLInteraction.contextType = MapContext;
 
 OLInteraction.propTypes = {
-  active: PropTypes.bool
+    active: PropTypes.bool
 }
 
 OLInteraction.defaultProps = {
-  active: true
+    active: true
 }

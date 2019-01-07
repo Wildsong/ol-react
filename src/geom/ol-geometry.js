@@ -58,10 +58,10 @@ class OLGeometry extends OLComponent {
             let interactions = this.context.map.getInteractions()
             console.log("OLGeometry.componentWillUnmount() interactions = ", interactions);
             if (this.props.modifyStart) {
-                this.interaction.un('modifystart', this.props.modifyStart)
+                this.interaction.on('modifystart', this.props.modifyStart)
             }
             if (this.props.modifyEnd) {
-                this.interaction.un('modifyend', this.props.modifyEnd);
+                this.interaction.on('modifyend', this.props.modifyEnd);
             }
             interactions.remove(this.interaction);
         }

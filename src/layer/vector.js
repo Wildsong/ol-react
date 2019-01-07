@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Style} from 'ol/style';
-import {Vector as VectorLayer} from 'ol/layer';
-import {Vector as VectorSource} from 'ol/source';
-import OLLayer from './ol-layer';
-import {Collection} from 'ol';
-import {buildLayerProps, baseLayerPropTypes} from './';
-import {buildStyle} from '../style';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Vector as VectorLayer } from 'ol/layer'
+import { Vector as VectorSource } from 'ol/source'
+import { Style } from 'ol/style'
+import OLLayer from './ol-layer'
+//import { Collection} from 'ol'
+import { buildLayerProps, baseLayerPropTypes } from './'
+import { buildStyle } from '../style'
 
 class OLVector extends OLLayer {
     constructor(props) {
@@ -23,23 +23,23 @@ class OLVector extends OLLayer {
         let layerProps = this.buildProps(this.dictLayer);
         let sourceProps = this.buildProps(this.dictSource);
 
-        let vectorSource = new VectorSource(
-            Object.assign({features: new Collection()}, sourceProps)
+        // THere used to be a feature collection added here
+        // but it does not seem to matter at this time so I took it out
+        this.state.source = new VectorSource(
+//          Object.assign({features: new Collection()}, sourceProps)
+            sourceProps
         );
+
+        let style = buildStyle(this.props.style);
 
         //console.log("layerProps", layerProps);
         this.state.layer = new VectorLayer({
             ...layerProps,
-            style: buildStyle(this.props.style),
+            style: style,
             updateWhileAnimating: props.updateWhileAnimating,
             updateWhileInteracting: props.updateWhileInteracting,
-            source: vectorSource
+            source: this.state.source
         })
-    }
-
-    buildSourceProps() {
-        console.log("FIXME build sourceProps here really", this.props);
-        return Object.assign({}, this.props);
     }
 
 /* I think the super class handles all of this???
@@ -50,29 +50,6 @@ class OLVector extends OLLayer {
         this.state.layer.setStyle(buildStyle(this.props.style));
     }
     */
-
-    buildLayerProps() {
-        // See http://openlayers.org/en/latest/apidoc/module-ol_source_TileImage-TileImage.html
-        // I should probably have a separate dictionary for each layer type??
-        let dictLayer = [
-            "extent",
-            "minResolution",
-            "maxResolution",
-            "opacity",
-            "opaque",
-            "projection",
-            "visible",
-            "url",
-            "zIndex",
-        ];
-        return this.buildProps(dictLayer);
-    }
-
-    buildSourceProps() {
-        let dictSource = [
-        ];
-        return this.buildProps(dictSource);
-    }
 }
 
 OLVector.propTypes = {

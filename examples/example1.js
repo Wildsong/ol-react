@@ -60,12 +60,36 @@ export default class Example extends Component {
     }
 
     render(props) {
+        let textMarker = {
+            text: {
+                text: 'Hee',
+                color: 'blue',
+            }
+        }
+        let newMarker = {
+            image: {
+                type: 'regularShape',
+                points: 5,
+                radius: 5,
+                radius1: 5,
+                radius2: 2,
+                stroke: { color: 'blue', width: 1.5 }
+            }
+        }
         let pointStyle = {
             image: {
                 type: 'circle',
-                radius: 10,
+                radius: 4,
                 fill: { color: [100,100,100, 0.5] },
                 stroke: { color: 'green', width: 1 }
+            }
+        };
+        let multipointStyle = {
+            image: {
+                type: 'circle',
+                radius: 4,
+                fill: { color: [0,0,255, 0.4] },
+                stroke: { color: 'red', width: 1 }
             }
         };
         let lineStyle = {
@@ -113,7 +137,7 @@ export default class Example extends Component {
                     />
 
                     <layer.Vector
-                        style={polyStyle}
+                        style={textMarker}
                         opacity={this.state.opacityVector/100} >
 
                         <Feature id="test-line" style={lineStyle}>
@@ -122,8 +146,8 @@ export default class Example extends Component {
                             </geom.LineString>
                         </Feature>
 
-                        <Feature id="test-circle" style={polyStyle}>
-                            <geom.Circle modify={this.state.enableModify} >{[astoria_wm, 4000]}</geom.Circle>
+                        <Feature id="test-circle" style={pointStyle}>
+                            <geom.Circle modify={this.state.enableModify} >{[astoria_wm, 100]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-circle-zeroradius" style={polyStyle}>
@@ -145,14 +169,16 @@ export default class Example extends Component {
                             </geom.Point>
                         </Feature>
 
-                        <Feature id="test-multipoint" style={pointStyle}>
+                        <Feature id="test-multipoint" style={multipointStyle}>
                             <geom.MultiPoint transform={transformfn} modify={this.state.enableModify} >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
+
+                        <interaction.Draw type="Point" />
+
                     </layer.Vector>
 
-                    <interaction.Draw />
                 </Map>
 
     Implement and test...

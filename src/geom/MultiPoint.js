@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Feature} from 'ol';
-import MultiPoint from 'ol/geom/MultiPoint';
-import OLGeometry from './ol-geometry';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Feature} from 'ol'
+import MultiPoint from 'ol/geom/MultiPoint'
+import OLGeometry from './ol-geometry'
 
-class OLMultiPoint extends OLGeometry {
+export default class OLMultiPoint extends OLGeometry {
     constructor(props) {
         super(props);
         //console.log("OLMultiPoint.new() props=", this.props)
@@ -55,5 +55,3 @@ OLMultiPoint.propTypes = {
     animate: PropTypes.bool,
     animationLength: PropTypes.number
 }
-
-export default OLMultiPoint;
