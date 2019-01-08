@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
@@ -16,6 +16,7 @@ import {
 } from 'reactstrap'
 import SliderControl from './slider-control'
 import {Map, View, Feature, control, geom, interaction, layer, source} from '../src'
+import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
@@ -39,15 +40,25 @@ let attributions = [
 
 let pi = 3.1416;
 
+// This controls what kind of features we are drawing.
+const typeSelect = [
+    { label: "Point" },
+    { label: "LineString" },
+    { label: "Polygon" },
+    { label: "Circle" },
+];
+
 export default class Example extends Component {
     constructor(props) {
         super(props)
         this.changeOpacity1 = this.changeOpacity1.bind(this);
         this.changeOpacity2 = this.changeOpacity2.bind(this);
+        this.changeType = this.changeType.bind(this);
         this.state = {
             enableModify: true, // can't change this in the app yet
             opacityOSM : 100,
             opacityVector : 100,
+            typeIndex : 0 // index into typeSelect
         }
     }
 
@@ -57,6 +68,11 @@ export default class Example extends Component {
 
     changeOpacity2(value) {
         this.setState({opacityVector : value});
+    }
+
+    changeType(o) {
+        console.log("changing type to", o.label);
+        this.setState({ typeIndex : value });
     }
 
     render(props) {
@@ -103,7 +119,7 @@ export default class Example extends Component {
         };
 
         return (
-            <div>
+            <Fragment>
                 <h2>{this.props.title}</h2>
                     <h3>Tile source: OpenStreetMap</h3>
 
@@ -174,11 +190,18 @@ export default class Example extends Component {
                             </geom.MultiPoint>
                         </Feature>
 
-                        <interaction.Draw type="Point" />
+                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label } />
 
                     </layer.Vector>
 
                 </Map>
+
+            <Select
+                className="select"
+                defaultValue={ typeSelect[0] }
+                options={ typeSelect }
+                onChange={ this.changeType }
+            />
 
     Implement and test...
     <ul>
@@ -220,7 +243,7 @@ export default class Example extends Component {
             <interaction.Modify features={selected_features}/>
                 */}
 
-            </div>
+            </Fragment>
         );
     }
 }

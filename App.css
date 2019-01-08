@@ -87,6 +87,11 @@
     width: 450px;
 }
 
+/* react-select */
+.select {
+    width: 250px;
+}
+
 #external_control {
     width: 200px;
     height: 200px;
