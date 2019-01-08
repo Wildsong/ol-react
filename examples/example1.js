@@ -42,10 +42,10 @@ let pi = 3.1416;
 
 // This controls what kind of features we are drawing.
 const typeSelect = [
-    { label: "Point" },
-    { label: "LineString" },
-    { label: "Polygon" },
-    { label: "Circle" },
+    { index: 0,  label: "Point" },
+    { index: 1,  label: "LineString" },
+    { index: 2,  label: "Polygon" },
+    { index: 3,  label: "Circle" },
 ];
 
 export default class Example extends Component {
@@ -71,8 +71,9 @@ export default class Example extends Component {
     }
 
     changeType(o) {
-        console.log("changing type to", o.label);
-        this.setState({ typeIndex : value });
+        console.log("example1.changeType from", this.state.typeIndex,
+                    " to", o.index);
+        this.setState({ typeIndex : o.index });
     }
 
     render(props) {
@@ -120,57 +121,57 @@ export default class Example extends Component {
 
         return (
             <Fragment>
-                <h2>{this.props.title}</h2>
-                    <h3>Tile source: OpenStreetMap</h3>
+                <h2>{ this.props.title }</h2>
+                <h3>Tile source: OpenStreetMap</h3>
 
-                    <h3>Vector source</h3>
-                        <ul>
-                            <li> Point: small green circle near Astor Column</li>
-                            <li> Circle: big circle around Astoria </li>
-                            <li> LineString: yellow line near Astoria</li>
-                            <li> Polygon: triangle with a triangle hole inside it</li>
-                        </ul>
+                <h3>Vector source</h3>
+                    <ul>
+                        <li> Point: small green circle near Astor Column</li>
+                        <li> Circle: big circle around Astoria </li>
+                        <li> LineString: yellow line near Astoria</li>
+                        <li> Polygon: triangle with a triangle hole inside it</li>
+                    </ul>
 
-                    Interactions tested here: DRAW
+                Interactions tested here: DRAW
 
-                    <SliderControl
-                        onChange={this.changeOpacity1}
-                        title="OSM"
-                        value={this.state.opacityOSM}
-                    />
-                    <SliderControl
-                        onChange={this.changeOpacity2}
-                        title="Vectors"
-                        value={this.state.opacityVector}
-                    />
+                <SliderControl
+                    onChange={ this.changeOpacity1 }
+                    title="OSM"
+                    value={ this.state.opacityOSM }
+                />
+                <SliderControl
+                    onChange={ this.changeOpacity2 }
+                    title="Vectors"
+                    value={ this.state.opacityVector }
+                />
 
-                <Map view=<View rotation={pi*.25} zoom={10} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View rotation={pi*.25} zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
 
                     <layer.Tile source="OSM"
-                        attributions={attributions}
-                        opacity={this.state.opacityOSM/100}
+                        attributions={ attributions }
+                        opacity={ this.state.opacityOSM/100 }
                     />
 
                     <layer.Vector
-                        style={textMarker}
-                        opacity={this.state.opacityVector/100} >
+                        style={ textMarker }
+                        opacity={ this.state.opacityVector/100 } >
 
-                        <Feature id="test-line" style={lineStyle}>
+                        <Feature id="test-line" style={ lineStyle }>
                             <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
 
-                        <Feature id="test-circle" style={pointStyle}>
-                            <geom.Circle modify={this.state.enableModify} >{[astoria_wm, 100]}</geom.Circle>
+                        <Feature id="test-circle" style={ pointStyle }>
+                            <geom.Circle modify={ this.state.enableModify } >{[astoria_wm, 100]}</geom.Circle>
                         </Feature>
 
-                        <Feature id="test-circle-zeroradius" style={polyStyle}>
-                            <geom.Circle transform={transformfn} modify={this.state.enableModify} >{[6000,0]}</geom.Circle>
+                        <Feature id="test-circle-zeroradius" style={ polyStyle }>
+                            <geom.Circle transform={ transformfn } modify={this.state.enableModify} >{[6000,0]}</geom.Circle>
                         </Feature>
 
-                        <Feature id="test-polygon" style={polyStyle}>
-                            <geom.Polygon transform={transformfn} modify={this.state.enableModify} insertVertexCondition={ ()=>{return true;} }>
+                        <Feature id="test-polygon" style={ polyStyle }>
+                            <geom.Polygon transform={ transformfn } modify={ this.state.enableModify } insertVertexCondition={ ()=>{return true;} }>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                     [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
@@ -178,14 +179,14 @@ export default class Example extends Component {
                             </geom.Polygon>
                         </Feature>
 
-                        <Feature id="test-point" style={pointStyle}>
-                            <geom.Point transform={transformfn} modify={this.state.enableModify} >
+                        <Feature id="test-point" style={ pointStyle }>
+                            <geom.Point transform={ transformfn } modify={ this.state.enableModify } >
                                 {[1835, -910]}
                             </geom.Point>
                         </Feature>
 
-                        <Feature id="test-multipoint" style={multipointStyle}>
-                            <geom.MultiPoint transform={transformfn} modify={this.state.enableModify} >
+                        <Feature id="test-multipoint" style={ multipointStyle }>
+                            <geom.MultiPoint transform={ transformfn } modify={ this.state.enableModify } >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
@@ -196,22 +197,21 @@ export default class Example extends Component {
 
                 </Map>
 
-            <Select
-                className="select"
-                defaultValue={ typeSelect[0] }
-                options={ typeSelect }
-                onChange={ this.changeType }
-            />
+                <Select
+                    className="select"
+                    defaultValue={ typeSelect[ 0 ] }
+                    options={ typeSelect }
+                    onChange={ this.changeType }
+                />
 
-    Implement and test...
-    <ul>
-            <li>            MultiLineString </li>
-                <li>        MultiPolygon</li>
-                    <li>    GeometryCollection</li>
-                        <li>ANimation</li>
-                        <li>Overlay</li>
-        </ul>
-
+                Implement and test...
+                <ul>
+                    <li> MultiLineString </li>
+                    <li> MultiPolygon</li>
+                    <li> GeometryCollection</li>
+                    <li> Animation</li>
+                    <li> Overlay</li>
+                </ul>
 
                 {/*
                 <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
@@ -240,7 +240,7 @@ export default class Example extends Component {
                 No need to declare Modify explicitly.
                 When you create a geometry and set modify=true on it
                 then the ol-geometry will automatically set up a modify interaction
-            <interaction.Modify features={selected_features}/>
+                <interaction.Modify features={selected_features}/>
                 */}
 
             </Fragment>

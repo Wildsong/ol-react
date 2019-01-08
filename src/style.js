@@ -53,7 +53,7 @@ export function buildStyle(style) {
     const result = {};
     evaluateKeys(style, result);
 
-    console.log("styling", style, "->", result);
+    //console.log("styling", style, "->", result);
     return new Style(result);
 }
 
