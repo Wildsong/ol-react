@@ -1,16 +1,17 @@
 {
-  "name": "ol-react",
+  "name": "@map46/ol-react",
   "version": "0.1.8",
-  "license": "MIT",
   "description": "React interface for openlayers",
   "main": "./lib/index.js",
   "scripts": {
+    "test": "parcel serve test.html --open",
     "start": "parcel serve index.html --open",
-    "test": "echo 'We need to write unit tests!'",
-    "compile": "babel -d lib/ src/",
+    "clean": "rm -rf lib/*",
+    "compile": "babel -d lib/@map46/ol-react src/  --source-maps --minified",
     "postversion": "git push && git push --tags"
   },
   "author": "richard.hills@gmail.com",
+  "license": "MIT",
   "contributors": [
     "Brian H Wilson <brian@wildsong.biz>",
     "Tamás Nepusz ntamas",
@@ -24,12 +25,11 @@
   "devDependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "parcel-bundler": "^1.10.3"
+    "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
     "bootstrap": "^4.2.1",
