@@ -1,12 +1,10 @@
-// ol-geometry.js ol-react
-//
-import React from 'react';
-import PropTypes from 'prop-types';
-import {MapContext} from '../map-context';
-import {FeatureContext} from '../feature-context';
-import {Collection} from 'ol';
-import {Modify} from 'ol/interaction';
-import OLComponent from '../ol-component';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from '../map-context'
+import {FeatureContext} from '../feature-context'
+import {Collection} from 'ol'
+import {Modify} from 'ol/interaction'
+import OLComponent from '../ol-component'
 
 class OLGeometry extends OLComponent {
     constructor(props) {
@@ -28,6 +26,7 @@ class OLGeometry extends OLComponent {
 // and there needs to be a test to see if there is already a
 // modify interaction or we need to throw away the modify
 // when we turn the flag off.
+
         if (this.props.modify) {
             let interactions = this.context.map.getInteractions()
 
@@ -36,12 +35,20 @@ class OLGeometry extends OLComponent {
                 insertVertexCondition: this.props.insertVertexCondition
                 // Note; as of 27/06/2017, insertVertexCondition is in 4.2.0 of OpenLayers, we can't upgrade yet as the @types package hasn't been updated
             })
+
+            // FIXME I doubt this works in OL5, I think I need to do an this.interaction.addEventListener() call
+            // See also the Unmount method below, fix there too.
+            // Check the docs!
+
             if (this.props.modifyStart) {
                 this.interaction.on('modifystart', this.props.modifyStart)
             }
             if (this.props.modifyEnd) {
                 this.interaction.on('modifyend', this.props.modifyEnd);
             }
+
+            // Isn't this just a list of interactions? Don't I have to
+            // send it back to the map object??
             interactions.push(this.interaction);
         }
     }
@@ -72,17 +79,6 @@ class OLGeometry extends OLComponent {
         //console.log("OLGeometry.updateFromProps()", this.props)
         //throw("You need to override updateFromProps in your geometry class.")
     }
-
-/*
-    render() {
-        //console.log("OLGeometry.render() props=", this.props)
-        return (
-            <div>
-            {this.props.children}
-            </div>
-        );
-    }
-*/
 }
 OLGeometry.contextType = FeatureContext;
 
