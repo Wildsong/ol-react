@@ -1,6 +1,4 @@
-// example3.js ol-react
-//
-import React, { Component } from 'react'
+122.26import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
@@ -17,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
+import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
@@ -45,6 +43,7 @@ export default class Example3 extends Component {
         super(props)
         this.state = {
             hasError: false,
+            lat: "46N", lon: "123W",
             // Note we override draw order using zIndex, as a test
             opacityLayer1 : 50,
             opacityLayer2 : 100,
@@ -62,33 +61,33 @@ export default class Example3 extends Component {
 
     render(props) {
         let changeOpacity1 = (value) => {
-            this.setState({opacityLayer1 : value});
+            this.setState({ opacityLayer1 : value });
         }
         let changeOpacity2 = (value) => {
-            this.setState({opacityLayer2 : value});
+            this.setState({ opacityLayer2 : value });
         }
         let changeOpacity3 = (value) => {
-            this.setState({opacityLayer3 : value});
+            this.setState({ opacityLayer3 : value });
         }
         return (
-            <div>
-                <h2>{this.props.title}</h2>
+            <Fragment>
+                <h2>{ this.props.title }</h2>
                     A mix of tile and image layers
 
                     <SliderControl
-                        onChange={changeOpacity3}
+                        onChange={ changeOpacity3 }
                         title="ESRI streets tiles"
-                        value={this.state.opacityLayer3}
+                        value={ this.state.opacityLayer3 }
                     />
                     <SliderControl
-                        onChange={changeOpacity1}
+                        onChange={ changeOpacity1 }
                         title="US Map Tiles"
-                        value={this.state.opacityLayer1}
+                        value={ this.state.opacityLayer1 }
                     />
                     <SliderControl
-                        onChange={changeOpacity2}
+                        onChange={ changeOpacity2 }
                         title="GEBCO Bathymetry Image"
-                        value={this.state.opacityLayer2}
+                        value={ this.state.opacityLayer2 }
                     />
 
                     Controls tested here:
@@ -97,53 +96,54 @@ export default class Example3 extends Component {
                         ScaleLine
                         <br />
                     Interactions tested here:
+                        DargBox
                         <br />
                     Using zIndex to control order of layers.
 
-            <Map view=<View zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+            <Map view=<View zoom={4} center={ astoria_wm }/> useDefaultControls={false}>
                 <layer.Tile source="XYZ"
                     url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                    attributions={attributions}
-                    opacity={this.state.opacityLayer1/100}
+                    attributions={ attributions }
+                    opacity={ this.state.opacityLayer1/100 }
                     zIndex={1}
                 />
                 <layer.Image source="WMS"
                     url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
-                    params={{LAYERS:"GEBCO_LATEST"}}
-                    opacity={this.state.opacityLayer2/100}
+                    params={ {LAYERS:"GEBCO_LATEST"} }
+                    opacity={ this.state.opacityLayer2/100 }
                     zIndex={0}
                 />
                 <layer.Tile source="ArcGISRest"
                     url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                    attributions={attributions}
-                    opacity={this.state.opacityLayer3/100}
+                    attributions={ attributions }
+                    opacity={ this.state.opacityLayer3/100 }
                     zIndex={2}
                 />
 
                 <control.OverviewMap/>
                 <control.FullScreen />
+                <interaction.DragBox />
 
                 {/*
                 <control.Zoom />
-                <control.ZoomSlider />
                 <control.ZoomToExtent />
 
                 <interaction.DoubleClickZoom />
-                <interaction.DragBox />
                 <interaction.DragPan />
                 <interaction.DragRotate />
                 <interaction.DragRotateAndZoom />
                 <interaction.DragZoom />
-                <interaction.Draw />
-                <interaction.KeyboardPan />
                 <interaction.KeyboardZoom />
                 <interaction.MouseWheelZoom />
                 <interaction.PinchRotate />
                 <interaction.PinchZoom />
                 */}
 
+                <div id="mouseposition">
+                { this.state.lat }, { this.state.lon }
+                </div>
             </Map>
-            </div>
+            </Fragment>
         );
     }
 }

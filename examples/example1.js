@@ -15,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer, source} from '../src'
+import {Map, View, Feature, control, geom, interaction, layer} from '../src'
 import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -82,7 +82,8 @@ export default class Example extends Component {
                 text: 'Hee',
             }
         }
-        let newMarker = {
+        //  currently this draws a blue 5 pointed star
+        let pointMarker = {
             image: {
                 type: 'regularShape',
                 points: 5,
@@ -132,7 +133,8 @@ export default class Example extends Component {
                         <li> Polygon: triangle with a triangle hole inside it</li>
                     </ul>
 
-                Interactions tested here: DRAW
+                Interactions: DRAW
+                Controls: Sliders, Full screen, Zoom
 
                 <SliderControl
                     onChange={ this.changeOpacity1 }
@@ -145,15 +147,19 @@ export default class Example extends Component {
                     value={ this.state.opacityVector }
                 />
 
-                <Map view=<View rotation={pi*.25} zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
+                <Map view=<View zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
 
                     <layer.Tile source="OSM"
                         attributions={ attributions }
                         opacity={ this.state.opacityOSM/100 }
                     />
 
+FIXME I can change the Vector Type now but the style does not update
+so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
+Not high on my priorities right now.
+
                     <layer.Vector
-                        style={ textMarker }
+                        style={ pointMarker }
                         opacity={ this.state.opacityVector/100 } >
 
                         <Feature id="test-line" style={ lineStyle }>
@@ -195,8 +201,11 @@ export default class Example extends Component {
 
                     </layer.Vector>
 
+                    <control.FullScreen />
+                    <control.Zoom />
                 </Map>
 
+                Select vector type to draw
                 <Select
                     className="select"
                     defaultValue={ typeSelect[ 0 ] }
@@ -214,24 +223,15 @@ export default class Example extends Component {
                 </ul>
 
                 {/*
-                <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
-                <control.FullScreen />
-                <control.MousePosition projection={wgs84}/>
-                <control.OverviewMap/>
-                <control.Rotate autoHide={false}/>
-                <control.ScaleLine units={control.ScaleLineUnits.US} />
-                <control.Zoom />
                 <control.ZoomSlider />
                 <control.ZoomToExtent />
 
                 <interaction.Select/>
-                <interaction.DoubleClickZoom />
                 <interaction.DragBox />
                 <interaction.DragPan />
                 <interaction.DragRotate />
                 <interaction.DragRotateAndZoom />
                 <interaction.DragZoom />
-                <interaction.KeyboardPan />
                 <interaction.KeyboardZoom />
                 <interaction.MouseWheelZoom />
                 <interaction.PinchRotate />

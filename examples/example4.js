@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
@@ -15,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
+import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
@@ -66,7 +66,7 @@ export default class Example4 extends Component {
         }
 
         return (
-            <div>
+            <Fragment>
                 <h2>{this.props.title}</h2>
                     <h3>Tile and XYZ Sources</h3>
                     <ul>
@@ -83,8 +83,12 @@ export default class Example4 extends Component {
 
                     <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
 
-                    Controls tested here:
+                    <br />
+                    Controls:
                         ScaleLine
+                    Interactions:
+                        KeyboardPan (does not work yet! or I don't know the keys)
+                        DoubleClickZoom (works more or less)
                     <br />
 
                 <Map view=<View projection={wm} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
@@ -101,6 +105,16 @@ export default class Example4 extends Component {
                     />
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
+                    <interaction.KeyboardPan
+                        condition={ () => { return true; } }
+                        duration={ 750 }
+                        pixelDelta={ 100 }
+                    />
+
+                    <interaction.DoubleClickZoom
+                        duration={ 750 }
+                        delta={ 1 }
+                    />
 
                     {/*
                     <control.FullScreen />
@@ -108,17 +122,13 @@ export default class Example4 extends Component {
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
 
                     <control.Zoom />
-                    <control.ZoomSlider />
                     <control.ZoomToExtent />
 
-                    <interaction.DoubleClickZoom />
                     <interaction.DragBox />
                     <interaction.DragPan />
                     <interaction.DragRotate />
                     <interaction.DragRotateAndZoom />
                     <interaction.DragZoom />
-                    <interaction.Draw />
-                    <interaction.KeyboardPan />
                     <interaction.KeyboardZoom />
                     <interaction.MouseWheelZoom />
                     <interaction.PinchRotate />
@@ -126,7 +136,7 @@ export default class Example4 extends Component {
                     */}
 
                 </Map>
-            </div>
+            </Fragment>
         );
     }
 }

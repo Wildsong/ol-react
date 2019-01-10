@@ -1,6 +1,4 @@
-// example2.js ol-react
-//
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import {transform} from 'ol/proj'
@@ -15,8 +13,7 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-
-import {Map, View, Feature, control, geom, interaction, layer, source} from '../src';
+import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
@@ -51,7 +48,7 @@ export default class Example extends Component {
 
     render(props) {
         return (
-            <div>
+            <Fragment>
                 <h2>{this.props.title}</h2>
                     Image Sources
                     <ul>
@@ -63,6 +60,7 @@ export default class Example extends Component {
                         <li>Attribution</li>
                         <li>Rotate</li>
                         <li>MousePosition</li>
+                        <li>ZoomSlider</li>
                     </ul>
 
                 <Map view=<View rotation={pi*.25} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
@@ -81,36 +79,28 @@ export default class Example extends Component {
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition projection={wgs84}/>
+                    <control.ZoomSlider />
 
                     {/*
                     <control.FullScreen />
                     <control.OverviewMap/>
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
                     <control.Zoom />
-                    <control.ZoomSlider />
                     <control.ZoomToExtent />
 
                     <interaction.DoubleClickZoom />
-                    <interaction.DragBox />
                     <interaction.DragPan />
                     <interaction.DragRotate />
                     <interaction.DragRotateAndZoom />
                     <interaction.DragZoom />
-                    <interaction.Draw />
-                    <interaction.KeyboardPan />
                     <interaction.KeyboardZoom />
                     <interaction.MouseWheelZoom />
                     <interaction.PinchRotate />
                     <interaction.PinchZoom />
-
-                    No need to declare Modify explicitly.
-                    When you create a geometry and set modify=true on it
-                    then the ol-geometry will automatically set up a modify interaction
-                    <interaction.Modify features={selected_features}/>
                     */}
 
                 </Map>
-            </div>
+            </Fragment>
         );
     }
 }
