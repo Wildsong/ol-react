@@ -1,6 +1,8 @@
 This code started out as richardhills/ol-react for ol3
 and brian32768 forked it and adapted it for ol5
 
+It's changed so much now that I am close to declaring it a new project.
+
 ## Overview
 
 A thin wrapper for [OpenLayers5](http://openlayers.org/) in [React](https://reactjs.org/).
@@ -100,6 +102,15 @@ image: {
 The command `npm start` will launch the test setup in a browser.
 
 I added --no-autoinstall option in package.json to prevent parcel from installing openlayers 4 while I am upgrading the source to ol5. This means (for now anyway) you need to run `npm install` before `npm start` to get the dependencies installed.
+
+### Publishing to npmjs.com
+
+This will publish the contents of the src/ folder as a new release.
+To install it, you'd do "npm install @map46/ol-react" I think. :-)
+That's what I'd like, anyway.
+
+    cd dist
+    npm publish
 
 ### Update git
 
