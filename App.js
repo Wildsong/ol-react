@@ -1,5 +1,3 @@
-// App.js ol-react
-//
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {BrowserRouter, Link, Route, Redirect, Switch} from 'react-router-dom'

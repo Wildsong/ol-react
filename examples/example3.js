@@ -1,4 +1,4 @@
-122.26import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
