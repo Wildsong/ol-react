@@ -14,7 +14,7 @@
   "scripts": {
     "test": "parcel serve test.html --open",
     "start": "parcel serve index.html --open",
-    "build": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
+    "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
     "clean": "rm -rf build/*",
     "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
     "postversion": "git push && git push --tags"
