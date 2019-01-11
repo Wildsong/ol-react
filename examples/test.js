@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {transform} from 'ol/proj'
+import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -15,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer} from '../build/@map46/ol-react'
+import { Map, View, Feature, control, geom, interaction, layer, VERSION } from '../build/@map46/ol-react'
 import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -122,7 +122,7 @@ export default class Example1 extends Component {
 
         return (
             <Fragment>
-                <h2>{ this.props.title }</h2>
+                <h2> version { VERSION }</h2>
 
                 This is a minimal test of the ol-react package.
 
