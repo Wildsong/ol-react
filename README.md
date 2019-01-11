@@ -126,9 +126,9 @@ Note, the 'version' package.json script will be run.
 or
     npm version patch
 
-    npm build
     tasks/publish.sh
-    npm publish
+
+The publish script will do "npm build-package" and "npm publish" for you.
 
 ### Update git
 
