@@ -4,8 +4,7 @@ const pkg = require('../package.json');
 
 const buildDir = path.resolve(__dirname, '../build/@map46/ol-react');
 
-// update the version number in version.js
-const utilPath = path.join(buildDir, 'version.js');
+// update the version number in the built version
 const versionRegEx = /var VERSION = '(.*)';/g;
 const utilSrc = fs.readFileSync(utilPath, 'utf-8').replace(versionRegEx, `var VERSION = '${pkg.version}';`);
 fs.writeFileSync(utilPath, utilSrc, 'utf-8');

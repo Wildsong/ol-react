@@ -10,12 +10,12 @@ set -o errexit
 #
 # Destination directory for the package.
 #
-BUILT_PACKAGE=build/ol
+BUILT_PACKAGE=build/@map46/ol-react
 
 #
 # URL for canonical repo.
 #
-REMOTE=https://github.com/openlayers/openlayers.git
+REMOTE=https://github.com/brian32768/ol-react.git
 
 #
 # Display usage and exit.

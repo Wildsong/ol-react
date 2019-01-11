@@ -106,10 +106,28 @@ I added --no-autoinstall option in package.json to prevent parcel from installin
 ### Publishing to npmjs.com
 
 This will publish the contents of the src/ folder as a new release.
-To install it, you'd do "npm install @map46/ol-react" I think. :-)
-That's what I'd like, anyway.
+To install it, use "npm install @map46/ol-react".
 
-    cd dist
+First, you must bump the version number and tag the github repo;
+the publish script will make sure there is a git version that matches the npm version.
+Note, the 'version' package.json script will be run.
+
+    # Save all changes to github
+    git push
+    # Move to master branch
+    git checkout master
+    # Merge changes from development branch
+    git merge dev
+    git commit -a
+    git push
+
+    # Update version in package.json (see below)
+    npm version minor
+or
+    npm version patch
+
+    npm build
+    tasks/publish.sh
     npm publish
 
 ### Update git
@@ -126,9 +144,8 @@ The command fails if changes are left uncommitted, so 'git commit' first.
 
 ### Deploy
 
-The original version can be installed in your project with ````npm install ol-react````.
+Install in your project with ````npm install ol-react````.
 I haven't gotten past testing yet so I don't have a plan for deployment yet.
-
 
 ## The cry for help
 
