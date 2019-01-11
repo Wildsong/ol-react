@@ -8,7 +8,7 @@
 set -o errexit
 
 #
-# Destination directory for the package.
+# Where the unpublished-but-prepped package is living.
 #
 BUILT_PACKAGE=build/@map46/ol-react
 
@@ -26,12 +26,9 @@ display_usage() {
   Usage: ${1} <version>
 
   To publish a new release, update the version number in package.json and
-  create a tag for the release.
-
-  The tag name must match the version number prefixed by a "v" (for example,
-  version 3.2.1 would be tagged v3.2.1).
-
-  The tag must be pushed to ${REMOTE} before the release can be published.
+  create a tag for the release. Normally you can do this with the
+  "npm release {minor|patch}" command. That will bump the version,
+  update package.json, and create the matching tag in github.
 
 EOF
 }
