@@ -1,14 +1,27 @@
 {
   "name": "@map46/ol-react",
   "version": "0.1.8",
-  "description": "React interface for openlayers",
-  "main": "./lib/index.js",
+  "description": "React interface for OpenLayers 5",
+  "keywords": [
+    "mapping",
+    "gis",
+    "openlayers",
+    "ol",
+    "ol5",
+    "react"
+  ],
+  "main": "./index.html",
   "scripts": {
     "test": "parcel serve test.html --open",
     "start": "parcel serve index.html --open",
-    "clean": "rm -rf lib/*",
-    "compile": "babel -d lib/@map46/ol-react src/  --source-maps --minified",
+    "build": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
+    "clean": "rm -rf build/*",
+    "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
     "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:brian32768/ol-react.git"
   },
   "author": "richard.hills@gmail.com",
   "license": "MIT",
@@ -18,17 +31,17 @@
     "Jono Rogers @statusas",
     "Victor Grigoriu vgrigoriu@gmail.com"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:brian32768/ol-react.git"
+  "bugs": {
+    "url": "https://github.com/brian32768/ol-react/issues",
+    "email": "brian+ol-react@wildsong.biz"
   },
+  "homepage": "https://github.com/brian32768/ol-react#readme",
   "devDependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "parcel-bundler": "^1.11.0"
   },
   "dependencies": {

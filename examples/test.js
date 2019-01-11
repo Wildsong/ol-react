@@ -15,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer} from '../lib/@map46/ol-react'
+import {Map, View, Feature, control, geom, interaction, layer} from '../build/@map46/ol-react'
 import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
