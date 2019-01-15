@@ -26,8 +26,9 @@
 
 .ol-mouse-position {
     font-family: sans-serif;
-    font-size: 8pt;
-    left: 64px;
+    font-size: 12pt;
+    left: 10px;
+    color: white;
 }
 
 .ol-full-screen {

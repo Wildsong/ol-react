@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import {transform} from 'ol/proj'
+import { transform } from 'ol/proj'
+import { toStringXY } from 'ol/coordinate'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -78,7 +79,12 @@ export default class Example extends Component {
 
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                     <control.Rotate autoHide={false}/>
-                    <control.MousePosition projection={wgs84}/>
+                    <control.MousePosition
+                        projection={wgs84}
+                        coordinateFormat={ (coord) => {
+                                return toStringXY(coord, 3)
+                        } }
+                    />
                     <control.ZoomSlider />
 
                     {/*
