@@ -72,7 +72,7 @@ image: {
  * Circle
  * Fill
  * Icon - untested
- * Image - untested
+ * Image
  * RegularShape
  * Stroke
  * Style - maybe I can attach a function with this?
@@ -106,11 +106,7 @@ I added --no-autoinstall option in package.json to prevent parcel from installin
 ### Publishing to npmjs.com
 
 This will publish the contents of the src/ folder as a new release.
-To install it, use "npm install @map46/ol-react".
-
-First, you must bump the version number and tag the github repo;
-the publish script will make sure there is a git version that matches the npm version.
-Note, the 'version' package.json script will be run.
+To install it for use in your own project, use "npm install @map46/ol-react".
 
     # Save all changes to github
     git push
