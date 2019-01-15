@@ -70,17 +70,25 @@ export default class Example3 extends Component {
         let changeOpacity3 = (value) => {
             this.setState({ opacityLayer3 : value });
         }
+
+        // FIXME: I'd like to control how the points appear at different
+        // levels and cluster them when we're zoomed out but that's
+        // for another day. And of course there is more than one type
+        // of point in the file and I need to address that too.
+        let geocacheIcon = require('../assets/traditional.png');
         //  currently this draws a blue 5 pointed star
         let gpxMarker = {
             image: {
-                type: 'regularShape',
-                points: 5,
-                radius: 5,
-                radius1: 5,
-                radius2: 2,
-                stroke: { color: 'blue', width: 1.5 }
+                type: 'icon',
+                //crossOrigin:
+                //img: HTMLImageElement | HTMLCanvasElement
+                //scale: number,
+                opacity: 1,
+                //rotation: radians,
+                src: geocacheIcon,
             }
         }
+        
         let usngc = new usng.Converter();
         let coordFormatter = (coord) => {
             return usngc.LLtoUSNG(coord[1], coord[0], 5);

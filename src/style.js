@@ -31,7 +31,7 @@ const STYLE_KEY_FACTORIES = {
 
 export function buildStyle(style) {
     if (!style) {
-        console.log('buildStyle(null) IS PROBABLY A PROBLEM FOR US.');
+        console.log('buildStyle(null) PROBABLY A PROBLEM.');
         return null;
     }
 
