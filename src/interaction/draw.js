@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import {LayerContext} from '../layer-context'
-import {Draw} from 'ol/interaction'
+import { LayerContext } from '../layer-context'
+import { Draw } from 'ol/interaction'
 import OLInteraction from './ol-interaction'
 
 export default class OLDraw extends OLInteraction {

@@ -137,7 +137,11 @@ export default class Example3 extends Component {
                     zIndex={2}
                 />
 
-                <layer.Vector style={ gpxMarker }>
+                <layer.Vector
+                    style={ gpxMarker }
+                    opacity={ 1 }
+                    zIndex={3}
+                >
                     {/* This interaction has to be inside a vector layer. */}
                     <interaction.DragAndDrop />
                 </layer.Vector>
