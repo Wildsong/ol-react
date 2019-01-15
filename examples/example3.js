@@ -3,6 +3,8 @@ import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
+import { toStringXY } from 'ol/coordinate'
+import usng from 'usng/usng'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -43,7 +45,6 @@ export default class Example3 extends Component {
         super(props)
         this.state = {
             hasError: false,
-            lat: "46N", lon: "123W",
             // Note we override draw order using zIndex, as a test
             opacityLayer1 : 50,
             opacityLayer2 : 100,
@@ -68,6 +69,21 @@ export default class Example3 extends Component {
         }
         let changeOpacity3 = (value) => {
             this.setState({ opacityLayer3 : value });
+        }
+        //  currently this draws a blue 5 pointed star
+        let gpxMarker = {
+            image: {
+                type: 'regularShape',
+                points: 5,
+                radius: 5,
+                radius1: 5,
+                radius2: 2,
+                stroke: { color: 'blue', width: 1.5 }
+            }
+        }
+        let usngc = new usng.Converter();
+        let coordFormatter = (coord) => {
+            return usngc.LLtoUSNG(coord[1], coord[0], 5);
         }
         return (
             <Fragment>
@@ -96,7 +112,8 @@ export default class Example3 extends Component {
                         ScaleLine
                         <br />
                     Interactions tested here:
-                        DargBox
+                        DragBox,
+                        DragAndDrop (drop a GPX or KML file onto the map)
                         <br />
                     Using zIndex to control order of layers.
 
@@ -120,6 +137,11 @@ export default class Example3 extends Component {
                     zIndex={2}
                 />
 
+                <layer.Vector style={ gpxMarker }>
+                    {/* This interaction has to be inside a vector layer. */}
+                    <interaction.DragAndDrop />
+                </layer.Vector>
+
                 <control.OverviewMap/>
                 <control.FullScreen />
                 <interaction.DragBox />
@@ -139,9 +161,10 @@ export default class Example3 extends Component {
                 <interaction.PinchZoom />
                 */}
 
-                <div id="mouseposition">
-                { this.state.lat }, { this.state.lon }
-                </div>
+                <control.MousePosition
+                    projection={wgs84}
+                    coordinateFormat={ coordFormatter }
+                />
             </Map>
             </Fragment>
         );
