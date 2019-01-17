@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import { createXYZ } from 'ol/tilegrid'
-import { tile as tileStrategy } from 'ol/loadingstrategy'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
@@ -24,8 +22,6 @@ import '../App.css';
 
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
-
-var esrijsonFormat = new EsriJSON();
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
@@ -63,41 +59,24 @@ export default class Example4 extends Component {
         this.setState({opacityBing : value});
     }
 
-
     render(props) {
         let changeOpacity = (value) => {
             this.setState({xyzOpacity : value});
         }
 
+        let polyStyle = {
+            stroke: {color: [0, 0, 0, 1], width:4},
+            fill: {color: [255, 0, 0, .250]},
+        };
+
         const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
-        let taxlotLoader = (extent, resolution, projection) => {
-            let url = taxlotFeatureServer  + '0' + '/query/?f=json&' +
-               'returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=' +
-                encodeURIComponent(    '{"xmin":' + extent[0] + ',"ymin":' + extent[1]
-                                     + ',"xmax":' + extent[2] + ',"ymax":' + extent[3])
-                                     + '&geometryType=esriGeometryEnvelope&outFields=*';
-            jquery.ajax({url: url, dataType: 'jsonp', success: function(response) {
-                if (response.error) {
-            	    console.log(response.error.message + response.error.details + ' IS IT SHARED? I can\'t do auth!');
-                } else {
-            		// dataProjection will be read from document
-            		let features = esrijsonFormat.readFeatures(response, {
-            		    featureProjection: projection
-            	    });
-            		if (features.length > 0) {
-                     //console.log("Adding " + features.length + " features.", features);
-            		    source.addFeatures(features);
-            		}
-                }
-            }});
-        }
 
         return (
             <Fragment>
                 <h2>{this.props.title}</h2>
                     <h3>Tile and XYZ Sources</h3>
                     <ul>
-                    <li>ArcGIS using XYZ</li>
+                    <li>ArcGIS ESRIjson featureserver using XYZ</li>
                     <li>BingMaps aerial
                     ** It would be nice to add a selector here for other BingMaps</li>
                     </ul>
@@ -118,7 +97,7 @@ export default class Example4 extends Component {
                         DoubleClickZoom (works more or less)
                     <br />
 
-                <Map view=<View projection={wm} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View projection={wm} zoom={12} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Tile name="Bing Aerial"
                         source="BingMaps"
@@ -135,9 +114,8 @@ export default class Example4 extends Component {
                     />
 
                     <layer.Vector name="Taxlot FeatureServer tiles"
-                        loader={ taxlotLoader }
+                        url={ taxlotFeatureServer }
                         style={ polyStyle }
-                        strategy={ tileStrategy(createXYZ({ tileSize: 512 })) }
                     />
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
