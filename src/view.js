@@ -13,7 +13,6 @@ export default class OLView extends OLComponent {
         let p = wm;
         if (typeof this.props.projection !== 'undefined') {
             p = this.props.projection;
-            console.log("Overrdigin projection", p);
         }
         var opts = {
             center: props.initialCenter,
@@ -23,7 +22,6 @@ export default class OLView extends OLComponent {
             projection: p
         };
         this.view = new View(opts);
-        console.log("View projection", this.view.getProjection(), this.props);
     }
 
     onMoveEnd(event) {
