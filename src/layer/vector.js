@@ -18,12 +18,14 @@ class OLVector extends OLLayer {
 
         this.dictSource.push('format');
         //this.dictSource.push('features'); // gets created below
-        // It's possible to use a custom loader function as an option.
 
-        let layerProps = this.buildProps(this.dictLayer);
+        this.dictSource.push('loader');
+        // Use a loader function to load from an ArcGIS FeatureServer
+
+        let layerProps  = this.buildProps(this.dictLayer);
         let sourceProps = this.buildProps(this.dictSource);
 
-        // THere used to be a feature collection added here
+        // There used to be a feature collection added here
         // but it does not seem to matter at this time so I took it out
         this.state.source = new VectorSource(
 //          Object.assign({features: new Collection()}, sourceProps)
@@ -55,6 +57,7 @@ class OLVector extends OLLayer {
 OLVector.propTypes = {
     updateWhileAnimating: PropTypes.bool,
     updateWhileInteracting: PropTypes.bool,
+    loader: PropTypes.func,
     style: PropTypes.oneOfType([
             PropTypes.instanceOf(Style),
             PropTypes.object,

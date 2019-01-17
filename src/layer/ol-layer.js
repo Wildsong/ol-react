@@ -15,6 +15,8 @@ class OLLayer extends OLComponent {
     constructor(props) {
         super(props)
 
+        this.layerName = this.props.name;
+
         // These options are accepted by any layer
         // http://openlayers.org/en/latest/apidoc/module-ol_layer_Base.html#~Options
         this.dictLayer = [
@@ -124,6 +126,7 @@ class OLLayer extends OLComponent {
 OLLayer.contextType = MapContext;
 
 OLLayer.PropTypes = {
+    name: PropTypes.string,
     opacity: PropTypes.number,
     visible: PropTypes.bool,
     extent: PropTypes.instanceOf(Extent),

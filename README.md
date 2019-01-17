@@ -128,7 +128,8 @@ Do NOT run "npm publish" in the top level folder. It will publish too much!
 The publish script will do "npm build-package" and "npm publish" for you.
 The script runs 'npm publish' after chdir'ing down into the build folder.
 
-After a successful publish you need to do a 'git checkout master'.
+At this point do 'git status' and you will see you're not on a branch.
+You need to do a 'git checkout master' to move back onto that branch or 'git checkout dev' to go back to work.
 
 ### Update git
 

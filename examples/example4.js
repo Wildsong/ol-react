@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
+import { createXYZ } from 'ol/tilegrid'
+import { tile as tileStrategy } from 'ol/loadingstrategy'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
@@ -22,6 +24,8 @@ import '../App.css';
 
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
+
+var esrijsonFormat = new EsriJSON();
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
@@ -65,6 +69,29 @@ export default class Example4 extends Component {
             this.setState({xyzOpacity : value});
         }
 
+        const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
+        let taxlotLoader = (extent, resolution, projection) => {
+            let url = taxlotFeatureServer  + '0' + '/query/?f=json&' +
+               'returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=' +
+                encodeURIComponent(    '{"xmin":' + extent[0] + ',"ymin":' + extent[1]
+                                     + ',"xmax":' + extent[2] + ',"ymax":' + extent[3])
+                                     + '&geometryType=esriGeometryEnvelope&outFields=*';
+            jquery.ajax({url: url, dataType: 'jsonp', success: function(response) {
+                if (response.error) {
+            	    console.log(response.error.message + response.error.details + ' IS IT SHARED? I can\'t do auth!');
+                } else {
+            		// dataProjection will be read from document
+            		let features = esrijsonFormat.readFeatures(response, {
+            		    featureProjection: projection
+            	    });
+            		if (features.length > 0) {
+                     //console.log("Adding " + features.length + " features.", features);
+            		    source.addFeatures(features);
+            		}
+                }
+            }});
+        }
+
         return (
             <Fragment>
                 <h2>{this.props.title}</h2>
@@ -93,15 +120,24 @@ export default class Example4 extends Component {
 
                 <Map view=<View projection={wm} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
-                    <layer.Tile source="BingMaps"
+                    <layer.Tile name="Bing Aerial"
+                        source="BingMaps"
+                        name=""
                         visible={this.state.bingVisible}
                     />
 
-                    <layer.Tile source="XYZ"
+                    <layer.Tile name="ESRI World Streets"
+                        source="XYZ"
                         url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                         attributions={attributions}
                         visible={this.state.xyzVisible}
                         opacity={this.state.xyzOpacity/100}
+                    />
+
+                    <layer.Vector name="Taxlot FeatureServer tiles"
+                        loader={ taxlotLoader }
+                        style={ polyStyle }
+                        strategy={ tileStrategy(createXYZ({ tileSize: 512 })) }
                     />
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
