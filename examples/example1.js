@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
@@ -48,32 +48,51 @@ const typeSelect = [
     { index: 3,  label: "Circle" },
 ];
 
-export default class Example1 extends Component {
+class EventList extends Component {
     constructor(props) {
-        super(props)
-        this.changeOpacity1 = this.changeOpacity1.bind(this);
-        this.changeOpacity2 = this.changeOpacity2.bind(this);
-        this.changeType = this.changeType.bind(this);
-        this.state = {
-            enableModify: true, // can't change this in the app yet
-            opacityOSM : 100,
-            opacityVector : 100,
-            typeIndex : 0 // index into typeSelect
-        }
+        super(props);
     }
 
-    changeOpacity1(value) {
+    render() {
+        let rows = [];
+//        for(let i=0; i<this.children.length; i++) {
+//            rows.push(<ObjectRow key={ "hi" } />);
+//        }
+        return (
+            <ol> <li> { this.children } </li> </ol>
+        );
+    }
+}
+
+export default class Example1 extends Component {
+    state = {
+        enableModify: true, // can't change this in the app yet
+        opacityOSM : 98,
+        opacityVector : 100,
+        typeIndex : 0, // index into typeSelect
+        events : []
+    }
+
+    changeOpacity1 = value => {
         this.setState({opacityOSM : value});
     }
 
-    changeOpacity2(value) {
+    changeOpacity2 = (value) => {
         this.setState({opacityVector : value});
     }
 
-    changeType(o) {
+    changeType = (o) => {
         console.log("example1.changeType from", this.state.typeIndex,
                     " to", o.index);
         this.setState({ typeIndex : o.index });
+    }
+
+    handleMapEvent = (event) => {
+        console.log(event)
+        this.state.events.push(
+            event.type
+        );
+        this.setState({ events : this.state.events });
     }
 
     render(props) {
@@ -121,7 +140,7 @@ export default class Example1 extends Component {
         };
 
         return (
-            <Fragment>
+            <>
                 <h2>{ this.props.title }</h2>
                 <h3>Tile source: OpenStreetMap</h3>
 
@@ -151,7 +170,11 @@ export default class Example1 extends Component {
                 so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
                 Not high on my priorities right now.
 
-                <Map view=<View zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
+                <Map
+                    view=<View zoom={ 10 } center={ astoria_wm }/>
+                    useDefaultControls={ false }
+                    onMoveEnd={ this.handleMapEvent }
+                >
 
                     <layer.Tile source="OSM"
                         attributions={ attributions }
@@ -205,6 +228,8 @@ export default class Example1 extends Component {
                     <control.Zoom />
                 </Map>
 
+                <EventList>{ this.state.events }</EventList>
+
                 Select vector type to draw
                 <Select
                     className="select"
@@ -243,7 +268,7 @@ export default class Example1 extends Component {
                 <interaction.Modify features={selected_features}/>
                 */}
 
-            </Fragment>
+            </>
         );
     }
 }

@@ -15,24 +15,27 @@ class OLMap extends Component {
         super(props);
 //        console.log("new OLMap props=", this.props)
         this.map = new Map({
-            loadTilesWhileAnimating: props.loadTilesWhileAnimating,
-            loadTilesWhileInteracting: props.loadTilesWhileInteracting,
-            interactions: props.useDefaultInteractions ? defaultInteractions() : [],
-            controls: props.useDefaultControls ? defaultControls() : [],
+            loadTilesWhileAnimating: this.props.loadTilesWhileAnimating,
+            loadTilesWhileInteracting: this.props.loadTilesWhileInteracting,
+            interactions: this.props.useDefaultInteractions ? defaultInteractions() : [],
+            controls: this.props.useDefaultControls ? defaultControls() : [],
             overlays: []
         });
 
-        if (props.onChangeSize) {
+        if (this.props.onMoveEnd) {
+            this.map.on('moveend', this.props.onMoveEnd);
+        }
+        if (this.props.onChangeSize) {
             this.map.on('change:size', this.props.onChangeSize);
         }
         if (this.props.onSingleClick) {
             this.map.on('singleclick', this.props.onSingleClick);
         }
         if (this.props.onFeatureHover) {
-            this.map.on('pointermove', this.onFeatureHover, this);
+            this.map.on('pointermove', this.props.onFeatureHover, this);
         }
         if (this.props.onFeatureClick) {
-            this.map.on('singleclick', this.onFeatureClick, this);
+            this.map.on('singleclick', this.props.onFeatureClick, this);
         }
     }
 
