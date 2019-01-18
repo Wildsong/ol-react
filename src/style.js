@@ -1,5 +1,3 @@
-// So far this is used in feature.js and layer/vector.js
-
 import {
     Atlas as AtlasStyle,
     Circle as CircleStyle,
@@ -94,7 +92,7 @@ function buildImage(style) {
     let imageStyle = style;
     evaluateKeys(style, imageStyle);
 
-    let s = new CircleStyle({radius:2});
+    let s = null;
     switch (style.type) {
         case 'circle':
             s = new CircleStyle(imageStyle);
@@ -104,8 +102,10 @@ function buildImage(style) {
             break;
         case 'regularShape':
             s = new RegularShapeStyle(imageStyle);
+            break;
         default:
             console.log("Unrecognized style type '" + style.type + "'");
+            s = new CircleStyle({radius:20}); // default!!
     }
     return s
 }
