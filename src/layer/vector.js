@@ -27,6 +27,10 @@ class OLVector extends OLLayer {
 
         // There used to be a feature collection added here
         // but it does not seem to matter at this time so I took it out
+
+        // Using the tileStrategy here all the time does not seem
+        // to matter but I think I only want it for EsriJSON
+
         this.state.source = new VectorSource(
             Object.assign({
                     //features: new Collection()},
@@ -39,7 +43,7 @@ class OLVector extends OLLayer {
         //console.log("props", this.props, "sourceProps", sourceProps);
         if (this.props.source) {
             let dl = DataLoader(this.props.source, this.props.url, this.state.source);
-            console.log("What is dl", dl);
+            //console.log("What is dl", dl);
             this.state.source.setLoader(dl);
         }
 

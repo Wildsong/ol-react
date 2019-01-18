@@ -76,6 +76,7 @@ export default class Example4 extends Component {
                 <h2>{this.props.title} Tile and XYZ Sources</h2>
                     <ul>
                         <li>ArcGIS ESRIjson featureserver using XYZ</li>
+                        <li>ESRI WOrld Streets (XYZ)</li>
                         <li>BingMaps aerial
                         ** It would be nice to add a selector here for other BingMaps</li>
                     </ul>
@@ -95,7 +96,7 @@ export default class Example4 extends Component {
                         DoubleClickZoom (works more or less)<br />
                     </p>
 
-                <Map view=<View projection={wm} zoom={12} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View projection={wm} zoom={15} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Tile name="Bing Aerial"
                         source="BingMaps"
