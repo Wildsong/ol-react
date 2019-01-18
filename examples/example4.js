@@ -66,19 +66,18 @@ export default class Example4 extends Component {
 
         let polyStyle = {
             stroke: {color: [0, 0, 0, 1], width:4},
-            fill: {color: [255, 0, 0, .250]},
+            //fill: {color: [255, 0, 0, .250]},
         };
 
         const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
         return (
             <Fragment>
-                <h2>{this.props.title}</h2>
-                    <h3>Tile and XYZ Sources</h3>
+                <h2>{this.props.title} Tile and XYZ Sources</h2>
                     <ul>
-                    <li>ArcGIS ESRIjson featureserver using XYZ</li>
-                    <li>BingMaps aerial
-                    ** It would be nice to add a selector here for other BingMaps</li>
+                        <li>ArcGIS ESRIjson featureserver using XYZ</li>
+                        <li>BingMaps aerial
+                        ** It would be nice to add a selector here for other BingMaps</li>
                     </ul>
 
                     <SliderControl
@@ -89,19 +88,17 @@ export default class Example4 extends Component {
 
                     <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
 
-                    <br />
-                    Controls:
-                        ScaleLine
-                    Interactions:
-                        KeyboardPan (does not work yet! or I don't know the keys)
-                        DoubleClickZoom (works more or less)
-                    <br />
+                    <p>
+                        Controls: ScaleLine <br />
+                        Interactions:<br />
+                        KeyboardPan (does not work yet! or I don't know the keys)<br />
+                        DoubleClickZoom (works more or less)<br />
+                    </p>
 
                 <Map view=<View projection={wm} zoom={12} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Tile name="Bing Aerial"
                         source="BingMaps"
-                        name=""
                         visible={this.state.bingVisible}
                     />
 
@@ -113,7 +110,8 @@ export default class Example4 extends Component {
                         opacity={this.state.xyzOpacity/100}
                     />
 
-                    <layer.Vector name="Taxlot FeatureServer tiles"
+                    <layer.Vector name="Taxlots"
+                        source="esrijson"
                         url={ taxlotFeatureServer }
                         style={ polyStyle }
                     />
