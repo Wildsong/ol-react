@@ -48,7 +48,7 @@ const typeSelect = [
     { index: 3,  label: "Circle" },
 ];
 
-export default class Example extends Component {
+export default class Example1 extends Component {
     constructor(props) {
         super(props)
         this.changeOpacity1 = this.changeOpacity1.bind(this);
@@ -147,16 +147,16 @@ export default class Example extends Component {
                     value={ this.state.opacityVector }
                 />
 
+                FIXME I can change the Vector Type now but the style does not update
+                so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
+                Not high on my priorities right now.
+
                 <Map view=<View zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
 
                     <layer.Tile source="OSM"
                         attributions={ attributions }
                         opacity={ this.state.opacityOSM/100 }
                     />
-
-FIXME I can change the Vector Type now but the style does not update
-so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
-Not high on my priorities right now.
 
                     <layer.Vector
                         style={ pointMarker }
@@ -248,6 +248,6 @@ Not high on my priorities right now.
     }
 }
 
-Example.propTypes = {
+Example1.propTypes = {
     title: PropTypes.string
 };
