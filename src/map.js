@@ -1,5 +1,3 @@
-// map.js ol-react
-//
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {MapContext} from './map-context';
@@ -22,21 +20,15 @@ class OLMap extends Component {
             overlays: []
         });
 
-        if (this.props.onMoveEnd) {
-            this.map.on('moveend', this.props.onMoveEnd);
-        }
-        if (this.props.onChangeSize) {
-            this.map.on('change:size', this.props.onChangeSize);
-        }
-        if (this.props.onSingleClick) {
-            this.map.on('singleclick', this.props.onSingleClick);
-        }
-        if (this.props.onFeatureHover) {
-            this.map.on('pointermove', this.props.onFeatureHover, this);
-        }
-        if (this.props.onFeatureClick) {
-            this.map.on('singleclick', this.props.onFeatureClick, this);
-        }
+        if (this.props.onPointerMove) this.map.on('pointermove', this.props.onPointerMove, this);
+        //if (this.props.onPointerDrag) this.map.on('pointerdrag', this.props.onPointeDrag, this);
+
+        // There are about 20 different events we could watch here
+        // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
+        if (this.props.onChangeSize)  this.map.on('change:size', this.props.onChangeSize);
+        if (this.props.onSingleClick) this.map.on('singleclick', this.props.onSingleClick);
+        //if (this.props.onDblClick)    this.map.on('doubleclick', this.props.onDblClick);
+        if (this.props.onMoveEnd)     this.map.on('moveend', this.props.onMoveEnd);
     }
 
     componentDidMount() {
@@ -74,9 +66,7 @@ class OLMap extends Component {
     }
 
     onFeatureHover(evt) {
-        if (evt.dragging) {
-            return;
-        }
+        if (evt.dragging) return;
         let pixel = this.map.getEventPixel(evt.originalEvent);
         let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
             return x
@@ -105,10 +95,10 @@ class OLMap extends Component {
 OLMap.propTypes = {
     loadTilesWhileAnimating: PropTypes.bool,
     loadTilesWhileInteracting: PropTypes.bool,
+    onPointerMove: PropTypes.func,
     onSingleClick: PropTypes.func,
     onChangeSize: PropTypes.func,
-    onFeatureHover: PropTypes.func,
-    onFeatureClick: PropTypes.func,
+    onMoveEnd: PropTypes.func,
     view: PropTypes.element.isRequired,
     useDefaultInteractions: PropTypes.bool.isRequired,
     useDefaultControls: PropTypes.bool.isRequired,

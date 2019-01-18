@@ -7,7 +7,7 @@ import OLInteraction from './ol-interaction'
 export default class OLDraw extends OLInteraction {
     createInteraction(props) {
         let source = this.context.layer.getSource()
-        console.log("OLDraw.createInteraction", props.type)
+        //console.log("OLDraw.createInteraction", props.type)
         let interaction = new Draw({
             type: props.type,
             source: source,

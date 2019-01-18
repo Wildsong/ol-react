@@ -6,7 +6,7 @@ import OLComponent from '../ol-component'
 export default class OLInteraction extends OLComponent {
 
     componentDidMount() {
-        console.log("OLInteractive.componentDidMount()")
+//        console.log("OLInteractive.componentDidMount()")
         this.interaction = this.createInteraction(this.props)
         this.eventHandlerKeys_ = {}
 
@@ -15,8 +15,11 @@ export default class OLInteraction extends OLComponent {
         this.context.map.addInteraction(this.interaction)
     }
 
+// FIXME this happens a little more often than I'd like
+// which means we should see if anything has changed before
+// running the code here,  so we don't render without need
     componentDidUpdate(prevProps) {
-        console.log("OLInteractive.componentDidUpdate()", this.interaction)
+//        console.log("OLInteractive.componentDidUpdate()", this.interaction)
 
         this.context.map.removeInteraction(this.interaction)
 

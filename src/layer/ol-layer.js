@@ -84,7 +84,7 @@ class OLLayer extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("layer.OLLayer.componentDidUpdate() state=", this.state, " previous=", prevProps, " this.props=", this.props);
+        //console.log("layer.OLLayer.componentDidUpdate() state=", this.state, " previous=", prevProps, " this.props=", this.props);
         /*
         if (this.props.opacity !== prevProps.opacity) this.state.layer.setOpacity(this.props.opacity)
         if (this.props.visible !== prevProps.visible) this.state.layer.setVisible(this.props.visible)

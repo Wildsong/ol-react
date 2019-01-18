@@ -18,10 +18,10 @@ export default class OLZoom extends OLControl {
         return this.zoomControl;
     }
 
-    render() {
-        console.log("zoom render ", this.props);
-        return super.render();
-    }
+//    render() {
+//        //console.log("OLZoom render ", this.props);
+//        return super.render();
+//    }
 }
 
 OLZoom.propTypes = Object.assign({}, OLControl.propTypes, {

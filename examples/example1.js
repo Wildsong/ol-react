@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {transform} from 'ol/proj'
+import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -15,7 +15,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer} from '../src'
+import { Map, View, Feature, control, geom, interaction, layer } from '../src'
 import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -49,17 +49,12 @@ const typeSelect = [
 ];
 
 class EventList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        let rows = [];
-//        for(let i=0; i<this.children.length; i++) {
-//            rows.push(<ObjectRow key={ "hi" } />);
-//        }
+        let keyval=0; // Some weird react rule, each row needs a unique key.
         return (
-            <ol> <li> { this.children } </li> </ol>
+            <ol>
+            { this.props.events.slice(0).reverse().map( (listVal) => <li key={ keyval++ }>{ listVal }</li> )}
+            </ol>
         );
     }
 }
@@ -70,10 +65,11 @@ export default class Example1 extends Component {
         opacityOSM : 98,
         opacityVector : 100,
         typeIndex : 0, // index into typeSelect
-        events : []
+        events : [],
+        pointer : '',
     }
 
-    changeOpacity1 = value => {
+    changeOpacity1 = (value) => {
         this.setState({opacityOSM : value});
     }
 
@@ -82,17 +78,22 @@ export default class Example1 extends Component {
     }
 
     changeType = (o) => {
-        console.log("example1.changeType from", this.state.typeIndex,
-                    " to", o.index);
         this.setState({ typeIndex : o.index });
     }
 
     handleMapEvent = (event) => {
-        console.log(event)
-        this.state.events.push(
-            event.type
-        );
+        if (this.state.events.length > 5) {
+            this.state.events.shift();
+        }
+        this.state.events.push(event.type);
         this.setState({ events : this.state.events });
+        event.stopPropagation()
+    }
+
+    handlePointerMove = (event) => {
+        console.log(event.type)
+        this.setState({ pointer: event.coordinate })
+        //event.stopPropagation() // this stops the other events!
     }
 
     render(props) {
@@ -170,12 +171,20 @@ export default class Example1 extends Component {
                 so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
                 Not high on my priorities right now.
 
+                <p>
+                    Handling map events:
+                    pointermove, singleclick, changesize, moveend
+                </p>
+
                 <Map
                     view=<View zoom={ 10 } center={ astoria_wm }/>
                     useDefaultControls={ false }
+
+                    onPointerMove={ this.handlePointerMove }
+                    onSingleClick={ this.handleMapEvent }
+                    onChangeSize={ this.handleMapEvent }
                     onMoveEnd={ this.handleMapEvent }
                 >
-
                     <layer.Tile source="OSM"
                         attributions={ attributions }
                         opacity={ this.state.opacityOSM/100 }
@@ -228,8 +237,8 @@ export default class Example1 extends Component {
                     <control.Zoom />
                 </Map>
 
-                <EventList>{ this.state.events }</EventList>
-
+                <EventList events={ this.state.events }/>
+                <p> { this.state.pointer[0] + ', ' + this.state.pointer[1] } </p>
                 Select vector type to draw
                 <Select
                     className="select"
