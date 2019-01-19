@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Vector as VectorLayer } from 'ol/layer'
-import { Vector as VectorSource } from 'ol/source'
+import { Cluster, Vector as VectorSource } from 'ol/source'
 import { Style } from 'ol/style'
 import OLLayer from './ol-layer'
 import { createXYZ } from 'ol/tilegrid'
@@ -19,26 +19,49 @@ class OLVector extends OLLayer {
         this.dictLayer.push('updateWhileAnimating');
         this.dictLayer.push('updateWhileInteracting');
 
-        this.dictSource.push('format');
-        //this.dictSource.push('features'); // gets created below
+        this.dictSource.push('format');   // { esrijson|geojson|topojson }
+        this.dictSource.push('distance'); // for cluster
+        //this.dictSource.push('features');
 
         let layerProps  = this.buildProps(this.dictLayer);
         let sourceProps = this.buildProps(this.dictSource);
 
         // There used to be a feature collection added here
-        // but it does not seem to matter at this time so I took it out
+        // but it does not seem to matter so it's commented out
 
         // Using the tileStrategy here all the time does not seem
         // to matter but I think I only want it for EsriJSON
+        // Maybe there should be a "source=esrijson"
 
-        this.state.source = new VectorSource(
-            Object.assign({
+        let vectorsource = new VectorSource(
+                Object.assign({
                     //features: new Collection()},
                     strategy: tileStrategy( createXYZ({ tileSize: 512 })),
                 },
                 sourceProps
             )
         )
+        let source;
+        switch (this.props.source) {
+            case 'cluster':
+                console.log("cluster", sourceProps);
+                source = new Cluster(
+                    Object.assign({
+                            //features: new Collection(),
+                            //geometryFunction: func
+                            //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                            source: vectorsource
+                        },
+                        sourceProps
+                    )
+                )
+                break;
+
+            default:
+                source = vectorsource;
+                break;
+        }
+        this.state.source = source;
 
         //console.log("props", this.props, "sourceProps", sourceProps);
         if (this.props.source) {

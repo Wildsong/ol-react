@@ -85,7 +85,31 @@ export default class Example3 extends Component {
                 src: geocacheIcon,
             }
         }
-
+        let styleCache = {};
+        let clusterStyle = (feature) => {
+            var size = feature.get('features').length;
+            var style = styleCache[size];
+            if (!style) {
+                style = new Style({
+                  image: new CircleStyle({
+                    radius: 10,
+                    stroke: new Stroke({
+                      color: '#fff'
+                    }),
+                    fill: new Fill({
+                      color: '#3399CC'
+                    })
+                  }),
+                  text: new Text({
+                    text: size.toString(),
+                    fill: new Fill({
+                      color: '#fff'
+                    })
+                  })
+                });
+                styleCache[size] = style;
+            }
+        }
         let usngc = new usng.Converter();
         let coordFormatter = (coord) => {
             return usngc.LLtoUSNG(coord[1], coord[0], 5);
@@ -94,7 +118,8 @@ export default class Example3 extends Component {
             <>
                 <h2>{ this.props.title }</h2>
                     Street and map tiles,
-                    Stamen watercolor and toner
+                    Stamen watercolor and toner,
+                    Vector layer with clustered features
 
                     <SliderControl
                         onChange={ this.changeOpacity3 }
@@ -145,8 +170,8 @@ export default class Example3 extends Component {
                     zIndex={3}
                 />
 
-                <layer.Vector
-                    style={ gpxMarker }
+                <layer.Vector source="cluster" distance={ 1 }
+                    style={ clusterStyle }
                     opacity={ 1 }
                     zIndex={3}
                 >

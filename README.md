@@ -54,7 +54,7 @@ image: {
  * XYZ tiles
 * Layers
  * Tile
- * Vector
+ * Vector (with option for clustered point features)
 * Feature
 * Geometry
  * Circle
