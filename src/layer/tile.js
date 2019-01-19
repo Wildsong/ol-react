@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Style} from 'ol/style'
-import {Tile as TileLayer} from 'ol/layer'
-import {BingMaps, OSM, TileArcGISRest, TileWMS, XYZ} from 'ol/source'
+import { Style } from 'ol/style'
+import { Tile as TileLayer } from 'ol/layer'
+import { BingMaps, OSM, Stamen } from 'ol/source'
+import { TileArcGISRest, TileWMS, XYZ } from 'ol/source'
 import OLLayer from './ol-layer'
 import apiKeys from './apikeys';
 
@@ -66,6 +67,12 @@ export default class OLTile extends OLLayer {
                 tileSource = new OSM(sourceProps);
                 break;
 
+            case "Stamen":
+                this.dictSource.push('layer')
+                sourceProps = this.buildProps(this.dictSource);
+                tileSource = new Stamen(sourceProps);
+                break;
+
             case "WMS":
                 // http://openlayers.org/en/latest/apidoc/module-ol_source_TileWMS.html
                 this.dictSource.push('serverType')
@@ -121,7 +128,8 @@ OLTile.propTypes = {
     source: PropTypes.string.isRequired,
     url: PropTypes.string,
     opacity: PropTypes.number,
-    attributions: PropTypes.arrayOf(PropTypes.string)
+    attributions: PropTypes.arrayOf(PropTypes.string),
+    layer: PropTypes.string,
 }
 
 OLTile.defaultProps = {

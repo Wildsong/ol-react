@@ -87,13 +87,13 @@ export default class Example1 extends Component {
         }
         this.state.events.push(event.type);
         this.setState({ events : this.state.events });
-        event.stopPropagation()
+        //event.stopPropagation(); // this stops draw interaction
     }
 
     handlePointerMove = (event) => {
-        console.log(event.type)
-        this.setState({ pointer: event.coordinate })
-        //event.stopPropagation() // this stops the other events!
+//        console.log(event.type);
+        this.setState({ pointer: event.coordinate });
+        //event.stopPropagation(); // this stops the other events!
     }
 
     render(props) {

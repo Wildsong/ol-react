@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
@@ -41,15 +41,12 @@ let attributions = [
 ];
 
 export default class Example3 extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            hasError: false,
-            // Note we override draw order using zIndex, as a test
-            opacityLayer1 : 50,
-            opacityLayer2 : 100,
-            opacityLayer3 : 50,
-        }
+    state = {
+        hasError: false,
+        // Note we override draw order using zIndex, as a test
+        opacityLayer1 : 20,
+        opacityLayer2 : 30,
+        opacityLayer3 : 20,
     }
 
     static getDerivedStateFromError(error) {
@@ -60,17 +57,17 @@ export default class Example3 extends Component {
         console.log("We have a problem.", error, info)
     }
 
-    render(props) {
-        let changeOpacity1 = (value) => {
-            this.setState({ opacityLayer1 : value });
-        }
-        let changeOpacity2 = (value) => {
-            this.setState({ opacityLayer2 : value });
-        }
-        let changeOpacity3 = (value) => {
-            this.setState({ opacityLayer3 : value });
-        }
+    changeOpacity1 = (value) => {
+        this.setState({ opacityLayer1 : value });
+    }
+    changeOpacity2 = (value) => {
+        this.setState({ opacityLayer2 : value });
+    }
+    changeOpacity3 = (value) => {
+        this.setState({ opacityLayer3 : value });
+    }
 
+    render(props) {
         // FIXME: I'd like to control how the points appear at different
         // levels and cluster them when we're zoomed out but that's
         // for another day. And of course there is more than one type
@@ -88,29 +85,30 @@ export default class Example3 extends Component {
                 src: geocacheIcon,
             }
         }
-        
+
         let usngc = new usng.Converter();
         let coordFormatter = (coord) => {
             return usngc.LLtoUSNG(coord[1], coord[0], 5);
         }
         return (
-            <Fragment>
+            <>
                 <h2>{ this.props.title }</h2>
-                    A mix of tile and image layers
+                    Street and map tiles,
+                    Stamen watercolor and toner
 
                     <SliderControl
-                        onChange={ changeOpacity3 }
+                        onChange={ this.changeOpacity3 }
                         title="ESRI streets tiles"
                         value={ this.state.opacityLayer3 }
                     />
                     <SliderControl
-                        onChange={ changeOpacity1 }
+                        onChange={ this.changeOpacity1 }
                         title="US Map Tiles"
                         value={ this.state.opacityLayer1 }
                     />
                     <SliderControl
-                        onChange={ changeOpacity2 }
-                        title="GEBCO Bathymetry Image"
+                        onChange={ this.changeOpacity2 }
+                        title="Stamen Watercolor"
                         value={ this.state.opacityLayer2 }
                     />
 
@@ -130,19 +128,21 @@ export default class Example3 extends Component {
                     url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
                     opacity={ this.state.opacityLayer1/100 }
+                    zIndex={2}
+                />
+                <layer.Tile source="Stamen" layer="watercolor"
+                    opacity={ this.state.opacityLayer2/100 }
                     zIndex={1}
                 />
-                <layer.Image source="WMS"
-                    url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
-                    params={ {LAYERS:"GEBCO_LATEST"} }
-                    opacity={ this.state.opacityLayer2/100 }
+                <layer.Tile source="Stamen" layer="toner"
+                    opacity={ 1 }
                     zIndex={0}
                 />
                 <layer.Tile source="ArcGISRest"
                     url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                     attributions={ attributions }
                     opacity={ this.state.opacityLayer3/100 }
-                    zIndex={2}
+                    zIndex={3}
                 />
 
                 <layer.Vector
@@ -178,7 +178,7 @@ export default class Example3 extends Component {
                     coordinateFormat={ coordFormatter }
                 />
             </Map>
-            </Fragment>
+            </>
         );
     }
 }
