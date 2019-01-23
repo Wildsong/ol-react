@@ -146,9 +146,8 @@ export default class Example1 extends Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-                <h3>Tile source: OpenStreetMap</h3>
-
-                <h3>Vector source</h3>
+                Tile source: OpenStreetMap
+                <h4>Vector source</h4>
                     <ul>
                         <li> Point: small green circle near Astor Column</li>
                         <li> Circle: big circle around Astoria </li>

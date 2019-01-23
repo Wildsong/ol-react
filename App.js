@@ -16,12 +16,11 @@ import {Example1, Example2, Example3, Example4, Example5} from './examples'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 
-const SampleMap1 = () => ( <Example1 title="Sample 1" /> );
-const SampleMap2 = () => ( <Example2 title="Sample 2" /> );
-const SampleMap3 = () => ( <Example3 title="Sample 3" /> );
-const SampleMap4 = () => ( <Example4 title="Sample 4" /> );
-const SampleMap5 = () => { <Example5 title="Nominatim" /> };
-const SampleMap6 = () => { <Example6 title="Number 6" /> };
+const SampleMap1 = () => ( <Example1 title="Sample 1: OSM and Draw" /> );
+const SampleMap2 = () => ( <Example2 title="Sample 2: Rest and WMS" /> );
+const SampleMap3 = () => ( <Example3 title="Sample 3: ESRI and Stamen" /> );
+const SampleMap4 = () => ( <Example4 title="Sample 4: Tile and XYZ" /> );
+const SampleMap5 = () => ( <Example5 title="Sample 5: Nominatim" /> );
 
 class PrimaryLayout extends Component {
     state = {
@@ -56,22 +55,18 @@ class PrimaryLayout extends Component {
                       <NavLink href="/sample4">Sample 4</NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink href="/sample5">Nominatim</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample6">Number 6</NavLink>
+                      <NavLink href="/sample5">Sample 5</NavLink>
                     </NavItem>
                     </Nav>
                   </Collapse>
                 </Navbar>
 
                 <Switch>
-                    <Route exact path="/"  component={SampleMap1} />
                     <Route path="/sample2" component={SampleMap2} />
                     <Route path="/sample3" component={SampleMap3} />
                     <Route path="/sample4" component={SampleMap4} />
                     <Route path="/sample5" component={SampleMap5} />
-                    <Route path="/sample6" component={SampleMap6} />
+                    <Route exact path="/"  component={SampleMap1} />
                 </Switch>
             </>
         );

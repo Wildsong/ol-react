@@ -73,7 +73,7 @@ export default class Example4 extends Component {
 
         return (
             <>
-                <h2>{this.props.title} Tile and XYZ Sources</h2>
+                <h2>{this.props.title}</h2>
                     <ul>
                         <li>ArcGIS ESRIjson featureserver using XYZ</li>
                         <li>ESRI WOrld Streets (XYZ)</li>
