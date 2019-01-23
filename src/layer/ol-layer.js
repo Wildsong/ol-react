@@ -11,7 +11,26 @@ import {click, pointerMove} from 'ol/events/condition'
 let dictSource = [
 ];
 
-class OLLayer extends OLComponent {
+export default class OLLayer extends OLComponent {
+    static contextType = MapContext;
+    static propTypes = {
+        name: PropTypes.string,
+        opacity: PropTypes.number,
+        visible: PropTypes.bool,
+        extent: PropTypes.instanceOf(Extent),
+        zIndex: PropTypes.number,
+        minResolution: PropTypes.number,
+        maxResolution: PropTypes.number,
+        selectable: PropTypes.bool,
+        onSelect: PropTypes.func,
+        hoverable: PropTypes.bool,
+        onHover: PropTypes.func
+    }
+    static defaultProps = {
+        visible: true,
+        selectable: false
+    }
+
     constructor(props) {
         super(props)
 
@@ -123,25 +142,3 @@ class OLLayer extends OLComponent {
     }
 }
 
-OLLayer.contextType = MapContext;
-
-OLLayer.PropTypes = {
-    name: PropTypes.string,
-    opacity: PropTypes.number,
-    visible: PropTypes.bool,
-    extent: PropTypes.instanceOf(Extent),
-    zIndex: PropTypes.number,
-    minResolution: PropTypes.number,
-    maxResolution: PropTypes.number,
-    selectable: PropTypes.bool,
-    onSelect: PropTypes.func,
-    hoverable: PropTypes.bool,
-    onHover: PropTypes.func
-}
-
-OLLayer.defaultProps = {
-    visible: true,
-    selectable: false
-}
-
-export default OLLayer

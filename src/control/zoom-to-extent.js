@@ -5,7 +5,14 @@ import {ZoomToExtent} from 'ol/control';
 import OLControl from './ol-control';
 
 export default class OLZoomToExtent extends OLControl {
-    createControl (props) {
+    static propTypes = {
+	className: PropTypes.string,
+	extent: PropTypes.arrayOf(PropTypes.number),
+	label: PropTypes.node,
+	tipLabel: PropTypes.string
+    }
+
+    createControl(props) {
         return new ZoomToExtent({
             className: props.className,
             extent: props.extent,
@@ -15,9 +22,3 @@ export default class OLZoomToExtent extends OLControl {
     }
 }
 
-OLZoomToExtent.propTypes = {
-    className: PropTypes.string,
-    extent: PropTypes.arrayOf(PropTypes.number),
-    label: PropTypes.node,
-    tipLabel: PropTypes.string
-}

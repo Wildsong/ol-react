@@ -6,7 +6,16 @@ import {Collection} from 'ol'
 import {Modify} from 'ol/interaction'
 import OLComponent from '../ol-component'
 
-class OLGeometry extends OLComponent {
+export default class OLGeometry extends OLComponent {
+    static contextType = FeatureContext;
+    static propTypes = {
+	modify: PropTypes.bool,
+	modifyStart: PropTypes.func,
+	modifyEnd: PropTypes.func,
+	insertVertexCondition: PropTypes.func,
+	transform: PropTypes.func
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -21,11 +30,11 @@ class OLGeometry extends OLComponent {
             this.state.geometry.applyTransform(this.props.transform);
         }
 
-// FIXME putting this here means that you can't turn on modify later.
-// It needs to move to an updateFromProps() method
-// and there needs to be a test to see if there is already a
-// modify interaction or we need to throw away the modify
-// when we turn the flag off.
+	// FIXME putting this here means that you can't turn on modify later.
+	// It needs to move to an updateFromProps() method
+	// and there needs to be a test to see if there is already a
+	// modify interaction or we need to throw away the modify
+	// when we turn the flag off.
 
         if (this.props.modify) {
             let interactions = this.context.map.getInteractions()
@@ -80,14 +89,3 @@ class OLGeometry extends OLComponent {
         //throw("You need to override updateFromProps in your geometry class.")
     }
 }
-OLGeometry.contextType = FeatureContext;
-
-OLGeometry.propTypes = {
-    modify: PropTypes.bool,
-    modifyStart: PropTypes.func,
-    modifyEnd: PropTypes.func,
-    insertVertexCondition: PropTypes.func,
-    transform: PropTypes.func
-}
-
-export default OLGeometry

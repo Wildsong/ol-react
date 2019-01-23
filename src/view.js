@@ -8,6 +8,28 @@ const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
 
 export default class OLView extends OLComponent {
+    static contextType = MapContext;
+    static propTypes = {
+        center: PropTypes.arrayOf(PropTypes.number),
+        resolution: PropTypes.number,
+        zoom: PropTypes.number,
+        rotation: PropTypes.number,
+        initialCenter: PropTypes.arrayOf(PropTypes.number),
+        initialResolution: PropTypes.number,
+        initialZoom: PropTypes.number,
+        initialRotation: PropTypes.number,
+        onResolutionChanged: PropTypes.func,
+        onZoomChanged: PropTypes.func,
+        onCenterChanged: PropTypes.func,
+        projection: PropTypes.string,
+    }
+    static defaultProps = {
+        initialCenter: [0, 0],
+        initialResolution: 10000,
+        initialZoom: 0,
+        initialRotation: 0
+    }
+
     constructor(props) {
         super(props);
         let p = wm;
@@ -66,27 +88,4 @@ export default class OLView extends OLComponent {
     fit(geometry, size, options) {
         this.view.fit(geometry, size, options);
     }
-}
-OLView.contextType = MapContext;
-
-OLView.propTypes = {
-    center: PropTypes.arrayOf(PropTypes.number),
-    resolution: PropTypes.number,
-    zoom: PropTypes.number,
-    rotation: PropTypes.number,
-    initialCenter: PropTypes.arrayOf(PropTypes.number),
-    initialResolution: PropTypes.number,
-    initialZoom: PropTypes.number,
-    initialRotation: PropTypes.number,
-    onResolutionChanged: PropTypes.func,
-    onZoomChanged: PropTypes.func,
-    onCenterChanged: PropTypes.func,
-    projection: PropTypes.string,
-}
-
-OLView.defaultProps = {
-    initialCenter: [0, 0],
-    initialResolution: 10000,
-    initialZoom: 0,
-    initialRotation: 0
 }

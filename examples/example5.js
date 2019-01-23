@@ -26,7 +26,12 @@ let transformfn = (coordinates) => {
 export default class Example5 extends Component {
     static propTypes = {
         title: PropTypes.string
-    };
+    }
+    
+    constructor(props) {
+        console.log("Example5.render");
+        super(props);
+    }
 
     render() {
 //        let polyStyle = {

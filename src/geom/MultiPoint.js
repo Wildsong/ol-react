@@ -5,6 +5,14 @@ import MultiPoint from 'ol/geom/MultiPoint'
 import OLGeometry from './ol-geometry'
 
 export default class OLMultiPoint extends OLGeometry {
+    static propTypes = {
+	children: PropTypes.arrayOf(
+            PropTypes.arrayOf(PropTypes.number)
+        ).isRequired,
+	animate: PropTypes.bool,
+	animationLength: PropTypes.number
+    }
+
     constructor(props) {
         super(props);
         //console.log("OLMultiPoint.new() props=", this.props)
@@ -48,10 +56,3 @@ export default class OLMultiPoint extends OLGeometry {
     }
 }
 
-OLMultiPoint.propTypes = {
-    children: PropTypes.arrayOf(
-                PropTypes.arrayOf(PropTypes.number)
-            ).isRequired,
-    animate: PropTypes.bool,
-    animationLength: PropTypes.number
-}

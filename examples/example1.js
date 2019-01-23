@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
@@ -60,6 +59,10 @@ class EventList extends Component {
 }
 
 export default class Example1 extends Component {
+    static propTypes = {
+        title: PropTypes.string
+    };
+
     state = {
         enableModify: true, // can't change this in the app yet
         opacityOSM : 98,
@@ -281,7 +284,3 @@ export default class Example1 extends Component {
         );
     }
 }
-
-Example1.propTypes = {
-    title: PropTypes.string
-};

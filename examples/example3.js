@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
@@ -49,9 +48,13 @@ export default class Example3 extends Component {
         opacityLayer3 : 20,
     }
 
+    static propTypes = {
+        title: PropTypes.string
+    };
+
     static getDerivedStateFromError(error) {
         return { hasError: true };
-    }
+    };
 
     componentDidCatch(error, info) {
         console.log("We have a problem.", error, info)
@@ -60,14 +63,16 @@ export default class Example3 extends Component {
     changeOpacity1 = (value) => {
         this.setState({ opacityLayer1 : value });
     }
+    
     changeOpacity2 = (value) => {
         this.setState({ opacityLayer2 : value });
     }
+
     changeOpacity3 = (value) => {
         this.setState({ opacityLayer3 : value });
     }
 
-    render(props) {
+    render() {
         // FIXME: I'd like to control how the points appear at different
         // levels and cluster them when we're zoomed out but that's
         // for another day. And of course there is more than one type
@@ -207,7 +212,3 @@ export default class Example3 extends Component {
         );
     }
 }
-
-Example3.propTypes = {
-    title: PropTypes.string
-};

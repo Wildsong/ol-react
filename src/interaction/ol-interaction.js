@@ -4,9 +4,16 @@ import {MapContext} from '../map-context'
 import OLComponent from '../ol-component'
 
 export default class OLInteraction extends OLComponent {
+    static contextType = MapContext;
+    static propTypes = {
+	active: PropTypes.bool
+    }
+    static defaultProps = {
+	active: true
+    }
 
     componentDidMount() {
-//        console.log("OLInteractive.componentDidMount()")
+	//        console.log("OLInteractive.componentDidMount()")
         this.interaction = this.createInteraction(this.props)
         this.eventHandlerKeys_ = {}
 
@@ -15,11 +22,11 @@ export default class OLInteraction extends OLComponent {
         this.context.map.addInteraction(this.interaction)
     }
 
-// FIXME this happens a little more often than I'd like
-// which means we should see if anything has changed before
-// running the code here,  so we don't render without need
+    // FIXME this happens a little more often than I'd like
+    // which means we should see if anything has changed before
+    // running the code here,  so we don't render without need
     componentDidUpdate(prevProps) {
-//        console.log("OLInteractive.componentDidUpdate()", this.interaction)
+	//        console.log("OLInteractive.componentDidUpdate()", this.interaction)
 
         this.context.map.removeInteraction(this.interaction)
 
@@ -37,7 +44,7 @@ export default class OLInteraction extends OLComponent {
 
     createInteraction(props) {
         throw new TypeError('You must override createInteraction() in classes derived ' +
-                        'from OLInteraction')
+                            'from OLInteraction')
     }
 
     updateActiveState_(props) {
@@ -75,12 +82,6 @@ export default class OLInteraction extends OLComponent {
         }
     }
 }
-OLInteraction.contextType = MapContext;
 
-OLInteraction.propTypes = {
-    active: PropTypes.bool
-}
 
-OLInteraction.defaultProps = {
-    active: true
-}
+

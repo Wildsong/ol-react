@@ -4,7 +4,16 @@ import {Feature} from 'ol';
 import Circle from 'ol/geom/Circle';
 import OLGeometry from './ol-geometry';
 
-class OLCircle extends OLGeometry {
+export default class OLCircle extends OLGeometry {
+    static propTypes = {
+	children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),  // [x,y]
+            PropTypes.node                        // [[x,y], radius]
+	]).isRequired,
+    }
+    static defaultProps = {
+    }
+
     constructor(props) {
         super(props);
 
@@ -27,15 +36,3 @@ class OLCircle extends OLGeometry {
 //  <Circle>{[[x,y], radius]}</Circle>
 //  <Circle>{[x,y]}</Circle>
 
-OLCircle.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.number),  // [x,y]
-        PropTypes.node                        // [[x,y], radius]
-    ]).isRequired,
-}
-
-//OLCircle.defaultProps = {
-//
-//}
-
-export default OLCircle;

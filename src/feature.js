@@ -7,7 +7,13 @@ import {Feature} from 'ol'
 import OLComponent from './ol-component'
 import {buildStyle} from './style'
 
-class OLFeature extends OLComponent {
+export default class OLFeature extends OLComponent {
+    static contextType = LayerContext;
+    static propTypes = {
+        style: PropTypes.object,
+        children: PropTypes.element,
+        id: PropTypes.any.isRequired
+    }
     constructor(props) {
         super(props);
         //console.log("OLFeature new() props=", this.props)
@@ -55,13 +61,3 @@ class OLFeature extends OLComponent {
         );
     }
 }
-
-OLFeature.contextType = LayerContext;
-
-OLFeature.propTypes = {
-    style: PropTypes.object,
-    children: PropTypes.element,
-    id: PropTypes.any.isRequired
-}
-
-export default OLFeature

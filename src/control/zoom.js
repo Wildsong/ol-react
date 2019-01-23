@@ -4,8 +4,20 @@ import {Zoom} from 'ol/control'
 import OLControl from './ol-control'
 
 export default class OLZoom extends OLControl {
-
-    createControl (props) {
+    static propTypes = Object.assign({}, OLControl.propTypes, {
+	className: PropTypes.string,
+	delta: PropTypes.number,
+	duration: PropTypes.number,
+	zoomInLabel: PropTypes.node,
+	zoomInTipLabel: PropTypes.string,
+	zoomOutLabel: PropTypes.node,
+	zoomOutTipLabel: PropTypes.string
+    })
+    static defaultProps = {
+	duration: 250
+    }
+    
+    createControl(props) {
         this.zoomControl = new Zoom({
             className: props.className,
             delta: props.delta,
@@ -18,22 +30,9 @@ export default class OLZoom extends OLControl {
         return this.zoomControl;
     }
 
-//    render() {
-//        //console.log("OLZoom render ", this.props);
-//        return super.render();
-//    }
+    //render() {
+    //    //console.log("OLZoom render ", this.props);
+    //    return super.render();
+    //}
 }
 
-OLZoom.propTypes = Object.assign({}, OLControl.propTypes, {
-    className: PropTypes.string,
-    delta: PropTypes.number,
-    duration: PropTypes.number,
-    zoomInLabel: PropTypes.node,
-    zoomInTipLabel: PropTypes.string,
-    zoomOutLabel: PropTypes.node,
-    zoomOutTipLabel: PropTypes.string
-})
-
-OLZoom.defaultProps = {
-    duration: 250
-}

@@ -5,7 +5,28 @@ import {Map, Overlay} from 'ol';
 import {Source} from 'ol/source';
 import OLComponent from './ol-component';
 
-class OLOverlay extends OLComponent {
+export default class OLOverlay extends OLComponent {
+    static propTypes = {
+        id: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+        element: PropTypes.element,
+        offset: PropTypes.arrayOf(PropTypes.number),
+        position: PropTypes.arrayOf(PropTypes.number),
+        positioning: PropTypes.string,
+        stopEvent: PropTypes.bool,
+        insertFirst: PropTypes.bool,
+        animate: PropTypes.bool,
+        animationLength: PropTypes.number
+    }
+    static contextTypes = {
+        map: PropTypes.instanceOf(Map)
+    }
+    static childContextTypes = {
+      source: PropTypes.instanceOf(Source)
+    }
+
     constructor(props) {
         super(props);
         this.overlay = new Overlay({
@@ -80,28 +101,3 @@ class OLOverlay extends OLComponent {
         }
     }
 }
-
-OLOverlay.propTypes = {
-    id: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
-    element: PropTypes.element,
-    offset: PropTypes.arrayOf(PropTypes.number),
-    position: PropTypes.arrayOf(PropTypes.number),
-    positioning: PropTypes.string,
-    stopEvent: PropTypes.bool,
-    insertFirst: PropTypes.bool,
-    animate: PropTypes.bool,
-    animationLength: PropTypes.number
-}
-
-OLOverlay.contextTypes = {
-    map: PropTypes.instanceOf(Map)
-}
-
-OLOverlay.childContextTypes = {
-  source: PropTypes.instanceOf(Source)
-}
-
-export default OLOverlay

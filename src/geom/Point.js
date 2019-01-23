@@ -9,7 +9,13 @@ import OLGeometry from './ol-geometry';
 // I should be able to show it as a circle,
 // that's what my other demo did.
 
-class OLPoint extends OLGeometry {
+export default class OLPoint extends OLGeometry {
+    static propTypes = {
+	children: PropTypes.arrayOf(PropTypes.number).isRequired,
+	animate: PropTypes.bool,
+	animationLength: PropTypes.number
+    }
+
     constructor(props) {
         super(props);
         this.state.geometry = new Point(this.props);
@@ -52,10 +58,3 @@ class OLPoint extends OLGeometry {
     }
 }
 
-OLPoint.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.number).isRequired,
-    animate: PropTypes.bool,
-    animationLength: PropTypes.number
-}
-
-export default OLPoint;

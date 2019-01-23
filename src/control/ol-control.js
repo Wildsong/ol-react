@@ -4,6 +4,15 @@ import {MapContext} from '../map-context';
 import OLComponent from '../ol-component';
 
 export default class OLControl extends OLComponent {
+    static contextType = MapContext;
+    static propTypes = {
+	//element: OLPropTypes.HTMLElement,
+	//render: PropTypes.func,
+	target: PropTypes.string
+    }
+    static defaultProps = {
+    }
+
     constructor(props) {
         super(props);
         this.control = this.createControl(this.props)
@@ -23,13 +32,6 @@ export default class OLControl extends OLComponent {
                             'from OLControl')
     }
 }
-OLControl.contextType = MapContext;
 
-OLControl.propTypes = {
-    //element: OLPropTypes.HTMLElement,
-    //render: PropTypes.func,
-    target: PropTypes.string
-}
 
-OLControl.defaultProps = {
-}
+

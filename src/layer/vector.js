@@ -11,7 +11,21 @@ import { buildLayerProps, baseLayerPropTypes } from './'
 import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
 
-class OLVector extends OLLayer {
+export default class OLVector extends OLLayer {
+    static propTypes = {
+        updateWhileAnimating: PropTypes.bool,
+        updateWhileInteracting: PropTypes.bool,
+        loader: PropTypes.string,
+        style:  PropTypes.oneOfType([
+                    PropTypes.instanceOf(Style),
+                    PropTypes.object,
+                    PropTypes.arrayOf(PropTypes.oneOfType([
+                        PropTypes.instanceOf(Style),
+                        PropTypes.object
+                ]))
+        ])
+    }
+
     constructor(props) {
         super(props);
 
@@ -91,19 +105,3 @@ class OLVector extends OLLayer {
     }
     */
 }
-
-OLVector.propTypes = {
-    updateWhileAnimating: PropTypes.bool,
-    updateWhileInteracting: PropTypes.bool,
-    loader: PropTypes.string,
-    style: PropTypes.oneOfType([
-            PropTypes.instanceOf(Style),
-            PropTypes.object,
-            PropTypes.arrayOf(PropTypes.oneOfType([
-                PropTypes.instanceOf(Style),
-                PropTypes.object
-            ]))
-    ])
-}
-
-export default OLVector

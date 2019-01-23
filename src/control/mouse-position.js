@@ -13,22 +13,23 @@ import OLControl from './ol-control';
 // Hence this control just throws the coord onto the map for now
 
 export default class OLMousePosition extends OLControl {
-  createControl (props) {
-    return new MousePosition({
-      className: props.className,
-      coordinateFormat: props.coordinateFormat,
-      projection: props.projection,
-      undefinedHTML: props.undefinedHTML,
+    static propTypes = Object.assign({}, OLControl.propTypes, {
+	className: PropTypes.string,
+	coordinateFormat: PropTypes.func, // f(x) that takes coord and returns string
+	projection: PropTypes.oneOfType([
+	    PropTypes.instanceOf(Projection),
+	    PropTypes.string
+	]),
+	undefinedHTML: PropTypes.string,
     })
-  }
+
+    createControl (props) {
+	return new MousePosition({
+	    className: props.className,
+	    coordinateFormat: props.coordinateFormat,
+	    projection: props.projection,
+	    undefinedHTML: props.undefinedHTML,
+	})
+    }
 }
 
-OLMousePosition.propTypes = Object.assign({}, OLControl.propTypes, {
-  className: PropTypes.string,
-  coordinateFormat: PropTypes.func, // f that takes coord and returns string
-  projection: PropTypes.oneOfType([
-    PropTypes.instanceOf(Projection),
-    PropTypes.string
-  ]),
-  undefinedHTML: PropTypes.string,
-})

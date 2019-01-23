@@ -21,6 +21,7 @@ const SampleMap2 = () => ( <Example2 title="Sample 2" /> );
 const SampleMap3 = () => ( <Example3 title="Sample 3" /> );
 const SampleMap4 = () => ( <Example4 title="Sample 4" /> );
 const SampleMap5 = () => { <Example5 title="Nominatim" /> };
+const SampleMap6 = () => { <Example6 title="Number 6" /> };
 
 class PrimaryLayout extends Component {
     state = {
@@ -57,6 +58,9 @@ class PrimaryLayout extends Component {
                     <NavItem>
                       <NavLink href="/sample5">Nominatim</NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink href="/sample6">Number 6</NavLink>
+                    </NavItem>
                     </Nav>
                   </Collapse>
                 </Navbar>
@@ -67,6 +71,7 @@ class PrimaryLayout extends Component {
                     <Route path="/sample3" component={SampleMap3} />
                     <Route path="/sample4" component={SampleMap4} />
                     <Route path="/sample5" component={SampleMap5} />
+                    <Route path="/sample6" component={SampleMap6} />
                 </Switch>
             </>
         );

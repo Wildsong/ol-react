@@ -8,7 +8,30 @@ import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls} from 'ol/control';
 import OLComponent from './ol-component';
 
-class OLMap extends Component {
+export default class OLMap extends Component {
+    static propTypes = {
+        loadTilesWhileAnimating: PropTypes.bool,
+        loadTilesWhileInteracting: PropTypes.bool,
+        onPointerMove: PropTypes.func,
+        onSingleClick: PropTypes.func,
+        onChangeSize: PropTypes.func,
+        onMoveEnd: PropTypes.func,
+        view: PropTypes.element.isRequired,
+        useDefaultInteractions: PropTypes.bool.isRequired,
+        useDefaultControls: PropTypes.bool.isRequired,
+        focusOnMount: PropTypes.bool.isRequired,
+
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.element),
+            PropTypes.element,
+        ])
+    }
+    static defaultProps = {
+        useDefaultInteractions: true,
+        useDefaultControls: true,
+        focusOnMount: false
+    }
+
     constructor(props) {
         super(props);
 //        console.log("new OLMap props=", this.props)
@@ -83,7 +106,7 @@ class OLMap extends Component {
         this.props.onFeatureClick(feature, lonLat);
     }
 
-    updateSize () {
+    updateSize() {
         this.map.updateSize()
     }
 
@@ -91,29 +114,3 @@ class OLMap extends Component {
         return this.map.getSize();
     }
 }
-
-OLMap.propTypes = {
-    loadTilesWhileAnimating: PropTypes.bool,
-    loadTilesWhileInteracting: PropTypes.bool,
-    onPointerMove: PropTypes.func,
-    onSingleClick: PropTypes.func,
-    onChangeSize: PropTypes.func,
-    onMoveEnd: PropTypes.func,
-    view: PropTypes.element.isRequired,
-    useDefaultInteractions: PropTypes.bool.isRequired,
-    useDefaultControls: PropTypes.bool.isRequired,
-    focusOnMount: PropTypes.bool.isRequired,
-
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.element),
-        PropTypes.element,
-    ])
-}
-
-OLMap.defaultProps = {
-    useDefaultInteractions: true,
-    useDefaultControls: true,
-    focusOnMount: false
-}
-
-export default OLMap

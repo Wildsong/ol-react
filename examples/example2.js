@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import { render } from 'react-dom'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
@@ -40,16 +39,16 @@ let attributions = [
 let pi = 3.1416;
 
 export default class Example extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            enableModify: true // can't change this in the app yet
-        }
-    }
+    state = {
+        enableModify: true // can't change this in the app yet
+    };
+    static propTypes = {
+        title: PropTypes.string
+    };
 
     render(props) {
         return (
-            <Fragment>
+            <>
                 <h2>{this.props.title}</h2>
                     Image Sources
                     <ul>
@@ -106,11 +105,7 @@ export default class Example extends Component {
                     */}
 
                 </Map>
-            </Fragment>
+            </>
         );
     }
 }
-
-Example.propTypes = {
-    title: PropTypes.string
-};
