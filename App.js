@@ -20,7 +20,7 @@ const SampleMap1 = () => ( <Example1 title="Sample 1: OSM and Draw" /> );
 const SampleMap2 = () => ( <Example2 title="Sample 2: Rest and WMS" /> );
 const SampleMap3 = () => ( <Example3 title="Sample 3: ESRI and Stamen" /> );
 const SampleMap4 = () => ( <Example4 title="Sample 4: Tile and XYZ" /> );
-const SampleMap5 = () => ( <Example5 title="Sample 5: Nominatim" /> );
+const SampleMap5 = () => ( <Example5 title="Sample 5 Nominatim (geocode test)" /> );
 
 class PrimaryLayout extends Component {
     state = {

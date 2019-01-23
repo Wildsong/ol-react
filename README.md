@@ -157,4 +157,4 @@ Brian's fork for OL5 at [github](https://github.com/brian32768/ol-react)
 
 Richard says he is "especially interested in assistance with having each component be optionally [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components). This would allow binding of the components with, say, Redux and for sophisticated state management outside of OpenLayers."
 
-Brian says "This means nothing to me today, maybe tomorrow? :-) Every day is like Monday to me at this stage."
+Brian says "Okay learning about this now :-) Every day is like Monday to me at this stage."
