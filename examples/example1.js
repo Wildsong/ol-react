@@ -96,7 +96,7 @@ export default class Example1 extends Component {
         //event.stopPropagation(); // this stops the other events!
     }
 
-    render(props) {
+    render() {
         let textMarker = {
             text: {
                 text: 'Hee',

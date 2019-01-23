@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component} from 'react'
 import { render } from 'react-dom'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
@@ -39,31 +39,31 @@ let attributions = [
 ];
 
 export default class Example4 extends Component {
-    constructor(props) {
-        super(props)
-        this.toggleLayer = this.toggleLayer.bind(this);
-        this.state = {
-            bingVisible : true,
-            xyzVisible: true,
-            xyzOpacity: 50,
-        }
+    state = {
+        bingVisible : true,
+        xyzVisible: true,
+        xyzOpacity: 50,
     }
 
-    toggleLayer() {
+    static propTypes = {
+        title: PropTypes.string
+    };
+
+    toggleLayer = () => {
         this.setState({
             bingVisible : !this.state.bingVisible,
         });
     }
 
-    changeOpacity2(value) {
+    changeOpacity = (value) => {
+        this.setState({xyzOpacity : value});
+    }
+
+    changeOpacity2 = (value) => {
         this.setState({opacityBing : value});
     }
 
     render(props) {
-        let changeOpacity = (value) => {
-            this.setState({xyzOpacity : value});
-        }
-
         let polyStyle = {
             stroke: {color: [0, 0, 0, 1], width:4},
             //fill: {color: [255, 0, 0, .250]},
@@ -72,7 +72,7 @@ export default class Example4 extends Component {
         const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
         return (
-            <Fragment>
+            <>
                 <h2>{this.props.title} Tile and XYZ Sources</h2>
                     <ul>
                         <li>ArcGIS ESRIjson featureserver using XYZ</li>
@@ -82,7 +82,7 @@ export default class Example4 extends Component {
                     </ul>
 
                     <SliderControl
-                        onChange={changeOpacity}
+                        onChange={this.changeOpacity}
                         title="ArcGIS streets"
                         value={this.state.xyzOpacity}
                     />
@@ -149,11 +149,7 @@ export default class Example4 extends Component {
                     */}
 
                 </Map>
-            </Fragment>
+            </>
         );
     }
 }
-
-Example4.propTypes = {
-    title: PropTypes.string
-};
