@@ -60,6 +60,7 @@ export default class OLView extends OLComponent {
 
     updateFromProps_() {
         // FIXME we're probably ignoring some useful props here!!
+        console.log("view updateFromProps_()");
 
         if (typeof this.props.center !== 'undefined')
             this.view.setCenter(this.props.center);
@@ -68,10 +69,13 @@ export default class OLView extends OLComponent {
             this.view.setRotation(this.props.rotation);
 
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
-        if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0)
+        if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
+            console.log("zoom set to", this.props.resolution);
             this.view.setResolution(this.props.resolution);
-        else if (typeof this.props.zoom !== 'undefined')
+        } else if (typeof this.props.zoom !== 'undefined') {
+            console.log("zoom set to", this.props.zoom);
             this.view.setZoom(this.props.zoom);
+        }
     }
 
     componentDidMount() {
@@ -79,6 +83,12 @@ export default class OLView extends OLComponent {
         this.context.map.setView(this.view);
         this.updateFromProps_();
         this.context.map.on("movend", this.onMoveEnd, this);
+    }
+
+    componentDidUpdate() {
+//        console.log("View.ComponentDidUpdate()", this.props.center);
+//        this.view.setCenter(this.props.center)
+        this.updateFromProps_();
     }
 
     animate(options) {

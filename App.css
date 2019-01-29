@@ -93,6 +93,10 @@
     width: 250px;
 }
 
+#address {
+    width: 450px;
+}
+
 #external_control {
     width: 200px;
     height: 200px;
