@@ -6,6 +6,7 @@ import {Map, View, Feature, geom, layer} from '../src'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
+const Pi = 3.1416;
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
 const astoria = [-123.834,46.187]
@@ -21,10 +22,10 @@ export default class Example5 extends Component {
         geocoderesults: [],
         lats: "46.187",
         lons: "-123.834",
-        zooms: "10",
         lat: 46.187,
         lon: -123.834,
-        zoom: 10
+        zoom: 10,
+        rotation: 0.00
     }
 
 // I know, I know, this should really be a separate component
@@ -35,29 +36,48 @@ export default class Example5 extends Component {
 
     change = (e) => {
         const { target: { name, value }} = e;
-        console.log('change', e, name, value);
+        //console.log('change', e, name, value);
         this.setState({
             [name]: value,
         });
         e.preventDefault();
     }
 
-    submit = (e) => {
-        let z = parseInt(this.state.zooms);
+    click = (e) => {
+        const { target: { name, value }} = e;
+        //console.log('click', e, name, value);
+        let z = this.state.zoom;
+        let r = this.state.rotation;
+        switch (name) {
+        case 'zoomin':
+            z += 1;
+            break;
+        case 'zoomout':
+            z -= 1;
+            break;
+        case 'anticlockwise':
+            r -= Pi/10;
+            break;
+        case 'clockwise':
+            r += Pi/10;
+            break;
+        }
         if (z < 1) z = 1;
-        if (z > 20) z = 20;
+        else if (z > 20) z = 20;
         this.setState({
-            zooms: z.toString(),
-            lon: parseFloat(this.state.lons),
-            lat: parseFloat(this.state.lats),
-            zoom: z
+            zoom: z,
+            rotation: r
         });
-        console.log("goto", this.state.lat, this.state.lon, this.state.zoom);
         e.preventDefault();
     }
 
-    componentDidUpdate() {
-        console.log("didUpdate", this.state);
+    submit = (e) => {
+        this.setState({
+            lon: parseFloat(this.state.lons),
+            lat: parseFloat(this.state.lats),
+        });
+        //console.log("goto", this.state.lat, this.state.lon, this.state.zoom);
+        e.preventDefault();
     }
 
     render() {
@@ -67,7 +87,6 @@ export default class Example5 extends Component {
         };
 
         let ll = transform([this.state.lon, this.state.lat], wgs84, wm);
-        console.log("ll=",ll, "zoom=",this.state.zoom);
 
         return (
             <>
@@ -80,15 +99,21 @@ export default class Example5 extends Component {
                 <form onSubmit={ this.submit }>
                   <input name="lats"  value={ this.state.lats }  onChange={ this.change }/>
                   <input name="lons"  value={ this.state.lons }  onChange={ this.change }/>
-                  <input name="zooms" value={ this.state.zooms } onChange={ this.change }/>
                   <input type="submit"/>
                 </form>
+                Zoom
+                <button name="zoomin"  onClick={ this.click }>+</button>
+                <button name="zoomout" onClick={ this.click }>-</button>
+                Rotate
+                <button name="clockwise"     onClick={ this.click }>+</button>
+                <button name="anticlockwise" onClick={ this.click }>-</button>
 
                 <Map useDefaultControls={false}
                     view=<View projection={wm}
                         zoom={ this.state.zoom }
                         center={ ll }
-                />
+                        rotation={ this.state.rotation }
+                    />
                 >
                     <layer.Tile source="OSM" />
                     <layer.Vector name="Taxlots"
