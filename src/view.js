@@ -37,10 +37,10 @@ export default class OLView extends OLComponent {
             p = this.props.projection;
         }
         var opts = {
-            center: props.initialCenter,
-            resolution: props.initialResolution,
-            rotation: props.initialRotation,
-            zoom: props.initialZoom,
+            center: this.props.initialCenter,
+            resolution: this.props.initialResolution,
+            rotation: this.props.initialRotation,
+            zoom: this.props.initialZoom,
             projection: p
         };
         this.view = new View(opts);
@@ -60,21 +60,27 @@ export default class OLView extends OLComponent {
 
     updateFromProps_() {
         // FIXME we're probably ignoring some useful props here!!
-        console.log("view updateFromProps_()");
-
-        if (typeof this.props.center !== 'undefined')
-            this.view.setCenter(this.props.center);
-
-        if (typeof this.props.rotation !== 'undefined')
-            this.view.setRotation(this.props.rotation);
+        //console.log("view updateFromProps_()");
 
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
         if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
-            console.log("zoom set to", this.props.resolution);
+            //console.log("resolution set to", this.props.resolution);
             this.view.setResolution(this.props.resolution);
-        } else if (typeof this.props.zoom !== 'undefined') {
-            console.log("zoom set to", this.props.zoom);
-            this.view.setZoom(this.props.zoom);
+            return;
+        }
+
+        if (typeof this.props.zoom !== 'undefined'
+        || typeof this.props.rotation !== 'undefined'
+        || typeof this.props.rotation !== 'undefined') {
+            this.view.animate(
+                { zoom: this.props.zoom },
+                { rotation: this.props.rotation, duration: 250 },
+                { center: this.props.center },
+            );
+            // this.view.setZoom(this.props.zoom);
+            // this.view.setCenter(this.props.center);
+            // this.view.setRotation(this.props.rotation);
+            console.log('rotation = ', this.props.rotation);
         }
     }
 
@@ -89,10 +95,6 @@ export default class OLView extends OLComponent {
 //        console.log("View.ComponentDidUpdate()", this.props.center);
 //        this.view.setCenter(this.props.center)
         this.updateFromProps_();
-    }
-
-    animate(options) {
-        this.view.animate(options);
     }
 
     fit(geometry, size, options) {
