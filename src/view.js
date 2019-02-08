@@ -62,7 +62,6 @@ export default class OLView extends OLComponent {
 
     updateFromProps_() {
         // FIXME we're probably ignoring some useful props here!!
-        console.log("view updateFromProps_()");
 
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
         if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
@@ -93,7 +92,6 @@ export default class OLView extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("zoom", this.view.getZoom());
         // If extent does not need updating, don't call.
         if (((prevProps.center.lat !== this.props.center.lat) ||
              (prevProps.center.lon !== this.props.center.lon)) ||
