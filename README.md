@@ -119,7 +119,7 @@ To install it for use in your own project, use "npm install @map46/ol-react".
 
     # Update version in package.json (see below)
     npm version minor
-or
+  or
     npm version patch
 
     tasks/publish.sh
@@ -146,7 +146,6 @@ The command fails if changes are left uncommitted, so 'git commit' first.
 ### Deploy
 
 Install in your project with ````npm install ol-react````.
-I haven't gotten past testing yet so I don't have a plan for deployment yet.
 
 ## The cry for help
 
