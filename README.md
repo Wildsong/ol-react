@@ -5,7 +5,7 @@ It's changed so much now that I am close to declaring it a new project.
 
 ## Overview
 
-A thin wrapper for [OpenLayers5](http://openlayers.org/) in [React](https://reactjs.org/).
+A wrapper for [OpenLayers5](http://openlayers.org/) in [React](https://reactjs.org/).
 
 The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component, to generate a map with a red square near the equator.
 
@@ -150,7 +150,7 @@ I haven't gotten past testing yet so I don't have a plan for deployment yet.
 
 ## The cry for help
 
-It's early days! If you're familiar with React and/or OpenLayers and are interested in helping, please get in touch.
+If you're familiar with React and/or OpenLayers and are interested in helping, please get in touch.
 
 The original OL3 version available on [github](https://github.com/richardhills/ol-react) and [npm](https://www.npmjs.com/package/ol-react).
 Brian's fork for OL5 at [github](https://github.com/brian32768/ol-react)
