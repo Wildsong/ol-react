@@ -119,7 +119,7 @@ To install it for use in your own project, use "npm install @map46/ol-react".
 
     # Update version in package.json (see below)
     npm version minor
-  or
+    # or
     npm version patch
 
     tasks/publish.sh
