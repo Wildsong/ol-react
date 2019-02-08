@@ -4,7 +4,6 @@ import {MapContext} from './map-context'
 import {Map, View} from 'ol'
 import OLComponent from './ol-component'
 
-const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
 
 export default class OLView extends OLComponent {
@@ -13,21 +12,22 @@ export default class OLView extends OLComponent {
         center: PropTypes.arrayOf(PropTypes.number),
         resolution: PropTypes.number,
         zoom: PropTypes.number,
+        minZoom: PropTypes.number,
+        maxZoom: PropTypes.number,
         rotation: PropTypes.number,
-        initialCenter: PropTypes.arrayOf(PropTypes.number),
-        initialResolution: PropTypes.number,
-        initialZoom: PropTypes.number,
-        initialRotation: PropTypes.number,
+        projection: PropTypes.string,
+
         onResolutionChanged: PropTypes.func,
         onZoomChanged: PropTypes.func,
         onCenterChanged: PropTypes.func,
-        projection: PropTypes.string,
     }
     static defaultProps = {
-        initialCenter: [0, 0],
-        initialResolution: 10000,
-        initialZoom: 0,
-        initialRotation: 0
+        minzoom: 4,
+        maxzoom: 19,
+        center: [0, 0],
+        //resolution: 10000,
+        zoom: 0,
+        rotation: 0
     }
 
     constructor(props) {
@@ -37,10 +37,12 @@ export default class OLView extends OLComponent {
             p = this.props.projection;
         }
         var opts = {
-            center: this.props.initialCenter,
-            resolution: this.props.initialResolution,
-            rotation: this.props.initialRotation,
-            zoom: this.props.initialZoom,
+            center: this.props.center,
+            //resolution: this.props.resolution,
+            rotation: this.props.rotation,
+            zoom: this.props.zoom,
+            minZoom: this.props.minZoom,
+            maxZoom: this.props.maxZoom,
             projection: p
         };
         this.view = new View(opts);
@@ -60,7 +62,7 @@ export default class OLView extends OLComponent {
 
     updateFromProps_() {
         // FIXME we're probably ignoring some useful props here!!
-        //console.log("view updateFromProps_()");
+        console.log("view updateFromProps_()");
 
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
         if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
@@ -80,7 +82,6 @@ export default class OLView extends OLComponent {
             // this.view.setZoom(this.props.zoom);
             // this.view.setCenter(this.props.center);
             // this.view.setRotation(this.props.rotation);
-            console.log('rotation = ', this.props.rotation);
         }
     }
 
@@ -91,10 +92,15 @@ export default class OLView extends OLComponent {
         this.context.map.on("movend", this.onMoveEnd, this);
     }
 
-    componentDidUpdate() {
-//        console.log("View.ComponentDidUpdate()", this.props.center);
-//        this.view.setCenter(this.props.center)
-        this.updateFromProps_();
+    componentDidUpdate(prevProps) {
+        console.log("zoom", this.view.getZoom());
+        // If extent does not need updating, don't call.
+        if (((prevProps.center.lat !== this.props.center.lat) ||
+             (prevProps.center.lon !== this.props.center.lon)) ||
+            (prevProps.zoom !== this.props.zoom) ||
+            (prevProps.rotation !== this.props.rotation))
+
+            this.updateFromProps_();
     }
 
     fit(geometry, size, options) {

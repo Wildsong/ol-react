@@ -14,22 +14,21 @@ import OLControl from './ol-control';
 
 export default class OLMousePosition extends OLControl {
     static propTypes = Object.assign({}, OLControl.propTypes, {
-	className: PropTypes.string,
-	coordinateFormat: PropTypes.func, // f(x) that takes coord and returns string
-	projection: PropTypes.oneOfType([
-	    PropTypes.instanceOf(Projection),
-	    PropTypes.string
-	]),
-	undefinedHTML: PropTypes.string,
+    	className: PropTypes.string,
+    	coordinateFormat: PropTypes.func, // f(x) that takes coord and returns string
+    	projection: PropTypes.oneOfType([
+    	    PropTypes.instanceOf(Projection),
+    	    PropTypes.string
+    	]),
+    	undefinedHTML: PropTypes.string,
     })
 
-    createControl (props) {
-	return new MousePosition({
-	    className: props.className,
-	    coordinateFormat: props.coordinateFormat,
-	    projection: props.projection,
-	    undefinedHTML: props.undefinedHTML,
-	})
+    createControl(props) {
+    	return new MousePosition({
+    	    className: props.className,
+    	    coordinateFormat: props.coordinateFormat,
+    	    projection: props.projection,
+    	    undefinedHTML: props.undefinedHTML,
+    	})
     }
 }
-

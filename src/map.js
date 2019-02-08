@@ -34,7 +34,6 @@ export default class OLMap extends Component {
 
     constructor(props) {
         super(props);
-//        console.log("new OLMap props=", this.props)
         this.map = new Map({
             loadTilesWhileAnimating: this.props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: this.props.loadTilesWhileInteracting,

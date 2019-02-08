@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
@@ -36,9 +36,9 @@ let attributions = [
     'and ESRI too.'
 ];
 
-let pi = 3.1416;
+const pi = 3.1416;
 
-export default class Example extends Component {
+export default class Example extends React.Component {
     state = {
         enableModify: true // can't change this in the app yet
     };

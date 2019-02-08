@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
@@ -25,7 +25,7 @@ const wm = "EPSG:3857";
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
-let transformfn = (coordinates) => {
+const transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
         coordinates[i+1] += astoria_wm[1];
@@ -33,11 +33,11 @@ let transformfn = (coordinates) => {
     return coordinates
 }
 
-let attributions = [
+const attributions = [
     osmAttribution,
 ];
 
-let pi = 3.1416;
+const pi = 3.1416;
 
 // This controls what kind of features we are drawing.
 const typeSelect = [
@@ -47,18 +47,16 @@ const typeSelect = [
     { index: 3,  label: "Circle" },
 ];
 
-class EventList extends Component {
-    render() {
-        let keyval=0; // Some weird react rule, each row needs a unique key.
-        return (
-            <ol>
-            { this.props.events.slice(0).reverse().map( (listVal) => <li key={ keyval++ }>{ listVal }</li> )}
-            </ol>
-        );
-    }
+const EventList = (props) => {
+    let keyval=0; // Some weird react rule, each row needs a unique key.
+    return (
+        <ol>
+        { props.events.slice(0).reverse().map( (listVal) => <li key={ keyval++ }>{ listVal }</li> )}
+        </ol>
+    );
 }
 
-export default class Example1 extends Component {
+export default class Example1 extends React.Component {
     static propTypes = {
         title: PropTypes.string
     };
@@ -156,7 +154,7 @@ export default class Example1 extends Component {
                     </ul>
 
                 Interactions: DRAW
-                Controls: Sliders, Full screen, Zoom
+                Controls: Sliders, Full screen, Zoom (range 8...12)
 
                 <SliderControl
                     onChange={ this.changeOpacity1 }
@@ -179,7 +177,8 @@ export default class Example1 extends Component {
                 </p>
 
                 <Map
-                    view=<View zoom={ 10 } center={ astoria_wm }/>
+                    view=<View zoom={ 10 } center={ astoria_wm }
+                            minZoom={8} maxZoom={12} />
                     useDefaultControls={ false }
 
                     onPointerMove={ this.handlePointerMove }
