@@ -31,6 +31,10 @@ export default class OLLayer extends OLComponent {
         selectable: false
     }
 
+    state = {
+        layer: null
+    };
+
     constructor(props) {
         super(props)
 
@@ -57,9 +61,6 @@ export default class OLLayer extends OLComponent {
             'wrapX'
         ]
 
-        this.state = {
-            layer: null
-        };
     }
 
     buildProps(dict) {
@@ -141,4 +142,3 @@ export default class OLLayer extends OLComponent {
         );
     }
 }
-

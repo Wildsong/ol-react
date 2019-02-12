@@ -19,12 +19,19 @@ export default class OLVector extends OLLayer {
         style:  PropTypes.oneOfType([
                     PropTypes.instanceOf(Style),
                     PropTypes.object,
+                    PropTypes.func,
                     PropTypes.arrayOf(PropTypes.oneOfType([
                         PropTypes.instanceOf(Style),
                         PropTypes.object
-                ]))
+                    ]
+                ))
         ])
     }
+
+    state = {
+        layer: null,
+        source: null
+    };
 
     constructor(props) {
         super(props);
@@ -36,6 +43,7 @@ export default class OLVector extends OLLayer {
         this.dictSource.push('format');   // { esrijson|geojson|topojson }
         this.dictSource.push('distance'); // for cluster
         //this.dictSource.push('features');
+        this.dictSource.push('addfeature');
 
         let layerProps  = this.buildProps(this.dictLayer);
         let sourceProps = this.buildProps(this.dictSource);
@@ -73,6 +81,15 @@ export default class OLVector extends OLLayer {
 
             default:
                 source = vectorsource;
+                source.addEventListener("addfeature",
+                    (evt) => {
+                        console.log("addfeature", evt);
+                        if (this.props.addfeature) {
+                            this.props.addfeature(evt);
+                        }
+                    }
+                );
+
                 break;
         }
         this.state.source = source;
@@ -80,7 +97,6 @@ export default class OLVector extends OLLayer {
         //console.log("props", this.props, "sourceProps", sourceProps);
         if (this.props.source) {
             let dl = DataLoader(this.props.source, this.props.url, this.state.source);
-            //console.log("What is dl", dl);
             this.state.source.setLoader(dl);
         }
 

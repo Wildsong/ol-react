@@ -16,7 +16,7 @@ import {
 import SliderControl from './slider-control'
 import { Map, View, Feature, control, geom, interaction, layer } from '../src'
 import Select from 'react-select'
-
+import { buildStyle } from '../src/style';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
@@ -68,6 +68,7 @@ export default class Example1 extends React.Component {
         typeIndex : 0, // index into typeSelect
         events : [],
         pointer : '',
+        markerId: 1,
     }
 
     changeOpacity1 = (value) => {
@@ -82,29 +83,36 @@ export default class Example1 extends React.Component {
         this.setState({ typeIndex : o.index });
     }
 
-    handleMapEvent = (event) => {
+    handleMapEvent = (e) => {
         if (this.state.events.length > 5) {
             this.state.events.shift();
         }
-        this.state.events.push(event.type);
-        this.setState({ events : this.state.events });
+        this.state.events.push(e.type);
+        this.setState({
+            events : this.state.events,
+            markerId : ++this.state.markerId,
+        });
         //event.stopPropagation(); // this stops draw interaction
     }
 
-    handlePointerMove = (event) => {
-//        console.log(event.type);
-        this.setState({ pointer: event.coordinate });
+    handlePointerMove = (e) => {
+//        console.log(e.type);
+        this.setState({ pointer: e.coordinate });
         //event.stopPropagation(); // this stops the other events!
     }
 
-    render() {
-        let textMarker = {
+    handleAddFeature = (e) => {
+        console.log("handleAddFeature", e.feature);
+    }
+
+// This version makes ALL the point markers increment at the same time.
+    clickMarker = (feature, resolution) => {
+        let s = buildStyle({
             text: {
-                text: 'Hee',
-            }
-        }
+                text: this.state.markerId.toString(),
+                offsetY: -10,
+            },
         //  currently this draws a blue 5 pointed star
-        let pointMarker = {
             image: {
                 type: 'regularShape',
                 points: 5,
@@ -113,7 +121,11 @@ export default class Example1 extends React.Component {
                 radius2: 2,
                 stroke: { color: 'blue', width: 1.5 }
             }
-        }
+        })
+        return s;
+    }
+
+    render() {
         let pointStyle = {
             image: {
                 type: 'circle',
@@ -192,8 +204,12 @@ export default class Example1 extends React.Component {
                     />
 
                     <layer.Vector
-                        style={ pointMarker }
+                        style={ this.clickMarker }
                         opacity={ this.state.opacityVector/100 } >
+
+                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label }
+                            drawend={ this.handleAddFeature }
+                        />
 
                         <Feature id="test-line" style={ lineStyle }>
                             <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
@@ -229,8 +245,6 @@ export default class Example1 extends React.Component {
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
-
-                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label } />
 
                     </layer.Vector>
 
