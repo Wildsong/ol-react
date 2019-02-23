@@ -20,8 +20,7 @@ import { buildStyle } from '../src/style';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-const wgs84 = "EPSG:4326";
-const wm = "EPSG:3857";
+import { wgs84, wm } from '../src/utils'
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
@@ -102,7 +101,7 @@ export default class Example1 extends React.Component {
     }
 
     handleAddFeature = (e) => {
-        console.log("handleAddFeature", e.feature);
+        console.log("handleAddFeature", e, e.feature);
     }
 
 // This version makes ALL the point markers increment at the same time.
@@ -165,7 +164,9 @@ export default class Example1 extends React.Component {
                         <li> Polygon: triangle with a triangle hole inside it</li>
                     </ul>
 
-                Interactions: DRAW
+                There are two vector layers, one display only
+                and one that can be editted.
+                Interactions: DRAW into "draw" layer.
                 Controls: Sliders, Full screen, Zoom (range 8...12)
 
                 <SliderControl
@@ -194,25 +195,21 @@ export default class Example1 extends React.Component {
                     useDefaultControls={ false }
 
                     onPointerMove={ this.handlePointerMove }
-                    onSingleClick={ this.handleMapEvent }
                     onChangeSize={ this.handleMapEvent }
                     onMoveEnd={ this.handleMapEvent }
                 >
+                    <control.FullScreen />
+                    <control.Zoom />
+
                     <layer.Tile source="OSM"
                         attributions={ attributions }
                         opacity={ this.state.opacityOSM/100 }
                     />
 
-                    <layer.Vector
-                        style={ this.clickMarker }
-                        opacity={ this.state.opacityVector/100 } >
-
-                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label }
-                            drawend={ this.handleAddFeature }
-                        />
+                    <layer.Vector name="Display" opacity={ this.state.opacityVector/100 } >
 
                         <Feature id="test-line" style={ lineStyle }>
-                            <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
+                            <geom.LineString transform={transformfn} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
@@ -222,11 +219,11 @@ export default class Example1 extends React.Component {
                         </Feature>
 
                         <Feature id="test-circle-zeroradius" style={ polyStyle }>
-                            <geom.Circle transform={ transformfn } modify={this.state.enableModify} >{[6000,0]}</geom.Circle>
+                            <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
                         </Feature>
 
                         <Feature id="test-polygon" style={ polyStyle }>
-                            <geom.Polygon transform={ transformfn } modify={ this.state.enableModify } insertVertexCondition={ ()=>{return true;} }>
+                            <geom.Polygon transform={ transformfn }>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                     [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
@@ -235,21 +232,24 @@ export default class Example1 extends React.Component {
                         </Feature>
 
                         <Feature id="test-point" style={ pointStyle }>
-                            <geom.Point transform={ transformfn } modify={ this.state.enableModify } >
+                            <geom.Point transform={ transformfn } >
                                 {[1835, -910]}
                             </geom.Point>
                         </Feature>
 
                         <Feature id="test-multipoint" style={ multipointStyle }>
-                            <geom.MultiPoint transform={ transformfn } modify={ this.state.enableModify } >
+                            <geom.MultiPoint transform={ transformfn } >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
-
                     </layer.Vector>
 
-                    <control.FullScreen />
-                    <control.Zoom />
+                    <layer.Vector name="Draw" style={ this.clickMarker }
+                        addfeature={ this.handleAddFeature }>
+                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label }
+                            drawend={ this.handleAddFeature }
+                        />
+                    </layer.Vector>
                 </Map>
 
                 <EventList events={ this.state.events }/>

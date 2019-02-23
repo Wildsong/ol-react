@@ -29,7 +29,7 @@ const STYLE_KEY_FACTORIES = {
 
 export function buildStyle(style) {
     if (!style) {
-        console.log('buildStyle(null) PROBABLY A PROBLEM.');
+        console.log('buildStyle(null); will use defaults');
         return null;
     }
 

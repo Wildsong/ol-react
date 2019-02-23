@@ -7,7 +7,6 @@ import OLLayer from './ol-layer'
 import { createXYZ } from 'ol/tilegrid'
 import { tile as tileStrategy } from 'ol/loadingstrategy'
 //import { Collection} from 'ol'
-import { buildLayerProps, baseLayerPropTypes } from './'
 import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
 
@@ -83,8 +82,8 @@ export default class OLVector extends OLLayer {
                 source = vectorsource;
                 source.addEventListener("addfeature",
                     (evt) => {
-                        console.log("addfeature", evt);
                         if (this.props.addfeature) {
+                            console.log("Vector.addfeature", evt);
                             this.props.addfeature(evt);
                         }
                     }
