@@ -32,6 +32,7 @@ export default class OLDraw extends OLInteraction {
         interaction.addEventListener("drawend",
     	    (evt) => {
                 if (this.props.drawend) {
+                    console.log("Draw.drawend", evt);
                     this.props.drawend(evt);
                 }
     	    }
