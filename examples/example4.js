@@ -20,8 +20,7 @@ import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
-const wgs84 = "EPSG:4326";
-const wm = "EPSG:3857";
+import { wgs84, wm } from '../src/utils'
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 

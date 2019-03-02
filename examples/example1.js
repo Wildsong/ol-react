@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import { transform } from 'ol/proj'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -20,6 +19,7 @@ import { buildStyle } from '../src/style';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
+import { transform } from 'ol/proj'
 import { wgs84, wm } from '../src/utils'
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
@@ -35,8 +35,6 @@ const transformfn = (coordinates) => {
 const attributions = [
     osmAttribution,
 ];
-
-const pi = 3.1416;
 
 // This controls what kind of features we are drawing.
 const typeSelect = [

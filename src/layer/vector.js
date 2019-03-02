@@ -93,13 +93,13 @@ export default class OLVector extends OLLayer {
         }
         this.state.source = source;
 
+        let style = buildStyle(this.props.style);
+
         //console.log("props", this.props, "sourceProps", sourceProps);
         if (this.props.source) {
-            let dl = DataLoader(this.props.source, this.props.url, this.state.source);
+            let dl = DataLoader(this.props.source, this.props.url, this.state.source, style);
             this.state.source.setLoader(dl);
         }
-
-        let style = buildStyle(this.props.style);
 
         //console.log("layerProps", layerProps);
         this.state.layer = new VectorLayer({

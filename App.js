@@ -11,7 +11,7 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-import {Example1, Example2, Example3, Example4, Example5} from './examples'
+import {Example1, Example2, Example3, Example4, Example5, Example6} from './examples'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -21,6 +21,7 @@ const SampleMap2 = () => ( <Example2 title="Sample 2: Rest and WMS" /> );
 const SampleMap3 = () => ( <Example3 title="Sample 3: ESRI and Stamen" /> );
 const SampleMap4 = () => ( <Example4 title="Sample 4: Tile and XYZ" /> );
 const SampleMap5 = () => ( <Example5 title="Sample 5 Nominatim (geocode test)" /> );
+const SampleMap6 = () => ( <Example6 title="Sample 6 GeoServer WFS test" /> );
 
 class PrimaryLayout extends Component {
     state = {
@@ -57,6 +58,9 @@ class PrimaryLayout extends Component {
                     <NavItem>
                       <NavLink href="/sample5">Sample 5</NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink href="/sample6">Sample 6</NavLink>
+                    </NavItem>
                     </Nav>
                   </Collapse>
                 </Navbar>
@@ -66,6 +70,7 @@ class PrimaryLayout extends Component {
                     <Route path="/sample3" component={SampleMap3} />
                     <Route path="/sample4" component={SampleMap4} />
                     <Route path="/sample5" component={SampleMap5} />
+                    <Route path="/sample6" component={SampleMap6} />
                     <Route exact path="/"  component={SampleMap1} />
                 </Switch>
             </>

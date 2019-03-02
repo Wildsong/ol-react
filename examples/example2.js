@@ -18,8 +18,7 @@ import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
-const wgs84 = "EPSG:4326";
-const wm = "EPSG:3857";
+import { wgs84, wm } from '../src/utils'
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
@@ -35,8 +34,6 @@ let attributions = [
     'GEBCO',
     'and ESRI too.'
 ];
-
-const pi = 3.1416;
 
 export default class Example extends React.Component {
     state = {
@@ -63,7 +60,7 @@ export default class Example extends React.Component {
                         <li>ZoomSlider</li>
                     </ul>
 
-                <Map view=<View rotation={pi*.25} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+                <Map view=<View rotation={Math.Pi*.25} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
 
                     <layer.Image source="WMS"
                         url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"

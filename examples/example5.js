@@ -6,10 +6,7 @@ import {Map, View, Feature, geom, layer} from '../src'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-const Pi = 3.1416;
-const wgs84 = "EPSG:4326";
-const wm = "EPSG:3857";
-const astoria = [-123.834,46.187]
+import { wgs84, wm, astoria_ll } from '../src/utils'
 
 const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
@@ -56,10 +53,10 @@ export default class Example5 extends Component {
             z -= 1;
             break;
         case 'anticlockwise':
-            r -= Pi/10;
+            r -= Math.Pi/10;
             break;
         case 'clockwise':
-            r += Pi/10;
+            r += Math.Pi/10;
             break;
         }
         if (z < 1) z = 1;
