@@ -44,7 +44,7 @@ export default class OLTile extends OLLayer {
             'urls',
             'wrapX',
             'transition',
-            'key'
+            'key',
         ]
         let layerProps = this.buildProps(this.dictLayer);
         let sourceProps = {};
@@ -63,55 +63,58 @@ export default class OLTile extends OLLayer {
 
         console.log("layer", layerProps, "source", sourceProps);
         switch (this.props.source) {
-        case "BingMaps":
-            Object.assign(layerProps, {
-                preload: Infinity  // this is from the examples, probably bad
-            });
-            sourceProps = this.buildProps(this.dictSource);
-            Object.assign(sourceProps, {key: apiKeys.BingMaps, imagerySet: 'Aerial'});
-            tileSource = new BingMaps(sourceProps);
-            break;
+            case "BingMaps":
+                this.dictSource.push("imagerySet") // Aerial|CanvasDark|CanvasLight|OrdnanceSurvey|RoadOnDemand
+                // see https://docs.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata
+                Object.assign(layerProps, {
+                    preload: Infinity  // this is from the examples, probably bad
+                });
+                sourceProps = this.buildProps(this.dictSource);
+                Object.assign(sourceProps, {key: apiKeys.BingMaps});
+                tileSource = new BingMaps(sourceProps);
+                break;
 
-        case "OSM":
-            // http://openlayers.org/en/latest/apidoc/module-ol_source_OSM.html
-            this.dictSource.push('maxZoom')
-            sourceProps = this.buildProps(this.dictSource);
-            tileSource = new OSM(sourceProps);
-            break;
+            case "OSM":
+                // http://openlayers.org/en/latest/apidoc/module-ol_source_OSM.html
+                this.dictSource.push('maxZoom')
+                sourceProps = this.buildProps(this.dictSource);
+                tileSource = new OSM(sourceProps);
+                break;
 
-        case "Stamen":
-            this.dictSource.push('layer')
-            sourceProps = this.buildProps(this.dictSource);
-            tileSource = new Stamen(sourceProps);
-            break;
+            case "Stamen":
+                this.dictSource.push('layer')
+                sourceProps = this.buildProps(this.dictSource);
+                tileSource = new Stamen(sourceProps);
+                break;
 
-        case "WMS":
-            // http://openlayers.org/en/latest/apidoc/module-ol_source_TileWMS.html
-            this.dictSource.push('serverType')
-            sourceProps = this.buildProps(this.dictSource);
-            let params = {'TILED' : true}
-            Object.assign(sourceProps, {params, transition: 0});
-            tileSource = new TileWMS(sourceProps);
-            //console.log('WMS', sourceProps, tileSource);
-            break;
+            case "WMS":
+                // http://openlayers.org/en/latest/apidoc/module-ol_source_TileWMS.html
+                this.dictSource.push('serverType')
+                sourceProps = this.buildProps(this.dictSource);
+                Object.assign(sourceProps, {
+                    params: this.props.params,
+                    transition: 0,
+                });
+                tileSource = new TileWMS(sourceProps);
+                break;
 
-        case "XYZ":
-            // http://openlayers.org/en/latest/apidoc/module-ol_source_XYZ.html
-            this.dictSource.push('crossOrigin')
-            this.dictSource.push('minZoom')
-            this.dictSource.push('maxZoom')
-            sourceProps = this.buildProps(this.dictSource);
-            tileSource = new XYZ(sourceProps);
-            break;
+            case "XYZ":
+                // http://openlayers.org/en/latest/apidoc/module-ol_source_XYZ.html
+                this.dictSource.push('crossOrigin')
+                this.dictSource.push('minZoom')
+                this.dictSource.push('maxZoom')
+                sourceProps = this.buildProps(this.dictSource);
+                tileSource = new XYZ(sourceProps);
+                break;
 
-        case "ArcGISRest":
-            sourceProps = this.buildProps(this.dictSource);
-            tileSource = new TileArcGISRest(sourceProps);
-            break;
+            case "ArcGISRest":
+                sourceProps = this.buildProps(this.dictSource);
+                tileSource = new TileArcGISRest(sourceProps);
+                break;
 
-        default:
-            throw "Unknown source:" + this.props.source;
-            break
+            default:
+                throw "Unknown source:" + this.props.source;
+                break
         }
 
         this.state.layer = new TileLayer({
@@ -135,4 +138,3 @@ export default class OLTile extends OLLayer {
     }
 */
 }
-

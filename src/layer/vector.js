@@ -5,13 +5,14 @@ import { Cluster, Vector as VectorSource } from 'ol/source'
 import { Style } from 'ol/style'
 import OLLayer from './ol-layer'
 import { createXYZ } from 'ol/tilegrid'
-import { tile as tileStrategy } from 'ol/loadingstrategy'
+import { tile as tileStrategy, bbox as bboxStrategy} from 'ol/loadingstrategy'
 //import { Collection} from 'ol'
 import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
 
 export default class OLVector extends OLLayer {
     static propTypes = {
+        source: PropTypes.string,
         updateWhileAnimating: PropTypes.bool,
         updateWhileInteracting: PropTypes.bool,
         loader: PropTypes.string,
@@ -50,18 +51,31 @@ export default class OLVector extends OLLayer {
         // There used to be a feature collection added here
         // but it does not seem to matter so it's commented out
 
-        // Using the tileStrategy here all the time does not seem
-        // to matter but I think I only want it for EsriJSON
-        // Maybe there should be a "source=esrijson"
+        // "strategy" is a function that takes extent and resolution
+        // and returns an array of extents that need to be loaded.
 
-        let vectorsource = new VectorSource(
-                Object.assign({
-                    //features: new Collection()},
-                    strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+        let style = buildStyle(this.props.style);
+        let options;
+        if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
+            options = Object.assign({
+                    strategy: bboxStrategy
                 },
                 sourceProps
             )
+        } else {
+            options = sourceProps;
+            //Object.assign({
+            //        //features: new Collection()},
+            //        strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+            //    },
+            //    sourceProps
+            //)
+        }
+
+        let vectorsource = new VectorSource(
+            options
         )
+
         let source;
         switch (this.props.source) {
             case 'cluster':
@@ -93,15 +107,11 @@ export default class OLVector extends OLLayer {
         }
         this.state.source = source;
 
-        let style = buildStyle(this.props.style);
-
-        //console.log("props", this.props, "sourceProps", sourceProps);
-        if (this.props.source) {
+        if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
             let dl = DataLoader(this.props.source, this.props.url, this.state.source, style);
             this.state.source.setLoader(dl);
         }
 
-        //console.log("layerProps", layerProps);
         this.state.layer = new VectorLayer({
             ...layerProps,
             style: style,

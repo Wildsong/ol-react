@@ -17,7 +17,6 @@ export default class OLDraw extends OLInteraction {
         }
     )
 
-    // FIXME I think this is outdated and needs fixin'
     static olEvents = ["drawend", "drawstart"]
 
     createInteraction(props) {

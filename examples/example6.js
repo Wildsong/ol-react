@@ -8,11 +8,23 @@ import '../App.css'
 
 import { wgs84, wm, astoria_ll } from '../src/utils'
 
-const wfsSource = "https://maps.wildsong.biz/geoserver/clatsop-wfs/ows?";
-const web_markers_WFS = wfsSource;
-const taxlotFeatureServer = wfsSource +
-    "service=WFS&version=2.0.0&request=GetFeature" +
-    "&typeNames=clatsop-wfs%3Ataxlots&count=10000"
+const wfsSource = "http://maps.wildsong.biz/geoserver/clatsop-wfs/ows?"
+    + "service=WFS&version=2.0.0&request=GetFeature"
+
+const web_markers = wfsSource + "&typeNames=web_markers"
+
+// I am having a problem here where it won't load two WFS layers at the same
+// time so I stuck the ESRI version in and that works...
+// ALmost like there's a global getting overwritten or there can only be one
+// WFS layer at a time???
+
+// I think this layer is slower than the equivalent WMS layer (see sample #1)
+// because it's not cached. I wonder how vector tiles compare?
+//const taxlots = wfsSource + "&typeNames=taxlots"
+//const taxlotFormat = 'geojson'
+const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
+const taxlotFormat = 'esrijson'
+
 export default class Example6 extends Component {
     static propTypes = {
         title: PropTypes.string
@@ -24,7 +36,7 @@ export default class Example6 extends Component {
         lons: "-123.834",
         lat: 46.187,
         lon: -123.834,
-        zoom: 10,
+        zoom: 17,
         rotation: 0.00
     }
 
@@ -81,8 +93,16 @@ export default class Example6 extends Component {
     }
 
     render() {
-        let polyStyle = {
-            stroke: {color: [0, 0, 0, 1], width:4},
+        const pointStyle = {
+            image: {
+                type: 'circle',
+                radius: 4,
+                fill: { color: [200,10,10, 0.5] },
+                stroke: { color: 'red', width: 1 }
+            }
+        };
+        const polyStyle = {
+            stroke: {color: [0, 0, 0, 1], width:1},
             fill: {color: [255, 0, 0, .250]},
         };
 
@@ -118,10 +138,17 @@ export default class Example6 extends Component {
                     <layer.Tile source="OSM" />
 
                     <layer.Vector name="Taxlots"
-                        source="geojson"
-                        url={ taxlotFeatureServer }
+                        source={ taxlotFormat }
+                        url={ taxlots }
                         style={ polyStyle }
                     />
+                    
+                    <layer.Vector name="Web markers"
+                        source="geojson"
+                        url={ web_markers }
+                        style={ pointStyle }
+                    />
+
                 </Map>
 
                 <table>

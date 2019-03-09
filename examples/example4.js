@@ -75,9 +75,9 @@ export default class Example4 extends Component {
                 <h2>{this.props.title}</h2>
                     <ul>
                         <li>ArcGIS ESRIjson featureserver using XYZ</li>
-                        <li>ESRI WOrld Streets (XYZ)</li>
-                        <li>BingMaps aerial
-                        ** It would be nice to add a selector here for other BingMaps</li>
+                        <li>ESRI World Streets (XYZ)</li>
+                        <li>BingMaps aerial</li>
+                        <li>BingMaps CanvasLight (roads)</li>
                     </ul>
 
                     <SliderControl
@@ -97,10 +97,14 @@ export default class Example4 extends Component {
 
                 <Map view=<View projection={wm} zoom={15} center={astoria_wm}/> useDefaultControls={false}>
 
-                    <layer.Tile name="Bing Aerial"
-                        source="BingMaps"
-                        visible={this.state.bingVisible}
-                    />
+                <layer.Tile name="Bing Road"
+                    source="BingMaps" imagerySet="CanvasLight"
+                />
+
+                <layer.Tile name="Bing Aerial"
+                    source="BingMaps" imagerySet="Aerial"
+                    visible={this.state.bingVisible}
+                />
 
                     <layer.Tile name="ESRI World Streets"
                         source="XYZ"

@@ -13,7 +13,7 @@
   "main": "./index.html",
   "scripts": {
     "test": "parcel serve test.html --open",
-    "start": "parcel serve index.html --open",
+    "start": "mapbox_api_key.bat && parcel serve index.html --open",
     "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
     "clean": "rm -rf build/*",
     "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
@@ -48,6 +48,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.3.0",
+    "cors": "^2.8.5",
     "jsonp": "^0.2.1",
     "ol": "^5.3.0",
     "rc-slider": "^8.6.5",

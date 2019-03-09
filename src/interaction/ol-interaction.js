@@ -6,14 +6,13 @@ import OLComponent from '../ol-component'
 export default class OLInteraction extends OLComponent {
     static contextType = MapContext;
     static propTypes = {
-	active: PropTypes.bool
+	    active: PropTypes.bool
     }
     static defaultProps = {
-	active: true
+	    active: true
     }
 
     componentDidMount() {
-	//        console.log("OLInteractive.componentDidMount()")
         this.interaction = this.createInteraction(this.props)
         this.eventHandlerKeys_ = {}
 
@@ -26,8 +25,6 @@ export default class OLInteraction extends OLComponent {
     // which means we should see if anything has changed before
     // running the code here,  so we don't render without need
     componentDidUpdate(prevProps) {
-	//        console.log("OLInteractive.componentDidUpdate()", this.interaction)
-
         this.context.map.removeInteraction(this.interaction)
 
         this.interaction = this.createInteraction(this.props)
@@ -37,7 +34,6 @@ export default class OLInteraction extends OLComponent {
     }
 
     componentWillUnmount() {
-        console.log("OLInteractive.componentDidMount()")
         this.context.map.removeInteraction(this.interaction)
         this.updateEventHandlersFromProps_({})
     }
@@ -82,6 +78,3 @@ export default class OLInteraction extends OLComponent {
         }
     }
 }
-
-
-

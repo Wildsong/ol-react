@@ -21,7 +21,7 @@ export default class Example5 extends Component {
         lons: "-123.834",
         lat: 46.187,
         lon: -123.834,
-        zoom: 10,
+        zoom: 16,
         rotation: 0.00
     }
 
