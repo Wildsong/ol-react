@@ -9,7 +9,8 @@ import 'ol/ol.css'
 
 export {control, geom, interaction, layer}
 
-export {default as Feature} from './feature'
-export {default as Map} from './map'
-export {default as View} from './view'
-export {default as Overlay} from './overlay'
+export { default as Feature } from './feature'
+export { default as Graticule } from './graticule';
+export { default as Map } from './map'
+export { default as View } from './view'
+export { default as Overlay } from './overlay'
