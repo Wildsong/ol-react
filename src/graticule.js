@@ -13,6 +13,8 @@ export default class OLGraticule extends OLComponent {
         stroke: PropTypes.string,
         targetSize: PropTypes.number,
         showLabels: PropTypes.bool,
+        lonLabelFormatter: PropTypes.func,
+        latLabelFormatter: PropTypes.func,
         lonLabelPosition: PropTypes.number,
         latLabelPosition: PropTypes.number,
         intervals: PropTypes.arrayOf(PropTypes.number)
