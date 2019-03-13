@@ -9,15 +9,15 @@ import apiKeys from './apikeys';
 
 export default class OLTile extends OLLayer {
     static propTypes = {
-	source: PropTypes.string.isRequired,
-	url: PropTypes.string,
-	opacity: PropTypes.number,
-	attributions: PropTypes.arrayOf(PropTypes.string),
-	layer: PropTypes.string,
+    	source: PropTypes.string.isRequired,
+    	url: PropTypes.string,
+    	opacity: PropTypes.number,
+    	attributions: PropTypes.arrayOf(PropTypes.string),
+    	layer: PropTypes.string,
     }
     static defaultProps = {
-	visible: true,
-	opaque: false
+    	visible: true,
+    	opaque: false
     }
 
     constructor(props) {

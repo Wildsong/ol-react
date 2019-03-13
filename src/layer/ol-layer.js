@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
-import {LayerContext} from '../layer-context'
+import { MapContext } from '../map-context'
+import { LayerContext } from '../layer-context'
 import OLComponent from '../ol-component'
-import {Extent} from 'ol'
-import {Select} from 'ol/interaction'
-import {click, pointerMove} from 'ol/events/condition'
+import { Extent } from 'ol'
+import { Select } from 'ol/interaction'
+import { click, pointerMove } from 'ol/events/condition'
 
 // These are properties that we want to use for sources
 let dictSource = [
@@ -13,6 +13,7 @@ let dictSource = [
 
 export default class OLLayer extends OLComponent {
     static contextType = MapContext;
+
     static propTypes = {
         name: PropTypes.string,
         opacity: PropTypes.number,
@@ -81,7 +82,6 @@ export default class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
-        //console.log("OLLayer.componentDidMount() context=", this.context);
         if (this.props.selectable) {
             let interactions = this.context.map.getInteractions()
             this.selectInteraction = new Select({
@@ -129,7 +129,6 @@ export default class OLLayer extends OLComponent {
     }
 
     render() {
-        //console.log("OLLayer.render props=", this.props, this.props.children);
         return (
             <div>
             <LayerContext.Provider value={{
