@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Map, View, Feature, geom, layer } from '../src'
+import { Map, View, Feature, Graticule, geom, layer } from '../src'
 import createMapboxStreetsStyle from './mapboxstyles'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -72,7 +72,8 @@ export default class Example7 extends React.Component {
                 <h2>{ this.props.title }</h2>
                 <h4>Vector tiles</h4>
                     <ul>
-                    <li> taxlots from geoserver</li>
+                    <li> Graticule </li>
+                    <li> Taxlots from geoserver</li>
                     <li> Tile source: Mapbox</li>
                     </ul>
 
@@ -81,6 +82,11 @@ export default class Example7 extends React.Component {
                             minZoom={8} maxZoom={18} />
                     useDefaultControls={ false }
                 >
+
+                <Graticule
+                    showLabels={ true }
+                />
+
                 <layer.VectorTile format="MVT"
                     url={ mapbox_url }
                     style={ createMapboxStreetsStyle(Style, Fill, Stroke, Icon, Text) }
