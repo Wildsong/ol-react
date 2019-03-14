@@ -46,9 +46,13 @@ export default class OLView extends OLComponent {
             projection: p
         };
         this.view = new View(opts);
+        this.view.on("change:resolution", this.handleEvent);
     }
 
-    onMoveEnd(event) {
+    handleEvent(event) {
+        const zoom = this.view.getZoom()
+        console.log("View.onMoveEnd", event, zoom)
+        /*
         if (this.props.onNavigation && this.props.initialCenter[0] !== this.view.getCenter()[0]) {
             // Don't fire an event unless we've actually moved from initial location
             this.props.onNavigation(
@@ -58,6 +62,7 @@ export default class OLView extends OLComponent {
                 this.view.getRotation()
             );
         }
+        */
     }
 
     updateFromProps_() {
