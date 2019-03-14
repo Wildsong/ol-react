@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
-import usng from 'usng/usng'
+import { Converter } from 'usng/usng'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -114,9 +114,9 @@ export default class Example3 extends Component {
                 styleCache[size] = style;
             }
         }
-        let usngc = new usng.Converter();
-        let coordFormatter = (coord) => {
-            return usngc.LLtoUSNG(coord[1], coord[0], 5);
+        const usngConverter = new Converter;
+        const coordFormatter = (coord) => {
+            return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
         }
         return (
             <>
@@ -203,7 +203,7 @@ export default class Example3 extends Component {
                 */}
 
                 <control.MousePosition
-                    projection={wgs84}
+                    projection={ wgs84 }
                     coordinateFormat={ coordFormatter }
                 />
             </Map>
