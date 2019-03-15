@@ -84,6 +84,8 @@ export default class Example7 extends React.Component {
                 >
                     <Graticule
                         showLabels={ true }
+                        maxLines={ 100 }
+                        targetSize={ 50 }
                     />
                     <layer.VectorTile format="MVT"
                         url={ mapbox_url }
