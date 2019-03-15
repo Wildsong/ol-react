@@ -5,7 +5,6 @@ import { Tile as TileLayer } from 'ol/layer'
 import { BingMaps, OSM, Stamen } from 'ol/source'
 import { TileArcGISRest, TileWMS, XYZ } from 'ol/source'
 import OLLayer from './ol-layer'
-import apiKeys from './apikeys';
 
 export default class OLTile extends OLLayer {
     static propTypes = {
@@ -14,6 +13,7 @@ export default class OLTile extends OLLayer {
     	opacity: PropTypes.number,
     	attributions: PropTypes.arrayOf(PropTypes.string),
     	layer: PropTypes.string,
+        apikey: PropTypes.string
     }
     static defaultProps = {
     	visible: true,
@@ -70,7 +70,7 @@ export default class OLTile extends OLLayer {
                     preload: Infinity  // this is from the examples, probably bad
                 });
                 sourceProps = this.buildProps(this.dictSource);
-                Object.assign(sourceProps, {key: apiKeys.BingMaps});
+                Object.assign(sourceProps, {key: this.props.key});
                 tileSource = new BingMaps(sourceProps);
                 break;
 
