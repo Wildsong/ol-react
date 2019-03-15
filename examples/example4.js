@@ -24,6 +24,9 @@ import { wgs84, wm } from '../src/utils'
 
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
+const bingmaps_key = process.env.BINGMAPS_KEY;
+if (typeof bingmaps_key === 'undefined') console.log("BINGMAPS_KEY is undefined")
+
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
@@ -103,7 +106,8 @@ export default class Example4 extends Component {
 
                 <layer.Tile name="Bing Aerial"
                     source="BingMaps" imagerySet="Aerial"
-                    visible={this.state.bingVisible}
+                    visible={ this.state.bingVisible }
+                    key={ bingmaps_key }
                 />
 
                     <layer.Tile name="ESRI World Streets"
