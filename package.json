@@ -13,7 +13,7 @@
   "main": "./index.html",
   "scripts": {
     "test": "parcel serve test.html --open",
-    "start": "mapbox_api_key.bat && parcel serve index.html --open",
+    "start": "api_keys.bat && parcel serve index.html --open",
     "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
     "clean": "rm -rf build/*",
     "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
@@ -23,17 +23,17 @@
     "type": "git",
     "url": "git@github.com:brian32768/ol-react.git"
   },
-  "author": "richard.hills@gmail.com",
   "license": "MIT",
   "contributors": [
     "Brian H Wilson <brian@wildsong.biz>",
     "Tamás Nepusz ntamas",
     "Jono Rogers @statusas",
-    "Victor Grigoriu vgrigoriu@gmail.com"
+    "Victor Grigoriu vgrigoriu@gmail.com",
+    "Richard Hills (original author) richard.hills@gmail.com"
   ],
   "bugs": {
     "url": "https://github.com/brian32768/ol-react/issues",
-    "email": "brian+ol-react@wildsong.biz"
+    "email": "brian@wildsong.biz"
   },
   "homepage": "https://github.com/brian32768/ol-react#readme",
   "devDependencies": {
