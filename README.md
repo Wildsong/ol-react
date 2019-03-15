@@ -40,6 +40,22 @@ image: {
     stroke: { color: 'green', width: 1 }
 }
 ```
+## API keys
+
+When a map source needs a key you need to put the
+key into an environment variable.
+
+* BINGMAPS_KEY (used in example4)
+* MAPBOX_KEY (used in example7)
+
+Currently I keep my keys in a file called api_keys.bat and load them in the 'start' script
+in package.json. The file looks like this (with real keys, of course):
+
+````bash
+rem DON'T check this file into git!
+SET MAPBOX_KEY=N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5
+SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
+````
 
 ## Project status
 
@@ -50,6 +66,7 @@ image: {
  * Zoom slider
 * Sources
  * OSM
+ * BingMaps -- requires an API key
  * Tile ArcGISRest
  * XYZ tiles
 * Layers
@@ -62,9 +79,9 @@ image: {
  * MultiPoint
  * Point
  * Polygon
+* Graticule
 * Interactions
  * double click zoom
-
 * Map
 * View
 * Style (needs more tests)
@@ -78,6 +95,7 @@ image: {
  * Style - maybe I can attach a function with this?
  * Text - untested
  * TextPlacement - not yet
+* Vector tiles
 
 #### Work in progress / untested
 * Controls
@@ -89,7 +107,6 @@ image: {
  * Zoom
 * Interactions
 * Sources
- * BingMaps
  * Tile WMS
 * Geometry
  * Point and MultiPoint animation
