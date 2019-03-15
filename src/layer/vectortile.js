@@ -5,7 +5,6 @@ import { VectorTile as VectorTileLayer } from 'ol/layer'
 import { VectorTile as VectorTileSource } from 'ol/source'
 import { GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat } from 'ol/format'
 import OLLayer from './ol-layer'
-import apiKeys from './apikeys';
 
 export default class OLVectorTile extends OLLayer {
     static propTypes = {
