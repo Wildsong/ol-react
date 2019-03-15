@@ -14,9 +14,7 @@ const usngConverter = new Converter
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 const mapbox_key = process.env.MAPBOX_KEY;
-if (typeof mapbox_key !== 'undefined') {
-    console.log("The mapbox key is defined!");
-}
+if (typeof mapbox_key === 'undefined') console.log("The mapbox key is undefined!");
 const mapbox_url = 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/'
                     + '{z}/{x}/{y}.vector.pbf?access_token=' + mapbox_key
 const taxlotslayer = 'clatsop-wfs%3Ataxlots'
