@@ -4,7 +4,7 @@ export const wm = "EPSG:3857";
 export const astoria_ll = [-123.834,46.187];
 
 export const usngPrecision = [
-//  dec   zoom
+// dec   zoom
     0, // 0
     0, // 1
     0, // 2
