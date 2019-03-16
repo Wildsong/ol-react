@@ -19,7 +19,7 @@ const web_markers = wfsSource + "&typeNames=web_markers"
 // WFS layer at a time???
 
 // I think this layer is slower than the equivalent WMS layer (see sample #1)
-// because it's not cached. I wonder how vector tiles compare?
+// because it's not cached. example7 tests vector tiles
 //const taxlots = wfsSource + "&typeNames=taxlots"
 //const taxlotFormat = 'geojson'
 const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -142,7 +142,7 @@ export default class Example6 extends Component {
                         url={ taxlots }
                         style={ polyStyle }
                     />
-                    
+
                     <layer.Vector name="Web markers"
                         source="geojson"
                         url={ web_markers }
