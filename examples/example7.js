@@ -67,6 +67,10 @@ export default class Example7 extends React.Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
+
+                I am adding history and this example will eventually
+                demonstate that too.
+                
                 <h4>Vector tiles</h4>
                     <ul>
                     <li> Graticule </li>
