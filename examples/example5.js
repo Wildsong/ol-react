@@ -101,9 +101,9 @@ export default class Example5 extends Component {
         var style = {
             image: {
                 type: 'circle',
-                radius: 4,
-                fill: { color: [100,100,100, 0.5] },
-                stroke: { color: 'green', width: 1 }
+                radius: 10,
+                fill: { color: [100,100,100, 0.8] },
+                stroke: { color: 'green', width: 3 }
             }
         }
         var point = new Point(
