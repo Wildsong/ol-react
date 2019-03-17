@@ -50,6 +50,7 @@ export default class OLView extends OLComponent {
     }
 
     handleEvent(event) {
+        // FIXME Seems like the binding is wrong for 'this'
         const zoom = this.getZoom()
         console.log("View.onMoveEnd", event, zoom)
         /*
