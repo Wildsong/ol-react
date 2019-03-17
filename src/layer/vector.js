@@ -12,7 +12,10 @@ import { buildStyle } from '../style'
 
 export default class OLVector extends OLLayer {
     static propTypes = {
-        source: PropTypes.string,
+        source: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]),
         updateWhileAnimating: PropTypes.bool,
         updateWhileInteracting: PropTypes.bool,
         loader: PropTypes.string,
@@ -56,13 +59,27 @@ export default class OLVector extends OLLayer {
 
         let style = buildStyle(this.props.style);
         let options;
-        if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
+
+        // THIS POOR CODE DESPERATELY NEEDS REAFACTORING
+
+        // Allow passing in an openlayers source directly here
+        let vectorSource;
+
+        if (typeof this.props.source == 'object') {
+            vectorSource = this.props.source
+        }
+
+        else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
             options = Object.assign({
                     strategy: bboxStrategy
                 },
                 sourceProps
             )
+            vectorSource = new VectorSource(options)
+
         } else {
+            // Not sure when we come through here
+            // I guess for WMS vector layers?
             options = sourceProps;
             //Object.assign({
             //        //features: new Collection()},
@@ -70,22 +87,22 @@ export default class OLVector extends OLLayer {
             //    },
             //    sourceProps
             //)
+            vectorSource = new VectorSource(options)
         }
-
-        let vectorsource = new VectorSource(
-            options
-        )
 
         let source;
         switch (this.props.source) {
             case 'cluster':
+
+            // FIXME add a test for this feature
+
                 console.log("cluster", sourceProps);
                 source = new Cluster(
                     Object.assign({
                             //features: new Collection(),
                             //geometryFunction: func
                             //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
-                            source: vectorsource
+                            source: vectorSource
                         },
                         sourceProps
                     )
@@ -93,7 +110,7 @@ export default class OLVector extends OLLayer {
                 break;
 
             default:
-                source = vectorsource;
+                source = vectorSource;
                 source.addEventListener("addfeature",
                     (evt) => {
                         if (this.props.addfeature) {
