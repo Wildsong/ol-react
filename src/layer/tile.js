@@ -44,7 +44,7 @@ export default class OLTile extends OLLayer {
             'urls',
             'wrapX',
             'transition',
-            'key',
+            'apikey',  // React components get upset when I tried using "key" as an attribute
         ]
         let layerProps = this.buildProps(this.dictLayer);
         let sourceProps = {};
@@ -70,7 +70,9 @@ export default class OLTile extends OLLayer {
                     preload: Infinity  // this is from the examples, probably bad
                 });
                 sourceProps = this.buildProps(this.dictSource);
-                Object.assign(sourceProps, {key: this.props.key});
+                Object.assign(sourceProps, {
+                    key: this.props.apikey
+                });
                 tileSource = new BingMaps(sourceProps);
                 break;
 

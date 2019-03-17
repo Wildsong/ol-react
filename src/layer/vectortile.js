@@ -43,7 +43,7 @@ export default class OLVectorTile extends OLLayer {
             'urls',
             'wrapX',
             'transition',
-            'key',
+//            'apikey', not using this here
         ]
         let layerProps = this.buildProps(this.dictLayer);
         let tileSource = null;
