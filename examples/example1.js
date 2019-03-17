@@ -158,7 +158,8 @@ export default class Example1 extends React.Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-                Tile source: OpenStreetMap
+                Tile source: OpenStreetMap<br />
+                WMS source: taxlots from GeoServer
                 <h4>Vector source</h4>
                     <ul>
                         <li> Point: small green circle near Astor Column</li>
