@@ -50,7 +50,7 @@ export default class OLView extends OLComponent {
     }
 
     handleEvent(event) {
-        const zoom = this.view.getZoom()
+        const zoom = this.getZoom()
         console.log("View.onMoveEnd", event, zoom)
         /*
         if (this.props.onNavigation && this.props.initialCenter[0] !== this.view.getCenter()[0]) {
