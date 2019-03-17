@@ -27,10 +27,10 @@ export default class Example5 extends Component {
     state = {
         address: '',
         geocoderesults: [],
-        lats: "46.187",
-        lons: "-123.834",
-        lat: 46.187,
-        lon: -123.834,
+        lats: astoria_ll[1].toString(),
+        lons: astoria_ll[0].toString(),
+        lat: astoria_ll[1],
+        lon: astoria_ll[0],
         zoom: 16,
         rotation: 0.00
     }
@@ -107,7 +107,7 @@ export default class Example5 extends Component {
             }
         }
         var point = new Point(
-            transform([-1.49, 49], 'EPSG:4326', 'EPSG:3857')
+            transform(astoria_ll, 'EPSG:4326', 'EPSG:3857')
         );
         var pointFeature = new Feature(point);
         var vectorSource = new VectorSource({
