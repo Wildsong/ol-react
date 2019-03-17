@@ -113,6 +113,10 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
  * Polygons
 * Overlay - not sure what this even is right now
 
+I really need a GeoServer and an ArcGIS Server that are
+accessible publicly so that my samples work everywhere. I don't
+have them set up yet. 
+
 ## How to test and develop
 
 ### Test
