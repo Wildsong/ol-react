@@ -98,6 +98,9 @@ export default class Example5 extends Component {
             fill: {color: [255, 0, 0, .250]},
         };
 
+        // Create an OpenLayers source/Vector source,
+        // and add a feature to it, then pass it into a
+        // Layer component as its source attribute
         var style = {
             image: {
                 type: 'circle',
@@ -110,9 +113,7 @@ export default class Example5 extends Component {
             transform(astoria_ll, 'EPSG:4326', 'EPSG:3857')
         );
         var pointFeature = new Feature(point);
-        var vectorSource = new VectorSource({
-            projection: 'EPSG:4326'
-        });
+        var vectorSource = new VectorSource({ projection: 'EPSG:4326' });
         vectorSource.addFeatures([pointFeature]);
 
         let ll = transform([this.state.lon, this.state.lat], wgs84, wm);
@@ -121,10 +122,14 @@ export default class Example5 extends Component {
             <>
                 <h2>{ this.props.title }</h2>
 
-<em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!</em>
-
+<em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!
+There is actually no Nominatim code here yet. LOL.</em>
                 <p>
-                This form demonstrates that I can keep the map center<br />
+                1] Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
+                That's what makes the green circle at the map center.
+                </p>
+                <p>
+                2] Demonstrates that I can keep the map center<br />
                 and zoom in component state and update the map using setState.
                 </p>
                 { this.state.lats }, { this.state.lons } { this.state.zoom }
