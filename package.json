@@ -32,10 +32,10 @@
     "Richard Hills (original author) richard.hills@gmail.com"
   ],
   "bugs": {
-    "url": "https://github.com/brian32768/ol-react/issues",
+    "url": "https://github.com/Wildsong/ol-react/issues",
     "email": "brian@wildsong.biz"
   },
-  "homepage": "https://github.com/brian32768/ol-react#readme",
+  "homepage": "https://github.com/Wildsong/ol-react#readme",
   "devDependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.3.4",
