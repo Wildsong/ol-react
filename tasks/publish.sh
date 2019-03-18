@@ -15,7 +15,7 @@ BUILT_PACKAGE=build/@map46/ol-react
 #
 # URL for canonical repo.
 #
-REMOTE=https://github.com/brian32768/ol-react.git
+REMOTE=git@github.com/Wildsong/ol-react.git
 
 #
 # Display usage and exit.
