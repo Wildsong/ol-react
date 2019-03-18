@@ -17,7 +17,7 @@
     "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
     "clean": "rm -rf build/*",
     "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push --verbose && git push --tags --verbose"
   },
   "repository": {
     "type": "git",
