@@ -10,6 +10,11 @@ import '../App.css'
 
 import { wgs84, wm, astoria_ll } from '../src/utils'
 
+// We're querying the Nomiatim geocoder (OpenStreetMap) via Axios
+// to find addresses in Clatsop county.
+
+const geocodeServer = "https://nominatim.openstreetmap.org/search?format=json"
+
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
@@ -34,12 +39,6 @@ export default class Example5 extends Component {
         zoom: 16,
         rotation: 0.00
     }
-
-// I know, I know, this should really be a separate component
-// but at the moment I am testing ol-react and not my programming skills
-// so for the time being it's embedded here. I am going to start
-// using Redux now in react-axios-test and did not see a reason to
-// embed redux in the ol-react package.
 
     change = (e) => {
         const { target: { name, value }} = e;
@@ -125,11 +124,11 @@ export default class Example5 extends Component {
 <em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!
 There is actually no Nominatim code here yet. LOL.</em>
                 <p>
-                1] Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
+                1. Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
                 That's what makes the green circle at the map center.
                 </p>
                 <p>
-                2] Demonstrates that I can keep the map center<br />
+                2. Demonstrates that I can keep the map center<br />
                 and zoom in component state and update the map using setState.
                 </p>
                 { this.state.lats }, { this.state.lons } { this.state.zoom }
@@ -162,7 +161,6 @@ There is actually no Nominatim code here yet. LOL.</em>
                     test for issue #2
                     <layer.Vector name="Display" source={vectorSource} style={style}/>
                 </Map>
-
 
                 <table>
                     { this.state.geocoderesults.map(gc =>

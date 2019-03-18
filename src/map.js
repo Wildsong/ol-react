@@ -66,7 +66,7 @@ export default class OLMap extends Component {
     }
 
     render() {
-//        console.log("OLMap.render() props=", this.props)
+        //console.log("OLMap.render() props=", this.props)
         return (
             <div style={this.props.style}>
             <MapContext.Provider value={{map: this.map}}>

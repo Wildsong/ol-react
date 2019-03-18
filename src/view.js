@@ -52,7 +52,7 @@ export default class OLView extends OLComponent {
     handleEvent(event) {
         // FIXME Seems like the binding is wrong for 'this'
         const zoom = this.getZoom()
-        console.log("View.onMoveEnd", event, zoom)
+        console.log("View.onMoveEnd", zoom)
         /*
         if (this.props.onNavigation && this.props.initialCenter[0] !== this.view.getCenter()[0]) {
             // Don't fire an event unless we've actually moved from initial location
