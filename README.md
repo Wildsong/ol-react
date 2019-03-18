@@ -111,7 +111,7 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
  * Polygons
 * Overlay - not sure what this even is right now
 
-I needto update examples that use servers that are accessible publicly so that my
+I need to update examples that use servers that are accessible publicly so that my
 samples work everywhere. The examples are currently tied to a GeoServer at
 maps.wildsong.biz (not public) and cc-gis (also not public).
 If you run them you will see generic base maps but the data layers will not load.
@@ -140,6 +140,8 @@ To install it for use in your own project, use "npm install @map46/ol-react".
     git commit -a
     git push
 
+I suspect I need to run "npm login" around this time.
+
     # Update version in package.json (see below)
     npm version minor
     # or
@@ -147,8 +149,8 @@ To install it for use in your own project, use "npm install @map46/ol-react".
 
     tasks/publish.sh
 
-Do NOT run "npm publish" in the top level folder. It will publish too much!
-The publish script will do "npm build-package" and "npm publish" for you.
+Do NOT run "npm publish" yourself in the top level folder. It will publish too much!
+The publish script will run "npm build-package" and "npm publish" for you.
 The script runs 'npm publish' after chdir'ing down into the build folder.
 
 At this point do 'git status' and you will see you're not on a branch.
@@ -158,13 +160,13 @@ You need to do a 'git checkout master' to move back onto that branch or 'git che
 
 When I do significant changes I bump the patch version number or possibly the minor version
 
+The "npm version" command fails if changes are left uncommitted, so 'git commit' first.
+
 If the current version in package.json is 0.1.9 then
 ````npm version patch```` would bump the third digit (eg 0.1.10)
 and
 ````npm version minor```` would bump the second digit (eg 0.2.0)
 and in either case, it's all pushed up to github.
-
-The command fails if changes are left uncommitted, so 'git commit' first.
 
 ### Deploy
 
