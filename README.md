@@ -66,9 +66,10 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
  * Zoom slider
 * Sources
  * OSM
- * BingMaps -- requires an API key
- * Tile ArcGISRest
- * XYZ tiles
+ * BingMaps -- requires your API key
+ * Tile ArcGIS REST and GeoServer WMS
+ * Vector tiles (only tested with GeoServer so far, not ArcGIS)
+ * XYZ tiles tested with ArcGIS
 * Layers
  * Tile
  * Vector (with option for clustered point features)
@@ -82,6 +83,7 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
 * Graticule
 * Interactions
  * double click zoom
+ * Mouse position - works; need to show how to do formatting
 * Map
 * View
 * Style (needs more tests)
@@ -95,27 +97,27 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
  * Style - maybe I can attach a function with this?
  * Text - untested
  * TextPlacement - not yet
-* Vector tiles
 
 #### Work in progress / untested
+* Geocoding (in example 5) is under development
 * Controls
  * Attribution - not hiding the attributions in basemap layer
- * Mouse position - works; need to show how to do formatting
  * Overview map - works; needs more testing
  * Scale line - works, needs styling in example
  * Zoom to extent
  * Zoom
-* Interactions
-* Sources
- * Tile WMS
 * Geometry
  * Point and MultiPoint animation
  * Polygons
 * Overlay - not sure what this even is right now
 
-I really need a GeoServer and an ArcGIS Server that are
-accessible publicly so that my samples work everywhere. I don't
-have them set up yet. 
+I needto update examples that use servers that are accessible publicly so that my
+samples work everywhere. The examples are currently tied to a GeoServer at
+maps.wildsong.biz (not public) and cc-gis (also not public).
+If you run them you will see generic base maps but the data layers will not load.
+
+In development it's much easier to debug when I can see the log files from the
+servers and make changes on the servers as needed.
 
 ## How to test and develop
 
