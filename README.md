@@ -131,6 +131,7 @@ I added --no-autoinstall option in package.json to prevent parcel from installin
 This will publish the contents of the src/ folder as a new release.
 To install it for use in your own project, use "npm install @map46/ol-react".
 
+
     # Save all changes to github
     git push
     # Move to master branch
@@ -140,7 +141,11 @@ To install it for use in your own project, use "npm install @map46/ol-react".
     git commit -a
     git push
 
-I suspect I need to run "npm login" around this time.
+Today I had to wrestle for an hour before finding I had to do this to make "npm version" work.
+
+    eval $(ssh-agent -s) && ssh-add "j:\.ssh\id_rsa_github_bwilsoncc"
+
+I suspect I need to run "npm login" before running the tasks/publish.sh script.
 
     # Update version in package.json (see below)
     npm version minor
