@@ -152,7 +152,10 @@ I suspect I need to run "npm login" before running the tasks/publish.sh script.
     # or
     npm version patch
 
-    tasks/publish.sh
+Get the current version number from the npm version command and use it here, without the leading 'v'.
+
+    tasks/publish.sh 0.2.18
+    git checkout master
 
 Do NOT run "npm publish" yourself in the top level folder. It will publish too much!
 The publish script will run "npm build-package" and "npm publish" for you.
@@ -160,6 +163,7 @@ The script runs 'npm publish' after chdir'ing down into the build folder.
 
 At this point do 'git status' and you will see you're not on a branch.
 You need to do a 'git checkout master' to move back onto that branch or 'git checkout dev' to go back to work.
+
 
 ### Update git
 
