@@ -38,10 +38,10 @@
   "homepage": "https://github.com/Wildsong/ol-react#readme",
   "devDependencies": {
     "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-transform-object-assign": "^7.0.0",
-    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-env": "^7.4.2",
     "@babel/preset-es2016": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0"
   },
@@ -51,6 +51,7 @@
     "cors": "^2.8.5",
     "jsonp": "^0.2.1",
     "ol": "^5.3.1",
+    "ol-mapbox-style": "^4.2.1",
     "rc-slider": "^8.6.7",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
