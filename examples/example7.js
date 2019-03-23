@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Map, View, Feature, Graticule, control, geom, layer } from '../src'
-import createMapboxStreetsStyle from './mapboxstyles'
+import stylefunction from 'ol-mapbox-style/stylefunction'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import { Converter } from 'usng/usng';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -70,7 +70,7 @@ export default class Example7 extends React.Component {
 
                 I am adding history and this example will eventually
                 demonstate that too.
-                
+
                 <h4>Vector tiles</h4>
                     <ul>
                     <li> Graticule </li>
@@ -91,7 +91,7 @@ export default class Example7 extends React.Component {
                     />
                     <layer.VectorTile format="MVT"
                         url={ mapbox_url }
-                        style={ createMapboxStreetsStyle(Style, Fill, Stroke, Icon, Text) }
+                        style={ stylefunction }
                     />
                     <layer.VectorTile format="MVT"
                         url={ taxlots_url }

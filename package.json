@@ -43,13 +43,16 @@
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-es2016": "^7.0.0-beta.53",
-    "@babel/preset-react": "^7.0.0"
+    "@babel/preset-react": "^7.0.0",
+    "mapbox-gl-styles": "^2.0.2"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-style-spec": "^13.6.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "cors": "^2.8.5",
     "jsonp": "^0.2.1",
+    "mapbox-to-css-font": "^2.3.0",
     "ol": "^5.3.1",
     "ol-mapbox-style": "^4.2.1",
     "rc-slider": "^8.6.7",
@@ -58,6 +61,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
     "reactstrap": "^6.5.0",
-    "usng": "^0.1.2"
+    "usng": "^0.1.2",
+    "webfont-matcher": "^1.1.0"
   }
 }

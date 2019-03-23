@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {BrowserRouter, Link, Route, Redirect, Switch} from 'react-router-dom'
 import {
-    Collapse,
+    Container, Row, Col,
     Navbar,
-    NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem,
     NavLink,
@@ -34,51 +32,46 @@ class PrimaryLayout extends Component {
 
     render(props) {
         return (
-            <>
-                <Navbar color="light" light expand="md">
-                  <NavbarBrand href="/">
-                    <span id="sitelogo"></span>
-                    <span id="sitename"></span>
-                    {this.props.title}
-                  </NavbarBrand>
-                  <NavbarToggler onClick={this.toggle} />
-                  <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                    <NavItem>
-                      <NavLink href="/">Sample 1</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample2">Sample 2</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample3">Sample 3</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample4">Sample 4</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample5">Sample 5</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample6">Sample 6</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/sample7">Sample 7</NavLink>
-                    </NavItem>
-                    </Nav>
-                  </Collapse>
-                </Navbar>
-
-                <Switch>
-                    <Route path="/sample2" component={SampleMap2} />
-                    <Route path="/sample3" component={SampleMap3} />
-                    <Route path="/sample4" component={SampleMap4} />
-                    <Route path="/sample5" component={SampleMap5} />
-                    <Route path="/sample6" component={SampleMap6} />
-                    <Route path="/sample7" component={SampleMap7} />
-                    <Route exact path="/"  component={SampleMap1} />
-                </Switch>
-            </>
+            <Container fluid={ true }><Row>
+                <Col sm="2">
+                    <Navbar color="light" light expand="md">
+                        <Nav vertical={ true } className="ml-auto" navbar>
+                            <NavItem>
+                              <NavLink href="/">1 Draw</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample2">2 REST/WMS</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample3">3 ESRI Stamen</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample4">4 WMS Tiles</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample5">5 Geocode</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample6">6 WFS-T</NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample7">7 VecTile</NavLink>
+                            </NavItem>
+                        </Nav>
+                    </Navbar>
+                </Col>
+                <Col sm="10">
+                    <Switch>
+                        <Route path="/sample2" component={SampleMap2} />
+                        <Route path="/sample3" component={SampleMap3} />
+                        <Route path="/sample4" component={SampleMap4} />
+                        <Route path="/sample5" component={SampleMap5} />
+                        <Route path="/sample6" component={SampleMap6} />
+                        <Route path="/sample7" component={SampleMap7} />
+                        <Route exact path="/"  component={SampleMap1} />
+                    </Switch>
+                </Col>
+            </Row></Container>
         );
     }
 }
