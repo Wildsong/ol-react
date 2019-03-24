@@ -7,13 +7,13 @@ import OLLayer from './ol-layer'
 
 export default class OLImage extends OLLayer {
     static propTypes = {
-	source: PropTypes.string.isRequired,
-	url: PropTypes.string,
-	opacity: PropTypes.number,
-	attributions: PropTypes.arrayOf(PropTypes.string)
+    	source: PropTypes.string.isRequired,
+    	url: PropTypes.string,
+    	opacity: PropTypes.number,
+    	attributions: PropTypes.arrayOf(PropTypes.string)
     }
     static defaultProps = {
-	visible: true
+	       visible: true
     }
 
     constructor(props) {
@@ -48,29 +48,27 @@ export default class OLImage extends OLLayer {
         let sourceProps = {}
         let imageSource = null;
 
-        // NB There are other attributes I am not supporting yet.
-        // This is enough for today!
-
         switch (this.props.source) {
-        case 'ArcGISRest':
-            sourceProps = this.buildProps(this.dictSource);
-            imageSource = new ImageArcGISRest(sourceProps);
-            break;
+            case 'ArcGISRest':
+                sourceProps = this.buildProps(this.dictSource);
+                imageSource = new ImageArcGISRest(sourceProps);
+                break;
 
-        case "WMS":
-            this.dictSource.push('serverType')
-            sourceProps = this.buildProps(this.dictSource);
-            imageSource = new ImageWMS(sourceProps);
-            break;
+            case "WMS":
+                this.dictSource.push('serverType')
+                sourceProps = this.buildProps(this.dictSource);
+                imageSource = new ImageWMS(sourceProps);
+                break;
 
             //case "Raster":
-            // and a few others... you add them please
-            // http://openlayers.org/en/latest/apidoc/module-ol_source_Image-ImageSource.html
+                // and a few others... add them please
+                // http://openlayers.org/en/latest/apidoc/module-ol_source_Image-ImageSource.html
 
-        default:
-            throw "Unknown Image source:" + this.props.source;
-            break
+            default:
+                throw "Unknown Image source:" + this.props.source;
+                break
         }
+
 
         this.state.layer = new ImageLayer({
             ...layerProps,
@@ -79,4 +77,3 @@ export default class OLImage extends OLLayer {
         console.log("layer.OLImage props=", sourceProps, imageSource, this.state);
     }
 }
-

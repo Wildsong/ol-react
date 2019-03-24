@@ -25,8 +25,6 @@ import { wgs84, wm, astoria_ll } from '../src/utils'
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 const geoserverWMS = "http://maps.wildsong.biz/geoserver/clatsop-wfs/wms?"
-//    + "service=WMS&version=1.1.0&request=GetMap"
-//    + "&srs=EPSG%3A3857&format=image%2Fpng"
 const geoserverLayers = "taxlots"
 
 const transformfn = (coordinates) => {
@@ -215,7 +213,6 @@ export default class Example1 extends React.Component {
                         params={{LAYERS: geoserverLayers,
                             STYLES: "redline", // WMS style, from GeoServer in this case
                             TILED: true}}
-
                     />
 
                     <layer.Vector name="Display" opacity={ this.state.opacityVector/100 } >

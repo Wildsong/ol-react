@@ -18,10 +18,14 @@ import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
-import { wgs84, wm } from '../src/utils'
+import { wgs84, wm, astoria_ll } from '../src/utils'
 
-const astoria_wm = transform([-123.834,46.187], wgs84,wm)
+const astoria_wm = transform(astoria_ll, wgs84,wm)
 
+const geoserverWMS = "http://maps.wildsong.biz/geoserver/clatsop-wfs/wms?"
+const geoserverLayers = "taxlots"
+const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
+    "Specialty/ESRI_StateCityHighway_USA/MapServer"
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
@@ -43,6 +47,10 @@ export default class Example extends React.Component {
         title: PropTypes.string
     };
 
+    handleSelect(e) {
+        console.log("Select", e)
+    }
+
     render(props) {
         return (
             <>
@@ -60,23 +68,36 @@ export default class Example extends React.Component {
                         <li>ZoomSlider</li>
                     </ul>
 
-                <Map view=<View rotation={Math.Pi*.25} zoom={4} center={astoria_wm}/> useDefaultControls={false}>
+                <Map
+                    view=<View rotation={ Math.PI * .25 }
+                        zoom={ 10 } center={ astoria_wm }/>
+                    useDefaultControls={ false }>
+
+                    <layer.Tile source="OSM" />
 
                     <layer.Image source="WMS"
                         url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
                         params={{LAYERS:"GEBCO_LATEST"}}
-                        projection={wm}
+                        projection={ wm }
                     />
 
                     <layer.Image source="ArcGISRest"
-                        url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        opacity={.50}
+                        url={ esriService }
+                        opacity={ .50 }
+                    />
+
+                    <layer.Tile source="WMS"
+                        url={ geoserverWMS }
+                        params={{LAYERS: geoserverLayers,
+                            STYLES: "redline", // WMS style, from GeoServer in this case
+                            TILED: true}}
+                        selectable={ true } onSelect={ this.handleSelect }
                     />
 
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition
-                        projection={wgs84}
+                        projection={ wgs84 }
                         coordinateFormat={ (coord) => {
                                 return toStringXY(coord, 3)
                         } }

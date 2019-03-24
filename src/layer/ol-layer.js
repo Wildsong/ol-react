@@ -100,7 +100,11 @@ export default class OLLayer extends OLComponent {
             this.hoverInteraction.on('select', this.props.onHover)
             interactions.push(this.hoverInteraction);
         }
-        this.context.map.addLayer(this.state.layer)
+        try {
+            this.context.map.addLayer(this.state.layer)
+        } catch {
+            console.log("Ugh")
+        }
     }
 
     componentDidUpdate(prevProps) {
