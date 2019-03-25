@@ -2,20 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
-// Bootstrap (reactstrap in this case)
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Button
-} from 'reactstrap'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
 import { wgs84, wm, astoria_ll } from '../src/utils'
