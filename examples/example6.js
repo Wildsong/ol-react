@@ -84,9 +84,7 @@ export default class Example6 extends Component {
                         url={ web_markers }
                         style={ pointStyle }
                     />
-
                 </Map>
-
             </>
         );
     }

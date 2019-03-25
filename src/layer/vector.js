@@ -5,7 +5,7 @@ import { Cluster, Vector as VectorSource } from 'ol/source'
 import { Style } from 'ol/style'
 import OLLayer from './ol-layer'
 import { createXYZ } from 'ol/tilegrid'
-import { tile as tileStrategy, bbox as bboxStrategy} from 'ol/loadingstrategy'
+import { tile as tileStrategy, bbox as bboxStrategy } from 'ol/loadingstrategy'
 //import { Collection} from 'ol'
 import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
@@ -20,6 +20,16 @@ export default class OLVector extends OLLayer {
         updateWhileInteracting: PropTypes.bool,
         loader: PropTypes.string,
         style:  PropTypes.oneOfType([
+                    PropTypes.instanceOf(Style),
+                    PropTypes.object,
+                    PropTypes.func,
+                    PropTypes.arrayOf(PropTypes.oneOfType([
+                        PropTypes.instanceOf(Style),
+                        PropTypes.object
+                    ]
+                ))
+        ]),
+        editStyle:  PropTypes.oneOfType([
                     PropTypes.instanceOf(Style),
                     PropTypes.object,
                     PropTypes.func,
@@ -120,14 +130,13 @@ export default class OLVector extends OLLayer {
                     }
                 );
 
+                source.setLoader(
+                     DataLoader(this.props.source, this.props.url, source, style)
+                );
                 break;
         }
         this.state.source = source;
 
-        if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
-            let dl = DataLoader(this.props.source, this.props.url, this.state.source, style);
-            this.state.source.setLoader(dl);
-        }
 
         this.state.layer = new VectorLayer({
             ...layerProps,

@@ -22,8 +22,11 @@ import { wgs84, wm, astoria_ll } from '../src/utils'
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const geoserverWMS = "http://maps.wildsong.biz/geoserver/clatsop-wfs/wms?"
+const geoserver = "http://maps.wildsong.biz/geoserver/clatsop-wfs/"
+const geoserverWFS = geoserver + "ows?service=WFS&version=2.0.0&request=GetFeature&typeName=clatsop-wfs%3Ataxlots"
+const geoserverWMS = geoserver + "wms?"
 const geoserverLayers = "taxlots"
+
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
 let transformfn = (coordinates) => {
@@ -48,10 +51,31 @@ export default class Example extends React.Component {
     };
 
     handleSelect(e) {
-        console.log("Select", e)
+        const msg = e.target.getFeatures().getLength() +
+                ' selected features (last operation selected ' + e.selected.length +
+                ' and deselected ' + e.deselected.length + ' features)';
+        console.log(msg);
     }
 
     render(props) {
+        const polyStyle = {
+            stroke: {color: [0, 0, 0, 1], width:1},
+            fill: {color: [255, 0, 0, .250]},
+        };
+        const editStyle = {
+            stroke: {color: [255, 255, 0, 1], width:1},
+            fill: {color: [255, 255, 0, .250]},
+        };
+
+/* Can I select/query from WMS? It is set "queryable" in geoserver
+        <layer.Tile source="WMS"
+            url={ geoserverWMS }
+            params={{LAYERS: geoserverLayers,
+                STYLES: "redline", // WMS style, from GeoServer in this case
+                TILED: true}}
+            selectable={ true } onSelect={ this.handleSelect }
+        />*/
+
         return (
             <>
                 <h2>{this.props.title}</h2>
@@ -86,11 +110,11 @@ export default class Example extends React.Component {
                         opacity={ .50 }
                     />
 
-                    <layer.Tile source="WMS"
-                        url={ geoserverWMS }
-                        params={{LAYERS: geoserverLayers,
-                            STYLES: "redline", // WMS style, from GeoServer in this case
-                            TILED: true}}
+                    <layer.Vector name="Taxlots"
+                        source="geojson"
+                        url={ geoserverWFS }
+                        style={ polyStyle }
+                        editStyle={ editStyle }
                         selectable={ true } onSelect={ this.handleSelect }
                     />
 

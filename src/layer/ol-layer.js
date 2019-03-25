@@ -6,9 +6,11 @@ import OLComponent from '../ol-component'
 import { Extent } from 'ol'
 import { Select } from 'ol/interaction'
 import { click, pointerMove } from 'ol/events/condition'
+import { buildStyle } from '../style'
 
 // These are properties that we want to use for sources
 let dictSource = [
+
 ];
 
 export default class OLLayer extends OLComponent {
@@ -59,7 +61,8 @@ export default class OLLayer extends OLComponent {
             'attributionsCollapsible',
             'projection',
             'state',
-            'wrapX'
+            'wrapX',
+            'editStyle'
         ]
 
     }
@@ -82,17 +85,24 @@ export default class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
+        // We're adding this now that the layer has been added to the map
+        let select;
+        let interactions = this.context.map.getInteractions()
         if (this.props.selectable) {
-            let interactions = this.context.map.getInteractions()
-            this.selectInteraction = new Select({
-                condition: click,
+            //let editStyle = buildStyle(this.props.editStyle);
+            select = new Select({
+                //condition: click,
                 layers: [this.state.layer],
+                //style: editStyle
+                // features: collection
+                // filter: func
+                // hitTolerance:0
             })
-            this.selectInteraction.on('select', this.props.onSelect)
-            interactions.push(this.selectInteraction);
+            select.on('select', this.props.onSelect)
+            interactions.push(select);
+            this.selectInteraction = select;
         }
         if (this.props.hoverable) {
-            let interactions = this.context.map.getInteractions()
             this.hoverInteraction = new Select({
                 condition: pointerMove,
                 layers: [this.state.layer],
