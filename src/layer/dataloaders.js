@@ -8,6 +8,8 @@ import jsonp from 'jsonp'
 //import { wgs84, wm } from '../utils'
 
 export const DataLoader = (sourceType, url, source, style) => {
+    // Returns a function that can be called to load data.
+
     //console.log('DataLoader()', sourceType, url, source)
 
     switch (sourceType) {
