@@ -18,7 +18,11 @@ export default class OLVector extends OLLayer {
         ]),
         updateWhileAnimating: PropTypes.bool,
         updateWhileInteracting: PropTypes.bool,
-        loader: PropTypes.string,
+        loader: PropTypes.func,
+        url: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func
+        ]),
         style:  PropTypes.oneOfType([
                     PropTypes.instanceOf(Style),
                     PropTypes.object,
@@ -61,82 +65,61 @@ export default class OLVector extends OLLayer {
         let layerProps  = this.buildProps(this.dictLayer);
         let sourceProps = this.buildProps(this.dictSource);
 
-        // There used to be a feature collection added here
-        // but it does not seem to matter so it's commented out
-
-        // "strategy" is a function that takes extent and resolution
-        // and returns an array of extents that need to be loaded.
-
         let style = buildStyle(this.props.style);
-        let options;
-
-        // THIS POOR CODE DESPERATELY NEEDS REAFACTORING
 
         // Allow passing in an openlayers source directly here
-        let vectorSource;
-
+        let source;
         if (typeof this.props.source == 'object') {
-            vectorSource = this.props.source
-        }
+            source = this.props.source
 
-        else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
-            options = Object.assign({
-                    strategy: bboxStrategy
-                },
-                sourceProps
-            )
-            vectorSource = new VectorSource(options)
+        } else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
+            source = new VectorSource({
+                loader:  DataLoader(this.props.source, this.props.url, source, style),
+                strategy: bboxStrategy }
+            //     Object.assign({
+            //         strategy: bboxStrategy,
+            //     }, sourceProps)
+            );
+            source.addEventListener("addfeature",
+                (evt) => {
+                    if (this.props.addfeature) {
+                        console.log("Vector.addfeature", evt);
+                        this.props.addfeature(evt);
+                    }
+                }
+            );
 
         } else {
-            // Not sure when we come through here
-            // I guess for WMS vector layers?
-            options = sourceProps;
-            //Object.assign({
-            //        //features: new Collection()},
-            //        strategy: tileStrategy( createXYZ({ tileSize: 512 })),
-            //    },
-            //    sourceProps
-            //)
-            vectorSource = new VectorSource(options)
+            // A Vector layer can just draw a collection of graphics (example1)
+            // in which case it does not need any source prop or any DataLoader
+            // If url prop is set, it will use the default XHR loader
+            source = new VectorSource(
+                Object.assign({
+                    //features: new Collection()},
+                    // I wonder if using the tile strategy ever makes sense
+                    strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                    url: this.props.url // I need to test this
+                }, sourceProps)
+            )
         }
 
-        let source;
-        switch (this.props.source) {
-            case 'cluster':
-
-            // FIXME add a test for this feature
-
-                console.log("cluster", sourceProps);
-                source = new Cluster(
-                    Object.assign({
-                            //features: new Collection(),
-                            //geometryFunction: func
-                            //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
-                            source: vectorSource
-                        },
-                        sourceProps
-                    )
-                )
-                break;
-
-            default:
-                source = vectorSource;
-                source.addEventListener("addfeature",
-                    (evt) => {
-                        if (this.props.addfeature) {
-                            console.log("Vector.addfeature", evt);
-                            this.props.addfeature(evt);
-                        }
-                    }
-                );
-
-                source.setLoader(
-                     DataLoader(this.props.source, this.props.url, source, style)
-                );
-                break;
-        }
         this.state.source = source;
 
+        // FIXME add a test for this feature, it will almost certainly fail!
+        // I think this needs to be a boolean and not a source type
+        if (this.props.source === 'cluster') {
+            console.log("cluster", sourceProps);
+            this.state.source = new Cluster(
+                Object.assign({
+                    //features: new Collection(),
+                    //geometryFunction: func
+                    //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                        source: source
+                    },
+                    sourceProps
+                )
+            )
+        }
 
         this.state.layer = new VectorLayer({
             ...layerProps,
