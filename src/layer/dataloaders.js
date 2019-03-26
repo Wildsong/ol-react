@@ -7,7 +7,7 @@ import jsonp from 'jsonp'
 //import { Projection, transformExtent } from 'ol/proj'
 //import { wgs84, wm } from '../utils'
 
-export const DataLoader = (sourceType, url, source, style) => {
+export const DataLoader = (sourceType, url, source) => {
     // Returns a function that can be called to load data.
 
     //console.log('DataLoader()', sourceType, url, source)
@@ -37,17 +37,14 @@ export const DataLoader = (sourceType, url, source, style) => {
                     { name:"parseResponse", timeout:60000 },
                     (err, data) => {
                         if (err) {
-                            console.log("DataLoader(", url, " ):", err);
+                            console.log("DataLoader", fsurl, err);
                         } else {
-                            console.log("DataLoader():", data)
+                            console.log("DataLoader:", fsurl, data)
                             let features = geojsonFormat.readFeatures(data, {
                                 featureProjection: projection
                             });
                             if (features.length > 0) {
-                                console.log("DataLoader(", sourceType, " ) Adding ", features.length);
-                                features.forEach( (f) => {
-                                    f.setStyle(style);
-                                })
+                                console.log("DataLoader", features.length);
                                 source.addFeatures(features);
                             }
                     }
@@ -79,6 +76,7 @@ export const DataLoader = (sourceType, url, source, style) => {
                 });
             }
             break;
+
         default:
             throw 'Unknown sourceType, "' + sourceType;
     }

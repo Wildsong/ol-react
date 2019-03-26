@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
-
-import '../App.css';
-
+import { buildStyle } from '../src/style'
 import { wgs84, wm, astoria_ll } from '../src/utils'
+import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
@@ -30,6 +29,15 @@ let attributions = [
     'and ESRI too.'
 ];
 
+const polyStyle = {
+    stroke: {color: [0, 0, 0, 1], width:1},
+    fill: {color: [255, 0, 0, .250]},
+};
+const editStyle = {
+    stroke: {color: [255, 255, 0, 1], width:1},
+    fill: {color: [255, 255, 0, .250]},
+};
+
 export default class Example extends React.Component {
     state = {
         enableModify: true // can't change this in the app yet
@@ -39,22 +47,32 @@ export default class Example extends React.Component {
     };
 
     handleSelect(e) {
-        const msg = e.target.getFeatures().getLength() +
+        const features = e.target.getFeatures();
+        const deselected = e.deselected;
+        console.log(features)
+        const msg = features.getLength() +
                 ' selected features (last operation selected ' + e.selected.length +
-                ' and deselected ' + e.deselected.length + ' features)';
+                ' and deselected ' + deselected.length + ' features)';
         console.log(msg);
+
+        const pst = buildStyle(polyStyle)
+        const est = buildStyle(editStyle)
+
+        features.forEach( (f) => {
+            //f.setStyle(est);
+        })
+
+        deselected.forEach( (f) => {
+            f.setStyle(pst);
+        })
+
     }
 
     render(props) {
-        const polyStyle = {
-            stroke: {color: [0, 0, 0, 1], width:1},
-            fill: {color: [255, 0, 0, .250]},
+        let bbPolyStyle = {
+            stroke: {color: [255, 255, 0, 1], width:4},
+            fill: {color: [255, 255, 0, .750]},
         };
-        const editStyle = {
-            stroke: {color: [255, 255, 0, 1], width:1},
-            fill: {color: [255, 255, 0, .250]},
-        };
-
 /* Can I select/query from WMS? It is set "queryable" in geoserver
         <layer.Tile source="WMS"
             url={ geoserverWMS }
@@ -63,6 +81,9 @@ export default class Example extends React.Component {
                 TILED: true}}
             selectable={ true } onSelect={ this.handleSelect }
         />*/
+
+
+//        <layer.Image source="ArcGISRest"  url={ esriService } opacity={ .50 }/>
 
         return (
             <>
@@ -81,8 +102,8 @@ export default class Example extends React.Component {
                     </ul>
 
                 <Map
-                    view=<View rotation={ Math.PI * .25 }
-                        zoom={ 10 } center={ astoria_wm }/>
+                    view=<View rotation={ Math.PI * 0 }
+                        zoom={ 16 } center={ astoria_wm }/>
                     useDefaultControls={ false }>
 
                     <layer.Tile source="OSM" />
@@ -91,11 +112,6 @@ export default class Example extends React.Component {
                         url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
                         params={{LAYERS:"GEBCO_LATEST"}}
                         projection={ wm }
-                    />
-
-                    <layer.Image source="ArcGISRest"
-                        url={ esriService }
-                        opacity={ .50 }
                     />
 
                     <layer.Vector name="Taxlots"
@@ -115,25 +131,6 @@ export default class Example extends React.Component {
                         } }
                     />
                     <control.ZoomSlider />
-
-                    {/*
-                    <control.FullScreen />
-                    <control.OverviewMap/>
-                    <control.ScaleLine units={control.ScaleLineUnits.US} />
-                    <control.Zoom />
-                    <control.ZoomToExtent />
-
-                    <interaction.DoubleClickZoom />
-                    <interaction.DragPan />
-                    <interaction.DragRotate />
-                    <interaction.DragRotateAndZoom />
-                    <interaction.DragZoom />
-                    <interaction.KeyboardZoom />
-                    <interaction.MouseWheelZoom />
-                    <interaction.PinchRotate />
-                    <interaction.PinchZoom />
-                    */}
-
                 </Map>
             </>
         );
