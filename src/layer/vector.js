@@ -74,12 +74,12 @@ export default class OLVector extends OLLayer {
 
         } else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
             source = new VectorSource({
-                loader:  DataLoader(this.props.source, this.props.url, source, style),
                 strategy: bboxStrategy }
             //     Object.assign({
             //         strategy: bboxStrategy,
             //     }, sourceProps)
             );
+            source.setLoader(DataLoader(this.props.source, this.props.url, source));            
             source.addEventListener("addfeature",
                 (evt) => {
                     if (this.props.addfeature) {
