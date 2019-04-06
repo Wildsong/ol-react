@@ -16,7 +16,7 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer} from '../src';
+import { Map, View, Feature, control, geom, interaction, layer } from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';

@@ -1,0 +1,3055 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis projectname="" version="3.6.1-Noosa">
+  <homePath path=""/>
+  <title></title>
+  <autotransaction active="0"/>
+  <evaluateDefaultValues active="0"/>
+  <trust active="0"/>
+  <projectCrs>
+    <spatialrefsys>
+      <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+      <srsid>3857</srsid>
+      <srid>3857</srid>
+      <authid>EPSG:3857</authid>
+      <description>WGS 84 / Pseudo-Mercator</description>
+      <projectionacronym>merc</projectionacronym>
+      <ellipsoidacronym>WGS84</ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </projectCrs>
+  <layer-tree-group>
+    <customproperties/>
+    <layer-tree-layer expanded="1" id="clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89" name="clatsop:county_boundary" providerKey="WFS" checked="Qt::Checked" source=" pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:county_boundary' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table=&quot;&quot; sql=">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9" name="clatsop:parks" providerKey="WFS" checked="Qt::Checked" source=" pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:parks' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table=&quot;&quot; sql=">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0" name="clatsop:taxlots" providerKey="WFS" checked="Qt::Checked" source=" pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:taxlots' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table=&quot;&quot; sql=">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea" name="clatsop:roads" providerKey="WFS" checked="Qt::Checked" source=" pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:roads' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table=&quot;&quot; sql=">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc" name="clatsop:water_poly" providerKey="WFS" checked="Qt::Checked" source=" pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:water_poly' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table=&quot;&quot; sql=">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="irving_9b851b63_7b98_4842_802d_c9562232a915" name="irving" providerKey="wms" checked="Qt::Checked" source="contextualWMSLegend=0&amp;crs=EPSG:3857&amp;dpiMode=7&amp;featureCount=10&amp;format=image/png&amp;layers=clatsop:irving&amp;styles&amp;url=https://geoserver.wildsong.biz/geoserver/ows">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="GEBCO_2014_Grid_5f574261_113a_4002_8221_42017be595bc" name="GEBCO_2014_Grid" providerKey="wms" checked="Qt::Unchecked" source="contextualWMSLegend=0&amp;crs=EPSG:3857&amp;dpiMode=7&amp;featureCount=10&amp;format=image/png&amp;layers=GEBCO_LATEST&amp;styles&amp;url=https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version%3D1.3.0">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" id="OSM_Standard_c2e5968b_a9bf_455c_9bef_9154c78ce670" name="OSM Standard" providerKey="wms" checked="Qt::Checked" source="type=xyz&amp;zmin=0&amp;zmax=19&amp;url=http://tile.openstreetmap.org/{z}/{x}/{y}.png">
+      <customproperties/>
+    </layer-tree-layer>
+    <custom-order enabled="0">
+      <item>OSM_Standard_c2e5968b_a9bf_455c_9bef_9154c78ce670</item>
+      <item>GEBCO_2014_Grid_5f574261_113a_4002_8221_42017be595bc</item>
+      <item>irving_9b851b63_7b98_4842_802d_c9562232a915</item>
+      <item>clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc</item>
+      <item>clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0</item>
+      <item>clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea</item>
+      <item>clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9</item>
+      <item>clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89</item>
+    </custom-order>
+  </layer-tree-group>
+  <snapping-settings enabled="0" type="1" intersection-snapping="0" mode="2" tolerance="12" unit="1">
+    <individual-layer-settings>
+      <layer-setting enabled="0" type="1" id="clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89" units="1" tolerance="12"/>
+      <layer-setting enabled="0" type="1" id="clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc" units="1" tolerance="12"/>
+      <layer-setting enabled="0" type="1" id="clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0" units="1" tolerance="12"/>
+      <layer-setting enabled="0" type="1" id="clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9" units="1" tolerance="12"/>
+      <layer-setting enabled="0" type="1" id="clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea" units="1" tolerance="12"/>
+    </individual-layer-settings>
+  </snapping-settings>
+  <relations/>
+  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+    <units>meters</units>
+    <extent>
+      <xmin>-13785124.8928308729082346</xmin>
+      <ymin>5809042.44022918771952391</ymin>
+      <xmax>-13781624.47645076923072338</xmax>
+      <ymax>5811288.22036245185881853</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+        <srsid>3857</srsid>
+        <srid>3857</srid>
+        <authid>EPSG:3857</authid>
+        <description>WGS 84 / Pseudo-Mercator</description>
+        <projectionacronym>merc</projectionacronym>
+        <ellipsoidacronym>WGS84</ellipsoidacronym>
+        <geographicflag>false</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <projectModels/>
+  <legend updateDrawingOrder="true">
+    <legendlayer name="clatsop:county_boundary" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="clatsop:parks" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="clatsop:taxlots" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="clatsop:roads" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="clatsop:water_poly" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="irving" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="irving_9b851b63_7b98_4842_802d_c9562232a915" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="GEBCO_2014_Grid" open="true" checked="Qt::Unchecked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" layerid="GEBCO_2014_Grid_5f574261_113a_4002_8221_42017be595bc" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer name="OSM Standard" open="true" checked="Qt::Checked" drawingOrder="-1" showFeatureCount="0">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" layerid="OSM_Standard_c2e5968b_a9bf_455c_9bef_9154c78ce670" isInOverview="0"/>
+      </filegroup>
+    </legendlayer>
+  </legend>
+  <mapViewDocks/>
+  <mapViewDocks3D/>
+  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>0</xmin>
+      <ymin>0</ymin>
+      <xmax>0</xmax>
+      <ymax>0</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>WGS84</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>0</xmin>
+      <ymin>0</ymin>
+      <xmax>0</xmax>
+      <ymax>0</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>WGS84</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>0</xmin>
+      <ymin>0</ymin>
+      <xmax>0</xmax>
+      <ymax>0</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>WGS84</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <projectlayers>
+    <maplayer autoRefreshTime="0" maxScale="0" type="raster" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" minScale="1e+08" autoRefreshEnabled="0">
+      <extent>
+        <xmin>-20037508.34278924390673637</xmin>
+        <ymin>-15538711.09630922414362431</ymin>
+        <xmax>20037508.34278924390673637</xmax>
+        <ymax>15538711.09630922600626945</ymax>
+      </extent>
+      <id>GEBCO_2014_Grid_5f574261_113a_4002_8221_42017be595bc</id>
+      <datasource>contextualWMSLegend=0&amp;crs=EPSG:3857&amp;dpiMode=7&amp;featureCount=10&amp;format=image/png&amp;layers=GEBCO_LATEST&amp;styles&amp;url=https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?version%3D1.3.0</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>GEBCO_2014_Grid</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider>wms</provider>
+      <noData>
+        <noDataList bandNo="1" useSrcNoData="0"/>
+      </noData>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties>
+        <property value="Undefined" key="identify/format"/>
+      </customproperties>
+      <pipe>
+        <rasterrenderer type="singlebandcolordata" opacity="1" band="1" alphaBand="-1">
+          <rasterTransparency/>
+          <minMaxOrigin>
+            <limits>None</limits>
+            <extent>WholeRaster</extent>
+            <statAccuracy>Estimated</statAccuracy>
+            <cumulativeCutLower>0.02</cumulativeCutLower>
+            <cumulativeCutUpper>0.98</cumulativeCutUpper>
+            <stdDevFactor>2</stdDevFactor>
+          </minMaxOrigin>
+        </rasterrenderer>
+        <brightnesscontrast brightness="0" contrast="0"/>
+        <huesaturation colorizeRed="255" colorizeBlue="128" colorizeOn="0" grayscaleMode="0" colorizeStrength="100" saturation="0" colorizeGreen="128"/>
+        <rasterresampler maxOversampling="2"/>
+      </pipe>
+      <blendMode>0</blendMode>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" type="raster" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" minScale="1e+08" autoRefreshEnabled="0">
+      <extent>
+        <xmin>-20037508.34278924390673637</xmin>
+        <ymin>-20037508.34278925508260727</ymin>
+        <xmax>20037508.34278924390673637</xmax>
+        <ymax>20037508.34278924390673637</ymax>
+      </extent>
+      <id>OSM_Standard_c2e5968b_a9bf_455c_9bef_9154c78ce670</id>
+      <datasource>type=xyz&amp;zmin=0&amp;zmax=19&amp;url=http://tile.openstreetmap.org/{z}/{x}/{y}.png</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <attribution href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</attribution>
+      <layername>OSM Standard</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider>wms</provider>
+      <noData>
+        <noDataList bandNo="1" useSrcNoData="0"/>
+      </noData>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties>
+        <property value="Undefined" key="identify/format"/>
+      </customproperties>
+      <pipe>
+        <rasterrenderer type="singlebandcolordata" opacity="1" band="1" alphaBand="-1">
+          <rasterTransparency/>
+          <minMaxOrigin>
+            <limits>None</limits>
+            <extent>WholeRaster</extent>
+            <statAccuracy>Estimated</statAccuracy>
+            <cumulativeCutLower>0.02</cumulativeCutLower>
+            <cumulativeCutUpper>0.98</cumulativeCutUpper>
+            <stdDevFactor>2</stdDevFactor>
+          </minMaxOrigin>
+        </rasterrenderer>
+        <brightnesscontrast brightness="0" contrast="0"/>
+        <huesaturation colorizeRed="255" colorizeBlue="128" colorizeOn="0" grayscaleMode="0" colorizeStrength="100" saturation="0" colorizeGreen="128"/>
+        <rasterresampler maxOversampling="2"/>
+      </pipe>
+      <blendMode>0</blendMode>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" labelsEnabled="0" simplifyLocal="1" simplifyMaxScale="1" type="vector" simplifyDrawingTol="1" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" simplifyAlgorithm="0" minScale="1e+08" simplifyDrawingHints="1" geometry="Polygon" autoRefreshEnabled="0" readOnly="0">
+      <extent>
+        <xmin>7276673.5</xmin>
+        <ymin>782974.0625</ymin>
+        <xmax>7476389.99770000018179417</xmax>
+        <ymax>979219.1875</ymax>
+      </extent>
+      <id>clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89</id>
+      <datasource> pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:county_boundary' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table="" sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>clatsop:county_boundary</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=46 +lat_2=44.33333333333334 +lat_0=43.66666666666666 +lon_0=-120.5 +x_0=2500000.0001424 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=ft +no_defs</proj4>
+          <srsid>882</srsid>
+          <srid>2913</srid>
+          <authid>EPSG:2913</authid>
+          <description>NAD83(HARN) / Oregon North (ft)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial crs="" maxz="0" dimensions="2" minz="0" miny="0" maxx="0" maxy="0" minx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">WFS</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1" force_rhr="0">
+            <layer locked="0" enabled="1" class="SimpleLine" pass="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="35,35,35,255"/>
+              <prop k="line_style" v="dash dot dot"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="ring_filter" v="0"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory backgroundAlpha="255" height="15" scaleBasedVisibility="0" lineSizeType="MM" labelPlacementMethod="XHeight" barWidth="5" minimumSize="0" opacity="1" width="15" sizeType="MM" minScaleDenominator="0" backgroundColor="#ffffff" maxScaleDenominator="1e+08" penAlpha="255" penWidth="0" scaleDependency="Area" sizeScale="3x:0,0,0,0,0,0" penColor="#000000" diagramOrientation="Up" enabled="0" lineSizeScale="3x:0,0,0,0,0,0" rotationOffset="270">
+          <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" obstacle="0" priority="0" dist="0" placement="1" linePlacementFlags="18" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="ogc_fid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="area">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="perimeter">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ccbound_">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ccbound_id">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="sqmi">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="ogc_fid"/>
+        <alias name="" index="1" field="area"/>
+        <alias name="" index="2" field="perimeter"/>
+        <alias name="" index="3" field="ccbound_"/>
+        <alias name="" index="4" field="ccbound_id"/>
+        <alias name="" index="5" field="sqmi"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="ogc_fid"/>
+        <default applyOnUpdate="0" expression="" field="area"/>
+        <default applyOnUpdate="0" expression="" field="perimeter"/>
+        <default applyOnUpdate="0" expression="" field="ccbound_"/>
+        <default applyOnUpdate="0" expression="" field="ccbound_id"/>
+        <default applyOnUpdate="0" expression="" field="sqmi"/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ogc_fid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="area" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="perimeter" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ccbound_" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ccbound_id" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="sqmi" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="ogc_fid"/>
+        <constraint desc="" exp="" field="area"/>
+        <constraint desc="" exp="" field="perimeter"/>
+        <constraint desc="" exp="" field="ccbound_"/>
+        <constraint desc="" exp="" field="ccbound_id"/>
+        <constraint desc="" exp="" field="sqmi"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortOrder="0" sortExpression="">
+        <columns>
+          <column type="field" name="ogc_fid" hidden="0" width="-1"/>
+          <column type="field" name="area" hidden="0" width="-1"/>
+          <column type="field" name="perimeter" hidden="0" width="-1"/>
+          <column type="field" name="ccbound_" hidden="0" width="-1"/>
+          <column type="field" name="ccbound_id" hidden="0" width="-1"/>
+          <column type="field" name="sqmi" hidden="0" width="-1"/>
+          <column type="actions" hidden="1" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="area" editable="1"/>
+        <field name="ccbound_" editable="1"/>
+        <field name="ccbound_id" editable="1"/>
+        <field name="ogc_fid" editable="1"/>
+        <field name="perimeter" editable="1"/>
+        <field name="sqmi" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="area" labelOnTop="0"/>
+        <field name="ccbound_" labelOnTop="0"/>
+        <field name="ccbound_id" labelOnTop="0"/>
+        <field name="ogc_fid" labelOnTop="0"/>
+        <field name="perimeter" labelOnTop="0"/>
+        <field name="sqmi" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <previewExpression>ogc_fid</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" labelsEnabled="0" simplifyLocal="1" simplifyMaxScale="1" type="vector" simplifyDrawingTol="1" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" simplifyAlgorithm="0" minScale="1e+08" simplifyDrawingHints="1" geometry="Polygon" autoRefreshEnabled="0" readOnly="0">
+      <extent>
+        <xmin>7358651.52400000020861626</xmin>
+        <ymin>932478.90579999994952232</ymin>
+        <xmax>7365987.38289999961853027</xmax>
+        <ymax>938338.143999999971129</ymax>
+      </extent>
+      <id>clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9</id>
+      <datasource> pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:parks' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table="" sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>clatsop:parks</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=46 +lat_2=44.33333333333334 +lat_0=43.66666666666666 +lon_0=-120.5 +x_0=2500000.0001424 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=ft +no_defs</proj4>
+          <srsid>882</srsid>
+          <srid>2913</srid>
+          <authid>EPSG:2913</authid>
+          <description>NAD83(HARN) / Oregon North (ft)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial crs="" maxz="0" dimensions="2" minz="0" miny="0" maxx="0" maxy="0" minx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">WFS</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="0.6" clip_to_extent="1" force_rhr="0">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="51,177,70,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory backgroundAlpha="255" height="15" scaleBasedVisibility="0" lineSizeType="MM" labelPlacementMethod="XHeight" barWidth="5" minimumSize="0" opacity="1" width="15" sizeType="MM" minScaleDenominator="0" backgroundColor="#ffffff" maxScaleDenominator="1e+08" penAlpha="255" penWidth="0" scaleDependency="Area" sizeScale="3x:0,0,0,0,0,0" penColor="#000000" diagramOrientation="Up" enabled="0" lineSizeScale="3x:0,0,0,0,0,0" rotationOffset="270">
+          <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" obstacle="0" priority="0" dist="0" placement="1" linePlacementFlags="18" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="ogc_fid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="objectid_1">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="objectid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="owner">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_leng">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_le_1">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_area">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="ogc_fid"/>
+        <alias name="" index="1" field="objectid_1"/>
+        <alias name="" index="2" field="objectid"/>
+        <alias name="" index="3" field="owner"/>
+        <alias name="" index="4" field="shape_leng"/>
+        <alias name="" index="5" field="shape_le_1"/>
+        <alias name="" index="6" field="shape_area"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="ogc_fid"/>
+        <default applyOnUpdate="0" expression="" field="objectid_1"/>
+        <default applyOnUpdate="0" expression="" field="objectid"/>
+        <default applyOnUpdate="0" expression="" field="owner"/>
+        <default applyOnUpdate="0" expression="" field="shape_leng"/>
+        <default applyOnUpdate="0" expression="" field="shape_le_1"/>
+        <default applyOnUpdate="0" expression="" field="shape_area"/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ogc_fid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="objectid_1" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="objectid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="owner" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_leng" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_le_1" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_area" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="ogc_fid"/>
+        <constraint desc="" exp="" field="objectid_1"/>
+        <constraint desc="" exp="" field="objectid"/>
+        <constraint desc="" exp="" field="owner"/>
+        <constraint desc="" exp="" field="shape_leng"/>
+        <constraint desc="" exp="" field="shape_le_1"/>
+        <constraint desc="" exp="" field="shape_area"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortOrder="0" sortExpression="">
+        <columns>
+          <column type="field" name="ogc_fid" hidden="0" width="-1"/>
+          <column type="field" name="objectid_1" hidden="0" width="-1"/>
+          <column type="field" name="objectid" hidden="0" width="-1"/>
+          <column type="field" name="owner" hidden="0" width="-1"/>
+          <column type="field" name="shape_leng" hidden="0" width="-1"/>
+          <column type="field" name="shape_le_1" hidden="0" width="-1"/>
+          <column type="field" name="shape_area" hidden="0" width="-1"/>
+          <column type="actions" hidden="1" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="objectid" editable="1"/>
+        <field name="objectid_1" editable="1"/>
+        <field name="ogc_fid" editable="1"/>
+        <field name="owner" editable="1"/>
+        <field name="shape_area" editable="1"/>
+        <field name="shape_le_1" editable="1"/>
+        <field name="shape_leng" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="objectid" labelOnTop="0"/>
+        <field name="objectid_1" labelOnTop="0"/>
+        <field name="ogc_fid" labelOnTop="0"/>
+        <field name="owner" labelOnTop="0"/>
+        <field name="shape_area" labelOnTop="0"/>
+        <field name="shape_le_1" labelOnTop="0"/>
+        <field name="shape_leng" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <previewExpression>ogc_fid</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" labelsEnabled="0" simplifyLocal="1" simplifyMaxScale="1" type="vector" simplifyDrawingTol="1" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" simplifyAlgorithm="0" minScale="1e+08" simplifyDrawingHints="1" geometry="Line" autoRefreshEnabled="0" readOnly="0">
+      <extent>
+        <xmin>7357237.50200000032782555</xmin>
+        <ymin>931440.22309999994467944</ymin>
+        <xmax>7368690.36120000015944242</xmax>
+        <ymax>938649.97999999998137355</ymax>
+      </extent>
+      <id>clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea</id>
+      <datasource> pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:roads' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table="" sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>clatsop:roads</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=46 +lat_2=44.33333333333334 +lat_0=43.66666666666666 +lon_0=-120.5 +x_0=2500000.0001424 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=ft +no_defs</proj4>
+          <srsid>882</srsid>
+          <srid>2913</srid>
+          <authid>EPSG:2913</authid>
+          <description>NAD83(HARN) / Oregon North (ft)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial crs="" maxz="0" dimensions="2" minz="0" miny="0" maxx="0" maxy="0" minx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">WFS</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+        <symbols>
+          <symbol type="line" name="0" alpha="1" clip_to_extent="1" force_rhr="0">
+            <layer locked="0" enabled="1" class="SimpleLine" pass="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="27,8,9,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="ring_filter" v="0"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory backgroundAlpha="255" height="15" scaleBasedVisibility="0" lineSizeType="MM" labelPlacementMethod="XHeight" barWidth="5" minimumSize="0" opacity="1" width="15" sizeType="MM" minScaleDenominator="0" backgroundColor="#ffffff" maxScaleDenominator="1e+08" penAlpha="255" penWidth="0" scaleDependency="Area" sizeScale="3x:0,0,0,0,0,0" penColor="#000000" diagramOrientation="Up" enabled="0" lineSizeScale="3x:0,0,0,0,0,0" rotationOffset="270">
+          <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" obstacle="0" priority="0" dist="0" placement="2" linePlacementFlags="18" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="ogc_fid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="objectid">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="street">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="fromleft">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="toleft">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="fromright">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="toright">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lesn">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="resn">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="notes">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="comments">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="st_chk">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="addr_chk">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="st_adj">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="prefix">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="suffix">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="type">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="streetname">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="alias">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="fraddl">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="toaddl">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="fraddr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="toaddr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="fadd">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="tadd">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="owner">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="source">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="funclass">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="surface">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="iris_num">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="iris_lomi">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="iris_himi">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="cfcc">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="symbol">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="city">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="irisnum">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="sign_lomil">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="sign_himil">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="funclassd">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="funclassm">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="funclassn">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_leng">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="ogc_fid"/>
+        <alias name="" index="1" field="objectid"/>
+        <alias name="" index="2" field="street"/>
+        <alias name="" index="3" field="fromleft"/>
+        <alias name="" index="4" field="toleft"/>
+        <alias name="" index="5" field="fromright"/>
+        <alias name="" index="6" field="toright"/>
+        <alias name="" index="7" field="lesn"/>
+        <alias name="" index="8" field="resn"/>
+        <alias name="" index="9" field="notes"/>
+        <alias name="" index="10" field="comments"/>
+        <alias name="" index="11" field="st_chk"/>
+        <alias name="" index="12" field="addr_chk"/>
+        <alias name="" index="13" field="st_adj"/>
+        <alias name="" index="14" field="prefix"/>
+        <alias name="" index="15" field="suffix"/>
+        <alias name="" index="16" field="type"/>
+        <alias name="" index="17" field="streetname"/>
+        <alias name="" index="18" field="alias"/>
+        <alias name="" index="19" field="fraddl"/>
+        <alias name="" index="20" field="toaddl"/>
+        <alias name="" index="21" field="fraddr"/>
+        <alias name="" index="22" field="toaddr"/>
+        <alias name="" index="23" field="fadd"/>
+        <alias name="" index="24" field="tadd"/>
+        <alias name="" index="25" field="owner"/>
+        <alias name="" index="26" field="source"/>
+        <alias name="" index="27" field="funclass"/>
+        <alias name="" index="28" field="surface"/>
+        <alias name="" index="29" field="iris_num"/>
+        <alias name="" index="30" field="iris_lomi"/>
+        <alias name="" index="31" field="iris_himi"/>
+        <alias name="" index="32" field="cfcc"/>
+        <alias name="" index="33" field="symbol"/>
+        <alias name="" index="34" field="city"/>
+        <alias name="" index="35" field="irisnum"/>
+        <alias name="" index="36" field="sign_lomil"/>
+        <alias name="" index="37" field="sign_himil"/>
+        <alias name="" index="38" field="funclassd"/>
+        <alias name="" index="39" field="funclassm"/>
+        <alias name="" index="40" field="funclassn"/>
+        <alias name="" index="41" field="shape_leng"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="ogc_fid"/>
+        <default applyOnUpdate="0" expression="" field="objectid"/>
+        <default applyOnUpdate="0" expression="" field="street"/>
+        <default applyOnUpdate="0" expression="" field="fromleft"/>
+        <default applyOnUpdate="0" expression="" field="toleft"/>
+        <default applyOnUpdate="0" expression="" field="fromright"/>
+        <default applyOnUpdate="0" expression="" field="toright"/>
+        <default applyOnUpdate="0" expression="" field="lesn"/>
+        <default applyOnUpdate="0" expression="" field="resn"/>
+        <default applyOnUpdate="0" expression="" field="notes"/>
+        <default applyOnUpdate="0" expression="" field="comments"/>
+        <default applyOnUpdate="0" expression="" field="st_chk"/>
+        <default applyOnUpdate="0" expression="" field="addr_chk"/>
+        <default applyOnUpdate="0" expression="" field="st_adj"/>
+        <default applyOnUpdate="0" expression="" field="prefix"/>
+        <default applyOnUpdate="0" expression="" field="suffix"/>
+        <default applyOnUpdate="0" expression="" field="type"/>
+        <default applyOnUpdate="0" expression="" field="streetname"/>
+        <default applyOnUpdate="0" expression="" field="alias"/>
+        <default applyOnUpdate="0" expression="" field="fraddl"/>
+        <default applyOnUpdate="0" expression="" field="toaddl"/>
+        <default applyOnUpdate="0" expression="" field="fraddr"/>
+        <default applyOnUpdate="0" expression="" field="toaddr"/>
+        <default applyOnUpdate="0" expression="" field="fadd"/>
+        <default applyOnUpdate="0" expression="" field="tadd"/>
+        <default applyOnUpdate="0" expression="" field="owner"/>
+        <default applyOnUpdate="0" expression="" field="source"/>
+        <default applyOnUpdate="0" expression="" field="funclass"/>
+        <default applyOnUpdate="0" expression="" field="surface"/>
+        <default applyOnUpdate="0" expression="" field="iris_num"/>
+        <default applyOnUpdate="0" expression="" field="iris_lomi"/>
+        <default applyOnUpdate="0" expression="" field="iris_himi"/>
+        <default applyOnUpdate="0" expression="" field="cfcc"/>
+        <default applyOnUpdate="0" expression="" field="symbol"/>
+        <default applyOnUpdate="0" expression="" field="city"/>
+        <default applyOnUpdate="0" expression="" field="irisnum"/>
+        <default applyOnUpdate="0" expression="" field="sign_lomil"/>
+        <default applyOnUpdate="0" expression="" field="sign_himil"/>
+        <default applyOnUpdate="0" expression="" field="funclassd"/>
+        <default applyOnUpdate="0" expression="" field="funclassm"/>
+        <default applyOnUpdate="0" expression="" field="funclassn"/>
+        <default applyOnUpdate="0" expression="" field="shape_leng"/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ogc_fid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="objectid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="street" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="fromleft" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="toleft" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="fromright" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="toright" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="lesn" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="resn" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="notes" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="comments" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="st_chk" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="addr_chk" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="st_adj" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="prefix" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="suffix" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="type" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="streetname" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="alias" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="fraddl" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="toaddl" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="fraddr" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="toaddr" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="fadd" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="tadd" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="owner" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="source" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="funclass" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="surface" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="iris_num" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="iris_lomi" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="iris_himi" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="cfcc" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="symbol" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="city" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="irisnum" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="sign_lomil" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="sign_himil" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="funclassd" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="funclassm" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="funclassn" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_leng" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="ogc_fid"/>
+        <constraint desc="" exp="" field="objectid"/>
+        <constraint desc="" exp="" field="street"/>
+        <constraint desc="" exp="" field="fromleft"/>
+        <constraint desc="" exp="" field="toleft"/>
+        <constraint desc="" exp="" field="fromright"/>
+        <constraint desc="" exp="" field="toright"/>
+        <constraint desc="" exp="" field="lesn"/>
+        <constraint desc="" exp="" field="resn"/>
+        <constraint desc="" exp="" field="notes"/>
+        <constraint desc="" exp="" field="comments"/>
+        <constraint desc="" exp="" field="st_chk"/>
+        <constraint desc="" exp="" field="addr_chk"/>
+        <constraint desc="" exp="" field="st_adj"/>
+        <constraint desc="" exp="" field="prefix"/>
+        <constraint desc="" exp="" field="suffix"/>
+        <constraint desc="" exp="" field="type"/>
+        <constraint desc="" exp="" field="streetname"/>
+        <constraint desc="" exp="" field="alias"/>
+        <constraint desc="" exp="" field="fraddl"/>
+        <constraint desc="" exp="" field="toaddl"/>
+        <constraint desc="" exp="" field="fraddr"/>
+        <constraint desc="" exp="" field="toaddr"/>
+        <constraint desc="" exp="" field="fadd"/>
+        <constraint desc="" exp="" field="tadd"/>
+        <constraint desc="" exp="" field="owner"/>
+        <constraint desc="" exp="" field="source"/>
+        <constraint desc="" exp="" field="funclass"/>
+        <constraint desc="" exp="" field="surface"/>
+        <constraint desc="" exp="" field="iris_num"/>
+        <constraint desc="" exp="" field="iris_lomi"/>
+        <constraint desc="" exp="" field="iris_himi"/>
+        <constraint desc="" exp="" field="cfcc"/>
+        <constraint desc="" exp="" field="symbol"/>
+        <constraint desc="" exp="" field="city"/>
+        <constraint desc="" exp="" field="irisnum"/>
+        <constraint desc="" exp="" field="sign_lomil"/>
+        <constraint desc="" exp="" field="sign_himil"/>
+        <constraint desc="" exp="" field="funclassd"/>
+        <constraint desc="" exp="" field="funclassm"/>
+        <constraint desc="" exp="" field="funclassn"/>
+        <constraint desc="" exp="" field="shape_leng"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortOrder="0" sortExpression="">
+        <columns>
+          <column type="field" name="ogc_fid" hidden="0" width="-1"/>
+          <column type="field" name="objectid" hidden="0" width="-1"/>
+          <column type="field" name="street" hidden="0" width="-1"/>
+          <column type="field" name="fromleft" hidden="0" width="-1"/>
+          <column type="field" name="toleft" hidden="0" width="-1"/>
+          <column type="field" name="fromright" hidden="0" width="-1"/>
+          <column type="field" name="toright" hidden="0" width="-1"/>
+          <column type="field" name="lesn" hidden="0" width="-1"/>
+          <column type="field" name="resn" hidden="0" width="-1"/>
+          <column type="field" name="notes" hidden="0" width="-1"/>
+          <column type="field" name="comments" hidden="0" width="-1"/>
+          <column type="field" name="st_chk" hidden="0" width="-1"/>
+          <column type="field" name="addr_chk" hidden="0" width="-1"/>
+          <column type="field" name="st_adj" hidden="0" width="-1"/>
+          <column type="field" name="prefix" hidden="0" width="-1"/>
+          <column type="field" name="suffix" hidden="0" width="-1"/>
+          <column type="field" name="type" hidden="0" width="-1"/>
+          <column type="field" name="streetname" hidden="0" width="-1"/>
+          <column type="field" name="alias" hidden="0" width="-1"/>
+          <column type="field" name="fraddl" hidden="0" width="-1"/>
+          <column type="field" name="toaddl" hidden="0" width="-1"/>
+          <column type="field" name="fraddr" hidden="0" width="-1"/>
+          <column type="field" name="toaddr" hidden="0" width="-1"/>
+          <column type="field" name="fadd" hidden="0" width="-1"/>
+          <column type="field" name="tadd" hidden="0" width="-1"/>
+          <column type="field" name="owner" hidden="0" width="-1"/>
+          <column type="field" name="source" hidden="0" width="-1"/>
+          <column type="field" name="funclass" hidden="0" width="-1"/>
+          <column type="field" name="surface" hidden="0" width="-1"/>
+          <column type="field" name="iris_num" hidden="0" width="-1"/>
+          <column type="field" name="iris_lomi" hidden="0" width="-1"/>
+          <column type="field" name="iris_himi" hidden="0" width="-1"/>
+          <column type="field" name="cfcc" hidden="0" width="-1"/>
+          <column type="field" name="symbol" hidden="0" width="-1"/>
+          <column type="field" name="city" hidden="0" width="-1"/>
+          <column type="field" name="irisnum" hidden="0" width="-1"/>
+          <column type="field" name="sign_lomil" hidden="0" width="-1"/>
+          <column type="field" name="sign_himil" hidden="0" width="-1"/>
+          <column type="field" name="funclassd" hidden="0" width="-1"/>
+          <column type="field" name="funclassm" hidden="0" width="-1"/>
+          <column type="field" name="funclassn" hidden="0" width="-1"/>
+          <column type="field" name="shape_leng" hidden="0" width="-1"/>
+          <column type="actions" hidden="1" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="addr_chk" editable="1"/>
+        <field name="alias" editable="1"/>
+        <field name="cfcc" editable="1"/>
+        <field name="city" editable="1"/>
+        <field name="comments" editable="1"/>
+        <field name="fadd" editable="1"/>
+        <field name="fraddl" editable="1"/>
+        <field name="fraddr" editable="1"/>
+        <field name="fromleft" editable="1"/>
+        <field name="fromright" editable="1"/>
+        <field name="funclass" editable="1"/>
+        <field name="funclassd" editable="1"/>
+        <field name="funclassm" editable="1"/>
+        <field name="funclassn" editable="1"/>
+        <field name="iris_himi" editable="1"/>
+        <field name="iris_lomi" editable="1"/>
+        <field name="iris_num" editable="1"/>
+        <field name="irisnum" editable="1"/>
+        <field name="lesn" editable="1"/>
+        <field name="notes" editable="1"/>
+        <field name="objectid" editable="1"/>
+        <field name="ogc_fid" editable="1"/>
+        <field name="owner" editable="1"/>
+        <field name="prefix" editable="1"/>
+        <field name="resn" editable="1"/>
+        <field name="shape_leng" editable="1"/>
+        <field name="sign_himil" editable="1"/>
+        <field name="sign_lomil" editable="1"/>
+        <field name="source" editable="1"/>
+        <field name="st_adj" editable="1"/>
+        <field name="st_chk" editable="1"/>
+        <field name="street" editable="1"/>
+        <field name="streetname" editable="1"/>
+        <field name="suffix" editable="1"/>
+        <field name="surface" editable="1"/>
+        <field name="symbol" editable="1"/>
+        <field name="tadd" editable="1"/>
+        <field name="toaddl" editable="1"/>
+        <field name="toaddr" editable="1"/>
+        <field name="toleft" editable="1"/>
+        <field name="toright" editable="1"/>
+        <field name="type" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="addr_chk" labelOnTop="0"/>
+        <field name="alias" labelOnTop="0"/>
+        <field name="cfcc" labelOnTop="0"/>
+        <field name="city" labelOnTop="0"/>
+        <field name="comments" labelOnTop="0"/>
+        <field name="fadd" labelOnTop="0"/>
+        <field name="fraddl" labelOnTop="0"/>
+        <field name="fraddr" labelOnTop="0"/>
+        <field name="fromleft" labelOnTop="0"/>
+        <field name="fromright" labelOnTop="0"/>
+        <field name="funclass" labelOnTop="0"/>
+        <field name="funclassd" labelOnTop="0"/>
+        <field name="funclassm" labelOnTop="0"/>
+        <field name="funclassn" labelOnTop="0"/>
+        <field name="iris_himi" labelOnTop="0"/>
+        <field name="iris_lomi" labelOnTop="0"/>
+        <field name="iris_num" labelOnTop="0"/>
+        <field name="irisnum" labelOnTop="0"/>
+        <field name="lesn" labelOnTop="0"/>
+        <field name="notes" labelOnTop="0"/>
+        <field name="objectid" labelOnTop="0"/>
+        <field name="ogc_fid" labelOnTop="0"/>
+        <field name="owner" labelOnTop="0"/>
+        <field name="prefix" labelOnTop="0"/>
+        <field name="resn" labelOnTop="0"/>
+        <field name="shape_leng" labelOnTop="0"/>
+        <field name="sign_himil" labelOnTop="0"/>
+        <field name="sign_lomil" labelOnTop="0"/>
+        <field name="source" labelOnTop="0"/>
+        <field name="st_adj" labelOnTop="0"/>
+        <field name="st_chk" labelOnTop="0"/>
+        <field name="street" labelOnTop="0"/>
+        <field name="streetname" labelOnTop="0"/>
+        <field name="suffix" labelOnTop="0"/>
+        <field name="surface" labelOnTop="0"/>
+        <field name="symbol" labelOnTop="0"/>
+        <field name="tadd" labelOnTop="0"/>
+        <field name="toaddl" labelOnTop="0"/>
+        <field name="toaddr" labelOnTop="0"/>
+        <field name="toleft" labelOnTop="0"/>
+        <field name="toright" labelOnTop="0"/>
+        <field name="type" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <previewExpression>ogc_fid</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" labelsEnabled="0" simplifyLocal="1" simplifyMaxScale="1" type="vector" simplifyDrawingTol="1" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" simplifyAlgorithm="0" minScale="1e+08" simplifyDrawingHints="1" geometry="Polygon" autoRefreshEnabled="0" readOnly="0">
+      <extent>
+        <xmin>7357638.26200000010430813</xmin>
+        <ymin>931513.57999999995809048</ymin>
+        <xmax>7367934.90000000037252903</xmax>
+        <ymax>939284.73699999996460974</ymax>
+      </extent>
+      <id>clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0</id>
+      <datasource> pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:taxlots' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table="" sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>clatsop:taxlots</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=46 +lat_2=44.33333333333334 +lat_0=43.66666666666666 +lon_0=-120.5 +x_0=2500000.0001424 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=ft +no_defs</proj4>
+          <srsid>882</srsid>
+          <srid>2913</srid>
+          <authid>EPSG:2913</authid>
+          <description>NAD83(HARN) / Oregon North (ft)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial crs="" maxz="0" dimensions="2" minz="0" miny="0" maxx="0" maxy="0" minx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">WFS</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="0.6" clip_to_extent="1" force_rhr="0">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="228,26,28,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="Point"/>
+              <prop k="outline_color" v="228,26,28,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.96"/>
+              <prop k="outline_width_unit" v="Point"/>
+              <prop k="style" v="no"/>
+              <effect type="effectStack" enabled="0">
+                <effect type="dropShadow">
+                  <prop k="blend_mode" v="13"/>
+                  <prop k="blur_level" v="10"/>
+                  <prop k="color" v="0,0,0,255"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="0"/>
+                  <prop k="offset_angle" v="135"/>
+                  <prop k="offset_distance" v="2"/>
+                  <prop k="offset_unit" v="MM"/>
+                  <prop k="offset_unit_scale" v="3x:0,0,0,0,0,0"/>
+                  <prop k="opacity" v="1"/>
+                </effect>
+                <effect type="outerGlow">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="blur_level" v="3"/>
+                  <prop k="color1" v="0,0,255,255"/>
+                  <prop k="color2" v="0,255,0,255"/>
+                  <prop k="color_type" v="0"/>
+                  <prop k="discrete" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="0"/>
+                  <prop k="opacity" v="0.5"/>
+                  <prop k="rampType" v="gradient"/>
+                  <prop k="single_color" v="255,255,255,255"/>
+                  <prop k="spread" v="2"/>
+                  <prop k="spread_unit" v="MM"/>
+                  <prop k="spread_unit_scale" v="3x:0,0,0,0,0,0"/>
+                </effect>
+                <effect type="blur">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="blur_level" v="10"/>
+                  <prop k="blur_method" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="1"/>
+                  <prop k="opacity" v="1"/>
+                </effect>
+                <effect type="innerShadow">
+                  <prop k="blend_mode" v="13"/>
+                  <prop k="blur_level" v="10"/>
+                  <prop k="color" v="0,0,0,255"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="0"/>
+                  <prop k="offset_angle" v="135"/>
+                  <prop k="offset_distance" v="2"/>
+                  <prop k="offset_unit" v="MM"/>
+                  <prop k="offset_unit_scale" v="3x:0,0,0,0,0,0"/>
+                  <prop k="opacity" v="1"/>
+                </effect>
+                <effect type="innerGlow">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="blur_level" v="3"/>
+                  <prop k="color1" v="0,0,255,255"/>
+                  <prop k="color2" v="0,255,0,255"/>
+                  <prop k="color_type" v="0"/>
+                  <prop k="discrete" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="0"/>
+                  <prop k="opacity" v="0.5"/>
+                  <prop k="rampType" v="gradient"/>
+                  <prop k="single_color" v="255,255,255,255"/>
+                  <prop k="spread" v="2"/>
+                  <prop k="spread_unit" v="MM"/>
+                  <prop k="spread_unit_scale" v="3x:0,0,0,0,0,0"/>
+                </effect>
+              </effect>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory backgroundAlpha="255" height="15" scaleBasedVisibility="0" lineSizeType="MM" labelPlacementMethod="XHeight" barWidth="5" minimumSize="0" opacity="1" width="15" sizeType="MM" minScaleDenominator="0" backgroundColor="#ffffff" maxScaleDenominator="1e+08" penAlpha="255" penWidth="0" scaleDependency="Area" sizeScale="3x:0,0,0,0,0,0" penColor="#000000" diagramOrientation="Up" enabled="0" lineSizeScale="3x:0,0,0,0,0,0" rotationOffset="270">
+          <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" obstacle="0" priority="0" dist="0" placement="1" linePlacementFlags="18" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="ogc_fid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="area">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="perimeter">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="tax_">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="tax_id">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mapnum">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="town">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="range">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="section">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="qtr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxlot">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxlotkey">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxmapkey">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="x_coord">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="y_coord">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="gis_acres">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxmapnum">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="av">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="av_improve">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="av_land">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="property_c">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="rmv">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="rmv_improv">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="rmv_land">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="stat_class">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="year_built">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="owner_line">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="owner_ll_1">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="street_add">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="optional_a">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="owner_ll_2">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="po_box">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="unit_numbe">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="city">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="state">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="zip_code">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="situs_addr">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="situs_city">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ma">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="nh">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="in_care_of">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxcode">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_leng">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="shape_area">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="account_id">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="simaptax">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="ogc_fid"/>
+        <alias name="" index="1" field="area"/>
+        <alias name="" index="2" field="perimeter"/>
+        <alias name="" index="3" field="tax_"/>
+        <alias name="" index="4" field="tax_id"/>
+        <alias name="" index="5" field="mapnum"/>
+        <alias name="" index="6" field="town"/>
+        <alias name="" index="7" field="range"/>
+        <alias name="" index="8" field="section"/>
+        <alias name="" index="9" field="qtr"/>
+        <alias name="" index="10" field="taxlot"/>
+        <alias name="" index="11" field="taxlotkey"/>
+        <alias name="" index="12" field="taxmapkey"/>
+        <alias name="" index="13" field="x_coord"/>
+        <alias name="" index="14" field="y_coord"/>
+        <alias name="" index="15" field="gis_acres"/>
+        <alias name="" index="16" field="taxmapnum"/>
+        <alias name="" index="17" field="av"/>
+        <alias name="" index="18" field="av_improve"/>
+        <alias name="" index="19" field="av_land"/>
+        <alias name="" index="20" field="property_c"/>
+        <alias name="" index="21" field="rmv"/>
+        <alias name="" index="22" field="rmv_improv"/>
+        <alias name="" index="23" field="rmv_land"/>
+        <alias name="" index="24" field="stat_class"/>
+        <alias name="" index="25" field="year_built"/>
+        <alias name="" index="26" field="owner_line"/>
+        <alias name="" index="27" field="owner_ll_1"/>
+        <alias name="" index="28" field="street_add"/>
+        <alias name="" index="29" field="optional_a"/>
+        <alias name="" index="30" field="owner_ll_2"/>
+        <alias name="" index="31" field="po_box"/>
+        <alias name="" index="32" field="unit_numbe"/>
+        <alias name="" index="33" field="city"/>
+        <alias name="" index="34" field="state"/>
+        <alias name="" index="35" field="zip_code"/>
+        <alias name="" index="36" field="situs_addr"/>
+        <alias name="" index="37" field="situs_city"/>
+        <alias name="" index="38" field="ma"/>
+        <alias name="" index="39" field="nh"/>
+        <alias name="" index="40" field="in_care_of"/>
+        <alias name="" index="41" field="taxcode"/>
+        <alias name="" index="42" field="shape_leng"/>
+        <alias name="" index="43" field="shape_area"/>
+        <alias name="" index="44" field="account_id"/>
+        <alias name="" index="45" field="simaptax"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="ogc_fid"/>
+        <default applyOnUpdate="0" expression="" field="area"/>
+        <default applyOnUpdate="0" expression="" field="perimeter"/>
+        <default applyOnUpdate="0" expression="" field="tax_"/>
+        <default applyOnUpdate="0" expression="" field="tax_id"/>
+        <default applyOnUpdate="0" expression="" field="mapnum"/>
+        <default applyOnUpdate="0" expression="" field="town"/>
+        <default applyOnUpdate="0" expression="" field="range"/>
+        <default applyOnUpdate="0" expression="" field="section"/>
+        <default applyOnUpdate="0" expression="" field="qtr"/>
+        <default applyOnUpdate="0" expression="" field="taxlot"/>
+        <default applyOnUpdate="0" expression="" field="taxlotkey"/>
+        <default applyOnUpdate="0" expression="" field="taxmapkey"/>
+        <default applyOnUpdate="0" expression="" field="x_coord"/>
+        <default applyOnUpdate="0" expression="" field="y_coord"/>
+        <default applyOnUpdate="0" expression="" field="gis_acres"/>
+        <default applyOnUpdate="0" expression="" field="taxmapnum"/>
+        <default applyOnUpdate="0" expression="" field="av"/>
+        <default applyOnUpdate="0" expression="" field="av_improve"/>
+        <default applyOnUpdate="0" expression="" field="av_land"/>
+        <default applyOnUpdate="0" expression="" field="property_c"/>
+        <default applyOnUpdate="0" expression="" field="rmv"/>
+        <default applyOnUpdate="0" expression="" field="rmv_improv"/>
+        <default applyOnUpdate="0" expression="" field="rmv_land"/>
+        <default applyOnUpdate="0" expression="" field="stat_class"/>
+        <default applyOnUpdate="0" expression="" field="year_built"/>
+        <default applyOnUpdate="0" expression="" field="owner_line"/>
+        <default applyOnUpdate="0" expression="" field="owner_ll_1"/>
+        <default applyOnUpdate="0" expression="" field="street_add"/>
+        <default applyOnUpdate="0" expression="" field="optional_a"/>
+        <default applyOnUpdate="0" expression="" field="owner_ll_2"/>
+        <default applyOnUpdate="0" expression="" field="po_box"/>
+        <default applyOnUpdate="0" expression="" field="unit_numbe"/>
+        <default applyOnUpdate="0" expression="" field="city"/>
+        <default applyOnUpdate="0" expression="" field="state"/>
+        <default applyOnUpdate="0" expression="" field="zip_code"/>
+        <default applyOnUpdate="0" expression="" field="situs_addr"/>
+        <default applyOnUpdate="0" expression="" field="situs_city"/>
+        <default applyOnUpdate="0" expression="" field="ma"/>
+        <default applyOnUpdate="0" expression="" field="nh"/>
+        <default applyOnUpdate="0" expression="" field="in_care_of"/>
+        <default applyOnUpdate="0" expression="" field="taxcode"/>
+        <default applyOnUpdate="0" expression="" field="shape_leng"/>
+        <default applyOnUpdate="0" expression="" field="shape_area"/>
+        <default applyOnUpdate="0" expression="" field="account_id"/>
+        <default applyOnUpdate="0" expression="" field="simaptax"/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ogc_fid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="area" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="perimeter" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="tax_" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="tax_id" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="mapnum" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="town" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="range" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="section" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="qtr" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxlot" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxlotkey" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxmapkey" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="x_coord" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="y_coord" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="gis_acres" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxmapnum" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="av" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="av_improve" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="av_land" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="property_c" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="rmv" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="rmv_improv" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="rmv_land" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="stat_class" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="year_built" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="owner_line" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="owner_ll_1" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="street_add" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="optional_a" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="owner_ll_2" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="po_box" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="unit_numbe" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="city" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="state" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="zip_code" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="situs_addr" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="situs_city" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ma" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="nh" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="in_care_of" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxcode" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_leng" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="shape_area" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="account_id" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="simaptax" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="ogc_fid"/>
+        <constraint desc="" exp="" field="area"/>
+        <constraint desc="" exp="" field="perimeter"/>
+        <constraint desc="" exp="" field="tax_"/>
+        <constraint desc="" exp="" field="tax_id"/>
+        <constraint desc="" exp="" field="mapnum"/>
+        <constraint desc="" exp="" field="town"/>
+        <constraint desc="" exp="" field="range"/>
+        <constraint desc="" exp="" field="section"/>
+        <constraint desc="" exp="" field="qtr"/>
+        <constraint desc="" exp="" field="taxlot"/>
+        <constraint desc="" exp="" field="taxlotkey"/>
+        <constraint desc="" exp="" field="taxmapkey"/>
+        <constraint desc="" exp="" field="x_coord"/>
+        <constraint desc="" exp="" field="y_coord"/>
+        <constraint desc="" exp="" field="gis_acres"/>
+        <constraint desc="" exp="" field="taxmapnum"/>
+        <constraint desc="" exp="" field="av"/>
+        <constraint desc="" exp="" field="av_improve"/>
+        <constraint desc="" exp="" field="av_land"/>
+        <constraint desc="" exp="" field="property_c"/>
+        <constraint desc="" exp="" field="rmv"/>
+        <constraint desc="" exp="" field="rmv_improv"/>
+        <constraint desc="" exp="" field="rmv_land"/>
+        <constraint desc="" exp="" field="stat_class"/>
+        <constraint desc="" exp="" field="year_built"/>
+        <constraint desc="" exp="" field="owner_line"/>
+        <constraint desc="" exp="" field="owner_ll_1"/>
+        <constraint desc="" exp="" field="street_add"/>
+        <constraint desc="" exp="" field="optional_a"/>
+        <constraint desc="" exp="" field="owner_ll_2"/>
+        <constraint desc="" exp="" field="po_box"/>
+        <constraint desc="" exp="" field="unit_numbe"/>
+        <constraint desc="" exp="" field="city"/>
+        <constraint desc="" exp="" field="state"/>
+        <constraint desc="" exp="" field="zip_code"/>
+        <constraint desc="" exp="" field="situs_addr"/>
+        <constraint desc="" exp="" field="situs_city"/>
+        <constraint desc="" exp="" field="ma"/>
+        <constraint desc="" exp="" field="nh"/>
+        <constraint desc="" exp="" field="in_care_of"/>
+        <constraint desc="" exp="" field="taxcode"/>
+        <constraint desc="" exp="" field="shape_leng"/>
+        <constraint desc="" exp="" field="shape_area"/>
+        <constraint desc="" exp="" field="account_id"/>
+        <constraint desc="" exp="" field="simaptax"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortOrder="0" sortExpression="">
+        <columns>
+          <column type="field" name="ogc_fid" hidden="0" width="-1"/>
+          <column type="field" name="area" hidden="0" width="-1"/>
+          <column type="field" name="perimeter" hidden="0" width="-1"/>
+          <column type="field" name="tax_" hidden="0" width="-1"/>
+          <column type="field" name="tax_id" hidden="0" width="-1"/>
+          <column type="field" name="mapnum" hidden="0" width="-1"/>
+          <column type="field" name="town" hidden="0" width="-1"/>
+          <column type="field" name="range" hidden="0" width="-1"/>
+          <column type="field" name="section" hidden="0" width="-1"/>
+          <column type="field" name="qtr" hidden="0" width="-1"/>
+          <column type="field" name="taxlot" hidden="0" width="-1"/>
+          <column type="field" name="taxlotkey" hidden="0" width="-1"/>
+          <column type="field" name="taxmapkey" hidden="0" width="-1"/>
+          <column type="field" name="x_coord" hidden="0" width="-1"/>
+          <column type="field" name="y_coord" hidden="0" width="-1"/>
+          <column type="field" name="gis_acres" hidden="0" width="-1"/>
+          <column type="field" name="taxmapnum" hidden="0" width="-1"/>
+          <column type="field" name="av" hidden="0" width="-1"/>
+          <column type="field" name="av_improve" hidden="0" width="-1"/>
+          <column type="field" name="av_land" hidden="0" width="-1"/>
+          <column type="field" name="property_c" hidden="0" width="-1"/>
+          <column type="field" name="rmv" hidden="0" width="-1"/>
+          <column type="field" name="rmv_improv" hidden="0" width="-1"/>
+          <column type="field" name="rmv_land" hidden="0" width="-1"/>
+          <column type="field" name="stat_class" hidden="0" width="-1"/>
+          <column type="field" name="year_built" hidden="0" width="-1"/>
+          <column type="field" name="owner_line" hidden="0" width="-1"/>
+          <column type="field" name="owner_ll_1" hidden="0" width="-1"/>
+          <column type="field" name="street_add" hidden="0" width="-1"/>
+          <column type="field" name="optional_a" hidden="0" width="-1"/>
+          <column type="field" name="owner_ll_2" hidden="0" width="-1"/>
+          <column type="field" name="po_box" hidden="0" width="-1"/>
+          <column type="field" name="unit_numbe" hidden="0" width="-1"/>
+          <column type="field" name="city" hidden="0" width="-1"/>
+          <column type="field" name="state" hidden="0" width="-1"/>
+          <column type="field" name="zip_code" hidden="0" width="-1"/>
+          <column type="field" name="situs_addr" hidden="0" width="-1"/>
+          <column type="field" name="situs_city" hidden="0" width="-1"/>
+          <column type="field" name="ma" hidden="0" width="-1"/>
+          <column type="field" name="nh" hidden="0" width="-1"/>
+          <column type="field" name="in_care_of" hidden="0" width="-1"/>
+          <column type="field" name="taxcode" hidden="0" width="-1"/>
+          <column type="field" name="shape_leng" hidden="0" width="-1"/>
+          <column type="field" name="shape_area" hidden="0" width="-1"/>
+          <column type="field" name="account_id" hidden="0" width="-1"/>
+          <column type="field" name="simaptax" hidden="0" width="-1"/>
+          <column type="actions" hidden="1" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="account_id" editable="1"/>
+        <field name="area" editable="1"/>
+        <field name="av" editable="1"/>
+        <field name="av_improve" editable="1"/>
+        <field name="av_land" editable="1"/>
+        <field name="city" editable="1"/>
+        <field name="gis_acres" editable="1"/>
+        <field name="in_care_of" editable="1"/>
+        <field name="ma" editable="1"/>
+        <field name="mapnum" editable="1"/>
+        <field name="nh" editable="1"/>
+        <field name="ogc_fid" editable="1"/>
+        <field name="optional_a" editable="1"/>
+        <field name="owner_line" editable="1"/>
+        <field name="owner_ll_1" editable="1"/>
+        <field name="owner_ll_2" editable="1"/>
+        <field name="perimeter" editable="1"/>
+        <field name="po_box" editable="1"/>
+        <field name="property_c" editable="1"/>
+        <field name="qtr" editable="1"/>
+        <field name="range" editable="1"/>
+        <field name="rmv" editable="1"/>
+        <field name="rmv_improv" editable="1"/>
+        <field name="rmv_land" editable="1"/>
+        <field name="section" editable="1"/>
+        <field name="shape_area" editable="1"/>
+        <field name="shape_leng" editable="1"/>
+        <field name="simaptax" editable="1"/>
+        <field name="situs_addr" editable="1"/>
+        <field name="situs_city" editable="1"/>
+        <field name="stat_class" editable="1"/>
+        <field name="state" editable="1"/>
+        <field name="street_add" editable="1"/>
+        <field name="tax_" editable="1"/>
+        <field name="tax_id" editable="1"/>
+        <field name="taxcode" editable="1"/>
+        <field name="taxlot" editable="1"/>
+        <field name="taxlotkey" editable="1"/>
+        <field name="taxmapkey" editable="1"/>
+        <field name="taxmapnum" editable="1"/>
+        <field name="town" editable="1"/>
+        <field name="unit_numbe" editable="1"/>
+        <field name="x_coord" editable="1"/>
+        <field name="y_coord" editable="1"/>
+        <field name="year_built" editable="1"/>
+        <field name="zip_code" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="account_id" labelOnTop="0"/>
+        <field name="area" labelOnTop="0"/>
+        <field name="av" labelOnTop="0"/>
+        <field name="av_improve" labelOnTop="0"/>
+        <field name="av_land" labelOnTop="0"/>
+        <field name="city" labelOnTop="0"/>
+        <field name="gis_acres" labelOnTop="0"/>
+        <field name="in_care_of" labelOnTop="0"/>
+        <field name="ma" labelOnTop="0"/>
+        <field name="mapnum" labelOnTop="0"/>
+        <field name="nh" labelOnTop="0"/>
+        <field name="ogc_fid" labelOnTop="0"/>
+        <field name="optional_a" labelOnTop="0"/>
+        <field name="owner_line" labelOnTop="0"/>
+        <field name="owner_ll_1" labelOnTop="0"/>
+        <field name="owner_ll_2" labelOnTop="0"/>
+        <field name="perimeter" labelOnTop="0"/>
+        <field name="po_box" labelOnTop="0"/>
+        <field name="property_c" labelOnTop="0"/>
+        <field name="qtr" labelOnTop="0"/>
+        <field name="range" labelOnTop="0"/>
+        <field name="rmv" labelOnTop="0"/>
+        <field name="rmv_improv" labelOnTop="0"/>
+        <field name="rmv_land" labelOnTop="0"/>
+        <field name="section" labelOnTop="0"/>
+        <field name="shape_area" labelOnTop="0"/>
+        <field name="shape_leng" labelOnTop="0"/>
+        <field name="simaptax" labelOnTop="0"/>
+        <field name="situs_addr" labelOnTop="0"/>
+        <field name="situs_city" labelOnTop="0"/>
+        <field name="stat_class" labelOnTop="0"/>
+        <field name="state" labelOnTop="0"/>
+        <field name="street_add" labelOnTop="0"/>
+        <field name="tax_" labelOnTop="0"/>
+        <field name="tax_id" labelOnTop="0"/>
+        <field name="taxcode" labelOnTop="0"/>
+        <field name="taxlot" labelOnTop="0"/>
+        <field name="taxlotkey" labelOnTop="0"/>
+        <field name="taxmapkey" labelOnTop="0"/>
+        <field name="taxmapnum" labelOnTop="0"/>
+        <field name="town" labelOnTop="0"/>
+        <field name="unit_numbe" labelOnTop="0"/>
+        <field name="x_coord" labelOnTop="0"/>
+        <field name="y_coord" labelOnTop="0"/>
+        <field name="year_built" labelOnTop="0"/>
+        <field name="zip_code" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <previewExpression>ogc_fid</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" labelsEnabled="0" simplifyLocal="1" simplifyMaxScale="1" type="vector" simplifyDrawingTol="1" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" simplifyAlgorithm="0" minScale="1e+08" simplifyDrawingHints="1" geometry="Polygon" autoRefreshEnabled="0" readOnly="0">
+      <extent>
+        <xmin>7292369</xmin>
+        <ymin>905834.1875</ymin>
+        <xmax>7515971.5</xmax>
+        <ymax>1005915.375</ymax>
+      </extent>
+      <id>clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc</id>
+      <datasource> pagingEnabled='true' restrictToRequestBBOX='1' srsname='EPSG:2913' typename='clatsop:water_poly' url='https://geoserver.wildsong.biz/geoserver/ows' version='auto' table="" sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>clatsop:water_poly</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=46 +lat_2=44.33333333333334 +lat_0=43.66666666666666 +lon_0=-120.5 +x_0=2500000.0001424 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=ft +no_defs</proj4>
+          <srsid>882</srsid>
+          <srid>2913</srid>
+          <authid>EPSG:2913</authid>
+          <description>NAD83(HARN) / Oregon North (ft)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial crs="" maxz="0" dimensions="2" minz="0" miny="0" maxx="0" maxy="0" minx="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+      </resourceMetadata>
+      <provider encoding="UTF-8">WFS</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="0.6" clip_to_extent="1" force_rhr="0">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="113,212,232,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option value="" type="QString" name="name"/>
+                  <Option name="properties"/>
+                  <Option value="collection" type="QString" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property value="0" key="embeddedWidgets/count"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer attributeLegend="1" diagramType="Histogram">
+        <DiagramCategory backgroundAlpha="255" height="15" scaleBasedVisibility="0" lineSizeType="MM" labelPlacementMethod="XHeight" barWidth="5" minimumSize="0" opacity="1" width="15" sizeType="MM" minScaleDenominator="0" backgroundColor="#ffffff" maxScaleDenominator="1e+08" penAlpha="255" penWidth="0" scaleDependency="Area" sizeScale="3x:0,0,0,0,0,0" penColor="#000000" diagramOrientation="Up" enabled="0" lineSizeScale="3x:0,0,0,0,0,0" rotationOffset="270">
+          <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings zIndex="0" obstacle="0" priority="0" dist="0" placement="1" linePlacementFlags="18" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option value="" type="QString" name="name"/>
+            <Option name="properties"/>
+            <Option value="collection" type="QString" name="type"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="ogc_fid">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="area">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="perimeter">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="watpoly_">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="watpoly_id">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="taxmaptype">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="type">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="ogc_fid"/>
+        <alias name="" index="1" field="area"/>
+        <alias name="" index="2" field="perimeter"/>
+        <alias name="" index="3" field="watpoly_"/>
+        <alias name="" index="4" field="watpoly_id"/>
+        <alias name="" index="5" field="taxmaptype"/>
+        <alias name="" index="6" field="type"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="ogc_fid"/>
+        <default applyOnUpdate="0" expression="" field="area"/>
+        <default applyOnUpdate="0" expression="" field="perimeter"/>
+        <default applyOnUpdate="0" expression="" field="watpoly_"/>
+        <default applyOnUpdate="0" expression="" field="watpoly_id"/>
+        <default applyOnUpdate="0" expression="" field="taxmaptype"/>
+        <default applyOnUpdate="0" expression="" field="type"/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="ogc_fid" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="area" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="perimeter" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="watpoly_" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="watpoly_id" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="taxmaptype" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" notnull_strength="0" field="type" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="ogc_fid"/>
+        <constraint desc="" exp="" field="area"/>
+        <constraint desc="" exp="" field="perimeter"/>
+        <constraint desc="" exp="" field="watpoly_"/>
+        <constraint desc="" exp="" field="watpoly_id"/>
+        <constraint desc="" exp="" field="taxmaptype"/>
+        <constraint desc="" exp="" field="type"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortOrder="0" sortExpression="">
+        <columns>
+          <column type="field" name="ogc_fid" hidden="0" width="-1"/>
+          <column type="field" name="area" hidden="0" width="-1"/>
+          <column type="field" name="perimeter" hidden="0" width="-1"/>
+          <column type="field" name="watpoly_" hidden="0" width="-1"/>
+          <column type="field" name="watpoly_id" hidden="0" width="-1"/>
+          <column type="field" name="taxmaptype" hidden="0" width="-1"/>
+          <column type="field" name="type" hidden="0" width="-1"/>
+          <column type="actions" hidden="1" width="-1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="area" editable="1"/>
+        <field name="ogc_fid" editable="1"/>
+        <field name="perimeter" editable="1"/>
+        <field name="taxmaptype" editable="1"/>
+        <field name="type" editable="1"/>
+        <field name="watpoly_" editable="1"/>
+        <field name="watpoly_id" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="area" labelOnTop="0"/>
+        <field name="ogc_fid" labelOnTop="0"/>
+        <field name="perimeter" labelOnTop="0"/>
+        <field name="taxmaptype" labelOnTop="0"/>
+        <field name="type" labelOnTop="0"/>
+        <field name="watpoly_" labelOnTop="0"/>
+        <field name="watpoly_id" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <previewExpression>ogc_fid</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer autoRefreshTime="0" maxScale="0" type="raster" refreshOnNotifyEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" minScale="1e+08" autoRefreshEnabled="0">
+      <extent>
+        <xmin>-13784985.64015543274581432</xmin>
+        <ymin>5809059.4485141159966588</ymin>
+        <xmax>-13781651.91026961803436279</xmax>
+        <ymax>5811198.28673627227544785</ymax>
+      </extent>
+      <id>irving_9b851b63_7b98_4842_802d_c9562232a915</id>
+      <datasource>contextualWMSLegend=0&amp;crs=EPSG:3857&amp;dpiMode=7&amp;featureCount=10&amp;format=image/png&amp;layers=clatsop:irving&amp;styles&amp;url=https://geoserver.wildsong.biz/geoserver/ows</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>irving</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider>wms</provider>
+      <noData>
+        <noDataList bandNo="1" useSrcNoData="0"/>
+      </noData>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties>
+        <property value="Html" key="identify/format"/>
+      </customproperties>
+      <pipe>
+        <rasterrenderer type="singlebandcolordata" opacity="1" band="1" alphaBand="-1">
+          <rasterTransparency/>
+          <minMaxOrigin>
+            <limits>None</limits>
+            <extent>WholeRaster</extent>
+            <statAccuracy>Estimated</statAccuracy>
+            <cumulativeCutLower>0.02</cumulativeCutLower>
+            <cumulativeCutUpper>0.98</cumulativeCutUpper>
+            <stdDevFactor>2</stdDevFactor>
+          </minMaxOrigin>
+        </rasterrenderer>
+        <brightnesscontrast brightness="0" contrast="0"/>
+        <huesaturation colorizeRed="255" colorizeBlue="128" colorizeOn="0" grayscaleMode="0" colorizeStrength="100" saturation="0" colorizeGreen="128"/>
+        <rasterresampler maxOversampling="2"/>
+      </pipe>
+      <blendMode>0</blendMode>
+    </maplayer>
+  </projectlayers>
+  <layerorder>
+    <layer id="OSM_Standard_c2e5968b_a9bf_455c_9bef_9154c78ce670"/>
+    <layer id="GEBCO_2014_Grid_5f574261_113a_4002_8221_42017be595bc"/>
+    <layer id="irving_9b851b63_7b98_4842_802d_c9562232a915"/>
+    <layer id="clatsop_water_poly_f5ff6e72_6a34_498c_811d_1cdde86a04fc"/>
+    <layer id="clatsop_taxlots_9d73c62e_0f3e_4615_8ac4_6b2489aaa5b0"/>
+    <layer id="clatsop_roads_bcca9927_ef70_4f26_a296_89c363fc88ea"/>
+    <layer id="clatsop_parks_e4f3fd17_6e87_49b4_9ddf_28ce9af7bfe9"/>
+    <layer id="clatsop_county_boundary_23930a5a_cedc_460f_b42d_3db27c9fdb89"/>
+  </layerorder>
+  <properties>
+    <Measurement>
+      <DistanceUnits type="QString"></DistanceUnits>
+      <AreaUnits type="QString"></AreaUnits>
+    </Measurement>
+    <PAL>
+      <SearchMethod type="int">0</SearchMethod>
+      <CandidatesPolygon type="int">30</CandidatesPolygon>
+      <CandidatesPoint type="int">16</CandidatesPoint>
+      <ShowingCandidates type="bool">false</ShowingCandidates>
+      <ShowingAllLabels type="bool">false</ShowingAllLabels>
+      <CandidatesLine type="int">50</CandidatesLine>
+      <DrawRectOnly type="bool">false</DrawRectOnly>
+      <ShowingPartialsLabels type="bool">true</ShowingPartialsLabels>
+      <TextFormat type="int">0</TextFormat>
+    </PAL>
+    <Legend>
+      <filterByMap type="bool">false</filterByMap>
+    </Legend>
+    <PositionPrecision>
+      <DecimalPlaces type="int">2</DecimalPlaces>
+      <Automatic type="bool">true</Automatic>
+    </PositionPrecision>
+    <Paths>
+      <Absolute type="bool">false</Absolute>
+    </Paths>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
+  </properties>
+  <visibility-presets/>
+  <transformContext/>
+  <projectMetadata>
+    <identifier></identifier>
+    <parentidentifier></parentidentifier>
+    <language></language>
+    <type></type>
+    <title></title>
+    <abstract></abstract>
+    <links/>
+    <author>Brian Wilson</author>
+    <creation>2019-04-05T13:51:57</creation>
+  </projectMetadata>
+  <Annotations/>
+  <Layouts/>
+</qgis>

@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
 import { transform } from 'ol/proj'
-import { wgs84, wm, astoria_ll, usngPrecision } from '../src/utils'
+import { myGeoServer, wgs84, wm, astoria_ll, usngPrecision } from '../src/utils'
 
 const usngConverter = new Converter
 const astoria_wm = transform(astoria_ll, wgs84,wm)
@@ -17,8 +17,8 @@ const mapbox_key = process.env.MAPBOX_KEY;
 if (typeof mapbox_key === 'undefined') console.log("The mapbox key is undefined!");
 const mapbox_url = 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/'
                     + '{z}/{x}/{y}.vector.pbf?access_token=' + mapbox_key
-const taxlotslayer = 'clatsop-wfs%3Ataxlots'
-const taxlots_url = 'http://maps.wildsong.biz/geoserver/gwc/service/tms/1.0.0/'
+const taxlotslayer = 'clatsop%3Ataxlots'
+const taxlots_url = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 

@@ -20,11 +20,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
 import { transform } from 'ol/proj'
-import { wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer, wgs84, wm, astoria_ll } from '../src/utils'
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const geoserverWMS = "http://maps.wildsong.biz/geoserver/clatsop-wfs/wms?"
+const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
 
 const transformfn = (coordinates) => {

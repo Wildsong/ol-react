@@ -6,12 +6,12 @@ import {Map, View, Feature, geom, layer} from '../src'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-import { wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 
-const wfsSource = "http://maps.wildsong.biz/geoserver/clatsop-wfs/ows?"
+const wfsSource = myGeoServer + "/ows?"
     + "service=WFS&version=2.0.0&request=GetFeature"
-
-const web_markers = wfsSource + "&typeNames=web_markers"
+const web_markers = wfsSource
+    + '&typeNames=' + workspace + '%3Aweb_markers'
 
 // I am having a problem here where it won't load two WFS layers at the same
 // time so I stuck the ESRI version in and that works...

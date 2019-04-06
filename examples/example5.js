@@ -8,7 +8,7 @@ import { Vector as VectorSource } from 'ol/source'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-import { wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 
 // We're querying the Nomiatim geocoder (OpenStreetMap) via Axios
 // to find addresses in Clatsop county.
@@ -23,7 +23,8 @@ const geocodeServer = "https://nominatim.openstreetmap.org/search?format=json"
 // and in All Formats, select "WFS GeoJSON(JSONP)"
 // then paste here and
 // clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
-const taxlots = 'http://maps.wildsong.biz/geoserver/clatsop-wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=clatsop-wfs%3Ataxlots'
+const taxlots = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
+    + '&typeName=' + workspace + '%3Ataxlots'
 
 export default class Example5 extends Component {
     static propTypes = {

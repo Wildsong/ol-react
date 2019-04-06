@@ -6,14 +6,13 @@ import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 
 import '../App.css';
 
-import { wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const geoserver = "http://maps.wildsong.biz/geoserver/clatsop-wfs/"
-const geoserverWFS = geoserver + "ows?service=WFS&version=2.0.0&request=GetFeature&typeName=clatsop-wfs%3Ataxlots"
-const geoserverWMS = geoserver + "wms?"
-const geoserverLayers = "taxlots"
+const geoserverWFS = myGeoServer 
+    + "/ows?service=WFS&version=2.0.0&request=GetFeature"
+    + "&typeName=" + workspace + "%3Ataxlots"
 
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
@@ -55,22 +54,14 @@ export default class Example extends React.Component {
             fill: {color: [255, 255, 0, .250]},
         };
 
-/* Can I select/query from WMS? It is set "queryable" in geoserver
-        <layer.Tile source="WMS"
-            url={ geoserverWMS }
-            params={{LAYERS: geoserverLayers,
-                STYLES: "redline", // WMS style, from GeoServer in this case
-                TILED: true}}
-            selectable={ true } onSelect={ this.handleSelect }
-        />*/
-
         return (
             <>
                 <h2>{this.props.title}</h2>
-                    Image Sources
+                    Sources
                     <ul>
                         <li>Image ArcGIS REST: United States map</li>
                         <li>Image WMS: <a href="https://www.gebco.net/data_and_products/gebco_web_services/">GEBCO</a> bathymetry</li>
+                        <li>Taxlots WFS</li>
                     </ul>
                     Controls
                     <ul>
