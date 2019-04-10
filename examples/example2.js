@@ -11,7 +11,7 @@ import { buildStyle } from '../src/style'
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const geoserverWFS = myGeoServer 
+const geoserverWFS = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
 
@@ -74,24 +74,10 @@ export default class Example extends React.Component {
             stroke: {color: [255, 255, 0, 1], width:4},
             fill: {color: [255, 255, 0, .750]},
         };
-<<<<<<< HEAD
         const editStyle = {
             stroke: {color: [255, 255, 0, 1], width:1},
             fill: {color: [255, 255, 0, .250]},
         };
-=======
-/* Can I select/query from WMS? It is set "queryable" in geoserver
-        <layer.Tile source="WMS"
-            url={ geoserverWMS }
-            params={{LAYERS: geoserverLayers,
-                STYLES: "redline", // WMS style, from GeoServer in this case
-                TILED: true}}
-            selectable={ true } onSelect={ this.handleSelect }
-        />*/
-
-
-//        <layer.Image source="ArcGISRest"  url={ esriService } opacity={ .50 }/>
->>>>>>> refs/remotes/origin/master
 
         return (
             <>
