@@ -50,23 +50,28 @@ export default class Example extends React.Component {
     handleSelect(e) {
         const features = e.target.getFeatures();
         const deselected = e.deselected;
-        console.log(features)
+        console.log("Selected", features)
         const msg = features.getLength() +
-                ' selected features (last operation selected ' + e.selected.length +
+                ' selected features (selected ' + e.selected.length +
                 ' and deselected ' + deselected.length + ' features)';
         console.log(msg);
 
         const pst = buildStyle(polyStyle)
         const est = buildStyle(editStyle)
 
-        features.forEach( (f) => {
-            //f.setStyle(est);
+        features.forEach( (feat) => {
+            //feat.setStyle(est);
         })
 
-        deselected.forEach( (f) => {
-            f.setStyle(pst);
+        deselected.forEach( (feat) => {
+            feat.setStyle(pst);
         })
 
+    }
+
+    handleHover(e) {
+        const feat = e.selected[0];
+        console.log("hover", feat.get("taxlot"), feat);
     }
 
     render(props) {
@@ -95,7 +100,11 @@ export default class Example extends React.Component {
                         <li>MousePosition</li>
                         <li>ZoomSlider</li>
                     </ul>
-
+                    Interactions
+                    <ul>
+                        <li>Hover</li>
+                        <li>Select</li>
+                    </ul>
                 <Map
                     view=<View rotation={ Math.PI * 0 }
                         zoom={ 16 } center={ astoria_wm }/>
@@ -115,6 +124,7 @@ export default class Example extends React.Component {
                         style={ polyStyle }
                         editStyle={ editStyle }
                         selectable={ true } onSelect={ this.handleSelect }
+                        hoverable={ true } onHover={ this.handleHover }
                     />
 
                     <control.Attribution label={"<<"} collapsible={true} collapsed={true} />

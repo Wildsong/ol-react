@@ -31,7 +31,8 @@ export default class OLLayer extends OLComponent {
     }
     static defaultProps = {
         visible: true,
-        selectable: false
+        selectable: false,
+        hoverable: false
     }
 
     state = {
