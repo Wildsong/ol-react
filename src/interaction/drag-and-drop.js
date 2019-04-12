@@ -1,4 +1,5 @@
 import { DragAndDrop, DragAndDropEvent } from 'ol/interaction'
+import { Cluster } from 'ol/source'
 import {GPX, KML, EsriJSON, GeoJSON} from 'ol/format'
 import OLInteraction from './ol-interaction'
 import { LayerContext } from '../layer-context'
@@ -13,41 +14,38 @@ export default class OLDragAndDrop extends OLInteraction {
     })
 
     createInteraction(props) {
-        let source = this.context.layer.getSource()
         console.log("OLDragAndDrop.createInteraction", props);
-        let interaction = new DragAndDrop({
-
-	    // FIXME This should be a prop and default
-	    formatConstructors: [
-                GPX,
-                KML,
-                EsriJSON,
-                GeoJSON
-	    ],
-	    source: source,
-	    //            projection: this.props.projection
+        const interaction = new DragAndDrop({
+    	    formatConstructors: [
+                    GPX,
+                    KML,
+                    EsriJSON,
+                    GeoJSON
+    	    ]
         });
 
-        /* this fails without throwing any errors
+        /* this approach fails without throwing any errors
            interaction.addEventListener(DragAndDropEvent,
            (evt) => {
            console.log("OLDragAndDrop.event=", evt);
            }
            );
 
-           I was under the impression that the on method was deprecated
-           This does not appear to be documented except in Examples.
+           I was under the impression that the "on" method was deprecated
+           It does not appear to be documented except in Examples.
         */
+        let source = this.context.layer.getSource()
+        if (source instanceof Cluster) {
+            source = source.source;
+        }
         interaction.on("addfeatures", (evt) => {
-	    console.log("OLDragAndDrop.addfeatures", evt, evt.features.length, " features.")
-	    // This just generates an error saying you already added the features
-	    //let source = this.context.layer.getSource()
-	    //source.addFeatures(evt.features);
+    	    console.log("OLDragAndDrop.addfeatures", evt.features.length, source)
+    	    source.addFeatures(evt.features);
 
-	    // FIXME: This should probably be an option
-	    // Zoom to extent of data
-	    let map = interaction.getMap();
-	    map.getView().fit(source.getExtent());
+    	    // FIXME: This should probably be an option
+    	    // Zoom to extent of data
+    	    let map = interaction.getMap();
+    	    map.getView().fit(source.getExtent());
         });
         return interaction
     }

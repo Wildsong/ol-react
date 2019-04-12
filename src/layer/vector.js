@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Vector as VectorLayer } from 'ol/layer'
-import { Cluster, Vector as VectorSource } from 'ol/source'
+import { Cluster as ClusterSource, Vector as VectorSource } from 'ol/source'
 import { Style } from 'ol/style'
 import OLLayer from './ol-layer'
 import { createXYZ } from 'ol/tilegrid'
@@ -16,6 +16,7 @@ export default class OLVector extends OLLayer {
             PropTypes.string,
             PropTypes.object
         ]),
+        cluster: PropTypes.bool,
         updateWhileAnimating: PropTypes.bool,
         updateWhileInteracting: PropTypes.bool,
         loader: PropTypes.func,
@@ -44,6 +45,9 @@ export default class OLVector extends OLLayer {
                 ))
         ])
     }
+    static defaultProps = {
+        cluster: false
+    }
 
     state = {
         layer: null,
@@ -68,19 +72,19 @@ export default class OLVector extends OLLayer {
         let style = buildStyle(this.props.style);
 
         // Allow passing in an openlayers source directly here
-        let source;
+        let vectorSource;
         if (typeof this.props.source == 'object') {
-            source = this.props.source
+            vectorSource = this.props.source
 
         } else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
-            source = new VectorSource({
+            vectorSource = new VectorSource({
                 strategy: bboxStrategy }
             //     Object.assign({
             //         strategy: bboxStrategy,
             //     }, sourceProps)
             );
-            source.setLoader(DataLoader(this.props.source, this.props.url, source));            
-            source.addEventListener("addfeature",
+            vectorSource.setLoader(DataLoader(this.props.source, this.props.url, source));
+            vectorSource.addEventListener("addfeature",
                 (evt) => {
                     if (this.props.addfeature) {
                         console.log("Vector.addfeature", evt);
@@ -93,32 +97,26 @@ export default class OLVector extends OLLayer {
             // A Vector layer can just draw a collection of graphics (example1)
             // in which case it does not need any source prop or any DataLoader
             // If url prop is set, it will use the default XHR loader
-            source = new VectorSource(
+            vectorSource = new VectorSource(
                 Object.assign({
                     //features: new Collection()},
-                    // I wonder if using the tile strategy ever makes sense
-                    strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                    // I wonder if tile strategy ever makes sense here
+                    //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                    strategy: bboxStrategy,
                     url: this.props.url // I need to test this
                 }, sourceProps)
             )
         }
 
-        this.state.source = source;
+        this.state.source = vectorSource;
+        let layerSource = vectorSource;
 
-        // FIXME add a test for this feature, it will almost certainly fail!
-        // I think this needs to be a boolean and not a source type
-        if (this.props.source === 'cluster') {
-            console.log("cluster", sourceProps);
-            this.state.source = new Cluster(
-                Object.assign({
-                    //features: new Collection(),
-                    //geometryFunction: func
-                    //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
-                        source: source
-                    },
-                    sourceProps
-                )
-            )
+        // Tested in example 3 with drag and drop of GPX files
+        if (this.props.cluster) {
+            layerSource = new ClusterSource({
+                source: vectorSource,
+                distance: this.props.distance
+            })
         }
 
         this.state.layer = new VectorLayer({
@@ -126,7 +124,7 @@ export default class OLVector extends OLLayer {
             style: style,
             updateWhileAnimating: props.updateWhileAnimating,
             updateWhileInteracting: props.updateWhileInteracting,
-            source: this.state.source
+            source: layerSource
         })
     }
 

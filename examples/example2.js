@@ -70,8 +70,10 @@ export default class Example extends React.Component {
     }
 
     handleHover(e) {
-        const feat = e.selected[0];
-        console.log("hover", feat.get("taxlot"), feat);
+        if (e.selected.length) {
+            const feat = e.selected[0];
+            console.log("hover", feat.get("taxlot"));
+        }
     }
 
     render(props) {
