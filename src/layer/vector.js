@@ -83,7 +83,9 @@ export default class OLVector extends OLLayer {
             //         strategy: bboxStrategy,
             //     }, sourceProps)
             );
-            vectorSource.setLoader(DataLoader(this.props.source, this.props.url, source));
+            vectorSource.setLoader(
+                DataLoader(this.props.source, this.props.url, vectorSource)
+            );
             vectorSource.addEventListener("addfeature",
                 (evt) => {
                     if (this.props.addfeature) {
