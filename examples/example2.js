@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Select from 'react-select'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
-
-import '../App.css';
-
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
+
+import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
@@ -17,6 +17,7 @@ const geoserverWFS = myGeoServer
 
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
+
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
@@ -25,9 +26,16 @@ let transformfn = (coordinates) => {
     return coordinates
 }
 
-let attributions = [
-    'GEBCO',
-    'and ESRI too.'
+const astoriagis = "http://gis.astoria.or.us/cgi-bin/mapserv.exe?SERVICE=WMS&VERSION=1.1.1";
+const aerials = [
+    { label: "none", value: "" },
+    { label: "1966", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_bw_1966.map&LAYERS=aerials1966" },
+    { label: "1976", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_bw_1976.map&LAYERS=aerials1976" },
+    { label: "1987", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_bw_1987.map&LAYERS=aerials1987" },
+    { label: "1994", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_bw_1994.map&LAYERS=aerials1994" },
+    { label: "2004", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_hires_2004.map&LAYERS=aerials2004" },
+    { label: "2010", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fastoria_aerial_hires_2010.map&LAYERS=aerials2010" },
+    { label: "2015", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fair_2015.map&LAYERS=air_2015"},
 ];
 
 const polyStyle = {
@@ -41,6 +49,8 @@ const editStyle = {
 
 export default class Example extends React.Component {
     state = {
+        aerial : aerials[0].value, // 1966
+        aerialVisible: false,
         enableModify: true // can't change this in the app yet
     };
     static propTypes = {
@@ -76,6 +86,17 @@ export default class Example extends React.Component {
         }
     }
 
+    changeAerial = (e) => {
+        if (e.value) {
+            this.setState({
+                "aerial": e.value,
+                "aerialVisible": true
+            });
+        } else {
+            this.setState({"aerialVisible": false});
+        }
+    }
+
     render(props) {
         let bbPolyStyle = {
             stroke: {color: [255, 255, 0, 1], width:4},
@@ -85,28 +106,20 @@ export default class Example extends React.Component {
             stroke: {color: [255, 255, 0, 1], width:1},
             fill: {color: [255, 255, 0, .250]},
         };
-
         return (
             <>
                 <h2>{this.props.title}</h2>
                     Sources
                     <ul>
                         <li>Image ArcGIS REST: United States map</li>
-                        <li>Image WMS: <a href="https://www.gebco.net/data_and_products/gebco_web_services/">GEBCO</a> bathymetry</li>
+                        <li>Image WMS: City of Astoria aerial photos</li>
                         <li>Taxlots WFS</li>
                     </ul>
-                    Controls
-                    <ul>
-                        <li>Attribution</li>
-                        <li>Rotate</li>
-                        <li>MousePosition</li>
-                        <li>ZoomSlider</li>
-                    </ul>
-                    Interactions
-                    <ul>
-                        <li>Hover</li>
-                        <li>Select</li>
-                    </ul>
+                    Controls: Rotate, MousePosition, ZoomSlider <br />
+                    Interactions: Hover, Select <br />
+
+                    <Select options={ aerials } onChange={ this.changeAerial } />
+
                 <Map
                     view=<View rotation={ Math.PI * 0 }
                         zoom={ 16 } center={ astoria_wm }/>
@@ -114,10 +127,10 @@ export default class Example extends React.Component {
 
                     <layer.Tile source="OSM" />
 
-                    <layer.Image source="WMS"
-                        url="https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?"
-                        params={{LAYERS:"GEBCO_LATEST"}}
-                        projection={ wm }
+                    <layer.Image name="City of Astoria"
+                        source="WMS"
+                        url={ this.state.aerial }
+                        visible={ this.state.aerialVisible }
                     />
 
                     <layer.Vector name="Taxlots"
@@ -129,7 +142,6 @@ export default class Example extends React.Component {
                         hoverable={ true } onHover={ this.handleHover }
                     />
 
-                    <control.Attribution label={"<<"} collapsible={true} collapsed={true} />
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition
                         projection={ wgs84 }
