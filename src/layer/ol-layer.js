@@ -119,7 +119,7 @@ export default class OLLayer extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
-        //console.log("layer.OLLayer.componentDidUpdate() state=", this.state, " previous=", prevProps, " this.props=", this.props);
+        //console.log("OLLayer.componentDidUpdate() state=", this.state, " previous=", prevProps, " this.props=", this.props);
         /*
         if (this.props.opacity !== prevProps.opacity) this.state.layer.setOpacity(this.props.opacity)
         if (this.props.visible !== prevProps.visible) this.state.layer.setVisible(this.props.visible)
@@ -128,11 +128,21 @@ export default class OLLayer extends OLComponent {
         if (this.props.minResolution !== prevProps.minResolution) this.state.layer.setMinResolution(this.props.minResolution)
         if (this.props.maxResolution !== prevProps.maxResolution) this.state.layer.setMaxResolution(this.props.maxResolution)
 */
+        try {
+            // This is currently tested in example2 with WMS services.
+            if (this.props.url !== prevProps.url) {
+                const source = this.state.layer.getSource();
+                source.setUrl(this.props.url);
+            }
+        } catch {
+        }
+
         let newProps = this.buildProps(this.dictLayer);
         this.state.layer.setProperties(newProps);
     }
 
     componentWillUnmount() {
+        console.log("OLLayer.componentDidUnmount");
         let interactions = this.context.map.getInteractions();
         if (this.selectInteraction) {
             interactions.remove(this.selectInteraction)
