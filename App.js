@@ -17,7 +17,7 @@ import './App.css';
 const SampleMap1 = () => ( <Example1 title="Sample 1: OSM and Draw" /> );
 const SampleMap2 = () => ( <Example2 title="Sample 2: Rest and WMS" /> );
 const SampleMap3 = () => ( <Example3 title="Sample 3: ESRI and Stamen" /> );
-const SampleMap4 = () => ( <Example4 title="Sample 4: Tile and XYZ" /> );
+const SampleMap4 = () => ( <Example4 title="Sample 4: XYZ Tiles" /> );
 const SampleMap5 = () => ( <Example5 title="Sample 5 Nominatim (geocode test)" /> );
 const SampleMap6 = () => ( <Example6 title="Sample 6 GeoServer WFS test" /> );
 const SampleMap7 = () => ( <Example7 title="Sample 7 vector tiles" /> );
@@ -46,7 +46,7 @@ class PrimaryLayout extends Component {
                               <NavLink href="/sample3">3 ESRI Stamen</NavLink>
                             </NavItem>
                             <NavItem>
-                              <NavLink href="/sample4">4 WMS Tiles</NavLink>
+                              <NavLink href="/sample4">4 XYZ Tiles</NavLink>
                             </NavItem>
                             <NavItem>
                               <NavLink href="/sample5">5 Geocode</NavLink>
