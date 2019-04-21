@@ -21,15 +21,16 @@ import { Map, View, Feature, control, geom, interaction, layer } from '../src';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
-import { wgs84, wm } from '../src/utils'
-const defaultCenter_wm = transform([-123.961,45.86], wgs84,wm);
+import { wgs84, wm, astoria_ll } from '../src/utils'
+const defaultCenter_wm = transform(astoria_ll, wgs84,wm);
 const defaultZoom = 16;
 
 const bingmaps_key = process.env.BINGMAPS_KEY;
 if (typeof bingmaps_key === 'undefined') console.log("BINGMAPS_KEY is undefined")
 
-const taxmapAnnoFeatureServer = "http://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/taxmap_annomask/FeatureServer/"
-const taxlotFeatureServer = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
+const ccgis = "http://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/"
+const taxmapAnnoFeatureServer = ccgis + "Assessment_and_Taxation/taxmap_annomask/FeatureServer/"
+const taxlotFeatureServer = ccgis + "Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -161,7 +162,10 @@ export default class Example4 extends Component {
                         DoubleClickZoom (works more or less)<br />
                     </p>
 
-                <Map view=<View projection={wm} zoom={defaultZoom} center={defaultCenter_wm}/> useDefaultControls={false}>
+                <Map view=<View projection={wm}
+                    minZoom={ 10 } maxZoom={ 20 }
+                    zoom={ defaultZoom }
+                    center={defaultCenter_wm}/> useDefaultControls={false}>
 
                 <layer.Tile name="Bing Road"
                     source="BingMaps" imagerySet="CanvasLight"
@@ -186,6 +190,7 @@ export default class Example4 extends Component {
                         source="esrijson"
                         url={ taxlotFeatureServer }
                         style={ polyStyle }
+                        declutter={ true }
                     />
 
                     <layer.Vector name="Taxmap annotation"

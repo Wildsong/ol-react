@@ -13,9 +13,8 @@ export default class OLSelect extends OLInteraction {
     })
 
     createInteraction(props) {
-	return new Select({
-	    condition: props.condition
-	})
+    	return new Select({
+    	    condition: props.condition
+    	})
     }
 }
-

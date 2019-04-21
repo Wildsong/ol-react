@@ -27,11 +27,13 @@ const taxlots = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature
     + '&typeName=' + workspace + '%3Ataxlots'
 
 // Without the key you get maps with a watermark
+// see https://www.thunderforest.com/
 const thunderforest_key = process.env.THUNDERFOREST_KEY;
-console.log(thunderforest_key);
-const tflayername = 'outdoors' // cycle | transport | landscape | ....
-const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z}/{y}/{x}.png'
-      + (typeof thunderforest_key === 'undefined')? "?apikey=" + thunderforest_key : ''
+//console.log("key=",thunderforest_key);
+const tflayername = 'transport' // outdoors | cycle | transport | landscape | ....
+const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z}/{x}/{y}.png'
+      + ((typeof thunderforest_key === 'undefined')? '' : "?apikey=" + thunderforest_key)
+//console.log("url=",thunderforest_url);
 
 export default class Example5 extends Component {
     static propTypes = {
@@ -128,7 +130,7 @@ export default class Example5 extends Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-
+                Thunderforest basemap + WFS taxlots<br />
 <em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!
 There is actually no Nominatim code here yet. LOL.</em>
                 <p>
@@ -159,8 +161,7 @@ There is actually no Nominatim code here yet. LOL.</em>
                     />
                     onMoveEnd={ this.handleEvent }
                 >
-	    <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
-
+                    <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
                     <layer.Vector name="Taxlots"
                         source="geojson"
                         url={ taxlots }

@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import {
+    Circle as CircleStyle,
+    Fill as FillStyle,
+    Icon as IconStyle,
+    Stroke as StrokeStyle,
+    Style,
+    Text as TextStyle
+} from 'ol/style'
+
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import { Converter } from 'usng/usng'
@@ -16,14 +25,14 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import {Map, View, Feature, control, geom, interaction, layer} from '../src';
-
+import { Map, View, Feature, control, geom, interaction, layer } from '../src'
+import { buildStyle } from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
 
-import { wgs84, wm } from '../src/utils'
+import { wgs84, wm, astoria_ll } from '../src/utils'
 
-const astoria_wm = transform([-123.834,46.187], wgs84,wm)
+const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -72,52 +81,59 @@ export default class Example3 extends Component {
     }
 
     render() {
-        // FIXME: I'd like to control how the points appear at different
-        // levels and cluster them when we're zoomed out but that's
-        // for another day. And of course there is more than one type
+        // FIXME: I'd like to control how the points appear
+        // at different levels and cluster them when we're
+        // zoomed out and of course there is more than one type
         // of point in the file and I need to address that too.
         let geocacheIcon = require('../assets/traditional.png');
         //  currently this draws a blue 5 pointed star
-        let gpxMarker = {
+        let gpxMarker = buildStyle({
             image: {
                 type: 'icon',
-                //crossOrigin:
-                //img: HTMLImageElement | HTMLCanvasElement
-                //scale: number,
-                opacity: 1,
-                //rotation: radians,
                 src: geocacheIcon,
             }
-        }
+        });
         let styleCache = {};
         let clusterStyle = (feature) => {
-            var size = feature.get('features').length;
-            var style = styleCache[size];
-            if (!style) {
-                style = new Style({
-                  image: new CircleStyle({
-                    radius: 10,
-                    stroke: new Stroke({
-                      color: '#fff'
-                    }),
-                    fill: new Fill({
-                      color: '#3399CC'
-                    })
-                  }),
-                  text: new Text({
-                    text: size.toString(),
-                    fill: new Fill({
-                      color: '#fff'
-                    })
-                  })
-                });
-                styleCache[size] = style;
+            let size = 0;
+            let style;
+            try {
+                size = feature.get('features').length;
+            } catch {
             }
+//            console.log("clusterStyle", size);
+            if (size <= 1) {
+                style = gpxMarker;
+            } else {
+                style = styleCache[size];
+                if (!style) {
+                    style = new Style({
+                      image: new CircleStyle({
+                        radius: 10,
+                        stroke: new StrokeStyle({
+                          color: '#fff'
+                        }),
+                        fill: new FillStyle({
+                          color: '#3399CC'
+                        })
+                      }),
+                      text: new TextStyle({
+                        text: size.toString(),
+                        fill: new FillStyle({
+                          color: '#fff'
+                        })
+                      })
+                    });
+                    styleCache[size] = style;
+                }
+            }
+            return style;
         }
         const usngConverter = new Converter;
         const coordFormatter = (coord) => {
             return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
         }
+
         return (
             <>
                 <h2>{ this.props.title }</h2>
@@ -152,32 +168,36 @@ export default class Example3 extends Component {
                         <br />
                     Using zIndex to control order of layers.
 
-            <Map view=<View zoom={4} center={ astoria_wm }/> useDefaultControls={false}>
+            <Map view=<View
+                    zoom={ 8 } center={ astoria_wm }
+                    minZoom={ 8 } maxZoom={ 18 }/>
+                useDefaultControls={false}>
                 <layer.Tile source="XYZ"
                     url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
                     opacity={ this.state.opacityLayer1/100 }
-                    zIndex={2}
+                    zIndex={ 2 }
                 />
                 <layer.Tile source="Stamen" layer="watercolor"
                     opacity={ this.state.opacityLayer2/100 }
-                    zIndex={1}
+                    zIndex={ 1 }
                 />
                 <layer.Tile source="Stamen" layer="toner"
                     opacity={ 1 }
-                    zIndex={0}
+                    zIndex={ 0 }
                 />
                 <layer.Tile source="ArcGISRest"
                     url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                     attributions={ attributions }
                     opacity={ this.state.opacityLayer3/100 }
-                    zIndex={3}
+                    zIndex={ 3 }
                 />
 
-                <layer.Vector source="cluster" distance={ 1 }
+                <layer.Vector
+                    cluster={ true }
+                    distance={ 40 }
                     style={ clusterStyle }
-                    opacity={ 1 }
-                    zIndex={3}
+                    zIndex={ 4 }
                 >
                     {/* This interaction has to be inside a vector layer. */}
                     <interaction.DragAndDrop />
@@ -186,21 +206,6 @@ export default class Example3 extends Component {
                 <control.OverviewMap/>
                 <control.FullScreen />
                 <interaction.DragBox />
-
-                {/*
-                <control.Zoom />
-                <control.ZoomToExtent />
-
-                <interaction.DoubleClickZoom />
-                <interaction.DragPan />
-                <interaction.DragRotate />
-                <interaction.DragRotateAndZoom />
-                <interaction.DragZoom />
-                <interaction.KeyboardZoom />
-                <interaction.MouseWheelZoom />
-                <interaction.PinchRotate />
-                <interaction.PinchZoom />
-                */}
 
                 <control.MousePosition
                     projection={ wgs84 }
