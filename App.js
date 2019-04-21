@@ -59,7 +59,7 @@ class PrimaryLayout extends Component {
                               <NavLink href="/sample7">7 VecTile</NavLink>
                             </NavItem>
                             <NavItem>
-                              <NavLink href="/sample8">7 Overlay</NavLink>
+                              <NavLink href="/sample8">8 Overlay</NavLink>
                             </NavItem>
                         </Nav>
                     </Navbar>

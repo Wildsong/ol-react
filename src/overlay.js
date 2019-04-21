@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MapContext } from './map-context'
 import ReactDOM from 'react-dom'
 import {Map, Overlay} from 'ol';
 import {Source} from 'ol/source';
 import OLComponent from './ol-component';
 
 export default class OLOverlay extends OLComponent {
+    static contextType = MapContext;
+
     static propTypes = {
         id: PropTypes.oneOfType([
             PropTypes.number,
@@ -20,12 +23,12 @@ export default class OLOverlay extends OLComponent {
         animate: PropTypes.bool,
         animationLength: PropTypes.number
     }
-    static contextTypes = {
-        map: PropTypes.instanceOf(Map)
-    }
+
+    /*
     static childContextTypes = {
       source: PropTypes.instanceOf(Source)
     }
+    */
 
     constructor(props) {
         super(props);
