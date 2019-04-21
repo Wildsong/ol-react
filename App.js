@@ -9,7 +9,7 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-import {Example1, Example2, Example3, Example4, Example5, Example6, Example7} from './examples'
+import {Example1, Example2, Example3, Example4, Example5, Example6, Example7, Example8} from './examples'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -21,6 +21,7 @@ const SampleMap4 = () => ( <Example4 title="Sample 4: Tile and XYZ" /> );
 const SampleMap5 = () => ( <Example5 title="Sample 5 Nominatim (geocode test)" /> );
 const SampleMap6 = () => ( <Example6 title="Sample 6 GeoServer WFS test" /> );
 const SampleMap7 = () => ( <Example7 title="Sample 7 vector tiles" /> );
+const SampleMap8 = () => ( <Example8 title="Sample 8 overlay" /> );
 
 class PrimaryLayout extends Component {
     state = {
@@ -57,6 +58,9 @@ class PrimaryLayout extends Component {
                             <NavItem>
                               <NavLink href="/sample7">7 VecTile</NavLink>
                             </NavItem>
+                            <NavItem>
+                              <NavLink href="/sample8">7 Overlay</NavLink>
+                            </NavItem>
                         </Nav>
                     </Navbar>
                 </Col>
@@ -68,6 +72,7 @@ class PrimaryLayout extends Component {
                         <Route path="/sample5" component={SampleMap5} />
                         <Route path="/sample6" component={SampleMap6} />
                         <Route path="/sample7" component={SampleMap7} />
+                        <Route path="/sample8" component={SampleMap8} />
                         <Route exact path="/"  component={SampleMap1} />
                     </Switch>
                 </Col>
