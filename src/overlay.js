@@ -46,7 +46,7 @@ export default class OLOverlay extends OLComponent {
 
     componentWillUnmount() {
         ReactDOM.unmountComponentAtNode(this.element);
-        this.element.parentNode.removeChild(this.element);
+	//        this.element.parentNode.removeChild(this.element);
     }
 
     componentDidMount() {
