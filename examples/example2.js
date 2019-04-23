@@ -55,12 +55,7 @@ export default class Example extends React.Component {
         aerial : aerials[0].value, // 1966
         aerialVisible: false,
         enableModify: true, // can't change this in the app yet
-        columns: [
-            {   Header: 'Account', accessor: 'account_id'  },
-            {   Header: 'Taxlot',  accessor: 'taxlot'      },
-            {   Header: 'Owner',   accessor: 'owner_line'  },
-        ],
-        selection : []
+        columns: [],  rows : []
     };
     static propTypes = {
         title: PropTypes.string
@@ -72,40 +67,29 @@ export default class Example extends React.Component {
         const deselected = e.deselected;
 
         let columns = selected[0].getKeys()
-        console.log("Selected", columns)
-
+        let headers = []
         let rows = [];
         features.forEach( (feature) => {
             feature.setStyle(selectedSt);
             // Copy the data from each feature into a list
             let s = {}
-            for (let i=0; i < columns.length; i++) {
-                let colname = columns[i];
-                if (colname == 'geometry') continue
-                try {
-                    s[colname] = feature.get(colname).toString();
-                } catch {
-                    console.log("Ignoring ", colname);
-                    s[colname] = 'null'
+            columns.forEach ( (column) => {
+                if (column !== 'geometry') {
+                    s[column] = feature.get(column);
+                    headers.push({ Header : column, accessor: column })
                 }
-            }
+            });
             rows.push(s)
-        })
-
-        // Build the column headers thing.
-        let ct = []
-        for (let i=0; i< columns.length; i++) {
-            let colname = columns[i]
-            if (colname == 'geometry') continue
-            ct.push({ Header : colname, accessor: colname })
-        }
-
-        this.setState({ selection: rows });
-        this.setState({columns: ct});
+        });
 
         deselected.forEach( (feature) => {
             feature.setStyle(tlSt);
         })
+
+        this.setState({
+            columns: headers,
+            rows: rows
+        });
     }
 
     changeAerial = (e) => {
@@ -164,7 +148,7 @@ export default class Example extends React.Component {
                     <control.ZoomSlider />
                 </Map>
 
-                <ReactTable data={ this.state.selection } columns={ this.state.columns }/>
+                <ReactTable data={ this.state.rows } columns={ this.state.columns }/>
             </>
         );
     }
