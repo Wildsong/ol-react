@@ -13,8 +13,8 @@ export default class OLDragAndDrop extends OLInteraction {
 //    target: PropTypes.HTMLElement, // element where you can drop things
     })
 
-    createInteraction(props) {
-        console.log("OLDragAndDrop.createInteraction", props);
+    createInteraction() {
+        console.log("OLDragAndDrop.createInteraction", this.props);
         const interaction = new DragAndDrop({
     	    formatConstructors: [
                     GPX,

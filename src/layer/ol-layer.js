@@ -25,7 +25,7 @@ export default class OLLayer extends OLComponent {
         minResolution: PropTypes.number,
         maxResolution: PropTypes.number,
         selectable: PropTypes.bool,
-        onSelect: PropTypes.func,
+//        onSelect: PropTypes.func,
         hoverable: PropTypes.bool,
         onHover: PropTypes.func
     }
@@ -90,7 +90,7 @@ export default class OLLayer extends OLComponent {
         let select;
         let interactions = this.context.map.getInteractions()
         if (this.props.selectable) {
-            //let editStyle = buildStyle(this.props.editStyle);
+/*            //let editStyle = buildStyle(this.props.editStyle);
             select = new Select({
                 //condition: click,
                 layers: [this.state.layer],
@@ -102,6 +102,7 @@ export default class OLLayer extends OLComponent {
             select.on('select', this.props.onSelect)
             interactions.push(select);
             this.selectInteraction = select;
+            */
         }
         if (this.props.hoverable) {
             this.hoverInteraction = new Select({
@@ -144,9 +145,10 @@ export default class OLLayer extends OLComponent {
     componentWillUnmount() {
         console.log("OLLayer.componentDidUnmount");
         let interactions = this.context.map.getInteractions();
-        if (this.selectInteraction) {
+/*        if (this.selectInteraction) {
             interactions.remove(this.selectInteraction)
         }
+*/
         if (this.hoverInteraction) {
             interactions.remove(this.hoverInteraction)
         }

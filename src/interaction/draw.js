@@ -5,10 +5,9 @@ import { Draw } from 'ol/interaction'
 import OLInteraction from './ol-interaction'
 
 export default class OLDraw extends OLInteraction {
-    static contextType = LayerContext
+    static contextType = LayerContext;
     static propTypes = Object.assign({},
-        OLInteraction.propTypes,
-        {
+        OLInteraction.propTypes, {
         	drawend: PropTypes.func,
         	drawstart: PropTypes.func,
         	type: PropTypes.string.isRequired,
@@ -17,16 +16,16 @@ export default class OLDraw extends OLInteraction {
         }
     )
 
-    static olEvents = ["drawend", "drawstart"]
+    static olEvents = ["drawend", "drawstart"];
 
-    createInteraction(props) {
-        let source = this.context.layer.getSource()
+    createInteraction() {
+        const source = this.context.layer.getSource()
         //console.log("OLDraw.createInteraction", props.type)
-        let interaction = new Draw({
-            type: props.type,
+        const interaction = new Draw({
+            type: this.props.type,
             source: source,
-            maxPoints: props.maxPoints,
-            minPoints: props.minPoints
+            maxPoints: this.props.maxPoints,
+            minPoints: this.props.minPoints
         })
         interaction.addEventListener("drawend",
     	    (evt) => {
@@ -36,6 +35,6 @@ export default class OLDraw extends OLInteraction {
                 }
     	    }
     	);
-        return interaction
+        return interaction;
     }
 }

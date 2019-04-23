@@ -9,10 +9,10 @@ export default class DoubleClickZoom extends OLInteraction {
 	    duration: PropTypes.number
     })
 
-    createInteraction (props) {
+    createInteraction() {
 	    return new olDoubleClickZoom({
-	        delta: props.delta,
-	        duration: props.duration
+	        delta: this.props.delta,
+	        duration: this.props.duration
 	    })
     }
 }

@@ -135,8 +135,9 @@ export default class Example extends React.Component {
                         url={ geoserverWFS }
                         style={ taxlotStyle }
                         editStyle={ selectedStyle }
-                        selectable={ true } onSelect={ this.handleSelect }
-                    />
+                        selectable={ true }>
+                        <interaction.Select select={ this.handleSelect }/>
+                    </layer.Vector>
 
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition

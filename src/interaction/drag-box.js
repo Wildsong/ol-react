@@ -13,10 +13,9 @@ export default class DragBox extends OLInteraction {
 	condition: PropTypes.func
     })
 
-    createInteraction (props) {
+    createInteraction() {
 	return new olDragBox({
-	    condition: props.condition
+	    condition: this.props.condition
 	})
     }
 }
-

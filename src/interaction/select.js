@@ -1,20 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Select} from 'ol/interaction'
-import {Collection} from 'ol'
+import { LayerContext } from '../layer-context'
+import { Select } from 'ol/interaction'
+import { Collection } from 'ol'
 import OLInteraction from './ol-interaction'
 
 export default class OLSelect extends OLInteraction {
-    static olEvents = ["select"]
-    static propTypes = Object.assign({}, OLInteraction.propTypes, {
-	condition: PropTypes.func,
-	select: PropTypes.func,
-	features: PropTypes.instanceOf(Collection)
-    })
+    static contextType = LayerContext;
+    static propTypes = Object.assign({},
+         OLInteraction.propTypes, {
+	         condition: PropTypes.func,
+	         select: PropTypes.func,
+             features: PropTypes.instanceOf(Collection)
+         }
+     )
 
-    createInteraction(props) {
-    	return new Select({
-    	    condition: props.condition
+    static olEvents = ["select"];
+
+    createInteraction() {
+        const source = this.context.layer.getSource()
+    	const select = new Select({
+            source: source,
+    	    condition: this.props.condition
     	})
+        select.on('select', this.props.select);
+        return select;
     }
 }

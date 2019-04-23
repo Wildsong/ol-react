@@ -13,7 +13,7 @@ export default class OLInteraction extends OLComponent {
     }
 
     componentDidMount() {
-        this.interaction = this.createInteraction(this.props)
+        this.interaction = this.createInteraction()
         this.eventHandlerKeys_ = {}
 
         this.updateActiveState_(this.props)
@@ -38,7 +38,7 @@ export default class OLInteraction extends OLComponent {
         this.updateEventHandlersFromProps_({})
     }
 
-    createInteraction(props) {
+    createInteraction() {
         throw new TypeError(
             'You must override createInteraction() in classes derived from OLInteraction'
         )
