@@ -39,8 +39,9 @@ export default class OLInteraction extends OLComponent {
     }
 
     createInteraction(props) {
-        throw new TypeError('You must override createInteraction() in classes derived ' +
-                            'from OLInteraction')
+        throw new TypeError(
+            'You must override createInteraction() in classes derived from OLInteraction'
+        )
     }
 
     updateActiveState_(props) {
@@ -50,11 +51,6 @@ export default class OLInteraction extends OLComponent {
             this.interaction.setActive(true)
         }
     }
-
-    // FIXME:
-    // I think OL5 does not use the ".on" method, it uses normal JavaScript events.
-    // so I need to visit ALL of this code and see what is going on here
-    // See draw and drag-and-drop for examples of the current convention
 
     updateEventHandler_(name, handler) {
         const key = this.eventHandlerKeys_[name]

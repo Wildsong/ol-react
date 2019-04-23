@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-    import { Map, View, Feature, Graticule, control, geom, layer, Overlay } from '../src'
+import { Map, View, Feature, Overlay, control, geom, layer } from '../src'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import { Converter } from 'usng/usng';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,17 +21,24 @@ export default class Example8 extends React.Component {
     static propTypes = {
         title: PropTypes.string
     };
+    state = {
+        "popup": [0,0],
+    }
 
-    handleEvent = (e) => {
-        console.log("Map.handleEvent", e)
+    handleClick = (e) => {
+        console.log("click", e)
+        this.setState({
+            "popup": e.mapBrowserEvent.coordinate
+        });
         //e.stopPropagation(); // this stops draw interaction
     }
 
+    coordFormatter = (coord) => {
+        const zoom = 6;
+        return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
+    }
+
     render() {
-        const coordFormatter = (coord) => {
-            const zoom = 6;
-            return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
-        }
         const pointStyle = {
             image: {
                 type: 'circle',
@@ -59,6 +66,8 @@ export default class Example8 extends React.Component {
             fill: {color: [255, 0, 0, .250]},
         };
 
+        const popup = React.createElement('div', {}, "Some darn popup content goeth here");
+
         return (
             <>
                 <h2>{ this.props.title }</h2>
@@ -68,7 +77,7 @@ export default class Example8 extends React.Component {
 
                 <h4>Vector tiles</h4>
                     <ul>
-                    <li> Graticule </li>
+                    <li> Overlay (popups) </li>
                     <li> Taxlots from geoserver</li>
                     <li> Tile source: OSM</li>
                     </ul>
@@ -77,27 +86,25 @@ export default class Example8 extends React.Component {
                     view=<View zoom={ 10 } center={ astoria_wm }
                             minZoom={8} maxZoom={18} />
                     useDefaultControls={ false }
-                    onMoveEnd={ this.handleEvent }
                 >
-                    <Graticule
-                        showLabels={ true }
-                        maxLines={ 100 }
-                        targetSize={ 50 }
-                    />
+
                     <layer.Tile source="OSM"
                         opacity={ 1 }
                     />
 
                     <layer.VectorTile format="MVT"
                         url={ taxlots_url }
+                        selectable={ true } onSelect={ this.handleClick }
                     />
-	    
-	    <Overlay id={ 42 } >
-	           </Overlay>
+
+	                <Overlay id="popups"
+                        element={ popup }
+                        position={ this.state.popup }
+                    />
 
                     <control.MousePosition
                         projection={ wgs84 }
-                        coordinateFormat={ coordFormatter }
+                        coordinateFormat={ this.coordFormatter }
                     />
                 </Map>
             </>

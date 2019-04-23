@@ -167,16 +167,16 @@ export default class Example4 extends Component {
                     zoom={ defaultZoom }
                     center={defaultCenter_wm}/> useDefaultControls={false}>
 
-                <layer.Tile name="Bing Road"
-                    source="BingMaps" imagerySet="CanvasLight"
-                    apikey={ bingmaps_key }
-                />
+                    <layer.Tile name="Bing Road"
+                        source="BingMaps" imagerySet="CanvasLight"
+                        apikey={ bingmaps_key }
+                    />
 
-                <layer.Tile name="Bing Aerial"
-                    source="BingMaps" imagerySet="Aerial"
-                    visible={ this.state.bingVisible }
-                    apikey={ bingmaps_key }
-                />
+                    <layer.Tile name="Bing Aerial"
+                        source="BingMaps" imagerySet="Aerial"
+                        visible={ this.state.bingVisible }
+                        apikey={ bingmaps_key }
+                    />
 
                     <layer.Tile name="ESRI World Streets"
                         source="XYZ"

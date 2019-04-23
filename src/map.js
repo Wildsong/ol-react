@@ -13,6 +13,7 @@ export default class OLMap extends Component {
         loadTilesWhileAnimating: PropTypes.bool,
         loadTilesWhileInteracting: PropTypes.bool,
         onPointerMove: PropTypes.func,
+        onClick: PropTypes.func,
         onSingleClick: PropTypes.func,
         onChangeSize: PropTypes.func,
         onMoveEnd: PropTypes.func,
@@ -48,6 +49,7 @@ export default class OLMap extends Component {
         // There are about 20 different events we could watch here
         // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
         if (this.props.onChangeSize)  this.map.on('change:size', this.props.onChangeSize);
+        if (this.props.onClick)       this.map.on('click', this.props.onClick);
         if (this.props.onSingleClick) this.map.on('singleclick', this.props.onSingleClick);
         //if (this.props.onDblClick)    this.map.on('doubleclick', this.props.onDblClick);
         if (this.props.onMoveEnd)     this.map.on('moveend', this.props.onMoveEnd);
@@ -85,24 +87,6 @@ export default class OLMap extends Component {
         const viewport = this.map.getViewport()
         viewport.tabIndex = 0
         viewport.focus()
-    }
-
-    onFeatureHover(evt) {
-        if (evt.dragging) return;
-        let pixel = this.map.getEventPixel(evt.originalEvent);
-        let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
-            return x
-        });
-        this.props.onFeatureHover(feature);
-    }
-
-    onFeatureClick(evt) {
-        let pixel = this.map.getEventPixel(evt.originalEvent);
-        let feature = this.map.forEachFeatureAtPixel(pixel, function (x) {
-            return x
-        });
-        let lonLat = toLonLat(evt.coordinate);
-        this.props.onFeatureClick(feature, lonLat);
     }
 
     updateSize() {

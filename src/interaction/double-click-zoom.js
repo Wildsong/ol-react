@@ -5,15 +5,14 @@ import OLInteraction from './ol-interaction';
 
 export default class DoubleClickZoom extends OLInteraction {
     static propTypes = Object.assign({}, OLInteraction.propTypes, {
-	delta: PropTypes.number,
-	duration: PropTypes.number
+	    delta: PropTypes.number,
+	    duration: PropTypes.number
     })
 
     createInteraction (props) {
-	return new olDoubleClickZoom({
-	    delta: props.delta,
-	    duration: props.duration
-	})
+	    return new olDoubleClickZoom({
+	        delta: props.delta,
+	        duration: props.duration
+	    })
     }
 }
-

@@ -188,7 +188,7 @@ export default class Example1 extends React.Component {
 
                 <p>
                     Handling map events:
-                    pointermove, singleclick, changesize, moveend
+                    pointermove, click, changesize, moveend
                 </p>
 
                 <Map
@@ -279,28 +279,6 @@ export default class Example1 extends React.Component {
                     <li> Animation</li>
                     <li> Overlay</li>
                 </ul>
-
-                {/*
-                <control.ZoomSlider />
-                <control.ZoomToExtent />
-
-                <interaction.Select/>
-                <interaction.DragBox />
-                <interaction.DragPan />
-                <interaction.DragRotate />
-                <interaction.DragRotateAndZoom />
-                <interaction.DragZoom />
-                <interaction.KeyboardZoom />
-                <interaction.MouseWheelZoom />
-                <interaction.PinchRotate />
-                <interaction.PinchZoom />
-
-                No need to declare Modify explicitly.
-                When you create a geometry and set modify=true on it
-                then the ol-geometry will automatically set up a modify interaction
-                <interaction.Modify features={selected_features}/>
-                */}
-
             </>
         );
     }

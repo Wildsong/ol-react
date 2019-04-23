@@ -6,7 +6,8 @@ import { toStringXY } from 'ol/coordinate'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
-
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
 import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
@@ -38,52 +39,73 @@ const aerials = [
     { label: "2015", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fair_2015.map&LAYERS=air_2015"},
 ];
 
-const polyStyle = {
-    stroke: {color: [0, 0, 0, 1], width:1},
-    fill: {color: [255, 0, 0, .250]},
+const taxlotStyle = { // pink w black outline
+    stroke: {color: [255, 0, 0, 1.00], width:1},
+    fill:   {color: [255, 0, 0, .000]}, // no fill = not selectable
 };
-const editStyle = {
-    stroke: {color: [255, 255, 0, 1], width:1},
-    fill: {color: [255, 255, 0, .250]},
+const selectedStyle = { // yellow
+    stroke: {color: [255, 255, 0, 1.00], width:2},
+    fill:   {color: [255, 255, 0, .001]},
 };
+const tlSt = buildStyle(taxlotStyle);
+const selectedSt = buildStyle(selectedStyle);
 
 export default class Example extends React.Component {
     state = {
         aerial : aerials[0].value, // 1966
         aerialVisible: false,
-        enableModify: true // can't change this in the app yet
+        enableModify: true, // can't change this in the app yet
+        columns: [
+            {   Header: 'Account', accessor: 'account_id'  },
+            {   Header: 'Taxlot',  accessor: 'taxlot'      },
+            {   Header: 'Owner',   accessor: 'owner_line'  },
+        ],
+        selection : []
     };
     static propTypes = {
         title: PropTypes.string
     };
 
-    handleSelect(e) {
-        const features = e.target.getFeatures();
+    handleSelect = (e) => {
+        const features   = e.target.getFeatures(); // this is the entire selection
+        const selected   = e.selected;      // this is just what was added
         const deselected = e.deselected;
-        console.log("Selected", features)
-        const msg = features.getLength() +
-                ' selected features (selected ' + e.selected.length +
-                ' and deselected ' + deselected.length + ' features)';
-        console.log(msg);
 
-        const pst = buildStyle(polyStyle)
-        const est = buildStyle(editStyle)
+        let columns = selected[0].getKeys()
+        console.log("Selected", columns)
 
-        features.forEach( (feat) => {
-            //feat.setStyle(est);
+        let rows = [];
+        features.forEach( (feature) => {
+            feature.setStyle(selectedSt);
+            // Copy the data from each feature into a list
+            let s = {}
+            for (let i=0; i < columns.length; i++) {
+                let colname = columns[i];
+                if (colname == 'geometry') continue
+                try {
+                    s[colname] = feature.get(colname).toString();
+                } catch {
+                    console.log("Ignoring ", colname);
+                    s[colname] = 'null'
+                }
+            }
+            rows.push(s)
         })
 
-        deselected.forEach( (feat) => {
-            feat.setStyle(pst);
-        })
-
-    }
-
-    handleHover(e) {
-        if (e.selected.length) {
-            const feat = e.selected[0];
-            console.log("hover", feat.get("taxlot"));
+        // Build the column headers thing.
+        let ct = []
+        for (let i=0; i< columns.length; i++) {
+            let colname = columns[i]
+            if (colname == 'geometry') continue
+            ct.push({ Header : colname, accessor: colname })
         }
+
+        this.setState({ selection: rows });
+        this.setState({columns: ct});
+
+        deselected.forEach( (feature) => {
+            feature.setStyle(tlSt);
+        })
     }
 
     changeAerial = (e) => {
@@ -98,14 +120,7 @@ export default class Example extends React.Component {
     }
 
     render(props) {
-        let bbPolyStyle = {
-            stroke: {color: [255, 255, 0, 1], width:4},
-            fill: {color: [255, 255, 0, .750]},
-        };
-        const editStyle = {
-            stroke: {color: [255, 255, 0, 1], width:1},
-            fill: {color: [255, 255, 0, .250]},
-        };
+
         return (
             <>
                 <h2>{this.props.title}</h2>
@@ -116,15 +131,13 @@ export default class Example extends React.Component {
                         <li>Taxlots WFS</li>
                     </ul>
                     Controls: Rotate, MousePosition, ZoomSlider <br />
-                    Interactions: Hover, Select <br />
+                    Interactions: Select <br />
 
                     <Select options={ aerials } onChange={ this.changeAerial } />
 
-                <Map
-                    view=<View rotation={ Math.PI * 0 }
-                        zoom={ 16 } center={ astoria_wm }/>
-                    useDefaultControls={ false }>
-
+                <Map useDefaultControls={ false }
+                    view=<View zoom={ 16 } center={ astoria_wm }/>
+                >
                     <layer.Tile source="OSM" />
 
                     <layer.Image name="City of Astoria"
@@ -136,10 +149,9 @@ export default class Example extends React.Component {
                     <layer.Vector name="Taxlots"
                         source="geojson"
                         url={ geoserverWFS }
-                        style={ polyStyle }
-                        editStyle={ editStyle }
+                        style={ taxlotStyle }
+                        editStyle={ selectedStyle }
                         selectable={ true } onSelect={ this.handleSelect }
-                        hoverable={ true } onHover={ this.handleHover }
                     />
 
                     <control.Rotate autoHide={false}/>
@@ -151,6 +163,8 @@ export default class Example extends React.Component {
                     />
                     <control.ZoomSlider />
                 </Map>
+
+                <ReactTable data={ this.state.selection } columns={ this.state.columns }/>
             </>
         );
     }
