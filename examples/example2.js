@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
+import { click, pointermove } from 'ol/events/condition'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
@@ -61,30 +62,41 @@ export default class Example extends React.Component {
         title: PropTypes.string
     };
 
-    handleSelect = (e) => {
+    // You can change from the default click to other conditions...
+    handleCondition = (e) => {
+         return (e.type == 'click');
+        // return (e.type == 'pointermove'); // this would be hover
+        // return (e.type == 'dblclick'); // another example
+    }
+
+    onSelectInteraction = (e) => {
+        console.log("Example2.onSelectInteraction", e);
         const features   = e.target.getFeatures(); // this is the entire selection
         const selected   = e.selected;      // this is just what was added
         const deselected = e.deselected;
-
-        let columns = selected[0].getKeys()
-        let headers = []
-        let rows = [];
-        features.forEach( (feature) => {
-            feature.setStyle(selectedSt);
-            // Copy the data from each feature into a list
-            let s = {}
-            columns.forEach ( (column) => {
-                if (column !== 'geometry') {
-                    s[column] = feature.get(column);
-                    headers.push({ Header : column, accessor: column })
-                }
-            });
-            rows.push(s)
-        });
+        const headers = [];
+        const rows = [];
 
         deselected.forEach( (feature) => {
             feature.setStyle(tlSt);
         })
+
+        if (selected.length > 0) {
+            console.log("selected=",selected);
+            let columns = selected[0].getKeys()
+            features.forEach( (feature) => {
+                feature.setStyle(selectedSt);
+                // Copy the data from each feature into a list
+                let s = {}
+                columns.forEach ( (column) => {
+                    if (column !== 'geometry') {
+                        s[column] = feature.get(column);
+                        headers.push({ Header : column, accessor: column })
+                    }
+                });
+                rows.push(s)
+            });
+        }
 
         this.setState({
             columns: headers,
@@ -135,8 +147,10 @@ export default class Example extends React.Component {
                         url={ geoserverWFS }
                         style={ taxlotStyle }
                         editStyle={ selectedStyle }
-                        selectable={ true }>
-                        <interaction.Select select={ this.handleSelect }/>
+                    >
+                        <interaction.Select
+                            select={ this.onSelectInteraction }
+                            condition={ this.handleCondition } />
                     </layer.Vector>
 
                     <control.Rotate autoHide={false}/>

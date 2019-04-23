@@ -8,6 +8,7 @@ export default class OLDraw extends OLInteraction {
     static contextType = LayerContext;
     static propTypes = Object.assign({},
         OLInteraction.propTypes, {
+            condition: PropTypes.func,
         	drawend: PropTypes.func,
         	drawstart: PropTypes.func,
         	type: PropTypes.string.isRequired,
@@ -24,9 +25,11 @@ export default class OLDraw extends OLInteraction {
         const interaction = new Draw({
             type: this.props.type,
             source: source,
+            condition: this.props.condition,
             maxPoints: this.props.maxPoints,
             minPoints: this.props.minPoints
         })
+/*
         interaction.addEventListener("drawend",
     	    (evt) => {
                 if (this.props.drawend) {
@@ -35,6 +38,7 @@ export default class OLDraw extends OLInteraction {
                 }
     	    }
     	);
+        */
         return interaction;
     }
 }

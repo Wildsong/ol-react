@@ -9,8 +9,8 @@ export default class OLSelect extends OLInteraction {
     static contextType = LayerContext;
     static propTypes = Object.assign({},
          OLInteraction.propTypes, {
-	         condition: PropTypes.func,
-	         select: PropTypes.func,
+	         condition: PropTypes.func,  // can be from ol/events/condition or custom
+	         select: PropTypes.func,     // handle select olEvents
              features: PropTypes.instanceOf(Collection)
          }
      )
@@ -18,12 +18,11 @@ export default class OLSelect extends OLInteraction {
     static olEvents = ["select"];
 
     createInteraction() {
-        const source = this.context.layer.getSource()
-    	const select = new Select({
-            source: source,
+        console.log("select.createInteraction", this.props);
+    	const interaction = new Select({
+            source: this.context.layer.getSource(),
     	    condition: this.props.condition
     	})
-        select.on('select', this.props.select);
-        return select;
+        return interaction;
     }
 }

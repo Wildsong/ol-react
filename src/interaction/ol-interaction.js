@@ -12,7 +12,13 @@ export default class OLInteraction extends OLComponent {
 	    active: true
     }
 
+    // In derived classes, override this list of events
+    // with the events that this interaction responds to,
+    // and a handler of the same name as a property.
+    //static olEvents = [];
+
     componentDidMount() {
+        console.log("interaction.componentDidMount", this.props);
         this.interaction = this.createInteraction()
         this.eventHandlerKeys_ = {}
 
@@ -21,24 +27,27 @@ export default class OLInteraction extends OLComponent {
         this.context.map.addInteraction(this.interaction)
     }
 
-    // FIXME this happens a little more often than I'd like
-    // which means we should see if anything has changed before
-    // running the code here,  so we don't render without need
     componentDidUpdate(prevProps) {
-        this.context.map.removeInteraction(this.interaction)
 
-        this.interaction = this.createInteraction(this.props)
-        this.updateActiveState_(this.props)
-        this.updateEventHandlersFromProps_(this.props, prevProps)
-        this.context.map.addInteraction(this.interaction)
+        // This is used in Draw interaction when changing type eg Point to LineString.
+        if (this.props.hasOwnProperty("type") && (this.props.type != prevProps.type)) {
+            console.log("interaction.componentDidUpdate changed ", prevProps.type, this.props.type);
+            this.context.map.removeInteraction(this.interaction)
+            this.interaction = this.createInteraction()
+
+            this.updateActiveState_(this.props)
+            this.updateEventHandlersFromProps_(this.props, prevProps)
+            this.context.map.addInteraction(this.interaction)
+        }
     }
 
     componentWillUnmount() {
+        console.log("interaction.componentWillUnmount");
         this.context.map.removeInteraction(this.interaction)
         this.updateEventHandlersFromProps_({})
     }
 
-    createInteraction() {
+    createInteraction(props) {
         throw new TypeError(
             'You must override createInteraction() in classes derived from OLInteraction'
         )
@@ -55,10 +64,12 @@ export default class OLInteraction extends OLComponent {
     updateEventHandler_(name, handler) {
         const key = this.eventHandlerKeys_[name]
         if (key) {
+            console.log("Delete handler", name, handler);
             this.interaction.unByKey(key)
             delete this.eventHandlerKeys_[name]
         }
         if (handler) {
+            console.log("Add handler", name, handler);
             this.eventHandlerKeys_[name] = this.interaction.on(name, handler)
         }
     }
