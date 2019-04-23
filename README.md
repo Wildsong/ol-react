@@ -145,6 +145,9 @@ Today I had to wrestle for an hour before finding I had to do this to make "npm 
 
     eval $(ssh-agent -s) && ssh-add "j:\.ssh\id_rsa_github_bwilsoncc"
 
+or on the Mac,
+    eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
+
 I suspect I need to run "npm login" before running the tasks/publish.sh script.
 
     # Update version in package.json (see below)
