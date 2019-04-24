@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
+import { Collection } from 'ol'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
@@ -12,7 +13,8 @@ import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const geoserverWFS = myGeoServer
+const taxlotsLayer = 'Taxlots'
+const taxlotsWFS = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
 
@@ -60,6 +62,7 @@ export default class Example extends React.Component {
     static propTypes = {
         title: PropTypes.string
     };
+    selectedFeatures = new Collection();
 
     // You can change from the default click to other conditions...
     handleCondition = (e) => {
@@ -75,6 +78,9 @@ export default class Example extends React.Component {
         const deselected = e.deselected;
         const headers = [];
         const rows = [];
+
+        // Does features == selectedFeatures ??
+        console.log('selectedFeatures = ', this.selectedFeatures);
 
         deselected.forEach( (feature) => {
             feature.setStyle(tlSt);
@@ -105,19 +111,28 @@ export default class Example extends React.Component {
 
     handleDragBox = (e) => {
         const extent = e.target.getGeometry().getExtent();
+        const layers = e.target.getMap().getLayers();
+
+        console.log("You dragged a box", e);
 
         // Maybe look at all the sources here?
-        // Where is my map? What are its layers?
         // What layers are selectable?
-        /*
-        source.forEachFeatureIntersectingExtent(extent,
-            (feature) => {
-                //selectedFeatures.push(feature);
-                feature.setStyle(selectedSt);
+        const selectedFeatures = [];
+        layers.forEach( (layer) => {
+            console.log(layer.getProperties());
+            const source = layer.getSource();
+            try {
+                source.forEachFeatureIntersectingExtent(extent,
+                    (feature) => {
+                        selectedFeatures.push(feature);
+                        feature.setStyle(selectedSt);
+                    }
+                );
+            } catch {
+//                console.log("This is probably not a VectorSource.", layer);
             }
-        );
-        */
-        console.log("You dragged a box", e, extent);
+        });
+//        console.log(selectedFeatures);
     }
 
     changeAerial = (e) => {
@@ -158,15 +173,16 @@ export default class Example extends React.Component {
                         visible={ this.state.aerialVisible }
                     />
 
-                    <layer.Vector name="Taxlots"
+                    <layer.Vector name={ taxlotsLayer }
                         source="geojson"
-                        url={ geoserverWFS }
+                        url={ taxlotsWFS }
                         style={ taxlotStyle }
                         editStyle={ selectedStyle }
                     >
                         <interaction.Select
                             select={ this.onSelectInteraction }
-                            condition={ this.handleCondition } />
+                            condition={ this.handleCondition }
+                            features={ this.selectedFeatures } />
 
                         <interaction.DragBox boxend={ this.handleDragBox }/>
 

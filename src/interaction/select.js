@@ -21,7 +21,8 @@ export default class OLSelect extends OLInteraction {
         console.log("select.createInteraction", this.props);
     	const interaction = new Select({
             source: this.context.layer.getSource(),
-    	    condition: this.props.condition
+    	    condition: this.props.condition,
+            features: this.props.features
     	})
         return interaction;
     }
