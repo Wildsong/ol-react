@@ -80,6 +80,10 @@ export default class Example3 extends Component {
         this.setState({ opacityLayer3 : value });
     }
 
+    handleDragBox = (e) => {
+        console.log("You dragged a box.", e);
+    }
+
     render() {
         // FIXME: I'd like to control how the points appear
         // at different levels and cluster them when we're
@@ -205,7 +209,7 @@ export default class Example3 extends Component {
 
                 <control.OverviewMap/>
                 <control.FullScreen />
-                <interaction.DragBox />
+                <interaction.DragBox boxend={ this.handleDragBox }/>
 
                 <control.MousePosition
                     projection={ wgs84 }

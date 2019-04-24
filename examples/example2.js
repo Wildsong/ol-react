@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
-import { click, pointermove } from 'ol/events/condition'
 import {Map, View, Feature, control, geom, interaction, layer} from '../src';
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
@@ -104,6 +103,23 @@ export default class Example extends React.Component {
         });
     }
 
+    handleDragBox = (e) => {
+        const extent = e.target.getGeometry().getExtent();
+
+        // Maybe look at all the sources here?
+        // Where is my map? What are its layers?
+        // What layers are selectable?
+        /*
+        source.forEachFeatureIntersectingExtent(extent,
+            (feature) => {
+                //selectedFeatures.push(feature);
+                feature.setStyle(selectedSt);
+            }
+        );
+        */
+        console.log("You dragged a box", e, extent);
+    }
+
     changeAerial = (e) => {
         if (e.value) {
             this.setState({
@@ -127,7 +143,7 @@ export default class Example extends React.Component {
                         <li>Taxlots WFS</li>
                     </ul>
                     Controls: Rotate, MousePosition, ZoomSlider <br />
-                    Interactions: Select <br />
+                    Interactions: Select, DragBox <br />
 
                     <Select options={ aerials } onChange={ this.changeAerial } />
 
@@ -151,6 +167,9 @@ export default class Example extends React.Component {
                         <interaction.Select
                             select={ this.onSelectInteraction }
                             condition={ this.handleCondition } />
+
+                        <interaction.DragBox boxend={ this.handleDragBox }/>
+
                     </layer.Vector>
 
                     <control.Rotate autoHide={false}/>
