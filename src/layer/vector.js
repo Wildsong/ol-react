@@ -75,14 +75,10 @@ export default class OLVector extends OLLayer {
         let vectorSource;
         if (typeof this.props.source == 'object') {
             vectorSource = this.props.source
+            console.log("External data source =", vectorSource);
 
         } else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
-            vectorSource = new VectorSource({
-                strategy: bboxStrategy }
-            //     Object.assign({
-            //         strategy: bboxStrategy,
-            //     }, sourceProps)
-            );
+            vectorSource = new VectorSource({ strategy: bboxStrategy });
             vectorSource.setLoader(
                 DataLoader(this.props.source, this.props.url, vectorSource)
             );

@@ -1,22 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import BootstrapTable from 'react-bootstrap-table-next'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import { Collection } from 'ol'
-import {Map, View, Feature, control, geom, interaction, layer} from '../src';
+import { Map, View, Feature, control, geom, interaction, layer} from '../src';
+import { Vector as VectorSource } from 'ol/source'
+import { bbox as bboxStrategy } from 'ol/loadingstrategy'
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 import { buildStyle } from '../src/style'
-import ReactTable from 'react-table'
-import 'react-table/react-table.css'
+import { DataLoader } from '../src/layer/dataloaders'
 import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const taxlotsLayer = 'Taxlots'
 const taxlotsWFS = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
+const taxlotColumns = [
+    {dataField: 'ogc_fid',    text: 'key'},
+    {dataField: 'account_id', text: 'Account'},
+    {dataField: 'owner_line', text: 'Owner'},
+    {dataField: 'situs_addr', text: 'Situs'},
+    {dataField: 'situs_city', text: 'Situs City'},
+    {dataField: 'mapnum',     text: 'Map Number'},
+]
 
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
@@ -57,12 +66,20 @@ export default class Example extends React.Component {
         aerial : aerials[0].value, // 1966
         aerialVisible: false,
         enableModify: true, // can't change this in the app yet
-        columns: [],  rows : []
+        rows : []
     };
     static propTypes = {
         title: PropTypes.string
     };
-    selectedFeatures = new Collection();
+
+    constructor(props) {
+        super(props);
+        // I create the source here so I don't have to go searching around
+        // for it later when I need to access its features.
+        this.taxlotSource = new VectorSource({ strategy: bboxStrategy });
+        this.taxlotSource.setLoader(DataLoader('geojson', taxlotsWFS, this.taxlotSource));
+        this.selectedFeatures = new Collection();
+    }
 
     // You can change from the default click to other conditions...
     handleCondition = (e) => {
@@ -71,68 +88,49 @@ export default class Example extends React.Component {
         // return (e.type == 'dblclick'); // another example
     }
 
-    onSelectInteraction = (e) => {
-        console.log("Example2.onSelectInteraction", e);
-        const features   = e.target.getFeatures(); // this is the entire selection
-        const selected   = e.selected;      // this is just what was added
-        const deselected = e.deselected;
-        const headers = [];
+    addFeaturesToTable(features) {
         const rows = [];
-
-        // Does features == selectedFeatures ??
-        console.log('selectedFeatures = ', this.selectedFeatures);
-
-        deselected.forEach( (feature) => {
-            feature.setStyle(tlSt);
-        })
-
-        if (selected.length > 0) {
-            console.log("selected=",selected);
-            let columns = selected[0].getKeys()
+        if (features.getLength()) {
             features.forEach( (feature) => {
-                feature.setStyle(selectedSt);
+                const attributes = {};
+                feature.setStyle(selectedSt); // SIDE EFFECT tsk tsk
                 // Copy the data from each feature into a list
-                let s = {}
-                columns.forEach ( (column) => {
-                    if (column !== 'geometry') {
-                        s[column] = feature.get(column);
-                        headers.push({ Header : column, accessor: column })
-                    }
+                taxlotColumns.forEach ( (column) => {
+                    attributes[column.dataField] = feature.get(column.dataField);
                 });
-                rows.push(s)
+                rows.push(attributes)
             });
         }
+        this.setState({rows: rows});
+    }
 
-        this.setState({
-            columns: headers,
-            rows: rows
-        });
+    onSelectInteraction = (e) => {
+        e.deselected.forEach( (feature) => {
+            feature.setStyle(tlSt);
+        })
+        this.addFeaturesToTable(this.selectedFeatures)
     }
 
     handleDragBox = (e) => {
         const extent = e.target.getGeometry().getExtent();
-        const layers = e.target.getMap().getLayers();
-
         console.log("You dragged a box", e);
 
-        // Maybe look at all the sources here?
-        // What layers are selectable?
-        const selectedFeatures = [];
-        layers.forEach( (layer) => {
-            console.log(layer.getProperties());
-            const source = layer.getSource();
-            try {
-                source.forEachFeatureIntersectingExtent(extent,
-                    (feature) => {
-                        selectedFeatures.push(feature);
-                        feature.setStyle(selectedSt);
-                    }
-                );
-            } catch {
-//                console.log("This is probably not a VectorSource.", layer);
+        // Clear selected features
+        this.selectedFeatures.forEach( (feature) => {
+            feature.setStyle(tlSt);
+        })
+        this.selectedFeatures.clear();
+
+/* This works if you don't have a table to populate.
+        this.taxlotSource.forEachFeatureIntersectingExtent(extent,
+            (feature) => {
+                this.selectedFeatures.push(feature);
+                feature.setStyle(selectedSt);
             }
-        });
-//        console.log(selectedFeatures);
+        );
+        */
+        this.selectedFeatures.extend(this.taxlotSource.getFeaturesInExtent(extent));
+        this.addFeaturesToTable(this.selectedFeatures);
     }
 
     changeAerial = (e) => {
@@ -147,11 +145,11 @@ export default class Example extends React.Component {
     }
 
     render(props) {
-
         return (
             <>
                 <h2>{this.props.title}</h2>
-                    Sources
+                    FIXME -- needs better CSS for MousePosition.
+                    The DragBox highlight/table load is a bit slow too.
                     <ul>
                         <li>Image ArcGIS REST: United States map</li>
                         <li>Image WMS: City of Astoria aerial photos</li>
@@ -173,9 +171,8 @@ export default class Example extends React.Component {
                         visible={ this.state.aerialVisible }
                     />
 
-                    <layer.Vector name={ taxlotsLayer }
-                        source="geojson"
-                        url={ taxlotsWFS }
+                    <layer.Vector name="Taxlots"
+                        source={ this.taxlotSource }
                         style={ taxlotStyle }
                         editStyle={ selectedStyle }
                     >
@@ -198,7 +195,11 @@ export default class Example extends React.Component {
                     <control.ZoomSlider />
                 </Map>
 
-                <ReactTable data={ this.state.rows } columns={ this.state.columns }/>
+                <BootstrapTable bootstrap4 striped condensed
+                    keyField="ogc_fid"
+                    columns={ taxlotColumns }
+                    data={ this.state.rows }
+                />
             </>
         );
     }

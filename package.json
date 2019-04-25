@@ -57,10 +57,10 @@
     "ol-mapbox-style": "^4.3.1",
     "rc-slider": "^8.6.9",
     "react": "^16.8.6",
+    "react-bootstrap-table-next": "^3.1.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
-    "react-table": "^6.9.2",
     "reactstrap": "^6.5.0",
     "usng": "^0.1.2",
     "webfont-matcher": "^1.1.0"
