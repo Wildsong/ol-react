@@ -4,6 +4,7 @@ import { Map, View, Feature, Overlay, control, geom, layer } from '../src'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import { toLonLat } from 'ol/proj'
 import { toStringHDMS } from 'ol/coordinate'
+import { Collection } from 'ol'
 import { Converter } from 'usng/usng'
 import { interaction } from '../src'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -31,6 +32,7 @@ export default class Example8 extends React.Component {
 
     constructor(props) {
         super(props);
+        this.selectedFeatures = new Collection();
     }
 
     coordFormatter = (coord, zoom=6) => {
@@ -40,13 +42,26 @@ export default class Example8 extends React.Component {
     onClick = (e) => {
         console.log("click", e.map.getView())
         const zoom = e.map.getView().getZoom();
-        console.log(zoom);
         const lonlat = toLonLat(e.coordinate)
         this.setState({
             popup:      e.coordinate,
             popup_text: this.coordFormatter(lonlat, zoom)
         });
-        //e.stopPropagation(); // this stops draw interaction
+    }
+
+    handleCondition = (e) => {
+        switch (e.type) {
+            case 'click':
+            return true;
+        }
+        return false;
+    }
+
+    onSelectInteraction = (e) => {
+        console.log("Selection");
+        this.selectedFeatures.forEach( (feature) => {
+            console.log('feature', feature);
+        });
     }
 
     render() {
@@ -85,9 +100,13 @@ export default class Example8 extends React.Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-
-                I am adding history and this example will eventually
+                <p>
+                TODO I am adding history and this example will eventually
                 demonstate that too.
+</p>
+                <p>TODO Selection is mostly working, I need to change the taxlot polygon
+                style to fill so that clicking in the taxlot works. But I am
+                not sure if we're ever going to use Vector Tiles so... later...</p>
 
                 <h4>Vector tiles</h4>
                     <ul>
@@ -105,6 +124,12 @@ export default class Example8 extends React.Component {
                     <layer.Tile source="OSM" opacity={ 1 }/>
 
                     <layer.VectorTile format="MVT" url={ taxlots_url }>
+                        <interaction.Select
+                            select={ this.onSelectInteraction }
+                            features={ this.selectedFeatures }
+                            active={ true }
+                            condition={ this.handleCondition }
+                        />
                     </layer.VectorTile>
 
 	                <Overlay id="popups"

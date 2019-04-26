@@ -64,12 +64,12 @@ export default class OLInteraction extends OLComponent {
     updateEventHandler_(name, handler) {
         const key = this.eventHandlerKeys_[name]
         if (key) {
-            console.log("Delete handler", name, handler);
+            //console.log("Delete handler", name, handler);
             this.interaction.unByKey(key)
             delete this.eventHandlerKeys_[name]
         }
         if (handler) {
-            console.log("Add handler", name, handler);
+            //console.log("Add handler", name, handler);
             this.eventHandlerKeys_[name] = this.interaction.on(name, handler)
         }
     }

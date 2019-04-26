@@ -68,8 +68,14 @@ export default class Example7 extends React.Component {
             <>
                 <h2>{ this.props.title }</h2>
 
+                <p>TODO
                 I am adding history and this example will eventually
                 demonstate that too.
+                </p>
+                <p>FIXME
+                This demo fails because I don't have mapbox styles
+                working yet.
+                </p>
 
                 <h4>Vector tiles</h4>
                     <ul>

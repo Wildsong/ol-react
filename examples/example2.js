@@ -87,6 +87,12 @@ export default class Example2 extends React.Component {
         this.selectedFeatures = new Collection();
     }
 
+
+// IMPROVEMENT
+// https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
+// I need to look at this code to make adding and removing features
+// in the current selection set.
+
     handleCondition = (e) => {
         this.moved = false;
         switch(e.type) {
