@@ -55,7 +55,7 @@ export default class OLOverlay extends OLComponent {
     }
 
     componentDidUpdate() {
-        console.log("overlay.componentDidUpdate()", this.props);
+        //console.log("overlay.componentDidUpdate()", this.props);
         this.updateFromProps_();
     }
 
@@ -70,12 +70,12 @@ export default class OLOverlay extends OLComponent {
         if (typeof this.props.offset !== 'undefined') {
             this.overlay.setOffset(this.props.offset);
         }
-        if (typeof this.props.position !== 'undefined') {
-            if (this.props.animate) {
+        if (this.props.animate) {
+            if (typeof this.props.position !== 'undefined')
                 this.animate(this.props.position, this.props.animationLength)
-            } else {
-                this.overlay.setPosition(this.props.position);
-            }
+        } else {
+            // undefined here means "hide"
+            this.overlay.setPosition(this.props.position);
         }
         if (typeof this.props.positioning !== 'undefined') {
             this.overlay.setPositioning(this.props.positioning);
