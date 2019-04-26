@@ -11,7 +11,8 @@ export default class OLSelect extends OLInteraction {
          OLInteraction.propTypes, {
 	         condition: PropTypes.func,  // can be from ol/events/condition or custom
 	         select: PropTypes.func,     // handle select olEvents
-             features: PropTypes.instanceOf(Collection)
+             features: PropTypes.instanceOf(Collection),
+             style: PropTypes.object
          }
      )
 
@@ -22,7 +23,8 @@ export default class OLSelect extends OLInteraction {
     	const interaction = new Select({
             source: this.context.layer.getSource(),
     	    condition: this.props.condition,
-            features: this.props.features
+            features: this.props.features,
+            style: this.props.style
     	})
         return interaction;
     }
