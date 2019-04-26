@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Map, View, Feature, Overlay, control, geom, layer } from '../src'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
-import { Converter } from 'usng/usng';
+import { toLonLat } from 'ol/proj'
+import { toStringHDMS } from 'ol/coordinate'
+import { Converter } from 'usng/usng'
+import { interaction } from '../src'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
@@ -22,20 +25,28 @@ export default class Example8 extends React.Component {
         title: PropTypes.string
     };
     state = {
-        "popup": [0,0],
+        popup: [0,0], // where it will show up on screen
+        popup_text: 'HERE'
     }
 
-    handleClick = (e) => {
-        console.log("click", e)
+    constructor(props) {
+        super(props);
+    }
+
+    coordFormatter = (coord, zoom=6) => {
+        return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
+    }
+
+    onClick = (e) => {
+        console.log("click", e.map.getView())
+        const zoom = e.map.getView().getZoom();
+        console.log(zoom);
+        const lonlat = toLonLat(e.coordinate)
         this.setState({
-            "popup": e.mapBrowserEvent.coordinate
+            popup:      e.coordinate,
+            popup_text: this.coordFormatter(lonlat, zoom)
         });
         //e.stopPropagation(); // this stops draw interaction
-    }
-
-    coordFormatter = (coord) => {
-        const zoom = 6;
-        return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
     }
 
     render() {
@@ -66,7 +77,10 @@ export default class Example8 extends React.Component {
             fill: {color: [255, 0, 0, .250]},
         };
 
-        const popup = React.createElement('div', {}, "Some darn popup content goeth here");
+        const popup = React.createElement('div',
+            {},
+            this.state.popup_text
+        );
 
         return (
             <>
@@ -86,20 +100,17 @@ export default class Example8 extends React.Component {
                     view=<View zoom={ 10 } center={ astoria_wm }
                             minZoom={8} maxZoom={18} />
                     useDefaultControls={ false }
+                    onClick={ this.onClick }
                 >
+                    <layer.Tile source="OSM" opacity={ 1 }/>
 
-                    <layer.Tile source="OSM"
-                        opacity={ 1 }
-                    />
-
-                    <layer.VectorTile format="MVT"
-                        url={ taxlots_url }
-                        selectable={ true } onSelect={ this.handleClick }
-                    />
+                    <layer.VectorTile format="MVT" url={ taxlots_url }>
+                    </layer.VectorTile>
 
 	                <Overlay id="popups"
                         element={ popup }
                         position={ this.state.popup }
+                        positioning="center-center"
                     />
 
                     <control.MousePosition

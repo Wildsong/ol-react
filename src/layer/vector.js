@@ -125,13 +125,4 @@ export default class OLVector extends OLLayer {
             source: layerSource
         })
     }
-
-/* I think the super class handles all of this???
-    componentDidUpdate(prevProps) {
-        console.log("layer.OLVector.componentDidUpdate()");
-        super.componentDidUpdate(prevProps);
-        // I think I need to see if style changed first...
-        this.state.layer.setStyle(buildStyle(this.props.style));
-    }
-    */
 }
