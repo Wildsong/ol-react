@@ -78,7 +78,7 @@ export default class Example8 extends React.Component {
         };
 
         const popup = React.createElement('div',
-            {},
+            { className:"ol-popup" },
             this.state.popup_text
         );
 
