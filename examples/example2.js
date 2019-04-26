@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import { Button } from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import { Collection } from 'ol'
-import { Map, View, Feature, control, geom, interaction, layer} from '../src';
+import { Map, View, Feature, Overlay, control, geom, interaction, layer} from '../src';
+import { platformModifierKeyOnly } from 'ol/events/condition'
+import { toLonLat } from 'ol/proj'
+import { toStringHDMS } from 'ol/coordinate'
 import { Vector as VectorSource } from 'ol/source'
 import { bbox as bboxStrategy } from 'ol/loadingstrategy'
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
@@ -19,13 +23,13 @@ const taxlotsWFS = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
 const taxlotColumns = [
-    {dataField: 'ogc_fid',    text: 'key'},
     {dataField: 'account_id', text: 'Account'},
     {dataField: 'owner_line', text: 'Owner'},
     {dataField: 'situs_addr', text: 'Situs'},
     {dataField: 'situs_city', text: 'Situs City'},
     {dataField: 'mapnum',     text: 'Map Number'},
 ]
+const taxlotPopupField = 'situs_addr';
 
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
@@ -61,11 +65,13 @@ const selectedStyle = { // yellow
 const tlSt = buildStyle(taxlotStyle);
 const selectedSt = buildStyle(selectedStyle);
 
-export default class Example extends React.Component {
+export default class Example2 extends React.Component {
     state = {
         aerial : aerials[0].value, // 1966
         aerialVisible: false,
         enableModify: true, // can't change this in the app yet
+        popupPosition: undefined, // where it will show up on screen
+        popupText: 'HERE', // text to display in popup
         rows : []
     };
     static propTypes = {
@@ -81,11 +87,32 @@ export default class Example extends React.Component {
         this.selectedFeatures = new Collection();
     }
 
-    // You can change from the default click to other conditions...
     handleCondition = (e) => {
-         return (e.type == 'click');
-        // return (e.type == 'pointermove'); // this would be hover
-        // return (e.type == 'dblclick'); // another example
+        this.moved = false;
+        switch(e.type) {
+            case 'click':
+                return true;
+            case 'pointermove':
+                const lonlat = toLonLat(e.coordinate)
+                const features = this.taxlotSource.getFeaturesAtCoordinate(e.coordinate)
+                if (features.length>0) {
+                    const text = features[0].get(taxlotPopupField)
+                    if (text!=null && text.length>0) {
+                        this.setState({
+                            popupPosition: e.coordinate,
+                            popupText: text
+                        });
+                        return false;
+                    }
+                }
+                this.setState({popupPosition: undefined}); // hide popup
+                return false; // don't do a selection!
+/*            case 'platformModifierKeyOnly':
+                console.log("CTL", e);
+                return false;
+*/
+        }
+        return false; // pass event along I guess
     }
 
     addFeaturesToTable(features) {
@@ -93,7 +120,6 @@ export default class Example extends React.Component {
         if (features.getLength()) {
             features.forEach( (feature) => {
                 const attributes = {};
-                feature.setStyle(selectedSt); // SIDE EFFECT tsk tsk
                 // Copy the data from each feature into a list
                 taxlotColumns.forEach ( (column) => {
                     attributes[column.dataField] = feature.get(column.dataField);
@@ -105,30 +131,18 @@ export default class Example extends React.Component {
     }
 
     onSelectInteraction = (e) => {
-        e.deselected.forEach( (feature) => {
-            feature.setStyle(tlSt);
-        })
-        this.addFeaturesToTable(this.selectedFeatures)
+        console.log('onSelectInteraction', e, this.moved);
+        if (!this.moved) {
+            this.addFeaturesToTable(this.selectedFeatures)
+        }
     }
 
-    handleDragBox = (e) => {
-        const extent = e.target.getGeometry().getExtent();
-        console.log("You dragged a box", e);
-
-        // Clear selected features
-        this.selectedFeatures.forEach( (feature) => {
-            feature.setStyle(tlSt);
-        })
+    onBoxStart = (e) => {
         this.selectedFeatures.clear();
+    }
 
-/* This works if you don't have a table to populate.
-        this.taxlotSource.forEachFeatureIntersectingExtent(extent,
-            (feature) => {
-                this.selectedFeatures.push(feature);
-                feature.setStyle(selectedSt);
-            }
-        );
-        */
+    onBoxEnd = (e) => {
+        const extent = e.target.getGeometry().getExtent();
         this.selectedFeatures.extend(this.taxlotSource.getFeaturesInExtent(extent));
         this.addFeaturesToTable(this.selectedFeatures);
     }
@@ -145,11 +159,15 @@ export default class Example extends React.Component {
     }
 
     render(props) {
+        const popup = React.createElement('div',
+            { className:"ol-popup" },
+            this.state.popupText
+        );
         return (
             <>
                 <h2>{this.props.title}</h2>
-                    FIXME -- needs better CSS for MousePosition.
-                    The DragBox highlight/table load is a bit slow too.
+                    FIXME -- needs better CSS for MousePosition.<br />
+                    FIXME -- shift-click and shift-drag to change selection
                     <ul>
                         <li>Image ArcGIS REST: United States map</li>
                         <li>Image WMS: City of Astoria aerial photos</li>
@@ -158,6 +176,7 @@ export default class Example extends React.Component {
                     Controls: Rotate, MousePosition, ZoomSlider <br />
                     Interactions: Select, DragBox <br />
 
+                    <Button>Drag to select</Button>
                     <Select options={ aerials } onChange={ this.changeAerial } />
 
                 <Map useDefaultControls={ false }
@@ -179,24 +198,36 @@ export default class Example extends React.Component {
                         <interaction.Select
                             select={ this.onSelectInteraction }
                             condition={ this.handleCondition }
-                            features={ this.selectedFeatures } />
+                            features={ this.selectedFeatures }
+                            style={ selectedSt }
+                            active={ true }
+                        />
 
-                        <interaction.DragBox boxend={ this.handleDragBox }/>
-
+                        <interaction.DragBox
+                            boxstart={ this.onBoxStart }
+                            boxend={ this.onBoxEnd }
+                            active={ true }
+                        />
                     </layer.Vector>
+
+	                <Overlay id="popups"
+                        element={ popup }
+                        position={ this.state.popupPosition }
+                        positioning="center-center"
+                    />
 
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition
                         projection={ wgs84 }
                         coordinateFormat={ (coord) => {
-                                return toStringXY(coord, 3)
+                            return toStringXY(coord, 3)
                         } }
                     />
                     <control.ZoomSlider />
                 </Map>
 
                 <BootstrapTable bootstrap4 striped condensed
-                    keyField="ogc_fid"
+                    keyField="account_id"
                     columns={ taxlotColumns }
                     data={ this.state.rows }
                 />
