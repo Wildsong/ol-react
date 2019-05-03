@@ -13,18 +13,20 @@ import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 // We're querying the Nomiatim geocoder (OpenStreetMap) via Axios
 // to find addresses in Clatsop county.
 
-const geocodeServer = "https://nominatim.openstreetmap.org/search?format=json"
+const nominatimServer = "https://nominatim.openstreetmap.org/search?format=json"
+
+// https://www.oregon.gov/geo/Pages/geoservices.aspx
+const oregonExplorer  = "https://navigator.state.or.us/arcgis/rest/services/Locators/gc_Composite/GeocodeServer"
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
-// To generate this URL,
-// go into GeoServer Layer Preview,
-// and in All Formats, select "WFS GeoJSON(JSONP)"
-// then paste here and
+// To generate this URL, go into GeoServer Layer Preview,
+// and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
 // clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
 const taxlots = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
+const taxlotsSource = 'geojson'
 
 // Without the key you get maps with a watermark
 // see https://www.thunderforest.com/
@@ -88,6 +90,7 @@ export default class Example5 extends Component {
     }
 
     submit = (e) => {
+        console.log("Geocode request", e);
         this.setState({
             lon: parseFloat(this.state.lons),
             lat: parseFloat(this.state.lats),
@@ -121,6 +124,8 @@ export default class Example5 extends Component {
         var point = new Point(
             transform(astoria_ll, 'EPSG:4326', 'EPSG:3857')
         );
+
+        // test for issue #2, external data source
         var pointFeature = new Feature(point);
         var vectorSource = new VectorSource({ projection: 'EPSG:4326' });
         vectorSource.addFeatures([pointFeature]);
@@ -130,7 +135,9 @@ export default class Example5 extends Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-                Thunderforest basemap + WFS taxlots<br />
+                Thunderforest OSM<br />
+                WFS GeoServer taxlots<br />
+                Vector layer (display only, no external data source) <br />
 <em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!
 There is actually no Nominatim code here yet. LOL.</em>
                 <p>
@@ -162,13 +169,12 @@ There is actually no Nominatim code here yet. LOL.</em>
                     onMoveEnd={ this.handleEvent }
                 >
                     <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
+
                     <layer.Vector name="Taxlots"
-                        source="geojson"
-                        url={ taxlots }
+                        url={ taxlots } source={ taxlotsSource }
                         style={ polyStyle }
                     />
 
-                    test for issue #2
                     <layer.Vector name="Display" source={vectorSource} style={style}/>
                 </Map>
 

@@ -11,15 +11,16 @@ import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
 
 export default class OLVector extends OLLayer {
-    static propTypes = {
+    static propTypes = Object.assign({}, OLLayer.propTypes, {
         source: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object
-        ]),
+            PropTypes.object, // An OpenLayers ol/source object
+            PropTypes.string, // WMS | ArcGISRest
+        ]), // Not required, because a vector layer can be used to display internal shapes
         cluster: PropTypes.bool,
         updateWhileAnimating: PropTypes.bool,
         updateWhileInteracting: PropTypes.bool,
         loader: PropTypes.func,
+        addfeature: PropTypes.func,
         url: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func
@@ -44,8 +45,9 @@ export default class OLVector extends OLLayer {
                     ]
                 ))
         ])
-    }
+    });
     static defaultProps = {
+        visible: true,
         cluster: false
     }
 
@@ -61,7 +63,7 @@ export default class OLVector extends OLLayer {
         this.dictLayer.push('updateWhileAnimating');
         this.dictLayer.push('updateWhileInteracting');
 
-        this.dictSource.push('format');   // { esrijson|geojson|topojson }
+        this.dictSource.push('source');   // { esrijson|geojson|topojson }
         this.dictSource.push('distance'); // for cluster
         //this.dictSource.push('features');
         this.dictSource.push('addfeature');
@@ -73,39 +75,52 @@ export default class OLVector extends OLLayer {
 
         // Allow passing in an openlayers source directly here
         let vectorSource;
-        if (typeof this.props.source == 'object') {
+        if (typeof this.props.source === 'object') {
             vectorSource = this.props.source
-            console.log("External data source =", vectorSource);
-
-        } else if (this.props.source == 'geojson' || this.props.source == 'esrijson') {
-            vectorSource = new VectorSource({ strategy: bboxStrategy });
-            vectorSource.setLoader(
-                DataLoader(this.props.source, this.props.url, vectorSource)
-            );
-            vectorSource.addEventListener("addfeature",
-                (evt) => {
-                    if (this.props.addfeature) {
-                        console.log("Vector.addfeature", evt);
-                        this.props.addfeature(evt);
-                    }
-                }
-            );
-
         } else {
-            // A Vector layer can just draw a collection of graphics (example1)
-            // in which case it does not need any source prop or any DataLoader
-            // If url prop is set, it will use the default XHR loader
-            vectorSource = new VectorSource(
-                Object.assign({
-                    //features: new Collection()},
-                    // I wonder if tile strategy ever makes sense here
-                    //strategy: tileStrategy( createXYZ({ tileSize: 512 })),
-                    strategy: bboxStrategy,
-                    url: this.props.url // I need to test this
-                }, sourceProps)
-            )
-        }
+            switch (this.props.source) {
+                case 'geojson':
+                case 'esrijson':
+                    //console.log("JSON source =", this.props.source, this.props.url);
+                    vectorSource = new VectorSource({ strategy: bboxStrategy });
+                    vectorSource.setLoader(
+                        DataLoader(this.props.source, this.props.url, vectorSource)
+                    );
+                    break;
 
+                case 'pbf':
+                    console.log('PBF url = ', this.props.url);
+                    vectorSource = new VectorSource({
+                        strategy: tileStrategy( createXYZ({ tileSize: 512 })),
+                    });
+                    vectorSource.setLoader(
+                        DataLoader(this.props.source, this.props.url, vectorSource)
+                    );
+                    break;
+
+                default:
+                    console.log("Other vector source =", this.props.source, this.props.url);
+                    // A Vector layer can just draw a collection of graphics (example1)
+                    // in which case it does not need any source prop or any DataLoader
+                    // If url prop is set, it will use the default XHR loader
+                    vectorSource = new VectorSource(
+                        Object.assign({
+                            strategy: bboxStrategy,
+                            url: this.props.url // I need to test this
+                        }, sourceProps)
+                    )
+                    break;
+            }
+
+            //  This is used for a DRAW Interaction, see example1
+            if (typeof this.props.addfeature !== 'undefined') {
+                vectorSource.addEventListener("addfeature",
+                (e) => {
+                    console.log("Vector.addfeature", e);
+                    this.props.addfeature(e);
+                });
+            }
+        }
         this.state.source = vectorSource;
         let layerSource = vectorSource;
 

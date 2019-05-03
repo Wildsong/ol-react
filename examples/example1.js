@@ -216,7 +216,6 @@ export default class Example1 extends React.Component {
                     />
 
                     <layer.Vector name="Display" opacity={ this.state.opacityVector/100 } >
-
                         <Feature id="test-line" style={ lineStyle }>
                             <geom.LineString transform={transformfn} layout="XY">
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }

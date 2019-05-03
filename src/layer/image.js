@@ -6,14 +6,16 @@ import {ImageArcGISRest, ImageWMS} from 'ol/source'
 import OLLayer from './ol-layer'
 
 export default class OLImage extends OLLayer {
-    static propTypes = {
-    	source: PropTypes.string.isRequired,
+    static propTypes =  Object.assign({}, OLLayer.propTypes, {
+        source: PropTypes.oneOfType([
+            PropTypes.object, // An OpenLayers ol/source object
+            PropTypes.string, // WMS | ArcGISRest
+        ]).isRequired,
     	url: PropTypes.string,
-    	opacity: PropTypes.number,
     	attributions: PropTypes.arrayOf(PropTypes.string)
-    }
+    });
     static defaultProps = {
-	       visible: true
+	    visible: true
     }
 
     constructor(props) {
@@ -48,32 +50,34 @@ export default class OLImage extends OLLayer {
         let sourceProps = {}
         let imageSource = null;
 
-        switch (this.props.source) {
-            case 'ArcGISRest':
-                sourceProps = this.buildProps(this.dictSource);
-                imageSource = new ImageArcGISRest(sourceProps);
-                break;
+        if (typeof this.props.source === 'object') {
+            imageSource = this.props.source;
+        } else {
+            switch (this.props.source) {
+                case 'ArcGISRest':
+                    sourceProps = this.buildProps(this.dictSource);
+                    imageSource = new ImageArcGISRest(sourceProps);
+                    break;
 
-            case "WMS":
-                this.dictSource.push('serverType')
-                sourceProps = this.buildProps(this.dictSource);
-                imageSource = new ImageWMS(sourceProps);
-                break;
+                case "WMS":
+                    this.dictSource.push('serverType')
+                    sourceProps = this.buildProps(this.dictSource);
+                    imageSource = new ImageWMS(sourceProps);
+                    break;
 
-            //case "Raster":
-                // and a few others... add them please
-                // http://openlayers.org/en/latest/apidoc/module-ol_source_Image-ImageSource.html
+                //case "Raster":
+                    // and a few others... add them please
+                    // http://openlayers.org/en/latest/apidoc/module-ol_source_Image-ImageSource.html
 
-            default:
-                throw "Unknown Image source:" + this.props.source;
-                break
+                default:
+                    throw "Unknown Image format";
+                    break
+            }
         }
-
-
         this.state.layer = new ImageLayer({
             ...layerProps,
             source: imageSource
         })
-        console.log("layer.OLImage props=", sourceProps, imageSource, this.state);
+        console.log("layer.image props=", sourceProps, imageSource);
     }
 }

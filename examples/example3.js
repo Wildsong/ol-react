@@ -176,8 +176,8 @@ export default class Example3 extends Component {
                     zoom={ 8 } center={ astoria_wm }
                     minZoom={ 8 } maxZoom={ 18 }/>
                 useDefaultControls={false}>
-                <layer.Tile source="XYZ"
-                    url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                <layer.Tile
+                    source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
                     opacity={ this.state.opacityLayer1/100 }
                     zIndex={ 2 }

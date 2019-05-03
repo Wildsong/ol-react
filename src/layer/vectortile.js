@@ -7,17 +7,16 @@ import { GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat } from 'ol
 import OLLayer from './ol-layer'
 
 export default class OLVectorTile extends OLLayer {
-    static propTypes = {
+    static propTypes = Object.assign({}, OLLayer.propTypes, {
+        source: PropTypes.oneOf(['geojson','JSON','MVT','WKT']),
     	url: PropTypes.string,
-    	opacity: PropTypes.number,
     	attributions: PropTypes.arrayOf(PropTypes.string),
     	layer: PropTypes.string,
-        format: PropTypes.string.isRequired,
-    }
+    });
     static defaultProps = {
     	visible: true,
     	opaque: true
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -48,7 +47,8 @@ export default class OLVectorTile extends OLLayer {
         let layerProps = this.buildProps(this.dictLayer);
         let tileSource = null;
         let options = {};
-        switch (this.props.format) {
+        switch (this.props.source) {
+            case 'geojson':
             case 'JSON':
                 options = {
                     format: new GeoJsonFormat()
@@ -59,7 +59,7 @@ export default class OLVectorTile extends OLLayer {
                     format: new MVTformat()
                 }
                 break;
-            case 'WKT':
+            case 'WKT': // This is a ol/format/TextFeature
                 options = {
                     format: new WKTformat()
                 }
@@ -67,7 +67,7 @@ export default class OLVectorTile extends OLLayer {
             default:
                 // There are a bunch of formats I have not implemented, KML and so on see
                 // https://openlayers.org/en/latest/apidoc/module-ol_format_XMLFeature-XMLFeature.html
-                throw ('unknown vector tile format: ' + this.props.format.toString());
+                throw ('Unknown vector tile format');
                 break;
         }
         Object.assign(options, this.buildProps(this.dictSource));

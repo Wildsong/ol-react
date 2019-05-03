@@ -6,9 +6,9 @@ import OLComponent from '../ol-component';
 export default class OLControl extends OLComponent {
     static contextType = MapContext;
     static propTypes = {
-	//element: OLPropTypes.HTMLElement,
-	//render: PropTypes.func,
-	target: PropTypes.string
+	    //element: OLPropTypes.HTMLElement,
+	    //render: PropTypes.func,
+	    target: PropTypes.string // render to element outside the map
     }
     static defaultProps = {
     }
@@ -32,6 +32,3 @@ export default class OLControl extends OLComponent {
                             'from OLControl')
     }
 }
-
-
-

@@ -1,19 +1,17 @@
-import { EsriJSON } from 'ol/format'
-import { GeoJSON } from 'ol/format'
-// axios does not support jsonp, so can't use it for esri
-// jsonp avoids CORS problems so we use it for WFS too
-import jsonp from 'jsonp'
+import { EsriJSON, GeoJSON } from 'ol/format'
+// import { WKT } from 'ol/format' // I suppose this is theoretically a way to read PostGIS data?
+// import { TopoJSON } from 'ol/format'  // Topology JSON supports Microsoft PowerBI
+import jsonp from 'jsonp' // jsonp avoids CORS problems
 
 //import { Projection, transformExtent } from 'ol/proj'
 //import { wgs84, wm } from '../utils'
 
-export const DataLoader = (sourceType, url, source) => {
+export const DataLoader = (loader, url, source) => {
     // Returns a function that can be called to load data.
 
-    //console.log('DataLoader()', sourceType, url, source)
+    console.log('DataLoader()', loader, url, source)
 
-    switch (sourceType) {
-
+    switch (loader) {
         case 'geojson':
             let geojsonFormat = new GeoJSON();
             return (extent, resolution, projection) => {
@@ -54,22 +52,40 @@ export const DataLoader = (sourceType, url, source) => {
 
         case 'esrijson':
             let esrijsonFormat = new EsriJSON();
+// This is the full URL captured from the debbugger. I think some fields are probably defaults,
+// so far what I have enabled below seems to work at least for ArcGIS Online.
+// https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Zoning_2017/FeatureServer/0/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A-14401959.121378995%2C%22ymin%22%3A5635549.22141099%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A6261721.357122989%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A1222.992452562501%2C%22extent%22%3A%7B%22xmin%22%3A-14401959.121378995%2C%22ymin%22%3A5635549.22141099%2C%22xmax%22%3A-13775786.985666994%2C%22ymax%22%3A6261721.35712299%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D%7D
+            const format = 'json' // Options are: { json | pbf | GeoJson }
             return (extent, resolution, projection) => {
-                let fsurl = url  + '0' + '/query/?f=json&' +
-                    'returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=' +
-                    encodeURIComponent(    '{"xmin":' + extent[0] + ',"ymin":' + extent[1]
-                                         + ',"xmax":' + extent[2] + ',"ymax":' + extent[3])
-                                         + '&geometryType=esriGeometryEnvelope&outFields=*';
+                let fsurl = url + '/query/?f=' + format +
+                '&returnGeometry=true&spatialRel=esriSpatialRelIntersects' +
+                '&geometry=' +
+                    encodeURIComponent(
+                          '{"xmin":' + extent[0] + ',' +
+                           '"ymin":' + extent[1] + ',' +
+                           '"xmax":' + extent[2] + ',' +
+                           '"ymax":' + extent[3] +
+                //           ',' +
+                //           '"spatialReference":{"wkid":102100,"latestWkid":3857}' +
+                          '}'
+                    )
+                    '&geometryType=esriGeometryEnvelope' +
+                    //'&inSR=102100' +
+                    '&outFields=*' +
+                    //'&returnCentroid=false' +
+                    //'&resultType=tile';
+
+                //console.log("esrijson dataloader url=", fsurl);
                 jsonp(fsurl, null, (err, data) => {
                     if (err) {
-                        console.log("DataLoader() error:", err);
+                        console.error("DataLoader() error:", err);
                     } else {
                         //console.log("DataLoader() response", data)
                         let features = esrijsonFormat.readFeatures(data, {
                             featureProjection: projection
                         });
                         if (features.length > 0) {
-                            console.log("DataLoader(", sourceType, " ) Adding ", features.length);
+                            console.log("DataLoader(", loader, " ) Adding ", features.length);
                             source.addFeatures(features);
                         }
                     }
@@ -78,6 +94,7 @@ export const DataLoader = (sourceType, url, source) => {
             break;
 
         default:
-            throw 'Unknown sourceType, "' + sourceType;
+            console.error('Dataloader(): Unknown format:', loader);
+            return (extent, resolution, projection) => {};
     }
 }

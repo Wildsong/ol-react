@@ -7,6 +7,8 @@ import { toStringHDMS } from 'ol/coordinate'
 import { Collection } from 'ol'
 import { Converter } from 'usng/usng'
 import { interaction } from '../src'
+import SliderControl from './slider-control'
+import { Button } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
@@ -17,7 +19,7 @@ const usngConverter = new Converter
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 const taxlotslayer = 'clatsop_wm%3Ataxlots'
-const taxlots_url = myGeoServer + '/gwc/service/tms/1.0.0/'
+const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 
@@ -27,7 +29,9 @@ export default class Example8 extends React.Component {
     };
     state = {
         popup: [0,0], // where it will show up on screen
-        popup_text: 'HERE'
+        popup_text: 'HERE',
+        osmOpacity: 50,
+        slidoVisible: true
     }
 
     constructor(props) {
@@ -39,6 +43,16 @@ export default class Example8 extends React.Component {
         return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
     }
 
+    changeOpacity = (value) => {
+        this.setState({ osmOpacity : value});
+    }
+
+    toggleLayer = () => {
+        this.setState({
+            slidoVisible : !this.state.slidoVisible,
+        });
+    }
+
     onClick = (e) => {
         console.log("click", e.map.getView())
         const zoom = e.map.getView().getZoom();
@@ -46,21 +60,6 @@ export default class Example8 extends React.Component {
         this.setState({
             popup:      e.coordinate,
             popup_text: this.coordFormatter(lonlat, zoom)
-        });
-    }
-
-    handleCondition = (e) => {
-        switch (e.type) {
-            case 'click':
-            return true;
-        }
-        return false;
-    }
-
-    onSelectInteraction = (e) => {
-        console.log("Selection");
-        this.selectedFeatures.forEach( (feature) => {
-            console.log('feature', feature);
         });
     }
 
@@ -103,7 +102,7 @@ export default class Example8 extends React.Component {
                 <p>
                 TODO I am adding history and this example will eventually
                 demonstate that too.
-</p>
+                </p>
                 <p>TODO Selection is mostly working, I need to change the taxlot polygon
                 style to fill so that clicking in the taxlot works. But I am
                 not sure if we're ever going to use Vector Tiles so... later...</p>
@@ -111,9 +110,18 @@ export default class Example8 extends React.Component {
                 <h4>Vector tiles</h4>
                     <ul>
                     <li> Overlay (popups) </li>
-                    <li> Taxlots from geoserver</li>
-                    <li> Tile source: OSM</li>
+                    <li> Taxlots GeoServer vector tiles </li>
+                    <li> DOGAMI SLIDO MapServer </li>
+                    <li> DOGAMI Oregon Canopy HS ImageServer </li>
+                    <li> Tile source: OSM </li>
                     </ul>
+
+                <SliderControl title="Streets"
+                    onChange={ this.changeOpacity }
+                    value={ this.state.osmOpacity }
+                />
+
+                <Button onClick={this.toggleLayer}>Toggle SLIDO</Button>
 
                 <Map
                     view=<View zoom={ 10 } center={ astoria_wm }
@@ -121,15 +129,12 @@ export default class Example8 extends React.Component {
                     useDefaultControls={ false }
                     onClick={ this.onClick }
                 >
-                    <layer.Tile source="OSM" opacity={ 1 }/>
+                    <layer.Image source="ArcGISRest" url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
+                    <layer.Tile source="OSM" opacity={ this.state.osmOpacity / 100 }/>
+                    <layer.Image source="ArcGISRest" visible={ this.state.slidoVisible }
+                        url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
 
-                    <layer.VectorTile format="MVT" url={ taxlots_url }>
-                        <interaction.Select
-                            select={ this.onSelectInteraction }
-                            features={ this.selectedFeatures }
-                            active={ true }
-                            condition={ this.handleCondition }
-                        />
+                    <layer.VectorTile source="MVT" url={ taxlotsUrl }>
                     </layer.VectorTile>
 
 	                <Overlay id="popups"

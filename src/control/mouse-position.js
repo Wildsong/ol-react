@@ -20,7 +20,8 @@ export default class OLMousePosition extends OLControl {
     	    PropTypes.instanceOf(Projection),
     	    PropTypes.string
     	]),
-    	undefinedHTML: PropTypes.string,
+    	undefinedHTML: PropTypes.string, // Show this when mouse outside viewport
+        // See also ol-control for more!
     })
 
     createControl(props) {

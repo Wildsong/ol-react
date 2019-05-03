@@ -191,8 +191,7 @@ export default class Example2 extends React.Component {
                     <layer.Tile source="OSM" />
 
                     <layer.Image name="City of Astoria"
-                        source="WMS"
-                        url={ this.state.aerial }
+                        source="WMS" url={ this.state.aerial }
                         visible={ this.state.aerialVisible }
                     />
 

@@ -95,11 +95,11 @@ export default class Example7 extends React.Component {
                         maxLines={ 100 }
                         targetSize={ 50 }
                     />
-                    <layer.VectorTile format="MVT"
+                    <layer.VectorTile source="MVT"
                         url={ mapbox_url }
                         style={ stylefunction }
                     />
-                    <layer.VectorTile format="MVT"
+                    <layer.VectorTile source="MVT"
                         url={ taxlots_url }
                     />
                     <control.MousePosition

@@ -15,7 +15,6 @@ import {
     NavLink,
     Button
 } from 'reactstrap'
-import SliderControl from './slider-control'
 import { Map, View, Feature, control, geom, interaction, layer } from '../src';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -23,15 +22,15 @@ import '../App.css';
 
 import { wgs84, wm, astoria_ll } from '../src/utils'
 const defaultCenter_wm = transform(astoria_ll, wgs84,wm);
-const defaultZoom = 16;
+const defaultZoom = 10;
 
 const bingmaps_key = process.env.BINGMAPS_KEY;
 if (typeof bingmaps_key === 'undefined') console.log("BINGMAPS_KEY is undefined")
 
-const ccgis = "http://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/"
-const taxmapAnnoFeatureServer = ccgis + "Assessment_and_Taxation/taxmap_annomask/FeatureServer/"
-const taxlotFeatureServer = ccgis + "Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
-
+// Supported formats: JSON, GeoJSON, PBF
+const featureServer = "https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Zoning_2017/FeatureServer/0"
+//&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile
+//&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A1222.992452562501%2C%22extent%22%3A%7B%22xmin%22%3A-14401959.121378995%2C%22ymin%22%3A5635549.22141099%2C%22xmax%22%3A-13775786.985666994%2C%22ymax%22%3A6261721.35712299%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D%7D"
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += defaultCenter_wm[0];
@@ -104,8 +103,7 @@ const getTextStyle = (feature, resolution) => {
 export default class Example4 extends Component {
     state = {
         bingVisible : true,
-        xyzVisible: true,
-        xyzOpacity: 50,
+        opacityBing: 50,
     }
 
     static propTypes = {
@@ -118,17 +116,13 @@ export default class Example4 extends Component {
         });
     }
 
-    changeOpacity = (value) => {
-        this.setState({xyzOpacity : value});
-    }
-
-    changeOpacity2 = (value) => {
-        this.setState({opacityBing : value});
-    }
-
     render(props) {
         let polyStyle = {
-            stroke: {color: [0, 0, 0, 1], width:4},
+            stroke: {color: [0, 255, 0, 1], width:2},
+            //fill: {color: [255, 0, 0, .250]},
+        };
+        let polylineStyle = {
+            stroke: {color: [0, 0, 0, 1], width:44},
             //fill: {color: [255, 0, 0, .250]},
         };
         let feat = undefined
@@ -140,20 +134,12 @@ export default class Example4 extends Component {
             <>
                 <h2>{this.props.title}</h2>
                     <ul>
-                    <li>anno: ArcGIS ESRIjson featureserver using XYZ</li>
-                    <li>taxlots: ArcGIS ESRIjson featureserver using XYZ</li>
-                    <li>ESRI World Streets (XYZ)</li>
-                    <li>BingMaps aerial</li>
-                    <li>BingMaps CanvasLight (roads)</li>
+                    <li> Zoning: ArcGIS FeatureServer JSON format </li>
+                    <li> BingMaps aerial </li>
+                    <li> BingMaps CanvasLight (roads) </li>
                     </ul>
 
-                    <SliderControl
-                        onChange={this.changeOpacity}
-                        title="ArcGIS streets"
-                        value={this.state.xyzOpacity}
-                    />
-
-                    <Button onClick={this.toggleLayer}>Toggle Aerial</Button>
+                    <Button onClick={this.toggleLayer}>Toggle Bing aerial</Button>
 
                     <p>
                         Controls: ScaleLine <br />
@@ -178,26 +164,10 @@ export default class Example4 extends Component {
                         apikey={ bingmaps_key }
                     />
 
-                    <layer.Tile name="ESRI World Streets"
-                        source="XYZ"
-                        url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                        attributions={attributions}
-                        visible={this.state.xyzVisible}
-                        opacity={this.state.xyzOpacity/100}
-                    />
-
-                    <layer.Vector name="Taxlots"
+                    <layer.Vector name="Oregon Zoning"
                         source="esrijson"
-                        url={ taxlotFeatureServer }
+                        url={ featureServer }
                         style={ polyStyle }
-                        declutter={ true }
-                    />
-
-                    <layer.Vector name="Taxmap annotation"
-                        declutter={ true }
-                        source="esrijson"
-                        url={ taxmapAnnoFeatureServer }
-                        style={ fontStyle }
                     />
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
