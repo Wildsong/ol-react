@@ -63,16 +63,16 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
                 let fsurl = url + '/query/?f=' + format
                     + '&returnGeometry=true&spatialRel=esriSpatialRelIntersects'
                     + '&geometry=' + encodeURIComponent(
-                                 '{"xmin":'  + extent[0] + ','
+                                  '{"xmin":' + extent[0] + ','
                                  + '"ymin":' + extent[1] + ','
                                  + '"xmax":' + extent[2] + ','
                                  + '"ymax":' + extent[3] + '}'
                         )
-                    + '&outFields=*'
+                    + '&outFields=*' // Specify what attributes are included in results. A comma delimited list would be better here
                     + '&returnCentroid=false'
-                    // + '&geometryType=esriGeometryEnvelope' +
-                    //'&inSR=102100' +
-                    //'&resultType=tile';
+                    + '&geometryType=esriGeometryEnvelope' // I wonder what this one does?
+                    //+ '&inSR=102100'
+                    + '&resultType=tile'; // I think maybe this is a good idea? Hard to tell, the server is just slow. :-)
 
                 //console.log("esrijson dataloader url=", fsurl);
                 jsonp(fsurl, null, (err, data) => {
