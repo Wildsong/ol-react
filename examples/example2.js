@@ -19,10 +19,13 @@ import '../App.css';
 
 const astoria_wm = transform(astoria_ll, wgs84,wm)
 
-const taxlotsWFS = myGeoServer
+/*
+const taxlotsFeatures = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
-const taxlotColumns = [
+const taxlotsFormat = 'geojson';
+const taxlotsKey = 'account_id';
+const taxlotsColumns = [
     {dataField: 'account_id', text: 'Account'},
     {dataField: 'owner_line', text: 'Owner'},
     {dataField: 'situs_addr', text: 'Situs'},
@@ -30,6 +33,18 @@ const taxlotColumns = [
     {dataField: 'mapnum',     text: 'Map Number'},
 ]
 const taxlotPopupField = 'situs_addr';
+*/
+const taxlotsService  = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer"
+const taxlotsLabels   = taxlotsService + "/0";
+const taxlotsFeatures = taxlotsService + "/1";
+const taxlotsFormat   = 'esrijson';
+const taxlotsKey      = 'MapTaxlot';
+const taxlotsColumns  = [
+    {dataField: 'MapTaxlot', text: 'Map Taxlot'},
+    {dataField: 'MapNumber', text: 'Map Number'},
+    {dataField: 'Taxlot',    text: 'Taxlot'},
+]
+const taxlotPopupField = 'MapTaxlot';
 
 const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     "Specialty/ESRI_StateCityHighway_USA/MapServer"
@@ -83,7 +98,7 @@ export default class Example2 extends React.Component {
         // I create the source here so I don't have to go searching around
         // for it later when I need to access its features.
         this.taxlotSource = new VectorSource({ strategy: bboxStrategy });
-        this.taxlotSource.setLoader(DataLoader('geojson', taxlotsWFS, this.taxlotSource));
+        this.taxlotSource.setLoader(DataLoader(taxlotsFormat, taxlotsFeatures, this.taxlotSource));
         this.selectedFeatures = new Collection();
     }
 
@@ -127,7 +142,7 @@ export default class Example2 extends React.Component {
             features.forEach( (feature) => {
                 const attributes = {};
                 // Copy the data from each feature into a list
-                taxlotColumns.forEach ( (column) => {
+                taxlotsColumns.forEach ( (column) => {
                     attributes[column.dataField] = feature.get(column.dataField);
                 });
                 rows.push(attributes)
@@ -177,7 +192,7 @@ export default class Example2 extends React.Component {
                     <ul>
                         <li>Image ArcGIS REST: United States map</li>
                         <li>Image WMS: City of Astoria aerial photos</li>
-                        <li>Taxlots WFS</li>
+                        <li>Taxlots Feature Server (WFS or ESRI Rest)</li>
                     </ul>
                     Controls: Rotate, MousePosition, ZoomSlider <br />
                     Interactions: Select, DragBox <br />
@@ -232,8 +247,8 @@ export default class Example2 extends React.Component {
                 </Map>
 
                 <BootstrapTable bootstrap4 striped condensed
-                    keyField="account_id"
-                    columns={ taxlotColumns }
+                    keyField={ taxlotsKey }
+                    columns={ taxlotsColumns }
                     data={ this.state.rows }
                 />
             </>

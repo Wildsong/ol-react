@@ -11,6 +11,7 @@ import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
 
+const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?Layers=0"
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
 export default class Example6 extends Component {
@@ -64,8 +65,7 @@ export default class Example6 extends Component {
                         center={ ll }
                     />
                 >
-                    <layer.Image source="WMS"
-                        url="https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?Layers=0" />
+                    <layer.Image source="WMS" url={ wmsImageUrl } />
 
                     <layer.Tile source="OSM" opacity={ .5 }/>
 
