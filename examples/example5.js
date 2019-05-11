@@ -10,13 +10,6 @@ import '../App.css'
 
 import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
 
-// We're querying the Nomiatim geocoder (OpenStreetMap) via Axios
-// to find addresses in Clatsop county.
-
-const nominatimServer = "https://nominatim.openstreetmap.org/search?format=json"
-
-// https://www.oregon.gov/geo/Pages/geoservices.aspx
-const oregonExplorer  = "https://navigator.state.or.us/arcgis/rest/services/Locators/gc_Composite/GeocodeServer"
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -149,10 +142,6 @@ There is actually no Nominatim code here yet. LOL.</em>
                 and zoom in component state and update the map using setState.
                 </p>
                 { this.state.lats }, { this.state.lons } { this.state.zoom }
-                <form onSubmit={ this.submit }>
-                  <input name="addr"  onChange={ this.change }/>
-                  <input type="submit" value="Geocode" />
-                </form>
                 Zoom
                 <button name="zoomin"  onClick={ this.click }>+</button>
                 <button name="zoomout" onClick={ this.click }>-</button>

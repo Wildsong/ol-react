@@ -1,7 +1,7 @@
 This code started out as richardhills/ol-react for ol3
 and brian32768 forked it and adapted it for ol5
 
-It's changed so much now that I am close to declaring it a new project.
+It's changed so much now that I hereby declare it a New Project.
 
 ## Overview
 
