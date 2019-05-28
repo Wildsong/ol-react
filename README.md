@@ -148,15 +148,15 @@ Today I had to wrestle for an hour before finding I had to do this to make "npm 
 or on the Mac,
     eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
 
-I suspect I need to run "npm login" before running the tasks/publish.sh script.
+Update version in package.json (see below)
 
-    # Update version in package.json (see below)
     npm version minor
     # or
     npm version patch
 
 Get the current version number from the npm version command and use it here, without the leading 'v'.
 
+    npm login
     tasks/publish.sh 0.2.18
     git checkout master
 
