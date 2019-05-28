@@ -14,11 +14,11 @@ import {Example1, Example2, Example3, Example4, Example5, Example6, Example7, Ex
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 
-const SampleMap1 = () => ( <Example1 title="Sample 1: OSM and Draw" /> );
-const SampleMap2 = () => ( <Example2 title="Sample 2: Rest and WMS" /> );
-const SampleMap3 = () => ( <Example3 title="Sample 3: ESRI and Stamen" /> );
-const SampleMap4 = () => ( <Example4 title="Sample 4: XYZ Tiles" /> );
-const SampleMap5 = () => ( <Example5 title="Sample 5 Nominatim (geocode test)" /> );
+const SampleMap1 = () => ( <Example1 title="Sample 1 OSM and Draw" /> );
+const SampleMap2 = () => ( <Example2 title="Sample 2 Rest and WMS" /> );
+const SampleMap3 = () => ( <Example3 title="Sample 3 ESRI and Stamen" /> );
+const SampleMap4 = () => ( <Example4 title="Sample 4 XYZ Tiles" /> );
+const SampleMap5 = () => ( <Example5 title="Sample 5 Bookmarks" /> );
 const SampleMap6 = () => ( <Example6 title="Sample 6 GeoServer WFS test" /> );
 const SampleMap7 = () => ( <Example7 title="Sample 7 vector tiles" /> );
 const SampleMap8 = () => ( <Example8 title="Sample 8 overlay" /> );
@@ -50,7 +50,7 @@ class PrimaryLayout extends Component {
                               <NavLink href="/sample4">4 XYZ Tiles</NavLink>
                             </NavItem>
                             <NavItem>
-                              <NavLink href="/sample5">5 Geocode</NavLink>
+                              <NavLink href="/sample5">5 Bookmarks</NavLink>
                             </NavItem>
                             <NavItem>
                               <NavLink href="/sample6">6 WFS-T</NavLink>

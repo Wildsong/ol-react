@@ -28,7 +28,9 @@ export const DataLoader = (loader, url, source) => {
 //&BBOX=-13799781.77290469780564308,5763634.00552924070507288,-13799148.80835255607962608,5763990.56951477471739054,urn:ogc:def:crs:EPSG::3857 HTTP/1.1"
 // 301 169 "-"
 //"Mozilla/5.0 QGIS/3.6.0-Noosa
-                let bb = "&BBOX=" + extent.join(',').toString() + ',EPSG:3857'
+                let bb = ""
+                if (!(isNaN(extent[0]) || isNaN(extent[1]) || isNaN(extent[2]) || isNaN(extent[3])))
+                    bb = "&BBOX=" + extent.join(',').toString() + ',EPSG:3857'
                 let fsurl = url + "&outputFormat=text/javascript" +
                     "&count=5000" + bb + '&SRSNAME=EPSG:3857'
                 jsonp(fsurl,

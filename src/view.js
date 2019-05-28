@@ -68,26 +68,28 @@ export default class OLView extends OLComponent {
 
     updateFromProps_() {
         // FIXME we're probably ignoring some useful props here!!
+        //console.log("view.updateFromProps_")
+
+        if (typeof this.props.center !== 'undefined')
+            this.view.setCenter(this.props.center);
+        if (typeof this.props.rotation !== 'undefined')
+            this.view.setRotation(this.props.rotation);
 
         // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
         if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
-            //console.log("resolution set to", this.props.resolution);
+            console.log("resolution set to", this.props.resolution);
             this.view.setResolution(this.props.resolution);
             return;
         }
-
-        if (typeof this.props.zoom !== 'undefined'
-        || typeof this.props.rotation !== 'undefined'
-        || typeof this.props.rotation !== 'undefined') {
+/* kind of annoying effect really and had problems with it so turned off for nonw
             this.view.animate(
                 { zoom: this.props.zoom },
                 { rotation: this.props.rotation, duration: 250 },
                 { center: this.props.center },
             );
-            // this.view.setZoom(this.props.zoom);
-            // this.view.setCenter(this.props.center);
-            // this.view.setRotation(this.props.rotation);
-        }
+*/
+        if (typeof this.props.zoom !== 'undefined')
+            this.view.setZoom(this.props.zoom);
     }
 
     componentDidMount() {
@@ -98,12 +100,14 @@ export default class OLView extends OLComponent {
     }
 
     componentDidUpdate(prevProps) {
+        //console.log("view.componentDidUpdate", this.props.center)
         // If extent does not need updating, don't call.
-        if (((prevProps.center.lat !== this.props.center.lat) ||
-             (prevProps.center.lon !== this.props.center.lon)) ||
-            (prevProps.zoom !== this.props.zoom) ||
-            (prevProps.rotation !== this.props.rotation))
-
+        // A great idea but buggy... I think prevProps is not reliable
+        /*if (prevProps.center.lat !== this.props.center.lat ||
+            prevProps.center.lon !== this.props.center.lon ||
+            prevProps.zoom !== this.props.zoom ||
+            prevProps.rotation !== this.props.rotation)
+*/
             this.updateFromProps_();
     }
 

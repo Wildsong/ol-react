@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { transform } from 'ol/proj'
+import { fromLonLat } from 'ol/proj'
 import { Map, View, layer } from '../src'
 import { Point } from 'ol/geom'
 import { Feature } from 'ol'
 import { Vector as VectorSource } from 'ol/source'
+import { Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
-
+import { myGeoServer, workspace, astoria_ll } from '../src/utils'
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -39,10 +39,51 @@ export default class Example5 extends Component {
         geocoderesults: [],
         lats: astoria_ll[1].toString(),
         lons: astoria_ll[0].toString(),
-        lat: astoria_ll[1],
-        lon: astoria_ll[0],
+        center: fromLonLat(astoria_ll),
         zoom: 16,
         rotation: 0.00
+    }
+    bookmarks = {
+        1 : {
+    	    location: astoria_ll,
+            zoom: 13,
+    	    title: "Astoria",
+    	},
+    	2 : {
+    	    location: [-123.969,45.893],
+            zoom: 13,
+    	    title: "Cannon Beach",
+        },
+        3 : {
+    	    location: [-123.9188,46.026],
+            zoom: 13,
+    	    title: "Gearhart",
+        },
+        4 : {
+            location: [-123.9520,46.2000],
+            zoom: 14,
+            title: "Hammond",
+        },
+        5 : {
+            location: [-123.5032,45.9345],
+            zoom: 14,
+    	    title: "Jewell",
+        },
+        6 : {
+    	    location: [-123.9407,45.7297],
+            zoom: 13,
+    	    title: "Neahkahnie Beach",
+    	},
+        7 : {
+    	    location: [-123.920,45.994],
+            zoom: 12,
+    	    title: "Seaside",
+    	},
+        8 : {
+    	    location: [-123.924,46.165],
+            zoom: 13,
+    	    title: "Warrenton",
+    	}
     }
 
     change = (e) => {
@@ -67,10 +108,10 @@ export default class Example5 extends Component {
             z -= 1;
             break;
         case 'anticlockwise':
-            r -= Math.Pi/10;
+            r -= Math.PI/10;
             break;
         case 'clockwise':
-            r += Math.Pi/10;
+            r += Math.PI/10;
             break;
         }
         if (z < 1) z = 1;
@@ -93,20 +134,46 @@ export default class Example5 extends Component {
     }
 
     handleEvent = (e) => {
-        console.log("Map.handleEvent", e.map)
+        console.log("Map.handleEvent", e, e.map)
         //e.stopPropagation(); // this stops draw interaction
     }
 
+    gotoXY = (coord,zoom) => {
+        if (coord[0]==0 || coord[1]==0 || zoom==0) return;
+        console.log('Example5.gotoXY', coord, zoom);
+        this.setState({
+            center: coord,
+            zoom: zoom
+        });
+    }
+
+    gotoBookmark = (e) => {
+        const bookmarkId = e.target.name;
+
+        // Bookmarks are stored in lat,lon
+        const bookmark_wgs84 = this.bookmarks[bookmarkId]
+        const coord = fromLonLat(bookmark_wgs84.location)
+
+        this.setState({
+            displayPoint: bookmark_wgs84.location,
+            displayZoom: bookmark_wgs84.zoom
+        });
+        this.gotoXY(coord, bookmark_wgs84.zoom);
+    }
+
     render() {
-        let polyStyle = {
+        // Show a list of bookmarks
+        const keys = Object.keys(this.bookmarks);
+        const bookmarks = keys.map(k => [k, this.bookmarks[k].title]);
+
+        const polyStyle = {
             stroke: {color: [0, 0, 0, 1], width:4},
             fill: {color: [255, 0, 0, .250]},
         };
-
         // Create an OpenLayers source/Vector source,
         // and add a feature to it, then pass it into a
         // Layer component as its source attribute
-        var style = {
+        const style = {
             image: {
                 type: 'circle',
                 radius: 10,
@@ -114,65 +181,76 @@ export default class Example5 extends Component {
                 stroke: { color: 'green', width: 3 }
             }
         }
-        var point = new Point(
-            transform(astoria_ll, 'EPSG:4326', 'EPSG:3857')
-        );
+        const point = new Point(fromLonLat(astoria_ll));
 
         // test for issue #2, external data source
         var pointFeature = new Feature(point);
         var vectorSource = new VectorSource({ projection: 'EPSG:4326' });
         vectorSource.addFeatures([pointFeature]);
 
-        let ll = transform([this.state.lon, this.state.lat], wgs84, wm);
+        let ll = fromLonLat([this.state.lon, this.state.lat]);
 
         return (
-            <>
-                <h2>{ this.props.title }</h2>
-                Thunderforest OSM<br />
-                WFS GeoServer taxlots<br />
-                Vector layer (display only, no external data source) <br />
-<em>2019-03-17 I AM WORKING ON THIS EXAMPLE RIGHT NOW SO IT'S BUGGY!
-There is actually no Nominatim code here yet. LOL.</em>
-                <p>
-                1. Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
-                That's what makes the green circle at the map center.
-                </p>
-                <p>
-                2. Demonstrates that I can keep the map center<br />
-                and zoom in component state and update the map using setState.
-                </p>
-                { this.state.lats }, { this.state.lons } { this.state.zoom }
-                Zoom
-                <button name="zoomin"  onClick={ this.click }>+</button>
-                <button name="zoomout" onClick={ this.click }>-</button>
-                Rotate
-                <button name="clockwise"     onClick={ this.click }>+</button>
-                <button name="anticlockwise" onClick={ this.click }>-</button>
+            <><Container>
+                <Row><Col>
+                    <h2>{ this.props.title }</h2>
+                    Thunderforest OSM<br />
+                    WFS GeoServer taxlots<br />
+                    Vector layer (display only, no external data source) <br />
+                    <p>
+                    1. Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
+                    That's what makes the green circle at the map center.
+                    </p>
+                    <p>
+                    2. Demonstrates that I can keep the map center
+                    and zoom in component state and update the map using setState.
+                    </p>
+                </Col></Row>
 
-                <Map useDefaultControls={false}
-                    view=<View projection={wm}
-                        zoom={ this.state.zoom }
-                        center={ ll }
-                        rotation={ this.state.rotation }
-                    />
-                    onMoveEnd={ this.handleEvent }
-                >
-                    <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
+                <Row><Col>
+                    { this.state.lats }, { this.state.lons } { this.state.zoom } { this.state.rotation } 
+                    <p>
+                        Zoom
+                        <button name="zoomin"  onClick={ this.click }>+</button>
+                        <button name="zoomout" onClick={ this.click }>-</button>
+                        Rotate
+                        <button name="clockwise"     onClick={ this.click }>+</button>
+                        <button name="anticlockwise" onClick={ this.click }>-</button>
+                    </p>
+                    <Map useDefaultControls={false}
+                        view=<View projection={ "EPSG:3857" }
+                            zoom={ this.state.zoom }
+                            center={ this.state.center }
+                            rotation={ this.state.rotation }
+                        />
+                        onMoveEnd={ this.handleEvent }
+                    >
+                        <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
 
-                    <layer.Vector name="Taxlots"
-                        url={ taxlots } source={ taxlotsSource }
-                        style={ polyStyle }
-                    />
+                        <layer.Vector name="Taxlots"
+                            url={ taxlots } source={ taxlotsSource }
+                            style={ polyStyle }
+                        />
 
-                    <layer.Vector name="Display" source={vectorSource} style={style}/>
-                </Map>
-
-                <table>
-                    { this.state.geocoderesults.map(gc =>
-                        <tr key={ gc.place_id }><td>{ gc.display_name }</td></tr>
-                    )}
-                </table>
-            </>
+                        <layer.Vector name="Display" source={vectorSource} style={style}/>
+                    </Map>
+                </Col><Col>
+                    <ListGroup>
+                        { bookmarks.map(item =>
+                              <ListGroupItem tag="button" key={ item[0] } name={ item[0] }
+                              onClick={ this.gotoBookmark }
+                              action>{item[0]} {item[1]}</ListGroupItem>
+                        )}
+                    </ListGroup>
+                </Col></Row>
+                <Row><Col>
+                    <table>
+                        { this.state.geocoderesults.map(gc =>
+                            <tr key={ gc.place_id }><td>{ gc.display_name }</td></tr>
+                        )}
+                    </table>
+                </Col></Row>
+            </Container></>
         );
     }
 }
