@@ -17,6 +17,7 @@ export default class OLMap extends Component {
         onSingleClick: PropTypes.func,
         onChangeSize: PropTypes.func,
         onMoveEnd: PropTypes.func,
+        onPostrender: PropTypes.func,
         view: PropTypes.element.isRequired,
         useDefaultInteractions: PropTypes.bool.isRequired,
         useDefaultControls: PropTypes.bool.isRequired,
@@ -53,6 +54,7 @@ export default class OLMap extends Component {
         if (this.props.onSingleClick) this.map.on('singleclick', this.props.onSingleClick);
         //if (this.props.onDblClick)    this.map.on('doubleclick', this.props.onDblClick);
         if (this.props.onMoveEnd)     this.map.on('moveend', this.props.onMoveEnd);
+        if (this.props.onPostrender)  this.map.on('postrender', this.props.onPostrender);
     }
 
     componentDidMount() {

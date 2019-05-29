@@ -107,7 +107,7 @@ export default class Example1 extends React.Component {
 
 // This version makes ALL the point markers increment at the same time.
     clickMarker = (feature, resolution) => {
-        let s = buildStyle({
+        const s = buildStyle({
             text: {
                 text: this.state.markerId.toString(),
                 offsetY: -10,
@@ -167,7 +167,7 @@ export default class Example1 extends React.Component {
                     </ul>
 
                 There are two vector layers, one display only
-                and one that can be editted.
+                and one that can be edited.
                 Interactions: DRAW into "draw" layer.
                 Controls: Sliders, Full screen, Zoom (range 8...12)
 
@@ -193,7 +193,7 @@ export default class Example1 extends React.Component {
 
                 <Map
                     view=<View zoom={ 10 } center={ astoria_wm }
-                            minZoom={8} maxZoom={12} />
+                            minZoom={9} maxZoom={19} />
                     useDefaultControls={ false }
 
                     onPointerMove={ this.handlePointerMove }

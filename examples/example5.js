@@ -41,7 +41,8 @@ export default class Example5 extends Component {
         lons: astoria_ll[0].toString(),
         center: fromLonLat(astoria_ll),
         zoom: 16,
-        rotation: 0.00
+        rotation: 0.00,
+        animate: true
     }
     bookmarks = {
         1 : {
@@ -95,11 +96,12 @@ export default class Example5 extends Component {
         e.preventDefault();
     }
 
-    click = (e) => {
+    buttonClick = (e) => {
         const { target: { name, value }} = e;
         //console.log('click', e, name, value);
         let z = this.state.zoom;
         let r = this.state.rotation;
+        let aState = this.state.animate;
         switch (name) {
         case 'zoomin':
             z += 1;
@@ -113,12 +115,15 @@ export default class Example5 extends Component {
         case 'clockwise':
             r += Math.PI/10;
             break;
+        case 'animate':
+            aState = !this.state.animate;
         }
         if (z < 1) z = 1;
         else if (z > 20) z = 20;
         this.setState({
             zoom: z,
-            rotation: r
+            rotation: r,
+            animate: aState
         });
         e.preventDefault();
     }
@@ -131,11 +136,6 @@ export default class Example5 extends Component {
         });
         //console.log("goto", this.state.lat, this.state.lon, this.state.zoom);
         e.preventDefault();
-    }
-
-    handleEvent = (e) => {
-        console.log("Map.handleEvent", e, e.map)
-        //e.stopPropagation(); // this stops draw interaction
     }
 
     gotoXY = (coord,zoom) => {
@@ -159,6 +159,17 @@ export default class Example5 extends Component {
             displayZoom: bookmark_wgs84.zoom
         });
         this.gotoXY(coord, bookmark_wgs84.zoom);
+    }
+
+    onMoveEnd = (e) => {
+        const v = e.map.getView()
+        console.log("Map.onMoveEnd", v.getCenter(), v.getZoom(), v.getRotation())
+        this.setState({
+            center: v.getCenter(),
+            zoom: v.getZoom(),
+            rotation: v.getRotation()
+        });
+        //e.stopPropagation(); // this stops draw interaction
     }
 
     render() {
@@ -208,22 +219,25 @@ export default class Example5 extends Component {
                 </Col></Row>
 
                 <Row><Col>
-                    { this.state.lats }, { this.state.lons } { this.state.zoom } { this.state.rotation } 
+                    { this.state.lats }, { this.state.lons } { this.state.zoom } { this.state.rotation }
                     <p>
                         Zoom
-                        <button name="zoomin"  onClick={ this.click }>+</button>
-                        <button name="zoomout" onClick={ this.click }>-</button>
+                        <button name="zoomin"  onClick={ this.buttonClick }>+</button>
+                        <button name="zoomout" onClick={ this.buttonClick }>-</button>
                         Rotate
-                        <button name="clockwise"     onClick={ this.click }>+</button>
-                        <button name="anticlockwise" onClick={ this.click }>-</button>
+                        <button name="clockwise"     onClick={ this.buttonClick }>+</button>
+                        <button name="anticlockwise" onClick={ this.buttonClick }>-</button>
+                        Animate
+                        <button name="animate"       onClick={ this.buttonClick }>{ this.state.animate? "on" : "off" }</button>
                     </p>
                     <Map useDefaultControls={false}
                         view=<View projection={ "EPSG:3857" }
                             zoom={ this.state.zoom }
                             center={ this.state.center }
                             rotation={ this.state.rotation }
+                            animate={ this.state.animate }
                         />
-                        onMoveEnd={ this.handleEvent }
+                        onMoveEnd={ this.onMoveEnd }
                     >
                         <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
 

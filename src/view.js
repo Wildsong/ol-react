@@ -4,7 +4,7 @@ import {MapContext} from './map-context'
 import {Map, View} from 'ol'
 import OLComponent from './ol-component'
 
-const wm = "EPSG:3857";
+const defaultProjection = "EPSG:3857";
 
 export default class OLView extends OLComponent {
     static contextType = MapContext;
@@ -16,10 +16,10 @@ export default class OLView extends OLComponent {
         maxZoom: PropTypes.number,
         rotation: PropTypes.number,
         projection: PropTypes.string,
-
-        onResolutionChanged: PropTypes.func,
-        onZoomChanged: PropTypes.func,
-        onCenterChanged: PropTypes.func,
+        animate: PropTypes.bool,
+//        onResolutionChanged: PropTypes.func,
+//        onZoomChanged: PropTypes.func,
+//        onCenterChanged: PropTypes.func,
     }
     static defaultProps = {
         minzoom: 4,
@@ -32,7 +32,7 @@ export default class OLView extends OLComponent {
 
     constructor(props) {
         super(props);
-        let p = wm;
+        let p = defaultProjection;
         if (typeof this.props.projection !== 'undefined') {
             p = this.props.projection;
         }
@@ -46,14 +46,15 @@ export default class OLView extends OLComponent {
             projection: p
         };
         this.view = new View(opts);
-        this.view.on("change:resolution", this.handleEvent);
+//        this.view.on("change:resolution", this.onChangeResolution);
     }
 
-    handleEvent(event) {
+/*
+    onChangeResolution = (e) => {
         // FIXME Seems like the binding is wrong for 'this'
-        const zoom = this.getZoom()
-        //console.log("View.onMoveEnd", zoom)
-        /*
+        const zoom = this.view.getZoom()
+        console.log("View.onChangeResolution", e, zoom)
+
         if (this.props.onNavigation && this.props.initialCenter[0] !== this.view.getCenter()[0]) {
             // Don't fire an event unless we've actually moved from initial location
             this.props.onNavigation(
@@ -63,52 +64,50 @@ export default class OLView extends OLComponent {
                 this.view.getRotation()
             );
         }
-        */
     }
-
-    updateFromProps_() {
-        // FIXME we're probably ignoring some useful props here!!
-        //console.log("view.updateFromProps_")
-
-        if (typeof this.props.center !== 'undefined')
-            this.view.setCenter(this.props.center);
-        if (typeof this.props.rotation !== 'undefined')
-            this.view.setRotation(this.props.rotation);
-
-        // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
-        if (typeof this.props.resolution !== 'undefined' && this.props.resolution !== 0) {
-            console.log("resolution set to", this.props.resolution);
-            this.view.setResolution(this.props.resolution);
-            return;
-        }
-/* kind of annoying effect really and had problems with it so turned off for nonw
-            this.view.animate(
-                { zoom: this.props.zoom },
-                { rotation: this.props.rotation, duration: 250 },
-                { center: this.props.center },
-            );
 */
-        if (typeof this.props.zoom !== 'undefined')
-            this.view.setZoom(this.props.zoom);
-    }
 
     componentDidMount() {
         //console.log("OLView.componentDidMount context", this.context)
         this.context.map.setView(this.view);
-        this.updateFromProps_();
-        this.context.map.on("movend", this.onMoveEnd, this);
+        //this.updateFromProps_();
+        //this.context.map.on("movend", this.onMoveEnd);???????
     }
 
     componentDidUpdate(prevProps) {
-        //console.log("view.componentDidUpdate", this.props.center)
-        // If extent does not need updating, don't call.
-        // A great idea but buggy... I think prevProps is not reliable
-        /*if (prevProps.center.lat !== this.props.center.lat ||
-            prevProps.center.lon !== this.props.center.lon ||
-            prevProps.zoom !== this.props.zoom ||
-            prevProps.rotation !== this.props.rotation)
-*/
-            this.updateFromProps_();
+
+//      console.log('view.componentDidUpdate before', prevProps.center, prevProps.zoom,
+//                'after', this.props.center, this.props.zoom)
+        if (typeof this.props.center !== 'undefined'
+        && (prevProps.center[0] !== this.props.center[0] ||
+            prevProps.center[1] !== this.props.center[1])) {
+                if (this.props.animate)
+                    this.view.animate({ center: this.props.center });
+                else
+                    this.view.setCenter(this.props.center);
+//            this.props.onCenterChanged(this.props);
+        }
+        if (typeof this.props.rotation !== 'undefined'
+        && (prevProps.rotation !== this.props.rotation)) {
+            if (this.props.animate)
+                this.view.animate({ rotation: this.props.rotation, duration: 250 });
+            else
+                this.view.setRotation(this.props.rotation);
+        }
+        // Set either Resolution OR zoom, but guard against 0 (will cause map to not render)
+        if (typeof this.props.resolution !== 'undefined'
+        && (this.props.resolution !== 0)) {
+            //console.log("resolution set to", this.props.resolution);
+            this.view.setResolution(this.props.resolution);
+//            this.props.onResolutionChanged(this.props);
+        } else if (typeof this.props.zoom !== 'undefined'
+        && (prevProps.zoom !== this.props.zoom)) {
+            if (this.props.animate)
+                this.view.animate({ zoom: this.props.zoom })
+            else
+                this.view.setZoom(this.props.zoom);
+//          this.props.onZoomChanged(this.props);
+        }
     }
 
     fit(geometry, size, options) {
