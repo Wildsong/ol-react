@@ -9,7 +9,7 @@ import jsonp from 'jsonp' // jsonp avoids CORS problems
 export const DataLoader = (loader, url, source) => {
     // Returns a function that can be called to load data.
 
-    console.log('DataLoader()', loader, url, source)
+    //console.log('DataLoader()', loader, url, source)
 
     switch (loader) {
         case 'geojson':
@@ -86,7 +86,7 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
                             featureProjection: projection
                         });
                         if (features.length > 0) {
-                            console.log("DataLoader(", loader, " ) Adding ", features.length);
+                            //console.log("DataLoader(", loader, " ) Adding ", features.length);
                             source.addFeatures(features);
                         }
                     }
