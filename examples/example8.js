@@ -2,21 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Map, View, Feature, Overlay, control, geom, layer } from '../src'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
-import { toLonLat } from 'ol/proj'
+import { fromLonLat, toLonLat } from 'ol/proj'
 import { toStringHDMS } from 'ol/coordinate'
 import { Collection } from 'ol'
-import { Converter } from 'usng/usng'
+import { Converter } from 'usng.js'
 import { interaction } from '../src'
 import SliderControl from './slider-control'
 import { Button } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
-
-import { transform } from 'ol/proj'
-import { myGeoServer, wgs84, wm, astoria_ll, usngPrecision } from '../src/utils'
+import { myGeoServer, astoria_wm, usngPrecision, wgs84 } from '../src/constants'
 
 const usngConverter = new Converter
-const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 const taxlotslayer = 'clatsop_wm%3Ataxlots'
 const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
@@ -40,7 +37,8 @@ export default class Example8 extends React.Component {
     }
 
     coordFormatter = (coord, zoom=6) => {
-        return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
+        const ll = toLonLat(coord)
+        return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
     }
 
     changeOpacity = (value) => {
@@ -99,10 +97,7 @@ export default class Example8 extends React.Component {
         return (
             <>
                 <h2>{ this.props.title }</h2>
-                <p>
-                TODO I am adding history and this example will eventually
-                demonstate that too.
-                </p>
+
                 <p>TODO Selection is mostly working, I need to change the taxlot polygon
                 style to fill so that clicking in the taxlot works. But I am
                 not sure if we're ever going to use Vector Tiles so... later...</p>

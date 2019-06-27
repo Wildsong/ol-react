@@ -9,7 +9,7 @@ import { Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from '
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-import { myGeoServer, workspace, astoria_ll } from '../src/utils'
+import { myGeoServer, workspace, astoria_ll } from '../src/constants'
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"

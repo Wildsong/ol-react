@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import { fromLonLat, toLonLat } from 'ol/proj'
+import { toStringXY } from 'ol/coordinate'
 import {
     Circle as CircleStyle,
     Fill as FillStyle,
@@ -9,10 +11,7 @@ import {
     Style,
     Text as TextStyle
 } from 'ol/style'
-
-import { transform } from 'ol/proj'
-import { toStringXY } from 'ol/coordinate'
-import { Converter } from 'usng/usng'
+import { Converter } from 'usng.js'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -29,10 +28,7 @@ import { Map, View, Feature, control, geom, interaction, layer } from '../src'
 import { buildStyle } from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
-
-import { wgs84, wm, astoria_ll } from '../src/utils'
-
-const astoria_wm = transform(astoria_ll, wgs84,wm)
+import { astoria_wm, wgs84 } from '../src/constants'
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {

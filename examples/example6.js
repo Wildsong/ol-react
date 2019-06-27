@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { transform } from 'ol/proj'
+import { fromLonLat, toLonLat } from 'ol/proj'
 import {Map, View, Feature, geom, layer} from '../src'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
-import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer,workspace, wm } from '../src/constants'
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -43,7 +43,7 @@ export default class Example6 extends Component {
             }
         };
 
-        let ll = transform([this.state.lon, this.state.lat], wgs84, wm);
+        let ll = toLonLat([this.state.lon, this.state.lat]);
 
         return (
             <>

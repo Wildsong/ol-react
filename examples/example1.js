@@ -20,9 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 
 import { transform } from 'ol/proj'
-import { myGeoServer, wgs84, wm, astoria_ll } from '../src/utils'
-
-const astoria_wm = transform(astoria_ll, wgs84,wm)
+import { myGeoServer, astoria_wm } from '../src/constants'
 
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"

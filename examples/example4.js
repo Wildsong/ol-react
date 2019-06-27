@@ -16,12 +16,10 @@ import {
     Button
 } from 'reactstrap'
 import { Map, View, Feature, control, geom, interaction, layer } from '../src';
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css';
-
-import { wgs84, wm, astoria_ll } from '../src/utils'
-const defaultCenter_wm = transform(astoria_ll, wgs84,wm);
+import { astoria_wm, wgs84, wm } from '../src/constants'
+const defaultCenter_wm = astoria_wm;
 const defaultZoom = 10;
 
 const bingmaps_key = process.env.BINGMAPS_KEY;

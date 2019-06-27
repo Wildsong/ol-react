@@ -3,15 +3,13 @@ import PropTypes from 'prop-types'
 import { Map, View, Feature, Graticule, control, geom, layer } from '../src'
 import stylefunction from 'ol-mapbox-style/stylefunction'
 import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
-import { Converter } from 'usng/usng';
+import { fromLonLat, toLonLat } from 'ol/proj'
+import { Converter } from 'usng.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
-
-import { transform } from 'ol/proj'
-import { myGeoServer, wgs84, wm, astoria_ll, usngPrecision } from '../src/utils'
+import { myGeoServer, astoria_wm, usngPrecision, wm, wgs84 } from '../src/constants'
 
 const usngConverter = new Converter
-const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 const mapbox_key = process.env.MAPBOX_KEY;
 if (typeof mapbox_key === 'undefined') console.log("The mapbox key is undefined!");
@@ -35,7 +33,8 @@ export default class Example7 extends React.Component {
     render() {
         const coordFormatter = (coord) => {
             const zoom = 6;
-            return usngConverter.LLtoUSNG(coord[1], coord[0], usngPrecision[zoom]);
+            const ll = toLonLat(coord)
+            return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
         }
         const pointStyle = {
             image: {

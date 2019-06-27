@@ -12,12 +12,10 @@ import { toLonLat } from 'ol/proj'
 import { toStringHDMS } from 'ol/coordinate'
 import { Vector as VectorSource } from 'ol/source'
 import { bbox as bboxStrategy } from 'ol/loadingstrategy'
-import { myGeoServer,workspace, wgs84, wm, astoria_ll } from '../src/utils'
+import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import { buildStyle } from '../src/style'
 import { DataLoader } from '../src/layer/dataloaders'
 import '../App.css';
-
-const astoria_wm = transform(astoria_ll, wgs84,wm)
 
 /*
 const taxlotsFeatures = myGeoServer
