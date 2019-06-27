@@ -74,7 +74,7 @@ export default class OLImage extends OLLayer {
                     break
             }
         }
-        this.state.layer = new ImageLayer({
+        this.layer = new ImageLayer({
             ...layerProps,
             source: imageSource
         })

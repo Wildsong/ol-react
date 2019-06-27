@@ -17,16 +17,14 @@ export default class OLFeature extends OLComponent {
     constructor(props) {
         super(props);
         //console.log("OLFeature new() props=", this.props)
-        this.state = {
-            feature: new Feature()
-        }
+        this.feature = new Feature()
         this.updateFromProps();
-        this.state.feature.setId(this.props.id);
+        this.feature.setId(this.props.id);
     }
 
     componentDidMount() {
         //console.log("OLFeature.componentDidMount()", this.context);
-        this.context.layer.getSource().addFeature(this.state.feature)
+        this.context.layer.getSource().addFeature(this.feature)
     }
 
     componentDidUpdate() {
@@ -35,29 +33,30 @@ export default class OLFeature extends OLComponent {
     }
 
     updateFromProps(props) {
-        this.state.feature.setStyle(buildStyle(this.props.style));
+        this.feature.setStyle(buildStyle(this.props.style));
     }
 
     componentWillUnmount() {
         //console.log("OLFeature.componentWillUnmount() context=", this.context)
-        this.context.layer.getSource().removeFeature(this.state.feature);
+        this.context.layer.getSource().removeFeature(this.feature);
     }
 
     getGeometry() {
-        return this.state.feature.getGeometry();
+        return this.feature.getGeometry();
     }
 
     render() {
-        //console.log("OLFeature.render() state=", this.state)
+        // A Feature might have some Geometry as a child.
+        // We use context to tell the geometry about the ol feature and the map
         return (
-            <div>
-            <FeatureContext.Provider value={{
-                feature: this.state.feature,
-                map: this.context.map
-            }}>
-            {this.props.children}
-            </FeatureContext.Provider>
-            </div>
+            <>
+                <FeatureContext.Provider value={{
+                    feature: this.feature,
+                    map: this.context.map
+                }}>
+                    {this.props.children}
+                </FeatureContext.Provider>
+            </>
         );
     }
 }

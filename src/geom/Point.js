@@ -18,7 +18,7 @@ export default class OLPoint extends OLGeometry {
 
     constructor(props) {
         super(props);
-        this.state.geometry = new Point(this.props);
+        this.geometry = new Point(this.props);
         this.updateFromProps();
     }
 
@@ -33,13 +33,13 @@ export default class OLPoint extends OLGeometry {
         if (this.props.animate) {
             this.animate(this.props.children, this.props.animationLength);
         } else {
-            this.state.geometry.setCoordinates(this.props.children);
+            this.geometry.setCoordinates(this.props.children);
         }
     }
 
     animate(finishCoords, animationLength) {
         let frame = animationLength * 1000;
-        let startCoords = this.state.geometry.getCoordinates()
+        let startCoords = this.geometry.getCoordinates()
         let delta = [finishCoords[0] - startCoords[0], finishCoords[1] - startCoords[1]];
         let finish = null;
         step = (timestamp) => {
@@ -48,13 +48,12 @@ export default class OLPoint extends OLGeometry {
             }
             if (timestamp < finish) {
                 let progress = 1 - ((finish - timestamp) / frame);
-                this.state.geometry.setCoordinates([startCoords[0] + (delta[0] * progress), startCoords[1] + (delta[1] * progress)]);
+                this.geometry.setCoordinates([startCoords[0] + (delta[0] * progress), startCoords[1] + (delta[1] * progress)]);
                 window.requestAnimationFrame(step);
             } else {
-                this.state.geometry.setCoordinates(finishCoords);
+                this.geometry.setCoordinates(finishCoords);
             }
         }
         window.requestAnimationFrame(step);
     }
 }
-

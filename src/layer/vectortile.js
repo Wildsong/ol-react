@@ -72,7 +72,7 @@ export default class OLVectorTile extends OLLayer {
         }
         Object.assign(options, this.buildProps(this.dictSource));
         tileSource = new VectorTileSource(options);
-        this.state.layer = new VectorTileLayer({
+        this.layer = new VectorTileLayer({
             ...layerProps,
             source: tileSource
         })

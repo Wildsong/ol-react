@@ -51,11 +51,6 @@ export default class OLVector extends OLLayer {
         cluster: false
     }
 
-    state = {
-        layer: null,
-        source: null
-    };
-
     constructor(props) {
         super(props);
 
@@ -121,7 +116,6 @@ export default class OLVector extends OLLayer {
                 });
             }
         }
-        this.state.source = vectorSource;
         let layerSource = vectorSource;
 
         // Tested in example 3 with drag and drop of GPX files
@@ -132,7 +126,7 @@ export default class OLVector extends OLLayer {
             })
         }
 
-        this.state.layer = new VectorLayer({
+        this.layer = new VectorLayer({
             ...layerProps,
             style: style,
             updateWhileAnimating: props.updateWhileAnimating,

@@ -9,25 +9,23 @@ import OLComponent from '../ol-component'
 export default class OLGeometry extends OLComponent {
     static contextType = FeatureContext;
     static propTypes = {
-	modify: PropTypes.bool,
-	modifyStart: PropTypes.func,
-	modifyEnd: PropTypes.func,
-	insertVertexCondition: PropTypes.func,
-	transform: PropTypes.func
+    	modify: PropTypes.bool,
+    	modifyStart: PropTypes.func,
+    	modifyEnd: PropTypes.func,
+    	insertVertexCondition: PropTypes.func,
+    	transform: PropTypes.func
     }
 
     constructor(props) {
         super(props);
-        this.state = {
-            geometry: null
-        }
+        this.geometry = null
     }
 
     componentDidMount() {
         //console.log("OLGeometry.componentDidMount() props=", this.props, this.context)
-        this.context.feature.setGeometry(this.state.geometry);
+        this.context.feature.setGeometry(this.geometry);
         if (typeof this.props.transform === 'function') {
-            this.state.geometry.applyTransform(this.props.transform);
+            this.geometry.applyTransform(this.props.transform);
         }
 
 	// FIXME putting this here means that you can't turn on modify later.

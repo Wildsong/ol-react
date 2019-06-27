@@ -27,14 +27,11 @@ export default class OLLayer extends OLComponent {
         visible: true,
     }
 
-    state = {
-        layer: null
-    };
-
     constructor(props) {
         super(props)
 
         this.layerName = this.props.name;
+        this.layer     = null;
 
         // These options are accepted by any layer
         // http://openlayers.org/en/latest/apidoc/module-ol_layer_Base.html#~Options
@@ -81,7 +78,7 @@ export default class OLLayer extends OLComponent {
         // We're adding this now that the layer has been added to the map
         let interactions = this.context.map.getInteractions()
         try {
-            this.context.map.addLayer(this.state.layer)
+            this.context.map.addLayer(this.layer)
         } catch {
             console.log("addLayer failed")
         }
@@ -100,31 +97,33 @@ export default class OLLayer extends OLComponent {
         try {
             // This is currently tested in example2 with WMS services.
             if (this.props.url !== prevProps.url) {
-                const source = this.state.layer.getSource();
+                const source = this.layer.getSource();
                 source.setUrl(this.props.url);
             }
         } catch {
         }
 
         let newProps = this.buildProps(this.dictLayer);
-        this.state.layer.setProperties(newProps);
+        this.layer.setProperties(newProps);
     }
 
     componentWillUnmount() {
         console.log("OLLayer.componentDidUnmount");
-        this.context.map.removeLayer(this.state.layer)
+        this.context.map.removeLayer(this.layer)
     }
 
     render() {
+        // Each layer passes itself and the parent map down to children.
+        // This is primarily for Vector layers, which can have Features as children.
         return (
-            <div>
-            <LayerContext.Provider value={{
-                map  : this.context.map,
-                layer: this.state.layer
-            }}>
-                {this.props.children}
-            </LayerContext.Provider>
-            </div>
+            <>
+                <LayerContext.Provider value={{
+                    map  : this.context.map,
+                    layer: this.layer
+                }}>
+                    {this.props.children}
+                </LayerContext.Provider>
+            </>
         );
     }
 }

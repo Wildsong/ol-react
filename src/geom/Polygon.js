@@ -28,7 +28,7 @@ export default class OLPolygon extends OLGeometry {
 
     constructor(props) {
         super(props);
-        this.state.geometry = new Polygon(this.props.children);
+        this.geometry = new Polygon(this.props.children);
         //console.log('polygon props=', this.props);
     }
 
@@ -36,4 +36,3 @@ export default class OLPolygon extends OLGeometry {
         this.context.feature.setGeometry(undefined);
     }
 }
-

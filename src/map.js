@@ -74,10 +74,10 @@ export default class OLMap extends Component {
         return (
             <div style={this.props.style}>
             <MapContext.Provider value={{map: this.map}}>
-                <div>
+                <>
                     {this.props.children}
                     {this.props.view}
-                </div>
+                </>
                 <div ref="target" className='ol-react-map'>
                 </div>
             </MapContext.Provider>

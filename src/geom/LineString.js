@@ -12,9 +12,8 @@ export default class OLLineString extends OLGeometry {
     }
     constructor(props) {
         super(props);
-        this.state.geometry = new LineString(props.children, props.layout);
+        this.geometry = new LineString(props.children, props.layout);
     }
 }
 
 // A linestring is an array of points and an optional layout.
-

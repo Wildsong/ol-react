@@ -122,7 +122,7 @@ export default class OLTile extends OLLayer {
                     break
             }
         }
-        this.state.layer = new TileLayer({
+        this.layer = new TileLayer({
             ...layerProps,
             source: tileSource
         })

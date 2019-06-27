@@ -7,6 +7,7 @@ import { toStringHDMS } from 'ol/coordinate'
 import { Collection } from 'ol'
 import { Converter } from 'usng.js'
 import { interaction } from '../src'
+import { OverviewMap } from '../src/control'
 import SliderControl from './slider-control'
 import { Button } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -142,6 +143,10 @@ export default class Example8 extends React.Component {
                         projection={ wgs84 }
                         coordinateFormat={ this.coordFormatter }
                     />
+
+                    <control.OverviewMap>
+                        <layer.Tile source="OSM"/>
+                    </control.OverviewMap>
                 </Map>
             </>
         );
