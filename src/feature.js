@@ -46,8 +46,10 @@ export default class OLFeature extends OLComponent {
     }
 
     render() {
-        // A Feature might have some Geometry as a child.
+        // A Feature might have some Geometrird as children.
         // We use context to tell the geometry about the ol feature and the map
+        // It's currently only using the map to find the list of "interactions".
+        // Maybe I should pass down the interactions instead of the whole map.
         return (
             <>
                 <FeatureContext.Provider value={{

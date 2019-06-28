@@ -75,8 +75,6 @@ export default class OLLayer extends OLComponent {
     }
 
     componentDidMount() {
-        // We're adding this now that the layer has been added to the map
-        let interactions = this.context.map.getInteractions()
         try {
             this.context.map.addLayer(this.layer)
         } catch {
@@ -114,13 +112,11 @@ export default class OLLayer extends OLComponent {
 
     render() {
         // Each layer passes itself and the parent map down to children.
-        // This is primarily for Vector layers, which can have Features as children.
+        // The LayerContext is primarily for Vector layers, which can have Features as children.
+        // Features need to know about Interactions, I think. And they hide in the map.
         return (
             <>
-                <LayerContext.Provider value={{
-                    map  : this.context.map,
-                    layer: this.layer
-                }}>
+                <LayerContext.Provider value={{map: this.context.map, layer: this.layer}}>
                     {this.props.children}
                 </LayerContext.Provider>
             </>

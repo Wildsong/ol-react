@@ -23,11 +23,11 @@ export default class OLMap extends Component {
         useDefaultControls: PropTypes.bool.isRequired,
         focusOnMount: PropTypes.bool.isRequired,
 
-        children: PropTypes.oneOfType([
+/*        children: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.element),
             PropTypes.element,
         ])
-    }
+*/    }
     static defaultProps = {
         useDefaultInteractions: true,
         useDefaultControls: true,
@@ -70,7 +70,7 @@ export default class OLMap extends Component {
     }
 
     render() {
-        //console.log("OLMap.render() props=", this.props)
+        console.log("OLMap.render() props=", this.props)
         return (
             <div style={this.props.style}>
             <MapContext.Provider value={{map: this.map}}>

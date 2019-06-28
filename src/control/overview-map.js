@@ -4,7 +4,6 @@ import {View, Collection} from 'ol';
 import {OverviewMap} from 'ol/control';
 import {Layer} from 'ol/layer';
 import OLControl from './ol-control';
-import { LayerContext } from '../layer-context'
 
 // ol-ext experiments
 import { Overview } from 'ol/control'
@@ -25,7 +24,7 @@ export default class OLOverviewMap extends OLControl {
     })
 
     createControl (props) {
-    	return new OverviewMap({
+        this.overviewmap = new OverviewMap({
     	    className: props.className,
     	    collapsed: props.collapsed,
     	    collapseLabel: props.collapseLabel,
@@ -42,20 +41,7 @@ export default class OLOverviewMap extends OLControl {
             //style:
             //panAnimation: true
     	})
-    }
-
-    render() {
-        console.log("This here is the overview map renderer.");
-        return (
-            <>
-            <LayerContext.Provider value={{
-                map  : this.context.map,
-                layer: this.layer
-            }}>
-                {this.props.children}
-            </LayerContext.Provider>
-            </>
-        );
+        return this.overviewmap;
     }
 
 }
