@@ -15,23 +15,24 @@ export default class OLLayer extends OLComponent {
     static contextType = MapContext;
 
     static propTypes = {
-        name: PropTypes.string,
+        title: PropTypes.string,
         opacity: PropTypes.number,
         visible: PropTypes.bool,
         extent: PropTypes.instanceOf(Extent),
         zIndex: PropTypes.number,
         minResolution: PropTypes.number,
         maxResolution: PropTypes.number,
+        baseLayer: PropTypes.bool,
     }
     static defaultProps = {
+        title: "unnamed layer",
         visible: true,
+        baseLayer: false
     }
 
     constructor(props) {
         super(props)
-
-        this.layerName = this.props.name;
-        this.layer     = null;
+        this.layer = null;
 
         // These options are accepted by any layer
         // http://openlayers.org/en/latest/apidoc/module-ol_layer_Base.html#~Options
