@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View, Collection} from 'ol';
-import {OverviewMap} from 'ol/control';
-import {Layer} from 'ol/layer';
-import OLControl from './ol-control';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {View, Collection} from 'ol'
+import {Layer} from 'ol/layer'
+import OLControl from './ol-control'
 
-// ol-ext experiments
-import { Overview } from 'ol/control'
+import {OverviewMap} from 'ol/control'
+// This one not working for me 2019-06-28import OverviewMap from 'ol-ext/control/Overview'
 
 export default class OLOverviewMap extends OLControl {
     static propTypes = Object.assign({}, OLControl.propTypes, {
@@ -35,11 +34,11 @@ export default class OLOverviewMap extends OLControl {
     	    view: props.view,
 
             // defaults
-            //minZoom: 0, maxZoom: 18,
+            minZoom: 0, maxZoom: 18, rotation: 0,
             //projection: wm,
             align: 'right',
             //style:
-            //panAnimation: true
+            panAnimation: "elastic"
     	})
         return this.overviewmap;
     }
