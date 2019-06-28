@@ -16,7 +16,7 @@ import { myGeoServer, astoria_wm, usngPrecision, wgs84 } from '../src/constants'
 
 // this should really go away
 import { Tile as TileLayer } from 'ol/layer'
-import { OSM } from 'ol/source'
+import { OSM, Stamen } from 'ol/source'
 
 const usngConverter = new Converter
 
@@ -42,7 +42,8 @@ const Example8 = ({ title }) => {
     // have an addlayer method. So I have to build a list of layers first
     const overviewLayers = [
         new TileLayer({
-            source: new OSM()
+            //source: new OSM()
+            source: new Stamen({layer: "toner"})
         })
     ]
 
