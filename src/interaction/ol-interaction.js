@@ -31,7 +31,7 @@ export default class OLInteraction extends OLComponent {
 
         // This is used in Draw interaction when changing type eg Point to LineString.
         if (this.props.hasOwnProperty("type") && (this.props.type != prevProps.type)) {
-            console.log("interaction.componentDidUpdate changed ", prevProps.type, this.props.type);
+            console.log("interaction.componentDidUpdate changed ", prevProps.type, " =>", this.props.type);
             this.context.map.removeInteraction(this.interaction)
             this.interaction = this.createInteraction()
 
@@ -64,12 +64,12 @@ export default class OLInteraction extends OLComponent {
     updateEventHandler_(name, handler) {
         const key = this.eventHandlerKeys_[name]
         if (key) {
-            //console.log("Delete handler", name, handler);
-            this.interaction.unByKey(key)
+            console.log("Deleting handler", name, handler);
+            this.interaction.un(key.type, handler)
             delete this.eventHandlerKeys_[name]
         }
         if (handler) {
-            //console.log("Add handler", name, handler);
+            console.log("Adding handler", name, handler);
             this.eventHandlerKeys_[name] = this.interaction.on(name, handler)
         }
     }
