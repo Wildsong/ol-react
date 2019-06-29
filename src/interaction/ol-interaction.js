@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
+import { unByKey } from 'ol/Observable';
 import OLComponent from '../ol-component'
 
 export default class OLInteraction extends OLComponent {
@@ -64,12 +65,12 @@ export default class OLInteraction extends OLComponent {
     updateEventHandler_(name, handler) {
         const key = this.eventHandlerKeys_[name]
         if (key) {
-            console.log("Deleting handler", name, handler);
-            this.interaction.un(key.type, handler)
+            //console.log("Deleting handler", name, handler);
+            unByKey(key);
             delete this.eventHandlerKeys_[name]
         }
         if (handler) {
-            console.log("Adding handler", name, handler);
+            //console.log("Adding handler", name, handler);
             this.eventHandlerKeys_[name] = this.interaction.on(name, handler)
         }
     }

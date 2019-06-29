@@ -4,8 +4,9 @@ import {View, Collection} from 'ol'
 import {Layer} from 'ol/layer'
 import OLControl from './ol-control'
 
-import {OverviewMap} from 'ol/control'
-// This one not working for me 2019-06-28import OverviewMap from 'ol-ext/control/Overview'
+import {OverviewMap as Overview} from 'ol/control'
+// This one not working for me 2019-06-28
+//import Overview from 'ol-ext/control/Overview'
 
 export default class OLOverviewMap extends OLControl {
     static propTypes = Object.assign({}, OLControl.propTypes, {
@@ -22,19 +23,25 @@ export default class OLOverviewMap extends OLControl {
     	view: PropTypes.instanceOf(View)
     })
 
+    // Everything stops working if these are false.
+    static defaultProps = {
+        collapsed: true,
+        collapsible: true,
+    }
+
     createControl (props) {
-        this.overviewmap = new OverviewMap({
+        this.overviewmap = new Overview({
     	    className: props.className,
     	    collapsed: props.collapsed,
     	    collapseLabel: props.collapseLabel,
     	    collapsible: props.collapsible,
     	    label: props.label,
     	    layers: props.layers,
+            target: props.target,
     	    tipLabel: props.tipLabel,
     	    view: props.view,
-
             // defaults
-            minZoom: 0, maxZoom: 18, rotation: 0,
+            //minZoom: 0, maxZoom: 18, rotation: 0,
             //projection: wm,
             align: 'right',
             //style:
@@ -43,4 +50,8 @@ export default class OLOverviewMap extends OLControl {
         return this.overviewmap;
     }
 
+    componentDidUpdate() {
+        console.log("What is the meaning of this?", this.props.collapsed);
+        this.overviewmap.setCollapsed(this.props.collapsed);
+    }
 }

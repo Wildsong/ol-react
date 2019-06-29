@@ -15,7 +15,7 @@ export default class OLExtSearchNominatim extends OLControl {
 //    }
 
     createControl(props) {
-        this.search = new SearchNominatim();
+        this.search = new SearchNominatim({target: props.target});
         this.search.on('select', props.onSelect);
         return this.search;
     }

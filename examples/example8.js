@@ -30,6 +30,10 @@ const Example8 = ({ title }) => {
     const [ popupText, setPopupText ] = useState("here");
     const [ osmOpacity, setOpacity ] = useState(50);
     const [ slidoVisible, setSlido ] = useState(true);
+
+    const [ collapse, setCollapse ] = useState(true);
+
+
     const popupElement = React.createElement('div', { className:"ol-popup" }, popupText );
     const selectedFeatures = new Collection();
     const coordFormatter = (coord, zoom=6) => {
@@ -102,22 +106,18 @@ const Example8 = ({ title }) => {
                 </ul>
 
             <SliderControl title="Streets" onChange={ changeOpacity } value={ osmOpacity }/>
-
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
-
+            <Button onClick={() => {setCollapse(!collapse);}}>Toggle Overview</Button>
             <Map
                 view=<View zoom={ 15 } center={ astoria_wm } minZoom={8} maxZoom={18} />
                 useDefaultControls={ false }
                 onClick={ handleMapClick }
             >
-
-            <layer.Image source="ArcGISRest" url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
-            <layer.Tile source="OSM" opacity={ osmOpacity / 100 }/>
-            <layer.Image source="ArcGISRest" visible={ slidoVisible }
-            url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
-
-                <layer.VectorTile source="MVT" url={ taxlotsUrl }>
-                </layer.VectorTile>
+                <layer.Image source="ArcGISRest" url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
+                <layer.Tile source="OSM" opacity={ osmOpacity / 100 }/>
+                <layer.Image source="ArcGISRest" visible={ slidoVisible }
+                    url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
+                <layer.VectorTile source="MVT" url={ taxlotsUrl } />
 
                 <Overlay id="popups"
                     element={ popupElement }
@@ -130,8 +130,9 @@ const Example8 = ({ title }) => {
                     coordinateFormat={ coordFormatter }
                 />
 
-                <control.OverviewMap layers={overviewLayers}/>
+                <control.OverviewMap layers={overviewLayers} collapsed={ collapse }/>
             </Map>
+            <div id="overview" style={{color:'blue',width:'200px', height:'200px'}}>I wish the overviewmap would show up here.</div>
         </>
     );
 }

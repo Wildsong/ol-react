@@ -69,6 +69,7 @@ const Example1 =({ title }) => {
     const [pointer, setPointer] = useState('');
     const [markerId, setMarker] = useState(1);
     const [mapCenter, setMapCenter] = useState(astoria_wm);
+    const [mapZoom, setMapZoom] = useState(10);
 
     const handleAddFeature = (e) => {
         console.log("handleAddFeature", e, e.feature);
@@ -76,6 +77,11 @@ const Example1 =({ title }) => {
 
     const handleMapEvent = (e) => {
         console.log("Map event", e);
+    }
+
+    const gotoXY = (e) => {
+        setMapCenter(e.coordinate);
+        setMapZoom(18);
     }
 
 // This version makes ALL the point markers increment at the same time. Unfortunately
@@ -161,8 +167,10 @@ const Example1 =({ title }) => {
                 pointermove, click, changesize, moveend
             </p>
 
+            <div id="searchbar">I'd like the search bar to show up here, please.</div>
+
             <Map
-                view=<View zoom={ 10 } center={ mapCenter } minZoom={9} maxZoom={19} />
+                view=<View zoom={ mapZoom } center={ mapCenter } minZoom={9} maxZoom={19} />
                 useDefaultControls={ false }
 
                 onPointerMove={ (e) => { setPointer(e.coordinate); } }
@@ -174,7 +182,7 @@ const Example1 =({ title }) => {
 
                 <control.LayerPopupSwitcher />
                 <control.GeoBookmarkControl marks={ initialGeoBookmarks }/>
-                <control.SearchNominatim onSelect={ (e)=>{console.log("selected feature:",e);} }/>
+                <control.SearchNominatim onSelect={ gotoXY } target="searchbar" />
 
                 <layer.Tile source="Stamen"
                     title="Toner"
@@ -249,7 +257,7 @@ const Example1 =({ title }) => {
                 className="select"
                 defaultValue={ typeSelect[0] }
                 options={ typeSelect }
-                onChange={ (o) => { setTypeIndex(o.index); console.log("You selected ", typeIndex); } }
+                onChange={ (o) => { setTypeIndex(o.index); } }
             />
 
             Implement and test...
