@@ -5,12 +5,8 @@ import SliderControl from './slider-control'
 import { Map, View, Feature, control, geom, interaction, layer } from '../src'
 import Select from 'react-select'
 import { buildStyle } from '../src/style';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
 
-// ol-ext css
-import 'ol-ext/dist/ol-ext.css'
-import 'style.css'
+import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
@@ -130,10 +126,13 @@ const Example1 =({ title }) => {
         stroke: {color: [0, 0, 0, 1], width:4},
         fill: {color: [255, 0, 0, .250]},
     };
-
+    const sbstyle = {
+        width: 50,
+        height: 50,
+    }
     return (
         <>
-            <h2>{ title }</h2>
+            <h1>{ title }</h1>
             Tile source: OpenStreetMap<br />
             WMS source: taxlots from GeoServer
             <h4>Vector source</h4>
@@ -167,9 +166,9 @@ const Example1 =({ title }) => {
                 pointermove, click, changesize, moveend
             </p>
 
-            <div id="searchbar">I'd like the search bar to show up here, please.</div>
+            <span id="searchbar" style={sbstyle}>I'd like the search bar to show up here.</span>
 
-            <Map
+            <Map style={{position:'relative',left:-50,top:50}}
                 view=<View zoom={ mapZoom } center={ mapCenter } minZoom={9} maxZoom={19} />
                 useDefaultControls={ false }
 
@@ -177,12 +176,12 @@ const Example1 =({ title }) => {
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
-                <control.FullScreen />
-                <control.Zoom />
+                <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
+                <control.SearchNominatim className="nominatim" onSelect={ gotoXY }/>
 
-                <control.LayerPopupSwitcher />
-                <control.GeoBookmarkControl marks={ initialGeoBookmarks }/>
-                <control.SearchNominatim onSelect={ gotoXY } target="searchbar" />
+                <control.LayerPopupSwitcher/>
+                <control.Zoom />
+                <control.FullScreen />
 
                 <layer.Tile source="Stamen"
                     title="Toner"

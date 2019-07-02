@@ -20,7 +20,8 @@ export default class OLOverviewMap extends OLControl {
     	    PropTypes.instanceOf(Collection)
     	]),
     	tipLabel: PropTypes.string,
-    	view: PropTypes.instanceOf(View)
+    	view: PropTypes.instanceOf(View),
+        target: PropTypes.string
     })
 
     // Everything stops working if these are false.

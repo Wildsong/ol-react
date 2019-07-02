@@ -130,7 +130,7 @@ const Example8 = ({ title }) => {
                     coordinateFormat={ coordFormatter }
                 />
 
-                <control.OverviewMap layers={overviewLayers} collapsed={ collapse }/>
+                <control.OverviewMap target="overview" layers={overviewLayers} collapsed={ collapse }/>
             </Map>
             <div id="overview" style={{color:'blue',width:'200px', height:'200px'}}>I wish the overviewmap would show up here.</div>
         </>
