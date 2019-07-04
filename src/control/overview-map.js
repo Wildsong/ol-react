@@ -32,15 +32,14 @@ export default class OLOverviewMap extends OLControl {
 
     createControl (props) {
         this.overviewmap = new Overview({
-    	    className: props.className,
+    	    //className: props.className,
     	    collapsed: props.collapsed,
     	    collapseLabel: props.collapseLabel,
     	    collapsible: props.collapsible,
-    	    label: props.label,
+    	    //label: props.label,
     	    layers: props.layers,
-            target: props.target,
-    	    tipLabel: props.tipLabel,
-    	    view: props.view,
+    	    //tipLabel: props.tipLabel,
+    	    //view: props.view,
             // defaults
             //minZoom: 0, maxZoom: 18, rotation: 0,
             //projection: wm,
@@ -48,11 +47,16 @@ export default class OLOverviewMap extends OLControl {
             //style:
             panAnimation: "elastic"
     	})
+        if (typeof props.target !== 'undefined' && props.target) {
+        // I regard this as a bug in OpenLayers,
+        // setting the property is not enough, I have to call this.
+            this.overviewmap.setTarget("overview");//props.target)
+        }
         return this.overviewmap;
     }
 
     componentDidUpdate() {
-        console.log("What is the meaning of this?", this.props.collapsed);
+        console.log("update. Am i collapsed? ", this.props.collapsed);
         this.overviewmap.setCollapsed(this.props.collapsed);
     }
 }
