@@ -132,7 +132,7 @@ const Example8 = ({ title }) => {
 
                 <control.OverviewMap target="overview" layers={overviewLayers} collapsed={collapse}/>
             </Map>
-            <div id="overview" style={{color:'blue',width:'200px', height:'200px'}}>I wish the overviewmap would show up here.</div>
+            <div id="overview">I wish the overviewmap would show up here.</div>
         </>
     );
 }

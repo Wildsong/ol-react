@@ -64,6 +64,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.4",
     "reactstrap": "^6.5.0",
+    "style.css": "^1.0.0",
     "usng.js": "^0.4.2",
     "webfont-matcher": "^1.1.0"
   }

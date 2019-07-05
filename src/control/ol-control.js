@@ -15,12 +15,12 @@ export default class OLControl extends OLComponent {
 
     constructor(props) {
         super(props);
-        this.control = this.createControl(this.props)
     }
 
     componentDidMount() {
+        console.log("OLControl.componentDidMount");
+        this.control = this.createControl(this.props)
         this.context.map.addControl(this.control)
-        console.log("OLControl.componentDidMount", this.context, this.control.collapsed);
     }
 
     componentWillUnmount() {
