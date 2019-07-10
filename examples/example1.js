@@ -169,17 +169,18 @@ const Example1 =({ title }) => {
             <span id="searchbar" style={sbstyle}>I'd like the search bar to show up here.</span>
 
             <Map style={{position:'relative',left:-50,top:50}}
-                view=<View zoom={ mapZoom } center={ mapCenter } minZoom={9} maxZoom={19} />
                 useDefaultControls={ false }
-
                 onPointerMove={ (e) => { setPointer(e.coordinate); } }
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
+
                 <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
+                {/*             
                 <control.SearchNominatim className="nominatim" onSelect={ gotoXY }/>
 
                 <control.LayerPopupSwitcher/>
+                */}
                 <control.Zoom />
                 <control.FullScreen />
 
@@ -204,6 +205,8 @@ const Example1 =({ title }) => {
                         STYLES: "redline", // WMS style, from GeoServer in this case
                         TILED: true}}
                 />
+
+                {/*
 
                 <layer.Vector title="Vector Shapes" opacity={ opacityVector/100 } >
                     <Feature id="test-line" style={ lineStyle }>
@@ -248,6 +251,7 @@ const Example1 =({ title }) => {
                         drawend={ handleAddFeature }
                     />
                 </layer.Vector>
+                */}
             </Map>
 
             <p> { pointer[0] + ', ' + pointer[1] } </p>

@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MapContext } from '../map-context'
+import { Map, Extent } from 'ol'
 import { LayerContext } from '../layer-context'
 import OLComponent from '../ol-component'
-import { Extent } from 'ol'
 import { buildStyle } from '../style'
 
 // These are properties that we want to use for sources
@@ -11,10 +10,9 @@ let dictSource = [
 
 ];
 
-export default class OLLayer extends OLComponent {
-    static contextType = MapContext;
-
+class OLLayer extends OLComponent {
     static propTypes = {
+        map: PropTypes.instanceOf(Map).isRequired,
         title: PropTypes.string,
         opacity: PropTypes.number,
         visible: PropTypes.bool,
@@ -77,7 +75,7 @@ export default class OLLayer extends OLComponent {
 
     componentDidMount() {
         try {
-            this.context.map.addLayer(this.layer)
+            this.props.map.addLayer(this.layer)
         } catch {
             console.log("addLayer failed")
         }
@@ -108,7 +106,7 @@ export default class OLLayer extends OLComponent {
 
     componentWillUnmount() {
         console.log("OLLayer.componentDidUnmount");
-        this.context.map.removeLayer(this.layer)
+        this.props.map.removeLayer(this.layer)
     }
 
     render() {
@@ -117,10 +115,11 @@ export default class OLLayer extends OLComponent {
         // Features need to know about Interactions, I think. And they hide in the map.
         return (
             <>
-                <LayerContext.Provider value={{map: this.context.map, layer: this.layer}}>
+                <LayerContext.Provider value={{map: this.props.map, layer: this.layer}}>
                     {this.props.children}
                 </LayerContext.Provider>
             </>
         );
     }
 }
+export default OLLayer;

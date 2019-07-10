@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
 import { unByKey } from 'ol/Observable';
 import OLComponent from '../ol-component'
 
-export default class OLInteraction extends OLComponent {
-    static contextType = MapContext;
+class OLInteraction extends OLComponent {
     static propTypes = {
+        map: PropTypes.instanceOf(Map).isRequired,
 	    active: PropTypes.bool
     }
     static defaultProps = {
@@ -86,3 +85,4 @@ export default class OLInteraction extends OLComponent {
         }
     }
 }
+export default OLInteraction;

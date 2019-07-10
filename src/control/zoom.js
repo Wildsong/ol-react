@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Zoom } from 'ol/control'
+import {connect} from 'react-redux'
+import {Zoom} from 'ol/control'
 import OLControl from './ol-control'
 
-export default class OLZoom extends OLControl {
-    static propTypes = Object.assign({}, OLControl.propTypes, {
+class OLZoom extends OLControl {
+    static propTypes = {
     	className: PropTypes.string,
     	delta: PropTypes.number,
     	duration: PropTypes.number,
@@ -12,13 +13,13 @@ export default class OLZoom extends OLControl {
     	zoomInTipLabel: PropTypes.string,
     	zoomOutLabel: PropTypes.node,
     	zoomOutTipLabel: PropTypes.string
-    })
+    };
     static defaultProps = {
 	    duration: 250
     }
-
-    createControl(props) {
-        this.zoomControl = new Zoom({
+    constructor(props) {
+        super(props);
+        this.control = new Zoom({
             className: props.className,
             delta: props.delta,
             duration: props.duration,
@@ -27,11 +28,9 @@ export default class OLZoom extends OLControl {
             zoomOutLabel: props.zoomOutLabel,
             zoomOutTipLabel: props.zoomOutTipLabel
         })
-        return this.zoomControl;
     }
-
-    //render() {
-    //    //console.log("OLZoom render ", this.props);
-    //    return super.render();
-    //}
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLZoom);

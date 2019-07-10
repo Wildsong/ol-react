@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, Collection} from 'ol'
-import {Layer} from 'ol/layer'
-import OLControl from './ol-control'
+import {connect} from 'react-redux'
+import {Map, View, Collection} from 'ol'
+import {Layer, Tile} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+import OLComponent from '../ol-component';
 
+// Two options for the actual control: OpenLayers or ol-ext.
 import {OverviewMap as Overview} from 'ol/control'
-// This one not working for me 2019-06-28
+// ol-ext control is not working for me 2019-06-28
 //import Overview from 'ol-ext/control/Overview'
 
-export default class OLOverviewMap extends OLControl {
-    static propTypes = Object.assign({}, OLControl.propTypes, {
+class OLOverviewMap extends OLComponent {
+    static propTypes = {
+        map: PropTypes.instanceOf(Map).isRequired,
     	className: PropTypes.string,
     	collapsed: PropTypes.bool,
     	collapseLabel: PropTypes.string,
@@ -20,42 +24,59 @@ export default class OLOverviewMap extends OLControl {
     	    PropTypes.instanceOf(Collection)
     	]),
     	tipLabel: PropTypes.string,
-    	view: PropTypes.instanceOf(View),
-        target: PropTypes.string
-    })
-
-    // Everything stops working if these are false.
+    	view: PropTypes.instanceOf(View)
+    }
     static defaultProps = {
-        collapsed: true,
-        collapsible: true,
+        collapsed: false,
+        collapsible: false,
     }
 
-    componentDidMount() {
-    }
-
-    createControl (props) {
-        console.log("la de da");
-        this.overviewmap = new Overview({
+    constructor(props) {
+        super(props);
+        this.overview = new Overview({
             //className: props.className,
-            collapsed: this.props.collapsed,
-            collapseLabel: this.props.collapseLabel,
-            collapsible: this.props.collapsible,
+            collapsed: false, //this.props.collapsed,
+            //collapseLabel: this.props.collapseLabel,
+            collapsible: false, //this.props.collapsible,
             //label: this.props.label,
-            layers: this.props.layers,
+            layers: [
+                new Tile({
+                    //source: new OSM()
+                    source: new Stamen({layer: "toner"})
+                }),
+            ],
             //tipLabel: this.props.tipLabel,
             //view: this.props.view,
             // defaults
             //minZoom: 0, maxZoom: 18, rotation: 0,
             //projection: wm,
-            align: 'right',
             //style:
-            panAnimation: "elastic"
+            //align: 'right',
+            //panAnimation: "elastic"
         })
-        this.overviewmap.setTarget(this.props.target)
+        this.setOverviewTarget = element => {
+            console.log("setOverviewTarget");
+            this.overview.setTarget(element)
+            this.props.map.addControl(this.overview);
+        }
+    }
+
+    componentDidMount() {
     }
 
     componentDidUpdate() {
         console.log("update. Am i collapsed? ", this.props.collapsed);
         this.overviewmap.setCollapsed(this.props.collapsed);
     }
+
+    render() {
+        console.log("overviewmap render");
+        return (
+            <div ref={this.setOverviewTarget} style={{position:"relative",top:0,width:200,height:200}}></div>
+        )
+    }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLOverviewMap);

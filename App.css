@@ -1,3 +1,11 @@
+.map46-navbar {
+    color: #808080;
+    background-color: #F0F0FF;
+}
+.nav-item:hover {
+    background-color: #FFFFFF;
+}
+
 // These are default classNames from OpenLayers.
 // You can override them with your own names when you create the components.
 
@@ -39,14 +47,6 @@
     right: 32px;
 }
 
-.ol-overviewmap {
-    position: relative;
-    left: 5px;
-    bottom: 160px;
-    width: 155px;
-    height: 155px;
-}
-
 .ol-scale-line {
     font-family: arial;
     position: relative;
@@ -80,8 +80,18 @@
 }
 
 .ol-react-map {
-    width: 600px;
-    height: 400px;
+    width: 450px;
+    height: 250px;
+    position: relative;
+    left: 5px;
+    top: 5px;
+}
+
+.ol-overviewmap {
+    position: relative;
+    width: 155px;
+    height: 155px;
+    background-color: #4CAF50;
 }
 
 .sliders {

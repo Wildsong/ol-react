@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MapContext } from './map-context'
-import Graticule from 'ol/Graticule'
-import { Stroke } from 'ol/style'
+import {connect} from 'react-redux'
+import {Map, Graticule} from 'ol'
+import {Stroke} from 'ol/style'
 import OLComponent from './ol-component'
 
-export default class OLGraticule extends OLComponent {
-    static contextType = MapContext;
-
+class OLGraticule extends OLComponent {
     static propTypes = {
+        map: PropTypes.instanceOf(Map).isRequired,
         maxLines: PropTypes.number,
         stroke: PropTypes.string,
         targetSize: PropTypes.number,
@@ -44,19 +43,10 @@ export default class OLGraticule extends OLComponent {
     }
 
     componentDidMount() {
-        this.graticule.setMap(this.context.map);
+        this.graticule.setMap(this.props.map);
     }
-
-    /*
-
-    componentDidUpdate(prevProps) {
-    }
-
-    render() {
-        return (
-            <>
-            </>
-        )
-    }
-    */
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLGraticule);

@@ -3,29 +3,21 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import OLControl from './ol-control'
+import OLComponent from '../ol-component';
 import SearchNominatim from 'ol-ext/control/SearchNominatim'
 import 'ol-ext/control/LayerPopup.css'
 
-export default class OLExtSearchNominatim extends OLControl {
-    static propTypes = Object.assign({}, OLControl.propTypes, {
+class OLExtSearchNominatim extends OLComponent {
+    static propTypes = {
     	onSelect: PropTypes.func,
-    })
-//    static defaultProps = {
-//    }
-
-    createControl(props) {
-        console.log(props);
+    };
+    constructor(props) {
+        super(props);
         this.search = new SearchNominatim({
             className: props.className,
-            //target: props.target
         });
         this.search.on('select', props.onSelect);
         return this.search;
     }
-
-    //render() {
-    //    //console.log("OLZoom render ", this.props);
-    //    return super.render();
-    //}
 }
+export default OLExtSearchNominatim;

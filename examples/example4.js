@@ -167,7 +167,7 @@ export default class Example4 extends Component {
                         url={ featureServer }
                         style={ polyStyle }
                     />
-
+/*
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
                     <interaction.KeyboardPan
                         condition={ () => { return true; } }
@@ -179,7 +179,7 @@ export default class Example4 extends Component {
                         duration={ 750 }
                         delta={ 1 }
                     />
-
+*/
                 </Map>
             </>
         );

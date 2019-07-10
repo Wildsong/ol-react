@@ -1,34 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MapContext} from '../map-context';
-import OLComponent from '../ol-component';
+import {connect} from 'react-redux'
+import {Map} from 'ol'
+import OLComponent from '../ol-component'
 
-export default class OLControl extends OLComponent {
-    static contextType = MapContext;
+class OLControl extends OLComponent {
     static propTypes = {
-	    //element: OLPropTypes.HTMLElement,
-	    //render: PropTypes.func,
-	    target: PropTypes.string // render to element outside the map
-    }
-    static defaultProps = {
-    }
-
-    constructor(props) {
-        super(props);
+        map: PropTypes.instanceOf(Map),
     }
 
     componentDidMount() {
-        console.log("OLControl.componentDidMount");
-        this.control = this.createControl(this.props)
-        this.context.map.addControl(this.control)
+        this.props.map.addControl(this.control)
     }
 
     componentWillUnmount() {
-        this.context.map.removeControl(this.control)
-    }
-
-    createControl(props) {
-        throw new TypeError('You must override createControl() in classes derived ' +
-                            'from OLControl')
+        this.props.map.removeControl(this.control)
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.theMap.map,
+})
+export default OLControl;

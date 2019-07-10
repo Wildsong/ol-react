@@ -14,9 +14,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 import { myGeoServer, astoria_wm, usngPrecision, wgs84 } from '../src/constants'
 
-// this should really go away
+// this should all go away
 import { Tile as TileLayer } from 'ol/layer'
 import { OSM, Stamen } from 'ol/source'
+import {Map as OLMap, View as OLView} from 'ol';
+import { DEFAULT_CENTER,MINZOOM } from '../src/constants'
 
 const usngConverter = new Converter
 
@@ -31,8 +33,9 @@ const Example8 = ({ title }) => {
     const [ osmOpacity, setOpacity ] = useState(50);
     const [ slidoVisible, setSlido ] = useState(true);
 
-    const [ collapse, setCollapse ] = useState(true);
-
+    const theMap = new OLMap({
+            view: new OLView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    });
 
     const popupElement = React.createElement('div', { className:"ol-popup" }, popupText );
     const selectedFeatures = new Collection();
@@ -40,16 +43,6 @@ const Example8 = ({ title }) => {
         const ll = toLonLat(coord)
         return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
     };
-
-    // FIXME -- this is just a kludge so I can test overview maps
-    // I want to be able to pass layer components as children but the control does not
-    // have an addlayer method. So I have to build a list of layers first
-    const overviewLayers = [
-        new TileLayer({
-            //source: new OSM()
-            source: new Stamen({layer: "toner"})
-        })
-    ]
 
     const changeOpacity = (value) => {
         console.log("Opacity ", value);
@@ -107,9 +100,8 @@ const Example8 = ({ title }) => {
 
             <SliderControl title="Streets" onChange={ changeOpacity } value={ osmOpacity }/>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
-            <Button onClick={() => {setCollapse(!collapse);}}>Toggle Overview</Button>
-            <Map
-                view=<View zoom={ 15 } center={ astoria_wm } minZoom={8} maxZoom={18} />
+            <Map map={theMap}
+//                view=<View zoom={ 15 } center={ astoria_wm } minZoom={8} maxZoom={18} />
                 useDefaultControls={ false }
                 onClick={ handleMapClick }
             >
@@ -129,10 +121,9 @@ const Example8 = ({ title }) => {
                     projection={ wgs84 }
                     coordinateFormat={ coordFormatter }
                 />
-
-                <control.OverviewMap target="overview" layers={overviewLayers} collapsed={collapse}/>
             </Map>
-            <div id="overview">I wish the overviewmap would show up here.</div>
+
+            <control.OverviewMap map={theMap}/>
         </>
     );
 }

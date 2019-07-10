@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ZoomSlider} from 'ol/control';
-import OLControl from './ol-control';
+import OLComponent from '../ol-component';
 
-export default class OLZoomSlider extends OLControl {
-    static propTypes = Object.assign({}, OLControl.propTypes, {
-	className: PropTypes.string,
-	duration: PropTypes.number,
-	maxResolution: PropTypes.number,
-	minResolution: PropTypes.number
-    })
+class OLZoomSlider extends OLComponent {
+    static propTypes = {
+    	className: PropTypes.string,
+    	duration: PropTypes.number,
+    	maxResolution: PropTypes.number,
+    	minResolution: PropTypes.number
+    }
 
-    createControl(props) {
-	return new ZoomSlider({
-	    className: props.className,
-	    duration: props.duration,
-	    maxResolution: props.maxResolution,
-	    minResolution: props.duration
-	})
+    constructor(props) {
+    	return new ZoomSlider({
+    	    className: props.className,
+    	    duration: props.duration,
+    	    maxResolution: props.maxResolution,
+    	    minResolution: props.duration
+    	})
     }
 }
-
+export default OLZoomSlider;

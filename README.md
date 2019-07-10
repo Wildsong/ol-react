@@ -59,6 +59,14 @@ SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
 
 ## Project status
 
+### Testing
+
+I just ran across this article on testing that is very useful. Partly becauase of testing :-)
+and partly because it shows me how to solve some little React problems in ways I have not
+seen before.
+
+https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-mocha-part-i-9a2ca0458ba1
+
 ### Tested and working in the sample app:
 * Controls
  * FullScreen

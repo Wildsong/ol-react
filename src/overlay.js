@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MapContext } from './map-context'
+import {connect} from 'react-redux'
 import ReactDOM from 'react-dom'
 import {Map, Overlay} from 'ol';
 import {Source} from 'ol/source';
 import OLComponent from './ol-component';
 
-export default class OLOverlay extends OLComponent {
-    static contextType = MapContext;
-
+class OLOverlay extends OLComponent {
     static propTypes = {
+        map: PropTypes.instanceOf(Map).isRequired,
         id: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
@@ -50,7 +49,7 @@ export default class OLOverlay extends OLComponent {
     }
 
     componentDidMount() {
-        this.context.map.addOverlay(this.overlay);
+        this.props.map.addOverlay(this.overlay);
         this.updateFromProps_();
     }
 
@@ -104,3 +103,7 @@ export default class OLOverlay extends OLComponent {
         }
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLOverlay);

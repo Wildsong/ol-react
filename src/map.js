@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {MapContext} from './map-context';
-import {Map} from 'ol';
-//import Map from 'ol/WebGLMap'; // generates cross-origin errors
-import {toLatLon} from 'ol/proj';
-import {defaults as defaultInteractions} from 'ol/interaction';
-import {defaults as defaultControls} from 'ol/control';
-import OLComponent from './ol-component';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import {Map} from 'ol'
+import {toLatLon} from 'ol/proj'
+import {defaults as defaultInteractions} from 'ol/interaction'
+import {defaults as defaultControls} from 'ol/control'
+import OLComponent from './ol-component'
 
-export default class OLMap extends Component {
+class OLMap extends Component {
     static propTypes = {
+        map: PropTypes.object.isRequired,
         loadTilesWhileAnimating: PropTypes.bool,
         loadTilesWhileInteracting: PropTypes.bool,
         onPointerMove: PropTypes.func,
@@ -18,84 +18,83 @@ export default class OLMap extends Component {
         onChangeSize: PropTypes.func,
         onMoveEnd: PropTypes.func,
         onPostrender: PropTypes.func,
-        view: PropTypes.element.isRequired,
-        useDefaultInteractions: PropTypes.bool.isRequired,
-        useDefaultControls: PropTypes.bool.isRequired,
         focusOnMount: PropTypes.bool.isRequired,
-
 /*        children: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.element),
             PropTypes.element,
         ])
 */    }
     static defaultProps = {
-        useDefaultInteractions: true,
-        useDefaultControls: true,
         focusOnMount: false
     }
 
     constructor(props) {
         super(props);
-        this.map = new Map({
+        /*
+        this.props.map = new Map({
             loadTilesWhileAnimating: this.props.loadTilesWhileAnimating,
             loadTilesWhileInteracting: this.props.loadTilesWhileInteracting,
             interactions: this.props.useDefaultInteractions ? defaultInteractions() : [],
             controls: this.props.useDefaultControls ? defaultControls() : [],
             overlays: []
         });
-
-        if (this.props.onPointerMove) this.map.on('pointermove', this.props.onPointerMove, this);
-        //if (this.props.onPointerDrag) this.map.on('pointerdrag', this.props.onPointeDrag, this);
+        */
+        if (this.props.onPointerMove) this.props.map.on('pointermove', this.props.onPointerMove, this);
+        //if (this.props.onPointerDrag) this.props.map.on('pointerdrag', this.props.onPointeDrag, this);
 
         // There are about 20 different events we could watch here
         // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
-        if (this.props.onChangeSize)  this.map.on('change:size', this.props.onChangeSize);
-        if (this.props.onClick)       this.map.on('click', this.props.onClick);
-        if (this.props.onSingleClick) this.map.on('singleclick', this.props.onSingleClick);
-        //if (this.props.onDblClick)    this.map.on('doubleclick', this.props.onDblClick);
-        if (this.props.onMoveEnd)     this.map.on('moveend', this.props.onMoveEnd);
-        if (this.props.onPostrender)  this.map.on('postrender', this.props.onPostrender);
+        if (this.props.onChangeSize)  this.props.map.on('change:size', this.props.onChangeSize);
+        if (this.props.onClick)       this.props.map.on('click', this.props.onClick);
+        if (this.props.onSingleClick) this.props.map.on('singleclick', this.props.onSingleClick);
+        //if (this.props.onDblClick)    this.props.map.on('doubleclick', this.props.onDblClick);
+        if (this.props.onMoveEnd)     this.props.map.on('moveend', this.props.onMoveEnd);
+        if (this.props.onPostrender)  this.props.map.on('postrender', this.props.onPostrender);
+
+        this.setMapTarget = element => {
+            console.log("setMapTarget");
+            this.props.map.setTarget(element)
+        }
+    }
+
+    focus() {
+        const viewport = this.props.map.getViewport()
+        viewport.tabIndex = 0
+        viewport.focus()
+    }
+
+    updateSize() {
+        this.props.map.updateSize()
+    }
+
+    getSize() {
+        return this.props.map.getSize();
     }
 
     componentDidMount() {
-//        console.log("OLMap.componentDidMount refs=", this.refs)
-        this.map.setTarget(this.refs.target) // this comes from the div in render()
         if (this.props.focusOnMount) {
             this.focus()
         }
     }
 
     componentWillUnmount() {
-        this.map.setTarget(undefined)
+        this.props.map.setTarget(undefined)
     }
 
     render() {
         //console.log("OLMap.render() props=", this.props)
         return (
             <div style={this.props.style}>
-            <MapContext.Provider value={{map: this.map}}>
-                <>
-                    {this.props.children}
-                    {this.props.view}
-                </>
-                <div ref="target" className='ol-react-map'>
-                </div>
-            </MapContext.Provider>
+            <>
+                {this.props.children}
+                {this.props.view}
+            </>
+            <div ref={this.setMapTarget} className='ol-react-map'></div>
             </div>
         )
     }
-
-    focus() {
-        const viewport = this.map.getViewport()
-        viewport.tabIndex = 0
-        viewport.focus()
-    }
-
-    updateSize() {
-        this.map.updateSize()
-    }
-
-    getSize() {
-        return this.map.getSize();
-    }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+});
+export default connect(mapStateToProps)(OLMap)

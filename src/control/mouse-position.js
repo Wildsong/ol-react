@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {MousePosition} from 'ol/control';
 import {Projection} from 'ol/proj';
-import OLControl from './ol-control';
+import OLComponent from '../ol-component';
 
 // FIXME
 // I'd like to have "target" here but think the right way
@@ -12,8 +12,8 @@ import OLControl from './ol-control';
 // this OL control
 // Hence this control just throws the coord onto the map for now
 
-export default class OLMousePosition extends OLControl {
-    static propTypes = Object.assign({}, OLControl.propTypes, {
+class OLMousePosition extends OLComponent {
+    static propTypes = {
     	className: PropTypes.string,
     	coordinateFormat: PropTypes.func, // f(x) that takes coord and returns string
     	projection: PropTypes.oneOfType([
@@ -22,9 +22,10 @@ export default class OLMousePosition extends OLControl {
     	]),
     	undefinedHTML: PropTypes.string, // Show this when mouse outside viewport
         // See also ol-control for more!
-    })
+    };
 
-    createControl(props) {
+    constructor(props) {
+        super(props);
     	return new MousePosition({
     	    className: props.className,
     	    coordinateFormat: props.coordinateFormat,
@@ -33,3 +34,5 @@ export default class OLMousePosition extends OLControl {
     	})
     }
 }
+
+export default OLMousePosition;

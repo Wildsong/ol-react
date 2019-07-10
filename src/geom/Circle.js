@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Feature} from 'ol';
+import {Map, Feature} from 'ol';
 import Circle from 'ol/geom/Circle';
 import OLGeometry from './ol-geometry';
+import {connect} from 'react-redux'
 
-export default class OLCircle extends OLGeometry {
+class OLCircle extends OLGeometry {
     static propTypes = {
-	children: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),  // [x,y]
-            PropTypes.node                        // [[x,y], radius]
-	]).isRequired,
-    }
-    static defaultProps = {
+        map: PropTypes.instanceOf(Map).isRequired,
+        children: PropTypes.oneOfType([
+                PropTypes.arrayOf(PropTypes.number),  // [x,y]
+                PropTypes.node                        // [[x,y], radius]
+    	]).isRequired,
     }
 
     constructor(props) {
@@ -28,6 +28,10 @@ export default class OLCircle extends OLGeometry {
         }
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLCircle);
 
 // Circle requires a center x,y point
 //   optionally radius (default 0)

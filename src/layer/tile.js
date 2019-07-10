@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import { Style } from 'ol/style'
 import { Tile as TileLayer } from 'ol/layer'
 import { BingMaps, OSM, Stamen } from 'ol/source'
 import { TileArcGISRest, TileWMS, XYZ } from 'ol/source'
 import OLLayer from './ol-layer'
 
-export default class OLTile extends OLLayer {
+class OLTile extends OLLayer {
     static propTypes =  Object.assign({}, OLLayer.propTypes, {
         source: PropTypes.oneOfType([
             PropTypes.object, // An OpenLayers ol/source object
@@ -143,3 +144,7 @@ export default class OLTile extends OLLayer {
     }
 */
 }
+const mapStateToProps = (state) => { console.log("state-",state.map); return ({
+    map: state.map.theMap,
+});}
+export default connect(mapStateToProps)(OLTile);

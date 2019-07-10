@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
 import {FeatureContext} from '../feature-context'
 import {Collection} from 'ol'
 import {Modify} from 'ol/interaction'
 import OLComponent from '../ol-component'
 
-export default class OLGeometry extends OLComponent {
+class OLGeometry extends OLComponent {
     static contextType = FeatureContext;
     static propTypes = {
+        map: PropTypes.object.isRequired,
     	modify: PropTypes.bool,
     	modifyStart: PropTypes.func,
     	modifyEnd: PropTypes.func,
@@ -35,7 +35,7 @@ export default class OLGeometry extends OLComponent {
 	// when we turn the flag off.
 
         if (this.props.modify) {
-            let interactions = this.context.map.getInteractions()
+            let interactions = this.props.map.getInteractions()
 
             this.interaction = new Modify({
                 features: new Collection([this.context.feature]),
@@ -68,8 +68,7 @@ export default class OLGeometry extends OLComponent {
     componentWillUnmount() {
         //console.log("OLGeometry.componentWillUnmount()")
         if (this.props.modify && this.interaction) {
-            //console.log("OLGeometry Fix map context here")
-            let interactions = this.context.map.getInteractions()
+            let interactions = this.props.map.getInteractions()
             //console.log("OLGeometry.componentWillUnmount() interactions = ", interactions);
             if (this.props.modifyStart) {
                 this.interaction.on('modifystart', this.props.modifyStart)
@@ -87,3 +86,4 @@ export default class OLGeometry extends OLComponent {
         //throw("You need to override updateFromProps in your geometry class.")
     }
 }
+export default OLGeometry;
