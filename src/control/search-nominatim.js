@@ -3,21 +3,24 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import OLComponent from '../ol-component';
+import {connect} from 'react-redux'
+import OLControl from './ol-control'
 import SearchNominatim from 'ol-ext/control/SearchNominatim'
 import 'ol-ext/control/LayerPopup.css'
 
-class OLExtSearchNominatim extends OLComponent {
+class OLExtSearchNominatim extends OLControl {
     static propTypes = {
     	onSelect: PropTypes.func,
     };
     constructor(props) {
         super(props);
-        this.search = new SearchNominatim({
-            className: props.className,
+        this.control = new SearchNominatim({
+            className: this.props.className,
         });
-        this.search.on('select', props.onSelect);
-        return this.search;
+        this.control.on('select', this.props.onSelect);
     }
 }
-export default OLExtSearchNominatim;
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLExtSearchNominatim);

@@ -78,6 +78,7 @@ const Example1 =({ title }) => {
     const gotoXY = (e) => {
         setMapCenter(e.coordinate);
         setMapZoom(18);
+        console.log("Saving it here does me no good, need to send to redux");
     }
 
 // This version makes ALL the point markers increment at the same time. Unfortunately
@@ -176,8 +177,8 @@ const Example1 =({ title }) => {
             >
 
                 <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                {/*             
                 <control.SearchNominatim className="nominatim" onSelect={ gotoXY }/>
+                {/*
 
                 <control.LayerPopupSwitcher/>
                 */}
