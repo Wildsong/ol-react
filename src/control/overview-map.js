@@ -4,16 +4,16 @@ import {connect} from 'react-redux'
 import {Map, View, Collection} from 'ol'
 import {Layer, Tile} from 'ol/layer'
 import {OSM, Stamen} from 'ol/source'
-import OLComponent from '../ol-component';
+import OLControl from './ol-control'
 
 // Two options for the actual control: OpenLayers or ol-ext.
 import {OverviewMap as Overview} from 'ol/control'
 // ol-ext control is not working for me 2019-06-28
 //import Overview from 'ol-ext/control/Overview'
 
-class OLOverviewMap extends OLComponent {
+class OLOverviewMap extends OLControl {
     static propTypes = {
-        map: PropTypes.instanceOf(Map).isRequired,
+        ...OLControl.propTypes,
     	className: PropTypes.string,
     	collapsed: PropTypes.bool,
     	collapseLabel: PropTypes.string,

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import { Vector as VectorLayer } from 'ol/layer'
 import { Cluster as ClusterSource, Vector as VectorSource } from 'ol/source'
 import { Style } from 'ol/style'
@@ -10,8 +11,9 @@ import { tile as tileStrategy, bbox as bboxStrategy } from 'ol/loadingstrategy'
 import { DataLoader } from './dataloaders'
 import { buildStyle } from '../style'
 
-export default class OLVector extends OLLayer {
-    static propTypes = Object.assign({}, OLLayer.propTypes, {
+class OLVector extends OLLayer {
+    static propTypes = {
+        ...OLLayer.propTypes,
         source: PropTypes.oneOfType([
             PropTypes.object, // An OpenLayers ol/source object
             PropTypes.string, // WMS | ArcGISRest
@@ -45,7 +47,7 @@ export default class OLVector extends OLLayer {
                     ]
                 ))
         ])
-    });
+    };
     static defaultProps = {
         visible: true,
         cluster: false
@@ -135,3 +137,7 @@ export default class OLVector extends OLLayer {
         })
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLVector);

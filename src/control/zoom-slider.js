@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux'
 import {ZoomSlider} from 'ol/control';
-import OLComponent from '../ol-component';
+import OLControl from './ol-control'
 
-class OLZoomSlider extends OLComponent {
+class OLZoomSlider extends OLControl {
     static propTypes = {
     	className: PropTypes.string,
     	duration: PropTypes.number,
@@ -12,7 +13,7 @@ class OLZoomSlider extends OLComponent {
     }
 
     constructor(props) {
-    	return new ZoomSlider({
+    	this.control = new ZoomSlider({
     	    className: props.className,
     	    duration: props.duration,
     	    maxResolution: props.maxResolution,
@@ -20,4 +21,7 @@ class OLZoomSlider extends OLComponent {
     	})
     }
 }
-export default OLZoomSlider;
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLZoomSlider);

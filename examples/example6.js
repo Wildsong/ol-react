@@ -1,12 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { fromLonLat, toLonLat } from 'ol/proj'
-import {Map, View, Feature, geom, layer} from '../src'
-
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
-
-import { myGeoServer,workspace, wm } from '../src/constants'
+import {fromLonLat, toLonLat} from 'ol/proj'
+import {Map, Feature, geom, layer} from '../src'
+import {myGeoServer, workspace, wm} from '../src/constants'
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -14,7 +10,7 @@ const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
 const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?Layers=0"
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
-export default class Example6 extends Component {
+class Example6 extends React.Component {
     static propTypes = {
         title: PropTypes.string
     }
@@ -59,29 +55,14 @@ export default class Example6 extends Component {
                 and a FeatureServer of elementary schools hosted on ArcGIS Online.
                 </p>
 
-                <Map useDefaultControls={false}
-                    view=<View projection={wm}
-                        zoom={ this.state.zoom }
-                        center={ ll }
-                    />
-                >
-                    <layer.Image source="WMS" url={ wmsImageUrl } />
-
-                    <layer.Tile source="OSM" opacity={ .5 }/>
-
-                    <layer.Vector
-                        source="esrijson"
-                        url={ featureUrl }
-                        style={ pointStyle }
-                    />
-
-                    <layer.Vector name="Web markers"
-                        source="geojson"
-                        url={ web_markers }
-                        style={ markerStyle }
-                    />
+                <Map zoom={ this.state.zoom } center={ ll }>
+                    <layer.Image source="WMS" url={wmsImageUrl} />
+                    <layer.Tile source="OSM" opacity={.5}/>
+                    <layer.Vector source="esrijson" url={featureUrl} style={pointStyle}/>
+                    <layer.Vector name="Web markers" source="geojson" url={web_markers} style={markerStyle}/>
                 </Map>
             </>
         );
     }
 }
+export default Example6

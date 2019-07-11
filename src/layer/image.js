@@ -1,19 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import {Style} from 'ol/style'
 import {Image as ImageLayer} from 'ol/layer'
 import {ImageArcGISRest, ImageWMS} from 'ol/source'
 import OLLayer from './ol-layer'
 
-export default class OLImage extends OLLayer {
-    static propTypes =  Object.assign({}, OLLayer.propTypes, {
+class OLImage extends OLLayer {
+    static propTypes =  {
+        ...OLLayer.propTypes,
         source: PropTypes.oneOfType([
             PropTypes.object, // An OpenLayers ol/source object
             PropTypes.string, // WMS | ArcGISRest
         ]).isRequired,
     	url: PropTypes.string,
     	attributions: PropTypes.arrayOf(PropTypes.string)
-    });
+    };
     static defaultProps = {
 	    visible: true
     }
@@ -81,3 +83,7 @@ export default class OLImage extends OLLayer {
         console.log("layer.image props=", sourceProps, imageSource);
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLImage);

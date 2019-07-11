@@ -198,9 +198,7 @@ export default class Example2 extends React.Component {
                     <Button>Drag to select</Button>
                     <Select options={ aerials } onChange={ this.changeAerial } />
 
-                <Map useDefaultControls={ false }
-                    view=<View zoom={ 16 } center={ astoria_wm }/>
-                >
+                <Map center={astoria_wm}>
                     <layer.Tile source="OSM" />
 
                     <layer.Image name="City of Astoria"
@@ -209,10 +207,11 @@ export default class Example2 extends React.Component {
                     />
 
                     <layer.Vector name="Taxlots"
-                        source={ this.taxlotSource }
-                        style={ taxlotStyle }
-                        editStyle={ selectedStyle }
+                        source={this.taxlotSource}
+                        style={taxlotStyle}
+                        editStyle={selectedStyle}
                     >
+                    {/*
                         <interaction.Select
                             select={ this.onSelectInteraction }
                             condition={ this.handleCondition }
@@ -226,14 +225,14 @@ export default class Example2 extends React.Component {
                             boxend={ this.onBoxEnd }
                             active={ true }
                         />
+                    */}
                     </layer.Vector>
-
+{/*
 	                <Overlay id="popups"
                         element={ popup }
                         position={ this.state.popupPosition }
                         positioning="center-center"
                     />
-
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition
                         projection={ wgs84 }
@@ -242,6 +241,7 @@ export default class Example2 extends React.Component {
                         } }
                     />
                     <control.ZoomSlider />
+*/}
                 </Map>
 
                 <BootstrapTable bootstrap4 striped condensed

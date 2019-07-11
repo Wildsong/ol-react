@@ -7,6 +7,7 @@ import 'ol-ext/control/GeoBookmark.css'
 
 class OLExtGeoBookmarkControl extends OLControl {
     static propTypes = {
+        ...OLControl.propTypes,
     	marks: PropTypes.object,
     }
     constructor(props) {

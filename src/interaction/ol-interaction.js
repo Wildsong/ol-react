@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { unByKey } from 'ol/Observable';
+import {Map} from 'ol'
+import {unByKey} from 'ol/Observable'
 import OLComponent from '../ol-component'
 
 class OLInteraction extends OLComponent {

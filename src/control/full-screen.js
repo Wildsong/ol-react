@@ -6,6 +6,7 @@ import OLControl from './ol-control'
 
 class OLFullScreen extends OLControl {
     static propTypes = {
+        ...OLControl.propTypes,
     	className: PropTypes.string,
     	keys: PropTypes.bool,
     	label: PropTypes.node,

@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Map, View, Feature, Graticule, control, geom, layer } from '../src'
+import {Map, Feature, Graticule, control, geom, layer} from '../src'
 import stylefunction from 'ol-mapbox-style/stylefunction'
-import { Fill, Icon, Stroke, Style, Text } from 'ol/style'
-import { fromLonLat, toLonLat } from 'ol/proj'
-import { Converter } from 'usng.js'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
-import { myGeoServer, astoria_wm, usngPrecision, wm, wgs84 } from '../src/constants'
+import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
+import {fromLonLat, toLonLat } from 'ol/proj'
+import {Converter} from 'usng.js'
+import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
 
 const usngConverter = new Converter
 
@@ -20,7 +18,7 @@ const taxlots_url = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 
-export default class Example7 extends React.Component {
+class Example7 extends React.Component {
     static propTypes = {
         title: PropTypes.string
     };
@@ -83,30 +81,24 @@ export default class Example7 extends React.Component {
                     <li> Tile source: Mapbox</li>
                     </ul>
 
-                <Map
-                    view=<View zoom={ 10 } center={ astoria_wm }
-                            minZoom={8} maxZoom={18} />
-                    useDefaultControls={ false }
-                    onMoveEnd={ this.handleEvent }
-                >
+                <Map zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
+                    onMoveEnd={this.handleEvent}>
                     <Graticule
                         showLabels={ true }
                         maxLines={ 100 }
                         targetSize={ 50 }
                     />
+                    {/*
                     <layer.VectorTile source="MVT"
-                        url={ mapbox_url }
-                        style={ stylefunction }
+                        url={mapbox_url}
+                        style={stylefunction}
                     />
-                    <layer.VectorTile source="MVT"
-                        url={ taxlots_url }
-                    />
-                    <control.MousePosition
-                        projection={ wgs84 }
-                        coordinateFormat={ coordFormatter }
-                    />
+                    <layer.VectorTile source="MVT" url={taxlots_url}/>
+                    <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
+*/}
                 </Map>
             </>
         );
     }
 }
+export default Example7;

@@ -6,6 +6,7 @@ import OLControl from './ol-control'
 
 class OLAttribution extends OLControl {
     static propTypes = {
+        ...OLControl.propTypes,
         className: PropTypes.string,
     	collapsed: PropTypes.bool,
     	collapseLabel: PropTypes.string,
@@ -17,7 +18,7 @@ class OLAttribution extends OLControl {
     constructor(props) {
         super(props);
         console.log("control.Attribution props=", props)
-    	return new Attribution({
+    	this.control = new Attribution({
     	    className: props.className,
     	    collapsed: props.collapsed,
     	    collapseLabel: props.collapseLabel,

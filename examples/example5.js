@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { fromLonLat } from 'ol/proj'
-import { Map, View, layer } from '../src'
-import { Point } from 'ol/geom'
-import { Feature } from 'ol'
-import { Vector as VectorSource } from 'ol/source'
-import { Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
+import {fromLonLat} from 'ol/proj'
+import {Map, layer} from '../src'
+import {Point} from 'ol/geom'
+import {Feature} from 'ol'
+import {Vector as VectorSource} from 'ol/source'
+import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 
 import { myGeoServer, workspace, astoria_ll } from '../src/constants'
 
@@ -30,7 +28,7 @@ const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z
       + ((typeof thunderforest_key === 'undefined')? '' : "?apikey=" + thunderforest_key)
 //console.log("url=",thunderforest_url);
 
-export default class Example5 extends Component {
+class Example5 extends React.Component {
     static propTypes = {
         title: PropTypes.string
     }
@@ -230,21 +228,11 @@ export default class Example5 extends Component {
                         Animate
                         <button name="animate"       onClick={ this.buttonClick }>{ this.state.animate? "on" : "off" }</button>
                     </p>
-                    <Map useDefaultControls={false}
-                        view=<View projection={ "EPSG:3857" }
-                            zoom={ this.state.zoom }
-                            center={ this.state.center }
-                            rotation={ this.state.rotation }
-                            animate={ this.state.animate }
-                        />
-                        onMoveEnd={ this.onMoveEnd }
-                    >
-                        <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
+                    <Map zoom={this.state.zoom} center={this.state.center} rotation={this.state.rotation}
+                            animate={this.state.animate} onMoveEnd={ this.onMoveEnd }>
+                            <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
 
-                        <layer.Vector name="Taxlots"
-                            url={ taxlots } source={ taxlotsSource }
-                            style={ polyStyle }
-                        />
+                        <layer.Vector name="Taxlots" url={taxlots} source={taxlotsSource} style={polyStyle}/>
 
                         <layer.Vector name="Display" source={vectorSource} style={style}/>
                     </Map>
@@ -268,3 +256,4 @@ export default class Example5 extends Component {
         );
     }
 }
+export default Example5;

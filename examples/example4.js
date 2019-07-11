@@ -1,24 +1,12 @@
-import React, { Component} from 'react'
-import { render } from 'react-dom'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import { Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
-import { transform } from 'ol/proj'
+import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
+import {Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
+import {transform} from 'ol/proj'
 // Bootstrap (reactstrap in this case)
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Button
-} from 'reactstrap'
-import { Map, View, Feature, control, geom, interaction, layer } from '../src';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css';
-import { astoria_wm, wgs84, wm } from '../src/constants'
+import {Button} from 'reactstrap'
+import {Map, Feature, control, geom, interaction, layer} from '../src';
+import {astoria_wm, wgs84, wm} from '../src/constants'
 const defaultCenter_wm = astoria_wm;
 const defaultZoom = 10;
 
@@ -98,7 +86,7 @@ const getTextStyle = (feature, resolution) => {
     return new Style({ text:s });
 };
 
-export default class Example4 extends Component {
+class Example4 extends React.Component {
     state = {
         bingVisible : true,
         opacityBing: 50,
@@ -146,42 +134,33 @@ export default class Example4 extends Component {
                         DoubleClickZoom (works more or less)<br />
                     </p>
 
-                <Map view=<View projection={wm}
-                    minZoom={ 10 } maxZoom={ 20 }
-                    zoom={ defaultZoom }
-                    center={defaultCenter_wm}/> useDefaultControls={false}>
-
+                <Map minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
                     <layer.Tile name="Bing Road"
                         source="BingMaps" imagerySet="CanvasLight"
                         apikey={ bingmaps_key }
                     />
-
                     <layer.Tile name="Bing Aerial"
                         source="BingMaps" imagerySet="Aerial"
                         visible={ this.state.bingVisible }
                         apikey={ bingmaps_key }
                     />
-
                     <layer.Vector name="Oregon Zoning"
-                        source="esrijson"
-                        url={ featureServer }
-                        style={ polyStyle }
+                        source="esrijson" url={featureServer}
+                        style={polyStyle}
                     />
-/*
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
+                    {/*
                     <interaction.KeyboardPan
                         condition={ () => { return true; } }
                         duration={ 750 }
                         pixelDelta={ 100 }
                     />
 
-                    <interaction.DoubleClickZoom
-                        duration={ 750 }
-                        delta={ 1 }
-                    />
-*/
+                    <interaction.DoubleClickZoom duration={ 750 } delta={ 1 }/>
+                    */}
                 </Map>
             </>
         );
     }
 }
+export default Example4;

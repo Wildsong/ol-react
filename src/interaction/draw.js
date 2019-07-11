@@ -1,22 +1,21 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { LayerContext } from '../layer-context'
-import { Draw } from 'ol/interaction'
+import {connect} from 'react-redux'
+import {LayerContext} from '../layer-context'
+import {Draw} from 'ol/interaction'
 import OLInteraction from './ol-interaction'
 
-export default class OLDraw extends OLInteraction {
+class OLDraw extends OLInteraction {
     static contextType = LayerContext;
-    static propTypes = Object.assign({},
-        OLInteraction.propTypes, {
-            condition: PropTypes.func,
-        	drawend: PropTypes.func,
-        	drawstart: PropTypes.func,
-        	type: PropTypes.string.isRequired,
-        	maxPoints: PropTypes.number,
-        	minPoints: PropTypes.number
-        }
-    )
-
+    static propTypes = {
+	    ...OLInteraction.propTypes,
+        condition: PropTypes.func,
+        drawend: PropTypes.func,
+        drawstart: PropTypes.func,
+        type: PropTypes.string.isRequired,
+        maxPoints: PropTypes.number,
+        minPoints: PropTypes.number
+    };
     static olEvents = ["drawend", "drawstart"];
 
     createInteraction() {
@@ -42,3 +41,7 @@ export default class OLDraw extends OLInteraction {
         return interaction;
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap
+})
+export default connect(mapStateToProps)(OLDraw);

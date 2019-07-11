@@ -1,16 +1,21 @@
 // demo: http://viglino.github.io/ol-ext/examples/control/map.switcher.popup.html
-
 import React from 'react'
 import PropTypes from 'prop-types'
-import OLComponent from '../ol-component';
+import {connect} from 'react-redux'
 import LayerPopup from 'ol-ext/control/LayerPopup'
+import OLControl from './ol-control'
 import 'ol-ext/control/LayerPopup.css'
 
-class OLExtLayerPopupSwitcher extends OLComponent {
+class OLExtLayerPopupSwitcher extends OLControl {
+    static propTypes = {
+        ...OLControl.propTypes,
+    };
     constructor(props) {
         super(props);
-        this.layerSwitcherControl = new LayerPopup()
-        return this.layerSwitcherControl;
+        this.control = new LayerPopup()
     }
 }
-export default OLExtLayerPopupSwitcher;
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default  connect(mapStateToProps)(OLExtLayerPopupSwitcher);

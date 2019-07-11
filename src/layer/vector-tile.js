@@ -1,18 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Style } from 'ol/style'
-import { VectorTile as VectorTileLayer } from 'ol/layer'
-import { VectorTile as VectorTileSource } from 'ol/source'
-import { GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat } from 'ol/format'
+import {connect} from 'react-redux'
+import {Style} from 'ol/style'
+import {VectorTile as VectorTileLayer} from 'ol/layer'
+import {VectorTile as VectorTileSource} from 'ol/source'
+import {GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat} from 'ol/format'
 import OLLayer from './ol-layer'
 
-export default class OLVectorTile extends OLLayer {
-    static propTypes = Object.assign({}, OLLayer.propTypes, {
+class OLVectorTile extends OLLayer {
+    static propTypes = {
+        ...OLLayer.propTypes,
         source: PropTypes.oneOf(['geojson','JSON','MVT','WKT']),
     	url: PropTypes.string,
     	attributions: PropTypes.arrayOf(PropTypes.string),
     	layer: PropTypes.string,
-    });
+    };
     static defaultProps = {
     	visible: true,
     	opaque: true
@@ -78,3 +80,7 @@ export default class OLVectorTile extends OLLayer {
         })
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLVectorTile);

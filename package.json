@@ -48,6 +48,7 @@
     "mapbox-gl-styles": "^2.0.2"
   },
   "dependencies": {
+    "@geonet/geohash": "^1.0.10",
     "@mapbox/mapbox-gl-style-spec": "^13.7.0",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
@@ -65,7 +66,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.4",
     "reactstrap": "^6.5.0",
-    "redux": "^4.0.3",
+    "redux": "^4.0.4",
     "redux-first-router": "^2.1.2",
     "redux-first-router-link": "^2.1.1",
     "redux-logger": "^3.0.6",

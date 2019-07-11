@@ -1,17 +1,21 @@
-import { DragAndDrop, DragAndDropEvent } from 'ol/interaction'
-import { Cluster } from 'ol/source'
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {DragAndDrop, DragAndDropEvent} from 'ol/interaction'
+import {Cluster} from 'ol/source'
+import {Vector as VectorSource} from 'ol/source/vector'
 import {GPX, KML, EsriJSON, GeoJSON} from 'ol/format'
 import OLInteraction from './ol-interaction'
-import { LayerContext } from '../layer-context'
+import {LayerContext} from '../layer-context'
 
-export default class OLDragAndDrop extends OLInteraction {
-    static contextType = LayerContext
-    // FIXME this needs attention obviously
-    static propTypes = Object.assign({}, OLInteraction.propTypes, {
-//    source: VectorSource,
-//    projection: PropTypes.string,
-//    target: PropTypes.HTMLElement, // element where you can drop things
-    })
+class OLDragAndDrop extends OLInteraction {
+    static contextType = LayerContext;
+    static propTypes = {
+    	...OLInteraction.propTypes,
+    	source: PropTypes.instanceOf(VectorSource),
+    	projection: PropTypes.string,
+    //	target: PropTypes.HTMLElement, // element where you can drop things, this does not work
+    };
 
     createInteraction() {
         console.log("OLDragAndDrop.createInteraction", this.props);
@@ -50,3 +54,7 @@ export default class OLDragAndDrop extends OLInteraction {
         return interaction
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap
+})
+export default connect(mapStateToProps)(OLDragAndDrop);

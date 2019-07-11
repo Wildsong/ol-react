@@ -4,12 +4,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import OLControl from './ol-control'
 import SearchNominatim from 'ol-ext/control/SearchNominatim'
+import OLControl from './ol-control'
 import 'ol-ext/control/LayerPopup.css'
 
 class OLExtSearchNominatim extends OLControl {
     static propTypes = {
+        ...OLControl.propTypes,
     	onSelect: PropTypes.func,
     };
     constructor(props) {

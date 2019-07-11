@@ -1,21 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { LayerContext } from '../layer-context'
-import { Select } from 'ol/interaction'
-import { Collection } from 'ol'
+import {connect} from 'react-redux'
+import {LayerContext} from '../layer-context'
+import {Select} from 'ol/interaction'
+import {Collection} from 'ol'
 import OLInteraction from './ol-interaction'
 
-export default class OLSelect extends OLInteraction {
+class OLSelect extends OLInteraction {
     static contextType = LayerContext;
-    static propTypes = Object.assign({},
-         OLInteraction.propTypes, {
-	         condition: PropTypes.func,  // can be from ol/events/condition or custom
-	         select: PropTypes.func,     // handle select olEvents
-             features: PropTypes.instanceOf(Collection),
-             style: PropTypes.object
-         }
-     )
-
+    static propTypes = {
+         ...OLInteraction.propTypes,
+	     condition: PropTypes.func,  // can be from ol/events/condition or custom
+         select: PropTypes.func,     // handle select olEvents
+         features: PropTypes.instanceOf(Collection),
+         style: PropTypes.object
+    };
     static olEvents = ["select"];
 
     createInteraction() {
@@ -29,3 +28,7 @@ export default class OLSelect extends OLInteraction {
         return interaction;
     }
 }
+const mapStateToProps = (state) => ({
+    map: state.map.theMap
+})
+export default connect(mapStateToProps)(OLSelect);

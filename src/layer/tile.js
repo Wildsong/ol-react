@@ -8,7 +8,8 @@ import { TileArcGISRest, TileWMS, XYZ } from 'ol/source'
 import OLLayer from './ol-layer'
 
 class OLTile extends OLLayer {
-    static propTypes =  Object.assign({}, OLLayer.propTypes, {
+    static propTypes =  {
+        ...OLLayer.propTypes,
         source: PropTypes.oneOfType([
             PropTypes.object, // An OpenLayers ol/source object
             PropTypes.string // oneOf(['WMS',  'ArcGISRest'])
@@ -17,7 +18,7 @@ class OLTile extends OLLayer {
     	attributions: PropTypes.arrayOf(PropTypes.string),
     	layer: PropTypes.string,
         apikey: PropTypes.string
-    });
+    };
     static defaultProps = {
     	visible: true,
     	opaque: false
@@ -144,7 +145,7 @@ class OLTile extends OLLayer {
     }
 */
 }
-const mapStateToProps = (state) => { console.log("state-",state.map); return ({
-    map: state.map.theMap,
-});}
+const mapStateToProps = (state) => ({
+    map: state.map.theMap
+})
 export default connect(mapStateToProps)(OLTile);

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux'
 import {Rotate} from 'ol/control';
-import OLComponent from '../ol-component';
+import OLControl from './ol-control'
 
-class OLRotate extends OLComponent {
+class OLRotate extends OLControl {
     static propTypes = {
+        ...OLControl.propTypes,
     	autoHide: PropTypes.bool,
     	className: PropTypes.string,
     	duration: PropTypes.number,
@@ -15,7 +17,7 @@ class OLRotate extends OLComponent {
 
     constructor(props) {
         super(props);
-    	return new Rotate({
+    	this.control = new Rotate({
     	    autoHide: props.autoHide,
     	    className: props.className,
     	    duration: props.duration,
@@ -25,5 +27,7 @@ class OLRotate extends OLComponent {
     	})
     }
 }
-
-export default OLRotate;
+const mapStateToProps = (state) => ({
+    map: state.map.theMap,
+})
+export default connect(mapStateToProps)(OLRotate);

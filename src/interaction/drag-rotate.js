@@ -1,13 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import { DragRotate as olDragRotate } from 'ol/interaction'
 import OLInteraction from './ol-interaction'
 
-export default class DragRotate extends OLInteraction {
-    static propTypes = Object.assign({}, OLInteraction.propTypes, {
+class DragRotate extends OLInteraction {
+    static propTypes = {
+        ...OLInteraction.propTypes,
     	condition: PropTypes.func,
     	duration: PropTypes.number
-    })
+    }
 
     createInteraction() {
     	return new olDragRotate({
@@ -16,3 +18,8 @@ export default class DragRotate extends OLInteraction {
     	})
     }
 }
+
+const mapStateToProps = (state) => ({
+    map: state.map.theMap
+})
+export default connect(mapStateToProps)(DragRotate);

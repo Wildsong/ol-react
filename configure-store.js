@@ -3,10 +3,10 @@ import { createStore, applyMiddleware, combineReducers, compose  } from 'redux'
 import { map } from './src/reducers'
 import { page } from './page'
 import { mapMiddleware, errorReporter } from './src/middleware'
-import routes from './routesMap'
+import routesMap from './routes-map'
 
 export default function configureStore(preloadedState) {
-    const { reducer, middleware, enhancer } = routes;
+    const { reducer, middleware, enhancer } = routesMap;
     const rootReducer = combineReducers({
         map,
         page,

@@ -168,10 +168,7 @@ export default class Example3 extends Component {
                         <br />
                     Using zIndex to control order of layers.
 
-            <Map view=<View
-                    zoom={ 8 } center={ astoria_wm }
-                    minZoom={ 8 } maxZoom={ 18 }/>
-                useDefaultControls={false}>
+            <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
                 <layer.Tile
                     source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
@@ -199,18 +196,17 @@ export default class Example3 extends Component {
                     style={ clusterStyle }
                     zIndex={ 4 }
                 >
-                    {/* This interaction has to be inside a vector layer. */}
-                    <interaction.DragAndDrop />
+                {/* This interaction has to be inside a vector layer.
+                    <interaction.DragAndDrop />*/}
                 </layer.Vector>
 
                 <control.OverviewMap/>
                 <control.FullScreen />
-                <interaction.DragBox boxend={ this.handleDragBox }/>
+                {/*
+                <interaction.DragBox boxend={this.handleDragBox}/>
+                */}
 
-                <control.MousePosition
-                    projection={ wgs84 }
-                    coordinateFormat={ coordFormatter }
-                />
+                <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
             </Map>
             </>
         );
