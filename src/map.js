@@ -1,36 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Map as olMap, View as olView, Style as olStyle} from 'ol'
+import {Map as olMap} from 'ol'
 import {toLatLon} from 'ol/proj'
-import {defaults as defaultInteractions} from 'ol/interaction'
-import {defaults as defaultControls} from 'ol/control'
 import OLComponent from './ol-component'
-import {newMap, setMapCenter} from './actions'
-import { DEFAULT_CENTER, XMIN,YMIN, XMAX,YMAX, MINZOOM,MAXZOOM } from './constants'
+import {setMapCenter} from './actions'
 
-const OLMap = props => {
-    /*
-    props.map = new Map({
-        loadTilesWhileAnimating: this.props.loadTilesWhileAnimating,
-        loadTilesWhileInteracting: this.props.loadTilesWhileInteracting,
-        interactions: this.props.useDefaultInteractions ? defaultInteractions() : [],
-        controls: this.props.useDefaultControls ? defaultControls() : [],
-        overlays: []
-    });
-    */
-    const theMap = new olMap({
-        view: new olView({
-            extent: [[XMIN,YMIN],[XMAX,YMAX]],
-            minZoom: MINZOOM,
-            maxZoom: MAXZOOM
-        }),
-        controls: [],
-        interactions:[],
-    });
-    props.newMap(theMap);
-    props.setMapCenter(DEFAULT_CENTER, MINZOOM)
+const OLMap = ({map}) => {
+    const t = element => {
+        try {
+            map.setTarget(element)
+        } catch {
+            console.log("OLMap Problems map=", map);
+        }
+    }
+    return (
+        <div ref={t} style={{position:"relative", top:0, width:600,height:400}}>
+        </div>
+    )
+}
 /*
+const OLMap = ({map,setMapCenter}) => {
+    setMapCenter(DEFAULT_CENTER, MINZOOM)
     if (this.props.onPointerMove) this.props.map.on('pointermove', this.props.onPointerMove, this);
     //if (this.props.onPointerDrag) this.props.map.on('pointerdrag', this.props.onPointeDrag, this);
 
@@ -42,42 +33,24 @@ const OLMap = props => {
     //if (this.props.onDblClick)    this.props.map.on('doubleclick', this.props.onDblClick);
     if (this.props.onMoveEnd)     this.props.map.on('moveend', this.props.onMoveEnd);
     if (this.props.onPostrender)  this.props.map.on('postrender', this.props.onPostrender);
-*/
     const setMapTarget = element => {
         console.log("setMapTarget", element);
         theMap.setTarget(element)
     }
-
     return (
         <div style={props.style}>
             {props.children}
-            <div className='ol-react-map'></div>
+            <div ref={setMapTarget} className='ol-react-map'></div>
         </div>
     )
 }
+*/
 OLMap.propTypes = {
     map: PropTypes.instanceOf(olMap),
-    style: PropTypes.instanceOf(olStyle),
-    onPointerMove: PropTypes.func,
-    onClick: PropTypes.func,
-    onSingleClick: PropTypes.func,
-    onChangeSize: PropTypes.func,
-    onMoveEnd: PropTypes.func,
-//    onPostrender: PropTypes.func,
-//    loadTilesWhileAnimating: PropTypes.bool,
-//    loadTilesWhileInteracting: PropTypes.bool,
-//    focusOnMount: PropTypes.bool.isRequired,
-/*
-        children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.element),
-        PropTypes.element,
-    ])
-*/
 }
 const mapStateToProps = (state) => ({
-    map: state.map.theMap,
 });
 const mapDispatchToProps = {
-    newMap, setMapCenter
+    setMapCenter
 };
 export default connect(mapStateToProps, mapDispatchToProps)(OLMap)

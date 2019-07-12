@@ -1,13 +1,9 @@
 import { actions } from '../actions'
 import Geohash from '@geonet/geohash'
-import {Map, View} from 'ol';
 import { toLonLat, fromLonLat } from 'ol/proj'
 import { DEFAULT_CENTER,MINZOOM } from '../constants'
 
 const initialState = {
-    // The map will be in projected coords, usually web mercator.
-    theMap: null,
-
     // These are stored in WGS84, always.
     center: DEFAULT_CENTER,
     zoom: MINZOOM
@@ -47,13 +43,6 @@ export function setMapQuery(lonlat, zoom) {
 export const map = (state=initialState, action={}) => {
     let newState;
     switch(action.type) {
-        case actions.NEWMAP: {
-            newState = {
-                ...state,
-                theMap: action.payload
-            }
-            break;
-        }
         case actions.SETMAPCENTER:
 /*
             if (zoom < MINZOOM || zoom > MAXZOOM) {

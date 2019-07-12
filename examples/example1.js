@@ -1,17 +1,40 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import SliderControl from './slider-control'
-import { Map, View, Feature, control, geom, interaction, layer } from '../src'
+import {Map, Feature, geom} from '../src'
 import Select from 'react-select'
-import { buildStyle } from '../src/style';
+import {buildStyle} from '../src/style'
+import {setMapCenter} from '../src/actions'
 
 import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
-import { fromLonLat, transform } from 'ol/proj'
-import { myGeoServer, astoria_wm } from '../src/constants'
+import {myGeoServer, astoria_wm} from '../src/constants'
+
+import {Map as olMap, View as olView} from 'ol'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
+import {Tile} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+
+// These controls will show up on the map.
+import {FullScreen as olFullScreen} from 'ol/control'
+import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+
+// A new instance of 'map' loads each time we come to this page.
+// If I want to persist any state in the map it has to be done
+// outside the component, either in redux or in some parent component.
+// I wonder if I should persist the entire olMap or just its properties.
+const mymap = new olMap({
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    controls: olControls, interactions: olInteractions,
+    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+})
 
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
@@ -57,15 +80,41 @@ const EventList = (props) => {
 
 /* ============================================================================= */
 
-const Example1 =({ title }) => {
+const Example1 = ({setMapCenter}) => {
+    const [theMap, setTheMap] = useState(mymap);
+    const [center, setCenter] = useState(astoria_wm);
+    const [zoom, setZoom] = useState(10);
+
     const [enableModify, setModify] = useState(true); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(80);
     const [opacityVector, setOpacityVector] = useState(100);
     const [typeIndex, setTypeIndex] = useState(0); // index into draw typeSelect
     const [pointer, setPointer] = useState('');
     const [markerId, setMarker] = useState(1);
-    const [mapCenter, setMapCenter] = useState(astoria_wm);
-    const [mapZoom, setMapZoom] = useState(10);
+
+    // Add map layers
+    const osmLayer = new Tile({
+        source: new OSM(),
+        opacity: {opacityOSM},
+    })
+    theMap.addLayer(osmLayer);
+
+    // Add widgets specific to this page.
+
+    theMap.addControl(new olFullScreen());
+
+    const onGeocode = (e) => {
+        setCenter(e.coordinate);
+        setZoom(18);
+        theMap.getView().setCenter(e.coordinate);
+        theMap.getView().setZoom(18);
+    }
+
+    // Comes up in the wrong place, hence it needs styling.
+    //  This is the search widget that comes up on the map.
+    const searchWidget = new olSearchNominatim();
+    searchWidget.on('select', onGeocode);
+    theMap.addControl(searchWidget);
 
     const handleAddFeature = (e) => {
         console.log("handleAddFeature", e, e.feature);
@@ -73,12 +122,6 @@ const Example1 =({ title }) => {
 
     const handleMapEvent = (e) => {
         console.log("Map event", e);
-    }
-
-    const gotoXY = (e) => {
-        setMapCenter(e.coordinate);
-        setMapZoom(18);
-        console.log("Saving it here does me no good, need to send to redux");
     }
 
 // This version makes ALL the point markers increment at the same time. Unfortunately
@@ -133,7 +176,7 @@ const Example1 =({ title }) => {
     }
     return (
         <>
-            <h1>{ title }</h1>
+            <h1>Example 1 - Vector draw tools</h1>
             Tile source: OpenStreetMap<br />
             WMS source: taxlots from GeoServer
             <h4>Vector source</h4>
@@ -155,7 +198,7 @@ const Example1 =({ title }) => {
                     Search Nominatim
                 </p>
 
-            <SliderControl title="OSM" onChange={ setOpacityOSM } value={ opacityOSM } />
+                <SliderControl title="OSM" onChange={ setOpacityOSM } value={ opacityOSM } />
             <SliderControl title="Vectors" onChange={ setOpacityVector } value={ opacityVector } />
 
             FIXME I can change the Vector Type now but the style does not update
@@ -167,18 +210,14 @@ const Example1 =({ title }) => {
                 pointermove, click, changesize, moveend
             </p>
 
-            <span id="searchbar" style={sbstyle}>I'd like the search bar to show up here.</span>
-
-            <Map style={{position:'relative',left:50,top:0}}
+            <Map map={theMap} style={{position:'relative',left:50,top:0}}
                 onPointerMove={ (e) => { setPointer(e.coordinate); } }
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
+            {/*
                 <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                <control.SearchNominatim className="nominatim" onSelect={ gotoXY }/>
                 <control.LayerPopupSwitcher/>
-                <control.Zoom />
-                <control.FullScreen />
 
                 <layer.Tile source="Stamen"
                     title="Toner"
@@ -245,6 +284,7 @@ const Example1 =({ title }) => {
                         drawend={ handleAddFeature }
                     />
                 </layer.Vector>
+                */}
             </Map>
 
             <p> { pointer[0] + ', ' + pointer[1] } </p>
@@ -268,7 +308,13 @@ const Example1 =({ title }) => {
     );
 }
 Example1.propTypes = {
-    title: PropTypes.string
 };
-
+/*
+const mapStateToProps = ({
+})
+const mapDispatchToProps = {
+    setMapCenter
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Example1);
+*/
 export default Example1;

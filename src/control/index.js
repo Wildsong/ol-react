@@ -14,4 +14,3 @@ export { default as ZoomToExtent } from './zoom-to-extent'
 // from ol-ext package
 export { default as LayerPopupSwitcher } from './layer-popup-switcher'
 export { default as GeoBookmarkControl } from './geobookmark'
-export { default as SearchNominatim } from './search-nominatim'
