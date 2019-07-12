@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import { fromLonLat, toLonLat } from 'ol/proj'
-import { toStringXY } from 'ol/coordinate'
+import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
+import {fromLonLat, toLonLat} from 'ol/proj'
+import {toStringXY} from 'ol/coordinate'
 import {
     Circle as CircleStyle,
     Fill as FillStyle,
@@ -11,7 +11,7 @@ import {
     Style,
     Text as TextStyle
 } from 'ol/style'
-import { Converter } from 'usng.js'
+import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
 import {
     Collapse,
@@ -24,11 +24,11 @@ import {
     Button
 } from 'reactstrap'
 import SliderControl from './slider-control'
-import { Map, View, Feature, control, geom, interaction, layer } from '../src'
-import { buildStyle } from '../src/style'
+import {Map, Feature, control, geom, interaction, layer} from '../src'
+import {buildStyle} from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css';
-import { astoria_wm, wgs84 } from '../src/constants'
+import '../App.css'
+import {astoria_wm, wgs84} from '../src/constants'
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -43,7 +43,8 @@ let attributions = [
     'and ESRI too.'
 ];
 
-export default class Example3 extends Component {
+const Example3 = () => {
+    /*
     state = {
         hasError: false,
         // Note we override draw order using zIndex, as a test
@@ -51,36 +52,24 @@ export default class Example3 extends Component {
         opacityLayer2 : 30,
         opacityLayer3 : 20,
     }
+    */
 
-    static propTypes = {
-        title: PropTypes.string
-    };
-
-    static getDerivedStateFromError(error) {
-        return { hasError: true };
-    };
-
-    componentDidCatch(error, info) {
-        console.log("We have a problem.", error, info)
-    }
-
-    changeOpacity1 = (value) => {
+    const changeOpacity1 = (value) => {
         this.setState({ opacityLayer1 : value });
     }
 
-    changeOpacity2 = (value) => {
+    const changeOpacity2 = (value) => {
         this.setState({ opacityLayer2 : value });
     }
 
-    changeOpacity3 = (value) => {
+    const changeOpacity3 = (value) => {
         this.setState({ opacityLayer3 : value });
     }
 
-    handleDragBox = (e) => {
+    const handleDragBox = (e) => {
         console.log("You dragged a box.", e);
     }
 
-    render() {
         // FIXME: I'd like to control how the points appear
         // at different levels and cluster them when we're
         // zoomed out and of course there is more than one type
@@ -168,7 +157,8 @@ export default class Example3 extends Component {
                         <br />
                     Using zIndex to control order of layers.
 
-            <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
+            <Map map={theMap} zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
+		{/*
                 <layer.Tile
                     source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
@@ -196,19 +186,20 @@ export default class Example3 extends Component {
                     style={ clusterStyle }
                     zIndex={ 4 }
                 >
-                {/* This interaction has to be inside a vector layer.
-                    <interaction.DragAndDrop />*/}
+                 This interaction has to be inside a vector layer.
+                    <interaction.DragAndDrop />
                 </layer.Vector>
 
                 <control.OverviewMap/>
                 <control.FullScreen />
-                {/*
+
                 <interaction.DragBox boxend={this.handleDragBox}/>
-                */}
 
                 <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
+                */}
+
             </Map>
             </>
         );
-    }
 }
+export default Example3;

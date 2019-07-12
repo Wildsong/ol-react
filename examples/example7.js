@@ -3,9 +3,31 @@ import PropTypes from 'prop-types'
 import {Map, Feature, Graticule, control, geom, layer} from '../src'
 import stylefunction from 'ol-mapbox-style/stylefunction'
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
-import {fromLonLat, toLonLat } from 'ol/proj'
 import {Converter} from 'usng.js'
 import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
+
+import {Map as olMap, View as olView} from 'ol'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
+import {Tile as olTileLayer} from 'ol/layer'
+import {Vector as olVectorLayer} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+
+// These controls will show up on the map.
+import {FullScreen as olFullScreen} from 'ol/control'
+import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+
+// A new instance of 'map' loads each time we come to this page.
+// If I want to persist any state in the map it has to be done
+// outside the component, either in redux or in some parent component.
+// I wonder if I should persist the entire olMap or just its properties.
+const mymap = new olMap({
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    controls: olControls, interactions: olInteractions,
+    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+})
 
 const usngConverter = new Converter
 
@@ -18,17 +40,14 @@ const taxlots_url = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 
-class Example7 extends React.Component {
-    static propTypes = {
-        title: PropTypes.string
-    };
+const Example7 = ({}) => {
+    const [theMap, setTheMap] = useState(mymap);
 
-    handleEvent = (e) => {
+    const handleEvent = (e) => {
         console.log("Map.handleEvent", e)
         //e.stopPropagation(); // this stops draw interaction
     }
 
-    render() {
         const coordFormatter = (coord) => {
             const zoom = 6;
             const ll = toLonLat(coord)
@@ -61,15 +80,15 @@ class Example7 extends React.Component {
             fill: {color: [255, 0, 0, .250]},
         };
 
-        return (
-            <>
-                <h2>{ this.props.title }</h2>
+    return (
+        <>
+            <h2>Example7</h2>
 
-                <p>TODO
-                I am adding history and this example will eventually
-                demonstate that too.
-                </p>
-                <p>FIXME
+            <p>TODO
+            I am adding history and this example will eventually
+            demonstate that too.
+            </p>
+            <p>FIXME
                 This demo fails because I don't have mapbox styles
                 working yet.
                 </p>
@@ -81,7 +100,7 @@ class Example7 extends React.Component {
                     <li> Tile source: Mapbox</li>
                     </ul>
 
-                <Map zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
+                <Map map={theMap} zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
                     onMoveEnd={this.handleEvent}>
                     <Graticule
                         showLabels={ true }
@@ -97,8 +116,7 @@ class Example7 extends React.Component {
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
 */}
                 </Map>
-            </>
-        );
-    }
+        </>
+    );
 }
 export default Example7;

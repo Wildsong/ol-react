@@ -86,23 +86,18 @@ const getTextStyle = (feature, resolution) => {
     return new Style({ text:s });
 };
 
-class Example4 extends React.Component {
+const Example4 = () => {
+    /*
     state = {
         bingVisible : true,
         opacityBing: 50,
     }
-
-    static propTypes = {
-        title: PropTypes.string
-    };
-
-    toggleLayer = () => {
+*/
+    const toggleLayer = () => {
         this.setState({
             bingVisible : !this.state.bingVisible,
         });
     }
-
-    render(props) {
         let polyStyle = {
             stroke: {color: [0, 255, 0, 1], width:2},
             //fill: {color: [255, 0, 0, .250]},
@@ -118,7 +113,7 @@ class Example4 extends React.Component {
 
         return (
             <>
-                <h2>{this.props.title}</h2>
+                <h2>Example4</h2>
                     <ul>
                     <li> Zoning: ArcGIS FeatureServer JSON format </li>
                     <li> BingMaps aerial </li>
@@ -134,7 +129,8 @@ class Example4 extends React.Component {
                         DoubleClickZoom (works more or less)<br />
                     </p>
 
-                <Map minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
+                <Map map={theMap} minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
+{/*
                     <layer.Tile name="Bing Road"
                         source="BingMaps" imagerySet="CanvasLight"
                         apikey={ bingmaps_key }
@@ -149,7 +145,7 @@ class Example4 extends React.Component {
                         style={polyStyle}
                     />
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
-                    {/*
+
                     <interaction.KeyboardPan
                         condition={ () => { return true; } }
                         duration={ 750 }
@@ -161,6 +157,5 @@ class Example4 extends React.Component {
                 </Map>
             </>
         );
-    }
 }
 export default Example4;

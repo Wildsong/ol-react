@@ -28,11 +28,8 @@ const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z
       + ((typeof thunderforest_key === 'undefined')? '' : "?apikey=" + thunderforest_key)
 //console.log("url=",thunderforest_url);
 
-class Example5 extends React.Component {
-    static propTypes = {
-        title: PropTypes.string
-    }
-    state = {
+const Example5 = () => {
+    /*    state = {
         address: '',
         geocoderesults: [],
         lats: astoria_ll[1].toString(),
@@ -42,7 +39,8 @@ class Example5 extends React.Component {
         rotation: 0.00,
         animate: true
     }
-    bookmarks = {
+    */
+    const bookmarks = {
         1 : {
     	    location: astoria_ll,
             zoom: 13,
@@ -85,7 +83,7 @@ class Example5 extends React.Component {
     	}
     }
 
-    change = (e) => {
+    const change = (e) => {
         const { target: { name, value }} = e;
         //console.log('change', e, name, value);
         this.setState({
@@ -94,7 +92,7 @@ class Example5 extends React.Component {
         e.preventDefault();
     }
 
-    buttonClick = (e) => {
+    const buttonClick = (e) => {
         const { target: { name, value }} = e;
         //console.log('click', e, name, value);
         let z = this.state.zoom;
@@ -126,7 +124,7 @@ class Example5 extends React.Component {
         e.preventDefault();
     }
 
-    submit = (e) => {
+    const submit = (e) => {
         console.log("Geocode request", e);
         this.setState({
             lon: parseFloat(this.state.lons),
@@ -136,7 +134,7 @@ class Example5 extends React.Component {
         e.preventDefault();
     }
 
-    gotoXY = (coord,zoom) => {
+    const gotoXY = (coord,zoom) => {
         if (coord[0]==0 || coord[1]==0 || zoom==0) return;
         console.log('Example5.gotoXY', coord, zoom);
         this.setState({
@@ -145,7 +143,7 @@ class Example5 extends React.Component {
         });
     }
 
-    gotoBookmark = (e) => {
+    const gotoBookmark = (e) => {
         const bookmarkId = e.target.name;
 
         // Bookmarks are stored in lat,lon
@@ -159,7 +157,7 @@ class Example5 extends React.Component {
         this.gotoXY(coord, bookmark_wgs84.zoom);
     }
 
-    onMoveEnd = (e) => {
+    const onMoveEnd = (e) => {
         const v = e.map.getView()
         console.log("Map.onMoveEnd", v.getCenter(), v.getZoom(), v.getRotation())
         this.setState({
@@ -170,8 +168,7 @@ class Example5 extends React.Component {
         //e.stopPropagation(); // this stops draw interaction
     }
 
-    render() {
-        // Show a list of bookmarks
+    // Show a list of bookmarks
         const keys = Object.keys(this.bookmarks);
         const bookmarks = keys.map(k => [k, this.bookmarks[k].title]);
 
@@ -228,7 +225,7 @@ class Example5 extends React.Component {
                         Animate
                         <button name="animate"       onClick={ this.buttonClick }>{ this.state.animate? "on" : "off" }</button>
                     </p>
-                    <Map zoom={this.state.zoom} center={this.state.center} rotation={this.state.rotation}
+                    <Map map={theMap} zoom={this.state.zoom} center={this.state.center} rotation={this.state.rotation}
                             animate={this.state.animate} onMoveEnd={ this.onMoveEnd }>
                             <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
 
@@ -254,6 +251,5 @@ class Example5 extends React.Component {
                 </Col></Row>
             </Container></>
         );
-    }
 }
 export default Example5;

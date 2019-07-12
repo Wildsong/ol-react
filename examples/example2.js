@@ -1,14 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import { Button } from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
-import { transform } from 'ol/proj'
 import { toStringXY } from 'ol/coordinate'
 import { Collection } from 'ol'
-import { Map, View, Feature, Overlay, control, geom, interaction, layer} from '../src';
+import {Map, Feature, Overlay, control, geom, interaction, layer} from '../src';
 import { platformModifierKeyOnly } from 'ol/events/condition'
-import { toLonLat } from 'ol/proj'
 import { toStringHDMS } from 'ol/coordinate'
 import { Vector as VectorSource } from 'ol/source'
 import { bbox as bboxStrategy } from 'ol/loadingstrategy'
@@ -16,6 +14,29 @@ import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import { buildStyle } from '../src/style'
 import { DataLoader } from '../src/layer/dataloaders'
 import '../App.css';
+
+import {Map as olMap, View as olView} from 'ol'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
+import {Tile as olTileLayer} from 'ol/layer'
+import {Vector as olVectorLayer} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+
+// These controls will show up on the map.
+import {FullScreen as olFullScreen} from 'ol/control'
+import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+
+// A new instance of 'map' loads each time we come to this page.
+// If I want to persist any state in the map it has to be done
+// outside the component, either in redux or in some parent component.
+// I wonder if I should persist the entire olMap or just its properties.
+const mymap = new olMap({
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    controls: olControls, interactions: olInteractions,
+    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+})
 
 /*
 const taxlotsFeatures = myGeoServer
@@ -78,7 +99,10 @@ const selectedStyle = { // yellow
 const tlSt = buildStyle(taxlotStyle);
 const selectedSt = buildStyle(selectedStyle);
 
-export default class Example2 extends React.Component {
+const Example2 = ({}) => {
+    const [theMap, setTheMap] = useState(mymap);
+    const [aerial, setAerial] = useState()
+    /*
     state = {
         aerial : aerials[0].value, // 1966
         aerialVisible: false,
@@ -87,18 +111,13 @@ export default class Example2 extends React.Component {
         popupText: 'HERE', // text to display in popup
         rows : []
     };
-    static propTypes = {
-        title: PropTypes.string
-    };
+    */
 
-    constructor(props) {
-        super(props);
-        // I create the source here so I don't have to go searching around
-        // for it later when I need to access its features.
+    // I create the source here so I don't have to go searching around
+    // for it later when I need to access its features.
         this.taxlotSource = new VectorSource({ strategy: bboxStrategy });
         this.taxlotSource.setLoader(DataLoader(taxlotsFormat, taxlotsFeatures, this.taxlotSource));
         this.selectedFeatures = new Collection();
-    }
 
 
 // IMPROVEMENT
@@ -106,7 +125,7 @@ export default class Example2 extends React.Component {
 // I need to look at this code to make adding and removing features
 // in the current selection set.
 
-    handleCondition = (e) => {
+   const  handleCondition = (e) => {
         this.moved = false;
         switch(e.type) {
             case 'click':
@@ -134,7 +153,7 @@ export default class Example2 extends React.Component {
         return false; // pass event along I guess
     }
 
-    addFeaturesToTable(features) {
+    const addFeaturesToTable(features) {
         const rows = [];
         if (features.getLength()) {
             features.forEach( (feature) => {
@@ -149,24 +168,24 @@ export default class Example2 extends React.Component {
         this.setState({rows: rows});
     }
 
-    onSelectInteraction = (e) => {
+    const onSelectInteraction = (e) => {
         console.log('onSelectInteraction', e, this.moved);
         if (!this.moved) {
             this.addFeaturesToTable(this.selectedFeatures)
         }
     }
 
-    onBoxStart = (e) => {
+    const onBoxStart = (e) => {
         this.selectedFeatures.clear();
     }
 
-    onBoxEnd = (e) => {
+    const onBoxEnd = (e) => {
         const extent = e.target.getGeometry().getExtent();
         this.selectedFeatures.extend(this.taxlotSource.getFeaturesInExtent(extent));
         this.addFeaturesToTable(this.selectedFeatures);
     }
 
-    changeAerial = (e) => {
+    const changeAerial = (e) => {
         if (e.value) {
             this.setState({
                 "aerial": e.value,
@@ -177,13 +196,12 @@ export default class Example2 extends React.Component {
         }
     }
 
-    render(props) {
-        const popup = React.createElement('div',
+    const popup = React.createElement('div',
             { className:"ol-popup" },
             this.state.popupText
         );
-        return (
-            <>
+    return (
+        <>
                 <h2>{this.props.title}</h2>
                     FIXME -- needs better CSS for MousePosition.<br />
                     FIXME -- shift-click and shift-drag to change selection
@@ -198,7 +216,7 @@ export default class Example2 extends React.Component {
                     <Button>Drag to select</Button>
                     <Select options={ aerials } onChange={ this.changeAerial } />
 
-                <Map center={astoria_wm}>
+	    <Map map={theMap} center={astoria_wm}>
                     <layer.Tile source="OSM" />
 
                     <layer.Image name="City of Astoria"
@@ -251,5 +269,5 @@ export default class Example2 extends React.Component {
                 />
             </>
         );
-    }
 }
+export default Example2;

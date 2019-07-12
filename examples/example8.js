@@ -25,6 +25,8 @@ const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
 
 const Example8 = () => {
+    const [theMap, setTheMap] = useState(mymap);
+
     const popupElement = React.createElement('div', { className:"ol-popup" }, popupText );
     const selectedFeatures = new Collection();
     const usngCoordFormatter = (coord, zoom=6) => {
@@ -90,7 +92,8 @@ const Example8 = () => {
             <SliderControl title="Streets" onChange={(value)=>setOpacity(value)} value={osmOpacity}/>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
 
-            <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
+            <Map map={theMap} zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
+{/*
                 <layer.Image source="ArcGISRest" url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 <layer.Tile source="OSM" opacity={ osmOpacity / 100 }/>
                 <layer.Image source="ArcGISRest" visible={ slidoVisible }
@@ -102,9 +105,10 @@ const Example8 = () => {
                     positioning="center-center"
                 />
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>
+*/}
             </Map>
 
-            <control.OverviewMap/>
+            <OverviewMap/>
         </>
     );
 }

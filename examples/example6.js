@@ -10,18 +10,16 @@ const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
 const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?Layers=0"
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
-class Example6 extends React.Component {
-    static propTypes = {
-        title: PropTypes.string
-    }
+const Example6 = () => {
+    /*
     state = {
         lat: 46.184,
         lon: -123.83,
         zoom: 14,
         rotation: 0.00
     }
+    */
 
-    render() {
         const pointStyle = {
             image: {
                 type: 'circle',
@@ -55,7 +53,7 @@ class Example6 extends React.Component {
                 and a FeatureServer of elementary schools hosted on ArcGIS Online.
                 </p>
 
-                <Map zoom={ this.state.zoom } center={ ll }>
+                <Map map={theMap} zoom={ this.state.zoom } center={ ll }>
                     <layer.Image source="WMS" url={wmsImageUrl} />
                     <layer.Tile source="OSM" opacity={.5}/>
                     <layer.Vector source="esrijson" url={featureUrl} style={pointStyle}/>
@@ -63,6 +61,5 @@ class Example6 extends React.Component {
                 </Map>
             </>
         );
-    }
 }
 export default Example6
