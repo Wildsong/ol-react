@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import SliderControl from './slider-control'
+import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
+import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, geom} from '../src'
 import Select from 'react-select'
 import {buildStyle} from '../src/style'
@@ -19,7 +19,8 @@ import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile} from 'ol/layer'
+import {Tile as olTileLayer} from 'ol/layer'
+import {Vector as olVectorLayer} from 'ol/layer'
 import {OSM, Stamen} from 'ol/source'
 
 // These controls will show up on the map.
@@ -86,19 +87,34 @@ const Example1 = ({setMapCenter}) => {
     const [zoom, setZoom] = useState(10);
 
     const [enableModify, setModify] = useState(true); // no button yet!
-    const [opacityOSM, setOpacityOSM] = useState(80);
-    const [opacityVector, setOpacityVector] = useState(100);
+    const [opacityOSM, setOpacityOSM] = useState(.80);
+    const [opacityDraw, setOpacityDraw] = useState(1);
     const [typeIndex, setTypeIndex] = useState(0); // index into draw typeSelect
     const [pointer, setPointer] = useState('');
     const [markerId, setMarker] = useState(1);
 
     // Add map layers
-    const osmLayer = new Tile({
+    const osmLayer = new olTileLayer({
         source: new OSM(),
-        opacity: {opacityOSM},
+        opacity: opacityOSM,
     })
     theMap.addLayer(osmLayer);
-
+    const drawLayer = new olVectorLayer({
+        opacity: opacityDraw,
+    })
+    theMap.addLayer(drawLayer);
+    const changeOpacityOSM = (value) => {
+        setOpacityOSM(value); // this triggers a render
+        osmLayer.setOpacity(value);
+        theMap.render();
+        console.log(value);
+    }
+    const changeOpacityDraw = (value) => {
+        setOpacityDraw(value); // this triggers a render
+        drawLayer.setOpacity(value);
+        //theMap.render();
+        console.log(value);
+    }
     // Add widgets specific to this page.
 
     theMap.addControl(new olFullScreen());
@@ -198,8 +214,8 @@ const Example1 = ({setMapCenter}) => {
                     Search Nominatim
                 </p>
 
-                <SliderControl title="OSM" onChange={ setOpacityOSM } value={ opacityOSM } />
-            <SliderControl title="Vectors" onChange={ setOpacityVector } value={ opacityVector } />
+            <OpacitySlider title="OSM" onChange={changeOpacityOSM}  value={opacityOSM}/>
+            <OpacitySlider title="Draw" onChange={changeOpacityDraw} value={opacityDraw}/>
 
             FIXME I can change the Vector Type now but the style does not update
             so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
