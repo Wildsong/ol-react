@@ -18,6 +18,7 @@ import '../App.css';
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultMapLayers as mapLayers} from '../src/map-layers'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
 import {Tile as olTileLayer} from 'ol/layer'
@@ -36,6 +37,7 @@ const mymap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+    layers: mapLayers
 })
 
 /*
@@ -101,24 +103,18 @@ const selectedSt = buildStyle(selectedStyle);
 
 const Example2 = ({}) => {
     const [theMap, setTheMap] = useState(mymap);
-    const [aerial, setAerial] = useState()
-    /*
-    state = {
-        aerial : aerials[0].value, // 1966
-        aerialVisible: false,
-        enableModify: true, // can't change this in the app yet
-        popupPosition: undefined, // where it will show up on screen
-        popupText: 'HERE', // text to display in popup
-        rows : []
-    };
-    */
+    const [aerial, setAerial] = useState(aerials[0].value); // 1966
+    const [aerialVisible, setAerialVisible] = useState(false)
+    const [enableModify, setEnableModify] = useState(false) // not implemented yet
+    const [popupPosition, setPopupPosition] = useState([0,0]) // location on screen
+    const [popupText, setPopupText] = useState("HERE") // text for popup
+    const [rows, setRows] = useState([]) // search results I guess
 
     // I create the source here so I don't have to go searching around
     // for it later when I need to access its features.
-        this.taxlotSource = new VectorSource({ strategy: bboxStrategy });
-        this.taxlotSource.setLoader(DataLoader(taxlotsFormat, taxlotsFeatures, this.taxlotSource));
-        this.selectedFeatures = new Collection();
-
+    const taxlotSource = new VectorSource({strategy: bboxStrategy});
+    const selectedFeatures = new Collection();
+    taxlotSource.setLoader(DataLoader(taxlotsFormat, taxlotsFeatures, taxlotSource));
 
 // IMPROVEMENT
 // https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
@@ -126,24 +122,22 @@ const Example2 = ({}) => {
 // in the current selection set.
 
    const  handleCondition = (e) => {
-        this.moved = false;
+        moved = false;
         switch(e.type) {
             case 'click':
                 return true;
             case 'pointermove':
                 const lonlat = toLonLat(e.coordinate)
-                const features = this.taxlotSource.getFeaturesAtCoordinate(e.coordinate)
+                const features = taxlotSource.getFeaturesAtCoordinate(e.coordinate)
                 if (features.length>0) {
                     const text = features[0].get(taxlotPopupField)
                     if (text!=null && text.length>0) {
-                        this.setState({
-                            popupPosition: e.coordinate,
-                            popupText: text
-                        });
+                        setPopupPosition(e.coordinate);
+                        setPopupText(text);
                         return false;
                     }
                 }
-                this.setState({popupPosition: undefined}); // hide popup
+                setPopupPosition(undefined); // hide popup
                 return false; // don't do a selection!
 /*            case 'platformModifierKeyOnly':
                 console.log("CTL", e);
@@ -153,7 +147,7 @@ const Example2 = ({}) => {
         return false; // pass event along I guess
     }
 
-    const addFeaturesToTable(features) {
+    const addFeaturesToTable = (features) => {
         const rows = [];
         if (features.getLength()) {
             features.forEach( (feature) => {
@@ -165,96 +159,93 @@ const Example2 = ({}) => {
                 rows.push(attributes)
             });
         }
-        this.setState({rows: rows});
+        setRows(rows);
     }
 
     const onSelectInteraction = (e) => {
-        console.log('onSelectInteraction', e, this.moved);
-        if (!this.moved) {
-            this.addFeaturesToTable(this.selectedFeatures)
+        console.log('onSelectInteraction', e, moved);
+        if (!moved) {
+            addFeaturesToTable(selectedFeatures)
         }
     }
 
     const onBoxStart = (e) => {
-        this.selectedFeatures.clear();
+        selectedFeatures.clear();
     }
 
     const onBoxEnd = (e) => {
         const extent = e.target.getGeometry().getExtent();
-        this.selectedFeatures.extend(this.taxlotSource.getFeaturesInExtent(extent));
-        this.addFeaturesToTable(this.selectedFeatures);
+        selectedFeatures.extend(taxlotSource.getFeaturesInExtent(extent));
+        addFeaturesToTable(selectedFeatures);
     }
 
     const changeAerial = (e) => {
         if (e.value) {
-            this.setState({
-                "aerial": e.value,
-                "aerialVisible": true
-            });
+            setAerial(e.value);
+            setAerialVisible(true);
         } else {
-            this.setState({"aerialVisible": false});
+            setAerialVisible(false);
         }
     }
 
     const popup = React.createElement('div',
             { className:"ol-popup" },
-            this.state.popupText
+            popupText
         );
     return (
         <>
-                <h2>{this.props.title}</h2>
-                    FIXME -- needs better CSS for MousePosition.<br />
-                    FIXME -- shift-click and shift-drag to change selection
-                    <ul>
-                        <li>Image ArcGIS REST: United States map</li>
-                        <li>Image WMS: City of Astoria aerial photos</li>
-                        <li>Taxlots Feature Server (WFS or ESRI Rest)</li>
-                    </ul>
-                    Controls: Rotate, MousePosition, ZoomSlider <br />
-                    Interactions: Select, DragBox <br />
+            <h2>Example 2</h2>
+                FIXME -- needs better CSS for MousePosition.<br />
+                FIXME -- shift-click and shift-drag to change selection
+                <ul>
+                    <li>Image ArcGIS REST: United States map</li>
+                    <li>Image WMS: City of Astoria aerial photos</li>
+                    <li>Taxlots Feature Server (WFS or ESRI Rest)</li>
+                </ul>
+                Controls: Rotate, MousePosition, ZoomSlider <br />
+                Interactions: Select, DragBox <br />
 
-                    <Button>Drag to select</Button>
-                    <Select options={ aerials } onChange={ this.changeAerial } />
+                <Button>Drag to select</Button>
+                <Select options={ aerials } onChange={ changeAerial } />
 
-	    <Map map={theMap} center={astoria_wm}>
+	            <Map map={theMap} center={astoria_wm}>
+                {/*
                     <layer.Tile source="OSM" />
 
                     <layer.Image name="City of Astoria"
-                        source="WMS" url={ this.state.aerial }
-                        visible={ this.state.aerialVisible }
+                        source="WMS" url={ aerial }
+                        visible={ aerialVisible }
                     />
 
                     <layer.Vector name="Taxlots"
-                        source={this.taxlotSource}
+                        source={taxlotSource}
                         style={taxlotStyle}
                         editStyle={selectedStyle}
                     >
-                    {/*
                         <interaction.Select
-                            select={ this.onSelectInteraction }
-                            condition={ this.handleCondition }
-                            features={ this.selectedFeatures }
+                            select={ onSelectInteraction }
+                            condition={ handleCondition }
+                            features={ selectedFeatures }
                             style={ selectedSt }
                             active={ true }
                         />
 
                         <interaction.DragBox
-                            boxstart={ this.onBoxStart }
-                            boxend={ this.onBoxEnd }
+                            boxstart={ onBoxStart }
+                            boxend={ onBoxEnd }
                             active={ true }
                         />
-                    */}
                     </layer.Vector>
-{/*
+
 	                <Overlay id="popups"
-                        element={ popup }
-                        position={ this.state.popupPosition }
+                        element={popup}
+                        position={popupPosition}
                         positioning="center-center"
                     />
                     <control.Rotate autoHide={false}/>
                     <control.MousePosition
-                        projection={ wgs84 }
-                        coordinateFormat={ (coord) => {
+                        projection={wgs84}
+                        coordinateFormat={(coord) => {
                             return toStringXY(coord, 3)
                         } }
                     />
@@ -263,9 +254,9 @@ const Example2 = ({}) => {
                 </Map>
 
                 <BootstrapTable bootstrap4 striped condensed
-                    keyField={ taxlotsKey }
-                    columns={ taxlotsColumns }
-                    data={ this.state.rows }
+                    keyField={taxlotsKey}
+                    columns={taxlotsColumns}
+                    data={rows}
                 />
             </>
         );

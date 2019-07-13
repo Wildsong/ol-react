@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {Map, Feature, Graticule, control, geom, layer} from '../src'
 import stylefunction from 'ol-mapbox-style/stylefunction'
@@ -101,7 +101,7 @@ const Example7 = ({}) => {
                     </ul>
 
                 <Map map={theMap} zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
-                    onMoveEnd={this.handleEvent}>
+                    onMoveEnd={handleEvent}>
                     <Graticule
                         showLabels={ true }
                         maxLines={ 100 }

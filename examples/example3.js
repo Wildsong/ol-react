@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {fromLonLat, toLonLat} from 'ol/proj'
 import {toStringXY} from 'ol/coordinate'
 import {
     Circle as CircleStyle,
@@ -13,22 +12,38 @@ import {
 } from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Button
-} from 'reactstrap'
-import SliderControl from './slider-control'
+import {Button } from 'reactstrap'
+import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, control, geom, interaction, layer} from '../src'
 import {buildStyle} from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
 import {astoria_wm, wgs84} from '../src/constants'
+
+import {Map as olMap, View as olView} from 'ol'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultMapLayers as mapLayers} from '../src/map-layers'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
+import {Tile as olTileLayer} from 'ol/layer'
+import {Vector as olVectorLayer} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+
+// These controls will show up on the map.
+import {FullScreen as olFullScreen} from 'ol/control'
+import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+
+// A new instance of 'map' loads each time we come to this page.
+// If I want to persist any state in the map it has to be done
+// outside the component, either in redux or in some parent component.
+// I wonder if I should persist the entire olMap or just its properties.
+const mymap = new olMap({
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    controls: olControls, interactions: olInteractions,
+    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+    layers: mapLayers
+})
+
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -44,26 +59,25 @@ let attributions = [
 ];
 
 const Example3 = () => {
-    /*
-    state = {
-        hasError: false,
-        // Note we override draw order using zIndex, as a test
-        opacityLayer1 : 20,
-        opacityLayer2 : 30,
-        opacityLayer3 : 20,
-    }
-    */
+    const [theMap, setTheMap] = useState(mymap);
+    const [center, setCenter] = useState(astoria_wm);
+    const [zoom, setZoom] = useState(10);
+
+    const [hasError, setHasError] = useState(false);
+    const [opacityLayer1, setOpacityLayer1] = useState(.20);
+    const [opacityLayer2, setOpacityLayer2] = useState(.20);
+    const [opacityLayer3, setOpacityLayer3] = useState(.20);
 
     const changeOpacity1 = (value) => {
-        this.setState({ opacityLayer1 : value });
+        setOpacityLayer1(value);
     }
 
     const changeOpacity2 = (value) => {
-        this.setState({ opacityLayer2 : value });
+        setOpacityLayer2(value);
     }
 
     const changeOpacity3 = (value) => {
-        this.setState({ opacityLayer3 : value });
+        setOpacityLayer3(value);
     }
 
     const handleDragBox = (e) => {
@@ -125,25 +139,25 @@ const Example3 = () => {
 
         return (
             <>
-                <h2>{ this.props.title }</h2>
+                <h2>Example 3</h2>
                     Street and map tiles,
                     Stamen watercolor and toner,
                     Vector layer with clustered features
 
-                    <SliderControl
-                        onChange={ this.changeOpacity3 }
+                    <OpacitySlider
+                        onChange={ changeOpacity3 }
                         title="ESRI streets tiles"
-                        value={ this.state.opacityLayer3 }
+                        value={ opacityLayer3 }
                     />
-                    <SliderControl
-                        onChange={ this.changeOpacity1 }
+                    <OpacitySlider
+                        onChange={ changeOpacity1 }
                         title="US Map Tiles"
-                        value={ this.state.opacityLayer1 }
+                        value={ opacityLayer1 }
                     />
-                    <SliderControl
-                        onChange={ this.changeOpacity2 }
+                    <OpacitySlider
+                        onChange={ changeOpacity2 }
                         title="Stamen Watercolor"
-                        value={ this.state.opacityLayer2 }
+                        value={ opacityLayer2 }
                     />
 
                     Controls tested here:
@@ -162,11 +176,11 @@ const Example3 = () => {
                 <layer.Tile
                     source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
                     attributions={ attributions }
-                    opacity={ this.state.opacityLayer1/100 }
+                    opacity={ state.opacityLayer1/100 }
                     zIndex={ 2 }
                 />
                 <layer.Tile source="Stamen" layer="watercolor"
-                    opacity={ this.state.opacityLayer2/100 }
+                    opacity={ state.opacityLayer2/100 }
                     zIndex={ 1 }
                 />
                 <layer.Tile source="Stamen" layer="toner"
@@ -176,7 +190,7 @@ const Example3 = () => {
                 <layer.Tile source="ArcGISRest"
                     url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
                     attributions={ attributions }
-                    opacity={ this.state.opacityLayer3/100 }
+                    opacity={ state.opacityLayer3/100 }
                     zIndex={ 3 }
                 />
 
@@ -193,7 +207,7 @@ const Example3 = () => {
                 <control.OverviewMap/>
                 <control.FullScreen />
 
-                <interaction.DragBox boxend={this.handleDragBox}/>
+                <interaction.DragBox boxend={handleDragBox}/>
 
                 <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
                 */}

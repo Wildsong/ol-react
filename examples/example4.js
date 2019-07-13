@@ -1,14 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import {Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
-import {transform} from 'ol/proj'
-// Bootstrap (reactstrap in this case)
 import {Button} from 'reactstrap'
 import {Map, Feature, control, geom, interaction, layer} from '../src';
 import {astoria_wm, wgs84, wm} from '../src/constants'
 const defaultCenter_wm = astoria_wm;
 const defaultZoom = 10;
+
+import {Map as olMap, View as olView} from 'ol'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {defaultMapLayers as mapLayers} from '../src/map-layers'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
+import {Tile as olTileLayer} from 'ol/layer'
+import {Vector as olVectorLayer} from 'ol/layer'
+import {OSM, Stamen} from 'ol/source'
+
+// These controls will show up on the map.
+import {FullScreen as olFullScreen} from 'ol/control'
+import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+
+// A new instance of 'map' loads each time we come to this page.
+// If I want to persist any state in the map it has to be done
+// outside the component, either in redux or in some parent component.
+// I wonder if I should persist the entire olMap or just its properties.
+const mymap = new olMap({
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    controls: olControls, interactions: olInteractions,
+    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+    layers: mapLayers
+})
 
 const bingmaps_key = process.env.BINGMAPS_KEY;
 if (typeof bingmaps_key === 'undefined') console.log("BINGMAPS_KEY is undefined")
@@ -87,47 +110,43 @@ const getTextStyle = (feature, resolution) => {
 };
 
 const Example4 = () => {
-    /*
-    state = {
-        bingVisible : true,
-        opacityBing: 50,
-    }
-*/
+    const [theMap, setTheMap] = useState(mymap);
+    const [bingVisible, setBingVisible] = useState(false);
+    const [opacityBing, setOpacityBing] = useState(.50);
+
     const toggleLayer = () => {
-        this.setState({
-            bingVisible : !this.state.bingVisible,
-        });
+        setBingVisible(!bingVisible);
     }
-        let polyStyle = {
-            stroke: {color: [0, 255, 0, 1], width:2},
-            //fill: {color: [255, 0, 0, .250]},
-        };
-        let polylineStyle = {
-            stroke: {color: [0, 0, 0, 1], width:44},
-            //fill: {color: [255, 0, 0, .250]},
-        };
-        let feat = undefined
-        let res = 9000
-        let dom = undefined
-        let fontStyle = getTextStyle;
+    const polyStyle = {
+        stroke: {color: [0, 255, 0, 1], width:2},
+        //fill: {color: [255, 0, 0, .250]},
+    };
+    const polylineStyle = {
+        stroke: {color: [0, 0, 0, 1], width:44},
+        //fill: {color: [255, 0, 0, .250]},
+    };
+    let feat = undefined
+    let res = 9000
+    let dom = undefined
+    let fontStyle = getTextStyle;
 
-        return (
-            <>
-                <h2>Example4</h2>
-                    <ul>
-                    <li> Zoning: ArcGIS FeatureServer JSON format </li>
-                    <li> BingMaps aerial </li>
-                    <li> BingMaps CanvasLight (roads) </li>
-                    </ul>
+    return (
+        <>
+            <h2>Example 4</h2>
+                <ul>
+                <li> Zoning: ArcGIS FeatureServer JSON format </li>
+                <li> BingMaps aerial </li>
+                <li> BingMaps CanvasLight (roads) </li>
+                </ul>
 
-                    <Button onClick={this.toggleLayer}>Toggle Bing aerial</Button>
+                <Button onClick={toggleLayer}>Toggle Bing aerial</Button>
 
-                    <p>
-                        Controls: ScaleLine <br />
-                        Interactions:<br />
-                        KeyboardPan (does not work yet! or I don't know the keys)<br />
-                        DoubleClickZoom (works more or less)<br />
-                    </p>
+                <p>
+                    Controls: ScaleLine <br />
+                    Interactions:<br />
+                    KeyboardPan (does not work yet! or I don't know the keys)<br />
+                    DoubleClickZoom (works more or less)<br />
+                </p>
 
                 <Map map={theMap} minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
 {/*

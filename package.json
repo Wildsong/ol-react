@@ -14,6 +14,7 @@
   "scripts": {
     "test": "parcel serve test.html --open",
     "start": "parcel serve index.html --open",
+    "build": "parcel build index.html",
     "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
     "clean": "rm -rf build/*",
     "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
@@ -45,6 +46,7 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-es2016": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
+    "cssnano": "^4.1.10",
     "mapbox-gl-styles": "^2.0.2"
   },
   "dependencies": {
