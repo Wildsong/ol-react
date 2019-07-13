@@ -5,12 +5,16 @@ import {OSM as olOSM} from 'ol/source'
 
 const OSM = (props) => {
     console.log("OSM", props);
-//    source = new olOSM();
-//    layer.addSource(source)
+    const source = new olOSM();
+    context.layer.addSource(source)
+    return (
+        <>
+        </>
+    );
 }
 //OSM.propTypes = {
 //};
-//OSM.contextTypes = {
-//    layer: propTypes.instanceOf(olSource).isRequired,
-//}
+OSM.contextTypes = {
+    layer: PropTypes.instanceOf(olSource).isRequired,
+}
 export default OSM;

@@ -26,7 +26,7 @@ const mymap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    layers: mapLayers
+    //layers: mapLayers
 })
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
@@ -76,7 +76,7 @@ const Example6 = () => {
             </p>
 
             <Map map={theMap} zoom={zoom} center={ll}>
-                <layer.Tile opacity={.5}>
+                <layer.Tile map={theMap} opacity={.5}>
                     <source.OSM/>
                 </layer.Tile>
             {/*

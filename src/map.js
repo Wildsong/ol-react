@@ -6,7 +6,7 @@ import {toLatLon} from 'ol/proj'
 import OLComponent from './ol-component'
 import {setMapCenter} from './actions'
 
-const OLMap = ({map}) => {
+const OLMap = ({map,children}) => {
     const t = element => {
         try {
             map.setTarget(element)
@@ -16,6 +16,7 @@ const OLMap = ({map}) => {
     }
     return (
         <div ref={t} style={{position:"relative", top:0, width:600,height:400}}>
+        {children}
         </div>
     )
 }
