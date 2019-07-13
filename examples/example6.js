@@ -77,6 +77,7 @@ const Example6 = () => {
 
             <Map map={theMap} zoom={zoom} center={ll}>
                 <layer.Tile opacity={.5}>
+                    <source.OSM/>
                 </layer.Tile>
             {/*
                 <layer.Image source="WMS" url={wmsImageUrl} />
