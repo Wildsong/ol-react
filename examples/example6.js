@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-
-import {Map, Feature, geom, layer, source} from '../src'
+import {Map, Feature, geom, control, layer, source} from '../src'
 import {myGeoServer, workspace, wm} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
@@ -13,16 +12,16 @@ import {defaultControls as olControls, defaultInteractions as olInteractions} fr
 import {Tile as olTileLayer} from 'ol/layer'
 import {Vector as olVectorLayer} from 'ol/layer'
 import {OSM, Stamen} from 'ol/source'
-
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+import {MapProvider} from '../src/map-context'
 
 // A new instance of 'map' loads each time we come to this page.
 // If I want to persist any state in the map it has to be done
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
+const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
@@ -36,7 +35,6 @@ const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEa
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
 const Example6 = () => {
-    const [theMap, setTheMap] = useState(mymap);
     const [lat, setLat] = useState(46.184);
     const [lon, setLon] = useState(-123.83);
     const [zoom, setZoom] = useState(14);
@@ -75,16 +73,16 @@ const Example6 = () => {
             and a FeatureServer of elementary schools hosted on ArcGIS Online.
             </p>
 
-            <Map map={theMap} zoom={zoom} center={ll}>
-                <layer.Tile map={theMap} opacity={.5}>
-                    <source.OSM/>
-                </layer.Tile>
-            {/*
-                <layer.Image source="WMS" url={wmsImageUrl} />
-                <layer.Vector source="esrijson" url={featureUrl} style={pointStyle}/>
-                <layer.Vector name="Web markers" source="geojson" url={web_markers} style={markerStyle}/>
-            */}
-            </Map>
+            <MapProvider map={theMap}>
+                <Map center={ll} zoom={zoom}>
+                    <layer.Image> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
+                    <layer.Tile opacity={.5}> <source.OSM/> </layer.Tile>
+                    {/*
+                    <layer.Vector source="esrijson" url={featureUrl} style={pointStyle}/>
+                    <layer.Vector name="Web markers" source="geojson" url={web_markers} style={markerStyle}/>
+                */}
+                </Map>
+            </MapProvider>
         </>
     );
 }

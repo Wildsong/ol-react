@@ -1,20 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
-import {Source as olSource} from 'ol'
 import {OSM as olOSM} from 'ol/source'
+import {LayerContext} from '../layer-context'
 
-const OSM = (props) => {
-    console.log("OSM", props);
+const OSM = () => {
+    const layer = useContext(LayerContext);
+    console.log("OSM");
     const source = new olOSM();
-    context.layer.addSource(source)
-    return (
-        <>
-        </>
-    );
-}
-//OSM.propTypes = {
-//};
-OSM.contextTypes = {
-    layer: PropTypes.instanceOf(olSource).isRequired,
+    layer.setSource(source)
+    return null; // Nothing needs to be rendered here.
 }
 export default OSM;

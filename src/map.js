@@ -1,12 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Map as olMap} from 'ol'
+//import {connect} from 'react-redux'
+//import {Map as olMap} from 'ol'
 import {toLatLon} from 'ol/proj'
-import OLComponent from './ol-component'
-import {setMapCenter} from './actions'
+//import {setMapCenter} from './actions'
+import {MapContext} from './map-context'
 
-const OLMap = ({map,children}) => {
+const Map = (props) => {
+    const map = useContext(MapContext);
     const t = element => {
         try {
             map.setTarget(element)
@@ -16,12 +17,12 @@ const OLMap = ({map,children}) => {
     }
     return (
         <div ref={t} style={{position:"relative", top:0, width:600,height:400}}>
-        {children}
+        {props.children}
         </div>
     )
 }
 /*
-const OLMap = ({map,setMapCenter}) => {
+const Map = ({map,setMapCenter}) => {
     setMapCenter(DEFAULT_CENTER, MINZOOM)
     if (this.props.onPointerMove) this.props.map.on('pointermove', this.props.onPointerMove, this);
     //if (this.props.onPointerDrag) this.props.map.on('pointerdrag', this.props.onPointeDrag, this);
@@ -46,12 +47,4 @@ const OLMap = ({map,setMapCenter}) => {
     )
 }
 */
-OLMap.propTypes = {
-    map: PropTypes.instanceOf(olMap),
-}
-const mapStateToProps = (state) => ({
-});
-const mapDispatchToProps = {
-    setMapCenter
-};
-export default connect(mapStateToProps, mapDispatchToProps)(OLMap)
+export default Map
