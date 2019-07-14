@@ -12,7 +12,7 @@ import { Vector as VectorSource } from 'ol/source'
 import { bbox as bboxStrategy } from 'ol/loadingstrategy'
 import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import { buildStyle } from '../src/style'
-import { DataLoader } from '../src/layer/dataloaders'
+import { DataLoader } from '../src/source/dataloaders'
 import '../App.css';
 
 import {Map as olMap, View as olView} from 'ol'

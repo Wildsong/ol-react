@@ -77,10 +77,12 @@ const Example6 = () => {
                 <Map center={ll} zoom={zoom}>
                     <layer.Image> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
                     <layer.Tile opacity={.5}> <source.OSM/> </layer.Tile>
-                    {/*
-                    <layer.Vector source="esrijson" url={featureUrl} style={pointStyle}/>
-                    <layer.Vector name="Web markers" source="geojson" url={web_markers} style={markerStyle}/>
-                */}
+                    <layer.Vector style={pointStyle}>
+                        <source.JSON url={featureUrl} loader="esrijson"/>
+                    </layer.Vector>
+                    <layer.Vector name="Web markers" style={markerStyle}>
+                        <source.JSON url={web_markers} loader="geojson"/>
+                    </layer.Vector>
                 </Map>
             </MapProvider>
         </>

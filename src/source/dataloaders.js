@@ -9,7 +9,7 @@ import jsonp from 'jsonp' // jsonp avoids CORS problems
 export const DataLoader = (loader, url, source) => {
     // Returns a function that can be called to load data.
 
-    //console.log('DataLoader()', loader, url, source)
+    console.log('DataLoader()', loader, url, source)
 
     switch (loader) {
         case 'geojson':
@@ -76,17 +76,17 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
                     //+ '&inSR=102100'
                     + '&resultType=tile'; // I think maybe this is a good idea? Hard to tell, the server is just slow. :-)
 
-                //console.log("esrijson dataloader url=", fsurl);
+                console.log("esrijson dataloader url=", fsurl);
                 jsonp(fsurl, null, (err, data) => {
                     if (err) {
                         console.error("DataLoader() error:", err);
                     } else {
-                        //console.log("DataLoader() response", data)
+                        console.log("DataLoader() response", data)
                         let features = esrijsonFormat.readFeatures(data, {
                             featureProjection: projection
                         });
                         if (features.length > 0) {
-                            //console.log("DataLoader(", loader, " ) Adding ", features.length);
+                            console.log("DataLoader(", loader, " ) Adding ", features.length);
                             source.addFeatures(features);
                         }
                     }
