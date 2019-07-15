@@ -5,7 +5,7 @@ import { Button } from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { toStringXY } from 'ol/coordinate'
 import { Collection } from 'ol'
-import {Map, Feature, Overlay, control, geom, interaction, layer} from '../src';
+import {Map, Feature, Overlay, control, geom, interaction, layer, source} from '../src';
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import { toStringHDMS } from 'ol/coordinate'
 import { Vector as VectorSource } from 'ol/source'
@@ -13,7 +13,7 @@ import { bbox as bboxStrategy } from 'ol/loadingstrategy'
 import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import { buildStyle } from '../src/style'
 import { DataLoader } from '../src/source/dataloaders'
-import '../App.css';
+import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -33,7 +33,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // If I want to persist any state in the map it has to be done
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
+const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
@@ -102,7 +102,6 @@ const tlSt = buildStyle(taxlotStyle);
 const selectedSt = buildStyle(selectedStyle);
 
 const Example2 = ({}) => {
-    const [theMap, setTheMap] = useState(mymap);
     const [aerial, setAerial] = useState(aerials[0].value); // 1966
     const [aerialVisible, setAerialVisible] = useState(false)
     const [enableModify, setEnableModify] = useState(false) // not implemented yet
@@ -208,50 +207,51 @@ const Example2 = ({}) => {
                 <Button>Drag to select</Button>
                 <Select options={ aerials } onChange={ changeAerial } />
 
-	            <Map map={theMap} center={astoria_wm}>
-                {/*
-                    <layer.Tile source="OSM" />
+                <MapProvider map={theMap}>
+    	            <Map map={theMap} center={astoria_wm}>
+                        <layer.Tile opacity={1}> <source.OSM/> </layer.Tile>
 
-                    <layer.Image name="City of Astoria"
-                        source="WMS" url={ aerial }
-                        visible={ aerialVisible }
-                    />
+                        <layer.Image name="City of Astoria" visible={aerialVisible}>
+                            <source.ImageWMS url={aerial}/>
+                        </layer.Image>
 
-                    <layer.Vector name="Taxlots"
-                        source={taxlotSource}
-                        style={taxlotStyle}
-                        editStyle={selectedStyle}
-                    >
-                        <interaction.Select
-                            select={ onSelectInteraction }
-                            condition={ handleCondition }
-                            features={ selectedFeatures }
-                            style={ selectedSt }
-                            active={ true }
+                        <layer.Vector name="Taxlots"
+                            source={taxlotSource}
+                            style={taxlotStyle}
+                            editStyle={selectedStyle}
+                        >
+                        </layer.Vector>
+                        {/*
+                            <interaction.Select
+                                select={ onSelectInteraction }
+                                condition={ handleCondition }
+                                features={ selectedFeatures }
+                                style={ selectedSt }
+                                active={ true }
+                            />
+
+                            <interaction.DragBox
+                                boxstart={ onBoxStart }
+                                boxend={ onBoxEnd }
+                                active={ true }
+                            />
+
+    	                <Overlay id="popups"
+                            element={popup}
+                            position={popupPosition}
+                            positioning="center-center"
                         />
-
-                        <interaction.DragBox
-                            boxstart={ onBoxStart }
-                            boxend={ onBoxEnd }
-                            active={ true }
+                        <control.Rotate autoHide={false}/>
+                        <control.MousePosition
+                            projection={wgs84}
+                            coordinateFormat={(coord) => {
+                                return toStringXY(coord, 3)
+                            } }
                         />
-                    </layer.Vector>
-
-	                <Overlay id="popups"
-                        element={popup}
-                        position={popupPosition}
-                        positioning="center-center"
-                    />
-                    <control.Rotate autoHide={false}/>
-                    <control.MousePosition
-                        projection={wgs84}
-                        coordinateFormat={(coord) => {
-                            return toStringXY(coord, 3)
-                        } }
-                    />
-                    <control.ZoomSlider />
-*/}
-                </Map>
+                        <control.ZoomSlider />
+    */}
+                    </Map>
+                </MapProvider>
 
                 <BootstrapTable bootstrap4 striped condensed
                     keyField={taxlotsKey}

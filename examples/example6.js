@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {Map, Feature, geom, control, layer, source} from '../src'
 import {myGeoServer, workspace, wm} from '../src/constants'
+import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -15,7 +16,6 @@ import {OSM, Stamen} from 'ol/source'
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-import {MapProvider} from '../src/map-context'
 
 // A new instance of 'map' loads each time we come to this page.
 // If I want to persist any state in the map it has to be done

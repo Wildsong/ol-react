@@ -5,6 +5,7 @@ import stylefunction from 'ol-mapbox-style/stylefunction'
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
 import {Converter} from 'usng.js'
 import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
+import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -100,7 +101,8 @@ const Example7 = ({}) => {
                     <li> Tile source: Mapbox</li>
                     </ul>
 
-                <Map map={theMap} zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
+                <MapProvider map={theMap}>
+                <Map zoom={ 10 } center={ astoria_wm } minZoom={8} maxZoom={18}
                     onMoveEnd={handleEvent}>
                     <Graticule
                         showLabels={ true }
@@ -116,6 +118,7 @@ const Example7 = ({}) => {
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
 */}
                 </Map>
+                </MapProvider>
         </>
     );
 }

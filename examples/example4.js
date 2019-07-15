@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import {Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
 import {Button} from 'reactstrap'
-import {Map, Feature, control, geom, interaction, layer} from '../src';
+import {Map, Feature, control, geom, interaction, layer, source} from '../src';
 import {astoria_wm, wgs84, wm} from '../src/constants'
+import {MapProvider} from '../src/map-context'
 const defaultCenter_wm = astoria_wm;
 const defaultZoom = 10;
 
@@ -26,7 +27,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // If I want to persist any state in the map it has to be done
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
+const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
@@ -109,8 +110,7 @@ const getTextStyle = (feature, resolution) => {
     return new Style({ text:s });
 };
 
-const Example4 = () => {
-    const [theMap, setTheMap] = useState(mymap);
+const Example4 = (props) => {
     const [bingVisible, setBingVisible] = useState(false);
     const [opacityBing, setOpacityBing] = useState(.50);
 
@@ -148,7 +148,8 @@ const Example4 = () => {
                     DoubleClickZoom (works more or less)<br />
                 </p>
 
-                <Map map={theMap} minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
+                <MapProvider map={theMap}>
+                <Map minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
 {/*
                     <layer.Tile name="Bing Road"
                         source="BingMaps" imagerySet="CanvasLight"
@@ -174,6 +175,7 @@ const Example4 = () => {
                     <interaction.DoubleClickZoom duration={ 750 } delta={ 1 }/>
                     */}
                 </Map>
+                </MapProvider>
             </>
         );
 }

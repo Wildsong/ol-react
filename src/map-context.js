@@ -4,10 +4,12 @@ import React, {useState} from 'react'
 
 const MapContext = React.createContext();
 
-const MapProvider = (props) => (
-    <MapContext.Provider value={props.map}>
-        {props.children}
-    </MapContext.Provider>
-)
+const MapProvider = (props) => {
+    return (
+        <MapContext.Provider value={props.map}>
+            {props.children}
+        </MapContext.Provider>
+    )
+}
 
 export {MapContext, MapProvider}

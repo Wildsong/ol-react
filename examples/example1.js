@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import OpacitySlider from '../src/control/opacity-slider'
-import {Map, Feature, geom} from '../src'
+import {Map, Feature, geom, control, layer, source} from '../src'
 import Select from 'react-select'
 import {buildStyle} from '../src/style'
 import {setMapCenter} from '../src/actions'
+import {MapProvider} from '../src/map-context'
 
 import './style.css'
 import './css/fontmaki.css'
@@ -31,7 +32,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // If I want to persist any state in the map it has to be done
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
+const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
@@ -82,7 +83,6 @@ const EventList = (props) => {
 /* ============================================================================= */
 
 const Example1 = ({setMapCenter}) => {
-    const [theMap, setTheMap] = useState(mymap);
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
 
@@ -226,7 +226,8 @@ const Example1 = ({setMapCenter}) => {
                 pointermove, click, changesize, moveend
             </p>
 
-            <Map map={theMap} style={{position:'relative',left:50,top:0}}
+            <MapProvider map={theMap}>
+            <Map style={{position:'relative',left:50,top:0}}
                 onPointerMove={ (e) => { setPointer(e.coordinate); } }
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
@@ -234,28 +235,23 @@ const Example1 = ({setMapCenter}) => {
             {/*
                 <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
                 <control.LayerPopupSwitcher/>
+*/}
+                <layer.Tile title="Toner" baseLayer={true}  attributions={attributions}>
+                    <source.Stamen layer="toner"/>
+                </layer.Tile>
 
-                <layer.Tile source="Stamen"
-                    title="Toner"
-                    attributions={ attributions } layer="toner"
-                    //visible={ true }
-                    baseLayer={ true }
-                />
+                <layer.Tile title="OpenStreetMap" attributions={attributions} opacity={opacityOSM}>
+                    <source.OSM/>
+                </layer.Tile>
 
-                <layer.Tile source="OSM"
-                    title="OpenStreetMap"
-                    attributions={attributions}
-                    baseLayer={true}
-                    opacity={opacityOSM/100}
-                />
-
-                <layer.Tile source="WMS"
-                    title="Taxlots"
-                    url={ geoserverWMS }
-                    params={{LAYERS: geoserverLayers,
-                        STYLES: "redline", // WMS style, from GeoServer in this case
-                        TILED: true}}
-                />
+                {/*
+                <layer.Tile title="Taxlots">
+                    <source.WMS url={geoserverWMS}
+                        params={{LAYERS: geoserverLayers,
+                            STYLES: "redline", // WMS style, from GeoServer in this case
+                            TILED: true}}
+                    />
+                </layer.Tile>
 
                 <layer.Vector title="Vector Shapes" opacity={ opacityVector/100 } >
                     <Feature id="test-line" style={ lineStyle }>
@@ -293,15 +289,17 @@ const Example1 = ({setMapCenter}) => {
                         </geom.MultiPoint>
                     </Feature>
                 </layer.Vector>
-
-                <layer.Vector title="Draw" style={ clickMarker }
-                    addfeature={ handleAddFeature }>
-                    <interaction.Draw type={ typeSelect[typeIndex].label }
-                        drawend={ handleAddFeature }
-                    />
-                </layer.Vector>
                 */}
+
+                <layer.Vector title="Draw" style={clickMarker}
+                    addfeature={handleAddFeature}>
+                    />
+{/*                    <interaction.Draw type={ typeSelect[typeIndex].label }
+                        drawend={ handleAddFeature }
+                        */}
+                </layer.Vector>
             </Map>
+            </MapProvider>
 
             <p> { pointer[0] + ', ' + pointer[1] } </p>
             Select vector type to draw

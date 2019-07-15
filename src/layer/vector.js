@@ -22,6 +22,7 @@ Vector.propTypes = {
     cluster: PropTypes.bool,
     updateWhileAnimating: PropTypes.bool,
     updateWhileInteracting: PropTypes.bool,
+    source: PropTypes.object,
     style:  PropTypes.oneOfType([
                 PropTypes.instanceOf(Style),
                 PropTypes.object,
@@ -39,7 +40,7 @@ Vector.propTypes = {
                 PropTypes.arrayOf(PropTypes.oneOfType([
                     PropTypes.instanceOf(Style),
                     PropTypes.object
-                ]
+                ],
             ))
     ])
 };

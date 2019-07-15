@@ -7,13 +7,13 @@ import {MapContext} from '../map-context'
 
 const OverviewMap = ({layers}) => {
     const map = useContext(MapContext);
-    const oview = new olOverviewMap({
+    const control = new olOverviewMap({
         layers,
         collapsed: false, collapsible: false
     });
     const setTarget = element => {
-        oview.setTarget(element);
-        map.addControl(oview);
+        control.setTarget(element);
+        map.addControl(control);
     }
     return (
         <div ref={setTarget}></div>

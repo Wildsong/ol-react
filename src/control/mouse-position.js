@@ -1,29 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {MousePosition} from 'ol/control';
-import {Projection} from 'ol/proj';
-import OLControl from './ol-control'
+import {MousePosition as olMousePosition} from 'ol/control'
+import {Projection} from 'ol/proj'
+import {MapContext} from '../map-context'
 
-// FIXME
-// I'd like to have "target" here but think the right way
-// is to not use the mouseposition control
-// there should be a React component that renders instead
-// so I need to catch the mouse event instead of using
-// this OL control
-// Hence this control just throws the coord onto the map for now
-const OLMousePosition = ({map, className, coordinateFormat, projection, undefinedHTML}) => {
-	const control = new MousePosition({
-	    className: className,
-	    coordinateFormat: coordinateFormat,
-	    projection: projection,
-	    undefinedHTML: undefinedHTML,
-	});
-    map.addControl(control);
-    return null;
+const MousePosition = (props) => {
+	const map = useContext(MapContext);
+	const control = new olMousePosition(props);
+	const setTarget = element => {
+		control.setTarget(element);
+		map.addControl(control);
+	}
+	return (
+		<div ref={setTarget}></div>
+	);
+
 }
-OLMousePosition.propTypes = {
-    ...OLControl.propTypes,
+MousePosition.propTypes = {
     className: PropTypes.string,
     coordinateFormat: PropTypes.func, // f(x) that takes coord and returns string
     projection: PropTypes.oneOfType([
@@ -31,9 +25,5 @@ OLMousePosition.propTypes = {
         PropTypes.string
     ]),
     undefinedHTML: PropTypes.string, // Show this when mouse outside viewport
-    // See also ol-control for more!
 };
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLMousePosition);
+export default MousePosition;

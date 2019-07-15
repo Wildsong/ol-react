@@ -14,10 +14,11 @@ import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
 import {Button } from 'reactstrap'
 import OpacitySlider from '../src/control/opacity-slider'
-import {Map, Feature, control, geom, interaction, layer} from '../src'
+import {Map, Feature, control, geom, interaction, layer, source} from '../src'
 import {buildStyle} from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {astoria_wm, wgs84} from '../src/constants'
+import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -37,13 +38,12 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // If I want to persist any state in the map it has to be done
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
+const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
     layers: mapLayers
 })
-
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -59,7 +59,6 @@ let attributions = [
 ];
 
 const Example3 = () => {
-    const [theMap, setTheMap] = useState(mymap);
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
 
@@ -171,48 +170,46 @@ const Example3 = () => {
                         <br />
                     Using zIndex to control order of layers.
 
-            <Map map={theMap} zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
-		{/*
-                <layer.Tile
-                    source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                    attributions={ attributions }
-                    opacity={ state.opacityLayer1/100 }
-                    zIndex={ 2 }
-                />
-                <layer.Tile source="Stamen" layer="watercolor"
-                    opacity={ state.opacityLayer2/100 }
-                    zIndex={ 1 }
-                />
-                <layer.Tile source="Stamen" layer="toner"
-                    opacity={ 1 }
-                    zIndex={ 0 }
-                />
-                <layer.Tile source="ArcGISRest"
-                    url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                    attributions={ attributions }
-                    opacity={ state.opacityLayer3/100 }
-                    zIndex={ 3 }
-                />
+            <MapProvider map={theMap}>
+                <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
+    		{/*
+                    <layer.Tile
+                        source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                        attributions={ attributions }
+                        opacity={ state.opacityLayer1/100 }
+                        zIndex={ 2 }
+                    />
+            */}
+                    <layer.Tile opacity={1}>
+                        <source.Stamen layer="toner"/>
+                    </layer.Tile>
+                    <layer.Tile opacity={opacityLayer2}>
+                        <source.Stamen layer="watercolor"/>
+                    </layer.Tile>
+            {/*
+                    <layer.Tile>
+                        attributions={ attributions }
+                        opacity={ state.opacityLayer3/100 }
+                        <source.ArcGISRest
+                            url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                        />
+                    </layer.Tile>
 
-                <layer.Vector
-                    cluster={ true }
-                    distance={ 40 }
-                    style={ clusterStyle }
-                    zIndex={ 4 }
-                >
-                 This interaction has to be inside a vector layer.
-                    <interaction.DragAndDrop />
-                </layer.Vector>
+                    <layer.Vector cluster={true} distance={40}
+                        style={clusterStyle}>
+                     This interaction has to be inside a vector layer.
+                        <interaction.DragAndDrop />
+                    </layer.Vector>
 
-                <control.OverviewMap/>
-                <control.FullScreen />
+                    <control.OverviewMap/>
 
-                <interaction.DragBox boxend={handleDragBox}/>
+                    <interaction.DragBox boxend={handleDragBox}/>
 
+                    <control.FullScreen />
+            */}
+                </Map>
                 <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
-                */}
-
-            </Map>
+            </MapProvider>
             </>
         );
 }

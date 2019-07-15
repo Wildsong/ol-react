@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import {Map, layer} from '../src'
+import {Map, layer, source} from '../src'
 import {Point} from 'ol/geom'
 import {Feature} from 'ol'
 import {Vector as VectorSource} from 'ol/source'
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
+import {MapProvider} from '../src/map-context'
 
 import {myGeoServer, workspace, astoria_ll} from '../src/constants'
 
@@ -232,15 +233,20 @@ const Example5 = () => {
                     Animate
                     <button name="animate"       onClick={ buttonClick }>{ animate? "on" : "off" }</button>
                 </p>
-                <Map map={theMap} zoom={zoom} center={center} rotation={rotation}>
-                        {/*
-                        <layer.Tile source="XYZ" url={ thunderforest_url } apikey={ thunderforest_key }/>
-
-                    <layer.Vector name="Taxlots" url={taxlots} source={taxlotsSource} style={polyStyle}/>
-
+                <MapProvider map={theMap}>
+                <Map zoom={zoom} center={center} rotation={rotation}>
+                    <layer.Tile>
+                        <source.XYZ url={thunderforest_url} apikey={thunderforest_key}/>
+                    </layer.Tile>
+                    <layer.Vector title="Taxlots" style={polyStyle}>
+                        <source.JSON url={taxlots} loader="geojson"/>
+                    </layer.Vector>
+                    {/*
+ {taxlotsSource}/>
                     <layer.Vector name="Display" source={vectorSource} style={style}/>
 */}
                 </Map>
+                </MapProvider>
             </Col><Col>
                 <ListGroup>
                     { bookmarkTitles.map(item =>
