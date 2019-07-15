@@ -157,11 +157,11 @@ const Example5 = () => {
         const bookmarkId = e.target.name;
 
         // Bookmarks are stored in lat,lon
-        const bookmark_wgs84 = this.bookmarks[bookmarkId]
+        const bookmark_wgs84 = bookmarks[bookmarkId]
         const coord = fromLonLat(bookmark_wgs84.location)
 
-	setDisplayPoint(bookmark_wgs84.location);
-	setDisplayZoom(bookmark_wgs84.zoom);
+	//setDisplayPoint(bookmark_wgs84.location);
+	//setDisplayZoom(bookmark_wgs84.zoom);
 
         gotoXY(coord, bookmark_wgs84.zoom);
     }
@@ -169,12 +169,10 @@ const Example5 = () => {
     theMap.on('moveend', (e) => {
         const v = e.map.getView()
         console.log("Map.onMoveEnd",v.getCenter())
-            /*
     	    setCenter(v.getCenter());
             setZoom(v.getZoom());
             setRotation(v.getRotation())
             e.stopPropagation(); // this stops draw interaction
-        */
         }
     );
 

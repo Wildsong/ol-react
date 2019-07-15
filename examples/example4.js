@@ -164,7 +164,6 @@ const Example4 = (props) => {
                         source="esrijson" url={featureServer}
                         style={polyStyle}
                     />
-                    <control.ScaleLine units={control.ScaleLineUnits.US} />
 
                     <interaction.KeyboardPan
                         condition={ () => { return true; } }
@@ -174,7 +173,9 @@ const Example4 = (props) => {
 
                     <interaction.DoubleClickZoom duration={ 750 } delta={ 1 }/>
                     */}
+                    <control.ScaleLine units={control.ScaleLineUnits.US} />
                 </Map>
+                <control.ScaleLine units={control.ScaleLineUnits.METRIC} />
                 </MapProvider>
             </>
         );

@@ -1,28 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
-import {ScaleLine} from 'ol/control';
-import OLControl from './ol-control'
+import {ScaleLine as olScaleLine} from 'ol/control';
 import {enumScaleLineUnits} from './scale-line-units'
+import {MapContext} from '../map-context'
 
-class OLScaleLine extends OLControl {
-    static propTypes = {
-        ...OLControl.propTypes,
-    	className: PropTypes.string,
-    	minWidth: PropTypes.number,
-    	units: PropTypes.oneOf(enumScaleLineUnits)
-    };
-
-    constructor(props) {
-        super(props);
-        this.control = new ScaleLine({
-            className: props.className,
-            minWidth: props.minWidth,
-            units: props.units
-        })
-    }
+const ScaleLine = (props) => {
+   const map = useContext(MapContext);
+   const control = new olScaleLine(props);
+   const setTarget = element => {
+       control.setTarget(element);
+       map.addControl(control);
+   }
+   return (
+       <div ref={setTarget}></div>
+   );
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLScaleLine);
+export default ScaleLine;
