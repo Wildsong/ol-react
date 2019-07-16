@@ -35,8 +35,8 @@ const Example0 = () => {
     }
     const decZoom = (e) => { updateZoom(-1); }
     const incZoom = (e) => { updateZoom(1); }
-    theMap.on('moveend', (e)=>{
-            console.log("moveEnd",e);
+    theMap.on('moveend', (mapEvent)=>{
+            console.log("moveEnd",mapEvent.map.getView().getCenter());
             updateZoom();
         }
     );

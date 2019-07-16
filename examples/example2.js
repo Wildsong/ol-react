@@ -37,11 +37,11 @@ const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    layers: mapLayers
+    //layers: mapLayers
 })
 
 /*
-const taxlotsFeatures = myGeoServer
+const taxlotsFeaturesUrl = myGeoServer
     + "/ows?service=WFS&version=2.0.0&request=GetFeature"
     + "&typeName=" + workspace + "%3Ataxlots"
 const taxlotsFormat = 'geojson';
@@ -57,7 +57,7 @@ const taxlotPopupField = 'situs_addr';
 */
 const taxlotsService  = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer"
 const taxlotsLabels   = taxlotsService + "/0";
-const taxlotsFeatures = taxlotsService + "/1";
+const taxlotsFeaturesUrl = taxlotsService + "/1";
 const taxlotsFormat   = 'esrijson';
 const taxlotsKey      = 'MapTaxlot';
 const taxlotsColumns  = [
@@ -109,11 +109,7 @@ const Example2 = ({}) => {
     const [popupText, setPopupText] = useState("HERE") // text for popup
     const [rows, setRows] = useState([]) // search results I guess
 
-    // I create the source here so I don't have to go searching around
-    // for it later when I need to access its features.
-    const taxlotSource = new VectorSource({strategy: bboxStrategy});
     const selectedFeatures = new Collection();
-    taxlotSource.setLoader(DataLoader(taxlotsFormat, taxlotsFeatures, taxlotSource));
 
 // IMPROVEMENT
 // https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
@@ -208,20 +204,17 @@ const Example2 = ({}) => {
                 <Select options={ aerials } onChange={ changeAerial } />
 
                 <MapProvider map={theMap}>
-    	            <Map map={theMap} center={astoria_wm}>
-                        <layer.Tile opacity={1}> <source.OSM/> </layer.Tile>
+    	            <Map center={astoria_wm}>
+                        <layer.Tile opacity={1}><source.OSM/></layer.Tile>
 
-                        <layer.Image name="City of Astoria" visible={aerialVisible}>
+                        <layer.Image title="City of Astoria" visible={aerialVisible}>
                             <source.ImageWMS url={aerial}/>
                         </layer.Image>
 
-                        <layer.Vector name="Taxlots"
-                            source={taxlotSource}
-                            style={taxlotStyle}
-                            editStyle={selectedStyle}
-                        >
+                        <layer.Vector title="Taxlots" style={taxlotStyle}>
+                            <source.JSON loader="esrijson" url={taxlotsFeaturesUrl}/>
                         </layer.Vector>
-                        {/*
+        {/* editStyle={selectedStyle}>
                             <interaction.Select
                                 select={ onSelectInteraction }
                                 condition={ handleCondition }

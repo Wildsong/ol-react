@@ -15,7 +15,7 @@ export const DataLoader = (loader, url, source) => {
         case 'geojson':
             let geojsonFormat = new GeoJSON();
             return (extent, resolution, projection) => {
-
+                console.log("geojson dataloader url=", fsurl);
                 // Reproject from Web Mercator to OR North
                 //let orNorth = new Projection("EPSG:2913");
                 //let p = transformExtent(extent, wm, orNorth)
@@ -32,7 +32,7 @@ export const DataLoader = (loader, url, source) => {
                 if (!(isNaN(extent[0]) || isNaN(extent[1]) || isNaN(extent[2]) || isNaN(extent[3])))
                     bb = "&BBOX=" + extent.join(',').toString() + ',EPSG:3857'
                 let fsurl = url + "&outputFormat=text/javascript" +
-                    "&count=5000" + bb + '&SRSNAME=EPSG:3857'
+                    "&count=1000" + bb + '&SRSNAME=EPSG:3857'
                 jsonp(fsurl,
                     { name:"parseResponse", timeout:60000 },
                     (err, data) => {
@@ -60,9 +60,13 @@ so far what I have enabled below seems to work at least for ArcGIS Online.
 https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Zoning_2017/FeatureServer/0/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A-14401959.121378995%2C%22ymin%22%3A5635549.22141099%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A6261721.357122989%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A1222.992452562501%2C%22extent%22%3A%7B%22xmin%22%3A-14401959.121378995%2C%22ymin%22%3A5635549.22141099%2C%22xmax%22%3A-13775786.985666994%2C%22ymax%22%3A6261721.35712299%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D%7D
 https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer/1/query/?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A-13786331.473719545%2C%22ymin%22%3A5809530.407877925%2C%22xmax%22%3A-13783942.816585634%2C%22ymax%22%3A5811202.467871663%7D&callback=__jp0
 */
-            const format = 'json' // Options are: { json | pbf | GeoJson }
+// https://developers.arcgis.com/rest/services-reference/feature-service.htm#GUID-173F40CB-5EBE-4450-B7C8-AC104A8B18F7
+
+            const format = 'json' // Options are: { html | json | pbf | GeoJson }
             return (extent, resolution, projection) => {
-                let fsurl = url + '/query/?f=' + format
+                let fsurl = url + '/query/?='
+                    + 'f=' + format
+                    + '&maxRecordCount=1000'
                     + '&returnGeometry=true&spatialRel=esriSpatialRelIntersects'
                     + '&geometry=' + encodeURIComponent(
                                   '{"xmin":' + extent[0] + ','
@@ -95,7 +99,7 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
             break;
 
         default:
-            console.error('Dataloader(): Unknown format:', loader);
-            return (extent, resolution, projection) => {};
+            throw('Dataloader(): Unknown format:', loader);
+            break;
     }
 }

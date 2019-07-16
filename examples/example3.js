@@ -42,7 +42,7 @@ const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    layers: mapLayers
+//    layers: mapLayers
 })
 
 let transformfn = (coordinates) => {
@@ -172,20 +172,11 @@ const Example3 = () => {
 
             <MapProvider map={theMap}>
                 <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
-    		{/*
-                    <layer.Tile
-                        source="XYZ" url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-                        attributions={ attributions }
-                        opacity={ state.opacityLayer1/100 }
-                        zIndex={ 2 }
-                    />
-            */}
-                    <layer.Tile opacity={1}>
-                        <source.Stamen layer="toner"/>
+                    <layer.Tile opacity={1}><source.Stamen layer="toner"/></layer.Tile>
+                    <layer.Tile opacity={opacityLayer1} attributions={attributions}>
+                    <source.XYZ url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"/>
                     </layer.Tile>
-                    <layer.Tile opacity={opacityLayer2}>
-                        <source.Stamen layer="watercolor"/>
-                    </layer.Tile>
+                    <layer.Tile opacity={opacityLayer2}><source.Stamen layer="watercolor"/></layer.Tile>
             {/*
                     <layer.Tile>
                         attributions={ attributions }

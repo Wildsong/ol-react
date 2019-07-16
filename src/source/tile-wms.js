@@ -1,21 +1,21 @@
 import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
-import {ImageArcGISRest as olImageArcGISRest} from 'ol/source'
+import {TileWMS as olTileWMS} from 'ol/source'
 import {LayerContext} from '../layer-context'
 
-const ImageArcGISRest = (props) => {
+const TileWMS = (props) => {
     const layer = useContext(LayerContext);
-    console.log("ImageArcGISRest");
-    const source = new olImageArcGISRest(props);
+    console.log("TileWMS");
+    const source = new olTileWMS(props);
     layer.setSource(source)
     return null; // Nothing needs to be rendered here.
 }
-ImageArcGISRest.propTypes =  {
+TileWMS.propTypes =  {
     url: PropTypes.string,
     attributions: PropTypes.func,
-    crossOrigin: PropTypes.string, // null | '' | "anonymous" |
+    crossOrigin: PropTypes.string, // null | '' | 'anonymous'
     params: PropTypes.string,
     projection: PropTypes.string,
     resolutions: PropTypes.arrayOf(PropTypes.number),
 };
-export default ImageArcGISRest;
+export default TileWMS;

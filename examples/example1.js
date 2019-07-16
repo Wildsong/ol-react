@@ -244,15 +244,15 @@ const Example1 = ({setMapCenter}) => {
                     <source.OSM/>
                 </layer.Tile>
 
-                {/*
                 <layer.Tile title="Taxlots">
-                    <source.WMS url={geoserverWMS}
+                    <source.TileWMS url={geoserverWMS}
                         params={{LAYERS: geoserverLayers,
                             STYLES: "redline", // WMS style, from GeoServer in this case
                             TILED: true}}
                     />
                 </layer.Tile>
 
+                {/*
                 <layer.Vector title="Vector Shapes" opacity={ opacityVector/100 } >
                     <Feature id="test-line" style={ lineStyle }>
                         <geom.LineString transform={transformfn} layout="XY">

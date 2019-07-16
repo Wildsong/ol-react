@@ -1,15 +1,14 @@
 import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
 import {Style} from 'ol/style'
-import {Image as ImageLayer} from 'ol/layer'
-import {ImageArcGISRest, ImageWMS} from 'ol/source'
+import {Image as olImageLayer} from 'ol/layer'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
 
 const Image = (props) => {
     const map = useContext(MapContext);
-    console.log("layer.Image");
-    const layer = new ImageLayer(props);
+    console.log("layer.Image", props);
+    const layer = new olImageLayer(props);
     map.addLayer(layer);
     return (
         <LayerProvider layer={layer}>
