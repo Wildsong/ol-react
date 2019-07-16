@@ -8,14 +8,14 @@ import {MapContext} from '../map-context'
 const MousePosition = (props) => {
 	const map = useContext(MapContext);
 	const control = new olMousePosition(props);
-	const setTarget = element => {
-		control.setTarget(element);
+	//const setTarget = element => {
+	//	control.setTarget(element);
 		map.addControl(control);
-	}
-	return (
-		<div ref={setTarget}></div>
-	);
-
+	//}
+	return null;
+	//(
+	//	<div ref={setTarget}></div>
+	//);
 }
 MousePosition.propTypes = {
     className: PropTypes.string,

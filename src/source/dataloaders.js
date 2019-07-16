@@ -15,7 +15,7 @@ export const DataLoader = (loader, url, source) => {
         case 'geojson':
             let geojsonFormat = new GeoJSON();
             return (extent, resolution, projection) => {
-                console.log("geojson dataloader url=", fsurl);
+                console.log("geojson dataloader url=", url);
                 // Reproject from Web Mercator to OR North
                 //let orNorth = new Projection("EPSG:2913");
                 //let p = transformExtent(extent, wm, orNorth)

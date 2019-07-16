@@ -7,17 +7,14 @@ import {Vector as VectorSource} from 'ol/source'
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
-import {myGeoServer, workspace, astoria_ll} from '../src/constants'
+import {myGeoServer, workspace, astoria_ll, wgs84} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultMapLayers as mapLayers} from '../src/map-layers'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
 import {Tile as olTileLayer} from 'ol/layer'
 import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
@@ -31,7 +28,7 @@ const mymap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    layers: mapLayers
+    //layers: mapLayers
 })
 
 
@@ -48,8 +45,7 @@ const taxlotsSource = 'geojson'
 // Without the key you get maps with a watermark
 // see https://www.thunderforest.com/
 const thunderforest_key = process.env.THUNDERFOREST_KEY;
-//console.log("key=",thunderforest_key);
-const tflayername = 'transport' // outdoors | cycle | transport | landscape | ....
+const tflayername = 'cycle' // outdoors | cycle | transport | landscape | ....
 const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z}/{x}/{y}.png'
       + ((typeof thunderforest_key === 'undefined')? '' : "?apikey=" + thunderforest_key)
 //console.log("url=",thunderforest_url);
@@ -199,7 +195,7 @@ const Example5 = () => {
 
     // test for issue #2, external data source
     var pointFeature = new Feature(point);
-    var vectorSource = new VectorSource({ projection: 'EPSG:4326' });
+    var vectorSource = new VectorSource({ projection: wgs84 });
     vectorSource.addFeatures([pointFeature]);
 
     return (
@@ -237,7 +233,7 @@ const Example5 = () => {
                         <source.XYZ url={thunderforest_url} apikey={thunderforest_key}/>
                     </layer.Tile>
                     <layer.Vector title="Taxlots" style={polyStyle}>
-                        <source.JSON url={taxlots} loader="geojson"/>
+                        <source.JSON url={taxlots} loader="geojson" crossOrigin="anonymous"/>
                     </layer.Vector>
                     {/*
  {taxlotsSource}/>

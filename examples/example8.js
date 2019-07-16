@@ -41,10 +41,10 @@ const theMap = new olMap({
 
 const usngConverter = new Converter
 
-const taxlotslayer = 'clatsop_wm%3Ataxlots'
+const taxlotslayer = 'clatsop%3Ataxlots'
 const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
-        + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
         + taxlotslayer
+        + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf'
 
 const Example8 = (props) => {
     const [popupPosition, setPopupPosition] = useState([0,0]);

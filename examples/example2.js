@@ -18,12 +18,9 @@ import {MapProvider} from '../src/map-context'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultMapLayers as mapLayers} from '../src/map-layers'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
 import {Tile as olTileLayer} from 'ol/layer'
 import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
@@ -235,14 +232,11 @@ const Example2 = ({}) => {
                             positioning="center-center"
                         />
                         <control.Rotate autoHide={false}/>
-                        <control.MousePosition
-                            projection={wgs84}
-                            coordinateFormat={(coord) => {
-                                return toStringXY(coord, 3)
-                            } }
-                        />
                         <control.ZoomSlider />
     */}
+                        <control.MousePosition projection={wgs84}
+                            coordinateFormat={(coord) => {return toStringXY(coord, 3)}}
+                        />
                     </Map>
                 </MapProvider>
 
