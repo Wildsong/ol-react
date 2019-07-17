@@ -12,9 +12,9 @@ const Map = (props) => {
         try {
             map.setTarget(element)
             if (props.onMoveEnd) map.on('moveend', props.onMoveEnd);
-            console.log("map.on = ", map.on);
+            //console.log("map.on = ", map.on);
         } catch {
-            console.log("OLMap Problems map=", map);
+            console.log("Map Problems map=", map);
         }
     }
     return (

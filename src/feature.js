@@ -1,29 +1,28 @@
 import React, {useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {LayerContext} from './layer-context'
-import {FeatureContext, FeatureProvider} from './feature-context'
+import {FeatureProvider} from './feature-context'
 import {Source} from 'ol/source'
 import {Feature as olFeature} from 'ol'
 import {buildStyle} from './style'
 
 const Feature = (props) => {
     const layer = useContext(LayerContext);
-    let feature;
+    const feature = new olFeature()
+    feature.setId(props.id);
+    feature.setStyle(buildStyle(props.style))
 
     useEffect(() => {
-        console.log("Feature added", props);
-        feature = new olFeature()
-        feature.setId(props.id);
+        console.log("Feature mounted", props, layer);
         layer.getSource().addFeature(feature)
-        feature.setStyle(buildStyle(props.style))
         return () => {
-            console.log("Feature removed");
+            console.log("Feature unmounted");
             layer.getSource().removeFeature(feature);
         }
     }, [props.style]);
 
     return (
-        <FeatureProvider value={feature}>
+        <FeatureProvider feature={feature}>
             {props.children}
         </FeatureProvider>
     );

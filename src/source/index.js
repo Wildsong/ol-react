@@ -7,6 +7,7 @@ export {default as TileWMS} from './tile-wms'
 export {default as WMTS} from './tile-wmts'
 
 //export {default as Draw} from './vector-draw'
+export {default as Vector} from './vector'
 export {default as VectorTile} from './vector-tile'
 
 export {default as JSON} from './json'

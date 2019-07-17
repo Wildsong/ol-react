@@ -9,12 +9,12 @@ import {buildStyle} from '../style'
 const Vector = (props) => {
     const map = useContext(MapContext);
     const olstyle = buildStyle(props.style)
-    console.log("layer.Vector", props.title, olstyle);
+    console.log('layer.Vector', props.title, olstyle);
     const layer = new olVectorLayer({
         style: olstyle,
     })
     useEffect(() => {
-        console.log("layer.Vector", props.title, "initialized");
+        console.log("layer.Vector mounted", props.title);
         map.addLayer(layer);
     }, []);
     return (

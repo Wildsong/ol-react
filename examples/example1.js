@@ -16,7 +16,7 @@ import {myGeoServer, astoria_wm} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {DEFAULT_CENTER, MINZOOM, astoria_ll} from '../src/constants'
 
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
@@ -25,7 +25,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: 12}),
+    view: new olView({ center: fromLonLat(astoria_ll), zoom: 10}),
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
 })
 
@@ -73,7 +73,7 @@ const Example1 = ({setMapCenter}) => {
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
 
-    const [enableModify, setModify] = useState(true); // no button yet!
+    const [enableModify, setModify] = useState(false); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(.80);
     const [opacityDraw, setOpacityDraw] = useState(1);
     const [typeIndex, setTypeIndex] = useState(0); // index into draw typeSelect
@@ -225,21 +225,20 @@ const Example1 = ({setMapCenter}) => {
 
             <layer.Vector title="Vector Shapes" opacity={1}>
                 <source.Vector>
-                <Feature id="test-line" style={lineStyle}>
-                </Feature>
+                    <Feature id="test-line" style={lineStyle}>
+                        <geom.LineString transform={transformfn}>
+                            { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
+                        </geom.LineString>
+                    </Feature>
+                    <Feature id="test-circle" style={pointStyle}>
+                        <geom.Circle modify={enableModify}>{[astoria_wm, 1000]}</geom.Circle>
+                    </Feature>
+                    <Feature id="test-circle-zeroradius" style={polyStyle}>
+                        <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
+                    </Feature>
                 </source.Vector>
-{/*
-    <geom.LineString transform={transformfn}>
-    { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
-    </geom.LineString>
-                <Feature id="test-circle" style={ pointStyle }>
-                    <geom.Circle modify={ enableModify } >{[astoria_wm, 100]}</geom.Circle>
-                </Feature>
-
-                <Feature id="test-circle-zeroradius" style={ polyStyle }>
-                    <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
-                </Feature>
-
+            </layer.Vector>
+            {/*
                 <Feature id="test-polygon" style={ polyStyle }>
                     <geom.Polygon transform={ transformfn }>
                             {[
@@ -261,7 +260,6 @@ const Example1 = ({setMapCenter}) => {
                         </geom.MultiPoint>
                     </Feature>
                     */}
-                </layer.Vector>
 
                 <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}
                     addfeature={handleAddFeature}>

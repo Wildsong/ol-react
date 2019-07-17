@@ -6,9 +6,8 @@ import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
-import { DEFAULT_CENTER,MINZOOM } from '../src/constants'
+import { DEFAULT_CENTER,MINZOOM, wgs84 } from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
 
 // A new instance of 'map' loads each time we come to this page.
 // If I want to persist any state in the map it has to be done
@@ -62,7 +61,7 @@ const Example0 = () => {
             <Button onClick={incZoom}>+</Button>{zoom}
             <Button onClick={decZoom}>-</Button>
             <control.OverviewMap layers={ovLayers}/>
-            <control.MousePosition/>
+            <control.MousePosition projection={wgs84}/>
         </MapProvider>
     </>
     );

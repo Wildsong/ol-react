@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Map, Extent } from 'ol'
-import { LayerContext } from '../layer-context'
+import {Map, Extent} from 'ol'
+import {LayerContext} from '../layer-context'
 import OLComponent from '../ol-component'
-import { buildStyle } from '../style'
+import {buildStyle} from '../style'
 
 // These are properties that we want to use for sources
 let dictSource = [
