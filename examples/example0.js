@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Map, control, layer, source} from '../src'
 import {Button} from 'reactstrap'
@@ -16,13 +16,19 @@ import {defaultControls as olControls, defaultInteractions as olInteractions} fr
 // I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    //layers: mapLayers,
-    controls: olControls, interactions: olInteractions,
+    controls: [],
+    //interactions: olInteractions, // If this is undefined you get default interactions.
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
 })
+console.log("interactions", theMap.getInteractions());
 
 const Example0 = () => {
     const [zoom, setZoom] = useState(theMap.getView().getZoom());
+
+    useEffect(() => {
+        console.log("Example0 mounted");
+        return () => {console.log("Example0 unmounted")}
+    }, []);
 
     const updateZoom = (step=0) => {
         const view = theMap.getView();
@@ -35,11 +41,10 @@ const Example0 = () => {
     }
     const decZoom = (e) => { updateZoom(-1); }
     const incZoom = (e) => { updateZoom(1); }
-    theMap.on('moveend', (mapEvent)=>{
-            console.log("moveEnd",mapEvent.map.getView().getCenter());
-            updateZoom();
-        }
-    );
+    const handleMoveEnd = (mapEvent) => {
+        console.log("moveEnd",mapEvent.map.getView().getCenter());
+        //updateZoom();
+    };
     return (
     <>
         <h1>ol-react examples</h1>
@@ -49,12 +54,15 @@ const Example0 = () => {
 
         <h4>Tile source: OpenStreetMap</h4>
         <MapProvider map={theMap}>
-            <Map style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
-                <layer.Tile opacity={1}> <source.OSM/> </layer.Tile>
+            <Map onMoveEnd={handleMoveEnd}
+                style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
+
+                <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
             </Map>
             <Button onClick={incZoom}>+</Button>{zoom}
             <Button onClick={decZoom}>-</Button>
             <control.OverviewMap layers={ovLayers}/>
+            <control.MousePosition/>
         </MapProvider>
     </>
     );

@@ -5,7 +5,7 @@ import {LayerContext} from '../layer-context'
 
 const OSM = () => {
     const layer = useContext(LayerContext);
-    console.log("OSM");
+    console.log("source.OSM");
     const source = new olOSM();
     layer.setSource(source)
     return null; // Nothing needs to be rendered here.

@@ -11,6 +11,8 @@ const Map = (props) => {
     const t = element => {
         try {
             map.setTarget(element)
+            if (props.onMoveEnd) map.on('moveend', props.onMoveEnd);
+            console.log("map.on = ", map.on);
         } catch {
             console.log("OLMap Problems map=", map);
         }
@@ -33,7 +35,6 @@ const Map = ({map,setMapCenter}) => {
     if (this.props.onClick)       this.props.map.on('click', this.props.onClick);
     if (this.props.onSingleClick) this.props.map.on('singleclick', this.props.onSingleClick);
     //if (this.props.onDblClick)    this.props.map.on('doubleclick', this.props.onDblClick);
-    if (this.props.onMoveEnd)     this.props.map.on('moveend', this.props.onMoveEnd);
     if (this.props.onPostrender)  this.props.map.on('postrender', this.props.onPostrender);
     const setMapTarget = element => {
         console.log("setMapTarget", element);

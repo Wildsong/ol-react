@@ -1,4 +1,9 @@
 import React from 'react'
-export const FeatureContext = React.createContext({
-    feature: null
-});
+
+const FeatureContext = React.createContext();
+const FeatureProvider = (props) => (
+    <FeatureContext.Provider value={props.feature}>
+        {props.children}
+    </FeatureContext.Provider>
+)
+export { FeatureContext, FeatureProvider }

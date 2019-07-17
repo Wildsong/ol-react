@@ -3,7 +3,7 @@
 
 export {default as Circle} from './Circle'
 //export {default as GeometryCollection} from './GeometryCollection'
-export {default as LineString} from './LineString'
+export {default as LineString} from './line-string'
 //export {default as MultiLineString} from './MultiLineString'
 export {default as MultiPoint} from './MultiPoint'
 //export {default as MultiPolygon} from './MultiPolygon'

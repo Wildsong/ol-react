@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Style as olStyle} from 'ol/style'
 import {Vector as olVectorLayer} from 'ol/layer'
@@ -9,11 +9,14 @@ import {buildStyle} from '../style'
 const Vector = (props) => {
     const map = useContext(MapContext);
     const olstyle = buildStyle(props.style)
-    console.log("layer.Vector", olstyle);
+    console.log("layer.Vector", props.title, olstyle);
     const layer = new olVectorLayer({
         style: olstyle,
     })
-    map.addLayer(layer);
+    useEffect(() => {
+        console.log("layer.Vector", props.title, "initialized");
+        map.addLayer(layer);
+    }, []);
     return (
         <LayerProvider layer={layer}>
             {props.children}

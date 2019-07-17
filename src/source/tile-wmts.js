@@ -1,21 +1,26 @@
 import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
-import {TileWMS as olTileWMS} from 'ol/source'
+import {WMTS as olWMTS} from 'ol/source'
 import {LayerContext} from '../layer-context'
 
-const TileWMS = (props) => {
+// I have not seen this code work yet.
+// I was trying to use it in Example8, briefly.
+
+const WMTS = (props) => {
     const layer = useContext(LayerContext);
-    console.log("TileWMS", props);
-    const source = new olTileWMS(props);
+    console.log("WMTS");
+    const source = new olWMTS(props);
     layer.setSource(source)
     return null; // Nothing needs to be rendered here.
 }
-TileWMS.propTypes =  {
+WMTS.propTypes =  {
     url: PropTypes.string,
     attributions: PropTypes.string,
+    layer: PropTypes.string,
+    format: PropTypes.string, // "image/png" | "application/vnd.mapbox-vector-tile" | ...
     crossOrigin: PropTypes.string, // null | '' | 'anonymous'
-    params: PropTypes.object,
+    params: PropTypes.string,
     projection: PropTypes.string,
     resolutions: PropTypes.arrayOf(PropTypes.number),
 };
-export default TileWMS;
+export default WMTS;

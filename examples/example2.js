@@ -31,7 +31,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: 12}),
     controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
     //layers: mapLayers
@@ -201,43 +201,44 @@ const Example2 = ({}) => {
                 <Select options={ aerials } onChange={ changeAerial } />
 
                 <MapProvider map={theMap}>
-    	            <Map center={astoria_wm}>
-                        <layer.Tile opacity={1}><source.OSM/></layer.Tile>
+    	        <Map center={astoria_wm}>
+                    <layer.Tile opacity={1}><source.OSM/></layer.Tile>
 
-                        <layer.Image title="City of Astoria" visible={aerialVisible}>
-                            <source.ImageWMS url={aerial}/>
-                        </layer.Image>
+                    <layer.Image title="City of Astoria" visible={aerialVisible}>
+                        <source.ImageWMS url={aerial}/>
+                    </layer.Image>
 
-                        <layer.Vector title="Taxlots" style={taxlotStyle}>
-                            <source.JSON loader="esrijson" url={taxlotsFeaturesUrl}/>
-                        </layer.Vector>
-        {/* editStyle={selectedStyle}>
-                            <interaction.Select
-                                select={ onSelectInteraction }
-                                condition={ handleCondition }
-                                features={ selectedFeatures }
-                                style={ selectedSt }
-                                active={ true }
-                            />
-
-                            <interaction.DragBox
-                                boxstart={ onBoxStart }
-                                boxend={ onBoxEnd }
-                                active={ true }
-                            />
-
-    	                <Overlay id="popups"
-                            element={popup}
-                            position={popupPosition}
-                            positioning="center-center"
+                    <layer.Vector title="Taxlots" style={taxlotStyle}>
+                        <source.JSON loader="esrijson" url={taxlotsFeaturesUrl} crossOrigin="anonymous"/>
+                    </layer.Vector>
+    {/*
+                        editStyle={selectedStyle}>
+                        <interaction.Select
+                            select={ onSelectInteraction }
+                            condition={ handleCondition }
+                            features={ selectedFeatures }
+                            style={ selectedSt }
+                            active={ true }
                         />
-                        <control.Rotate autoHide={false}/>
-                        <control.ZoomSlider />
-    */}
-                        <control.MousePosition projection={wgs84}
-                            coordinateFormat={(coord) => {return toStringXY(coord, 3)}}
+
+                        <interaction.DragBox
+                            boxstart={ onBoxStart }
+                            boxend={ onBoxEnd }
+                            active={ true }
                         />
-                    </Map>
+
+	                <Overlay id="popups"
+                        element={popup}
+                        position={popupPosition}
+                        positioning="center-center"
+                    />
+                    <control.Rotate autoHide={false}/>
+                    <control.ZoomSlider />
+*/}
+                    <control.MousePosition projection={wgs84}
+                        coordinateFormat={(coord) => {return toStringXY(coord, 3)}}
+                    />
+                </Map>
                 </MapProvider>
 
                 <BootstrapTable bootstrap4 striped condensed

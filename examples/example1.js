@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, geom, control, layer, source} from '../src'
@@ -18,14 +17,7 @@ import {myGeoServer, astoria_wm} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
 
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
 // A new instance of 'map' loads each time we come to this page.
@@ -33,8 +25,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // outside the component, either in redux or in some parent component.
 // I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
+    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: 12}),
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
 })
 
@@ -58,10 +49,6 @@ const transformfn = (coordinates) => {
     }
     return coordinates
 }
-
-const attributions = [
-    osmAttribution,
-];
 
 // This controls what kind of features we are drawing.
 const typeSelect = [
@@ -93,31 +80,19 @@ const Example1 = ({setMapCenter}) => {
     const [pointer, setPointer] = useState('');
     const [markerId, setMarker] = useState(1);
 
-    // Add map layers
-    const osmLayer = new olTileLayer({
-        source: new OSM(),
-        opacity: opacityOSM,
-    })
-    theMap.addLayer(osmLayer);
-    const drawLayer = new olVectorLayer({
-        opacity: opacityDraw,
-    })
-    theMap.addLayer(drawLayer);
+    useEffect(() => {
+        console.log("Example1 mounted");
+        return () => {console.log("Example1 unmounted")}
+    }, []);
+
     const changeOpacityOSM = (value) => {
         setOpacityOSM(value); // this triggers a render
         osmLayer.setOpacity(value);
-        theMap.render();
-        console.log(value);
     }
     const changeOpacityDraw = (value) => {
         setOpacityDraw(value); // this triggers a render
         drawLayer.setOpacity(value);
-        //theMap.render();
-        console.log(value);
     }
-    // Add widgets specific to this page.
-
-    theMap.addControl(new olFullScreen());
 
     const onGeocode = (e) => {
         setCenter(e.coordinate);
@@ -232,44 +207,41 @@ const Example1 = ({setMapCenter}) => {
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
-            {/*
-                <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                <control.LayerPopupSwitcher/>
-*/}
-                <layer.Tile title="Toner" baseLayer={true}  attributions={attributions}>
-                    <source.Stamen layer="toner"/>
-                </layer.Tile>
+            <layer.Tile title="Toner" baseLayer={true} attributions="Stamen">
+                <source.Stamen layer="toner"/>
+            </layer.Tile>
 
-                <layer.Tile title="OpenStreetMap" attributions={attributions} opacity={opacityOSM}>
-                    <source.OSM/>
-                </layer.Tile>
+            <layer.Tile title="OpenStreetMap" attributions="OpenStreetMap" opacity={opacityOSM}>
+                <source.OSM/>
+            </layer.Tile>
 
-                <layer.Tile title="Taxlots">
-                    <source.TileWMS url={geoserverWMS}
-                        params={{LAYERS: geoserverLayers,
-                            STYLES: "redline", // WMS style, from GeoServer in this case
-                            TILED: true}}
-                    />
-                </layer.Tile>
+            <layer.Tile title="Taxlots">
+                <source.TileWMS url={geoserverWMS}
+                    params={{LAYERS: geoserverLayers,
+                        STYLES: "redline", // WMS style, from GeoServer in this case
+                        TILED: true}}
+                />
+            </layer.Tile>
 
-                {/*
-                <layer.Vector title="Vector Shapes" opacity={ opacityVector/100 } >
-                    <Feature id="test-line" style={ lineStyle }>
-                        <geom.LineString transform={transformfn} layout="XY">
-                            { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
-                        </geom.LineString>
-                    </Feature>
+            <layer.Vector title="Vector Shapes" opacity={1}>
+                <source.Vector>
+                <Feature id="test-line" style={lineStyle}>
+                </Feature>
+                </source.Vector>
+{/*
+    <geom.LineString transform={transformfn}>
+    { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
+    </geom.LineString>
+                <Feature id="test-circle" style={ pointStyle }>
+                    <geom.Circle modify={ enableModify } >{[astoria_wm, 100]}</geom.Circle>
+                </Feature>
 
-                    <Feature id="test-circle" style={ pointStyle }>
-                        <geom.Circle modify={ enableModify } >{[astoria_wm, 100]}</geom.Circle>
-                    </Feature>
+                <Feature id="test-circle-zeroradius" style={ polyStyle }>
+                    <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
+                </Feature>
 
-                    <Feature id="test-circle-zeroradius" style={ polyStyle }>
-                        <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
-                    </Feature>
-
-                    <Feature id="test-polygon" style={ polyStyle }>
-                        <geom.Polygon transform={ transformfn }>
+                <Feature id="test-polygon" style={ polyStyle }>
+                    <geom.Polygon transform={ transformfn }>
                             {[
                                 [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
                                 [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
@@ -288,16 +260,20 @@ const Example1 = ({setMapCenter}) => {
                             { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                         </geom.MultiPoint>
                     </Feature>
+                    */}
                 </layer.Vector>
-                */}
 
-                <layer.Vector title="Draw" style={clickMarker}
+                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}
                     addfeature={handleAddFeature}>
-                    />
 {/*                    <interaction.Draw type={ typeSelect[typeIndex].label }
                         drawend={ handleAddFeature }
-                        */}
+*/}
                 </layer.Vector>
+                <control.FullScreen tipLabel="Like totally go full screen"/>
+                {/*
+                    <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
+                    <control.LayerPopupSwitcher/>
+                    */}
             </Map>
             </MapProvider>
 
@@ -321,14 +297,4 @@ const Example1 = ({setMapCenter}) => {
         </>
     );
 }
-Example1.propTypes = {
-};
-/*
-const mapStateToProps = ({
-})
-const mapDispatchToProps = {
-    setMapCenter
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Example1);
-*/
 export default Example1;
