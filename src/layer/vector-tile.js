@@ -5,15 +5,11 @@ import {buildStyle} from '../style'
 import {VectorTile as olVectorTileLayer} from 'ol/layer'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
-import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
-import {createMapboxStreetsV6Style} from '../mapbox-streets-v6-style'
 
 const VectorTile = (props) => {
     const map = useContext(MapContext);
-    const [layer, layerState] = useState(new olVectorTileLayer({
-        ...props,
-        style: createMapboxStreetsV6Style(Style, Fill, Stroke, Icon, Text)
-    }));
+    const [layer, layerState] = useState(new olVectorTileLayer({ ...props,
+        style: props.style }));
     const title = props.title;
 //    const style = buildStyle(props.style);
     console.log("layer.VectorTile", title);
@@ -48,8 +44,7 @@ VectorTile.propTypes = {
     url: PropTypes.string,
     layer: PropTypes.string,
     declutter: PropTypes.bool,
-
-    //style mapbox style...
+    style: PropTypes.oneOf(PropTypes.object, PropTypes.func),
 /*    this.dictLayer = [
         "opacity",
         "visible",

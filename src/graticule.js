@@ -1,15 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Map, Graticule as olGraticule} from 'ol'
 import {Stroke} from 'ol/style'
-import OLComponent from './ol-component'
-import {MapProvider} from '../src/map-context'
+import {MapContext} from '../src/map-context'
 
 const Graticule = (props) => {
-    const control = new olGraticule(props);
+    const map = useContext(MapContext);
+    const [control, setControl] = useState(new olGraticule(props));
+    useEffect(() => {
+        map.addControl(control);
+        return () => {
+            map.removeControl(control);
+        }
+    }, []);
     return null;
 }
-
 Graticule.propTypes = {
     maxLines: PropTypes.number,
     stroke: PropTypes.string,

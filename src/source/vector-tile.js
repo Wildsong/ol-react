@@ -6,9 +6,9 @@ import {GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat} from 'ol/f
 
 const VectorTile = (props) => {
     const layer = useContext(LayerContext);
-    const [source, setSource] = useState(olVectorTileSource({
+    const [source, setSource] = useState(new olVectorTileSource({
         ...props,
-        format: new MVTformat(), // All we do at the moment.
+        format: new MVTformat(), // All we support at the moment.
     }));
     useEffect(() => {
         console.log("source.VectorTile mounted");

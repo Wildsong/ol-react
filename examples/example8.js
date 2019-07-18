@@ -49,22 +49,25 @@ const Example8 = (props) => {
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
+
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
+    const popupElement = React.createElement('div', {className:"ol-popup"}, popupText);
+
     const [osmOpacity, setOpacity] = useState(.90);
     const [slidoVisible, setSlido] = useState(true);
 
-    const popupElement = React.createElement('div', { className:"ol-popup" }, popupText );
     const selectedFeatures = new Collection();
     const usngCoordFormatter = (coord, zoom=6) => {
         const ll = toLonLat(coord)
         return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
     };
 
-    const handleMapClick = (e) => {
-        const lonlat = toLonLat(e.coordinate)
-        const zoom = e.map.getView().getZoom();
-        setPopupPosition(e.coordinate)
+    const handleMapClick = (mapEvent) => {
+        console.log("mapEvent=", mapEvent);
+        const lonlat = toLonLat(mapEvent.coordinate)
+        const zoom = mapEvent.map.getView().getZoom();
+        setPopupPosition(mapEvent.coordinate)
         setPopupText(usngCoordFormatter(lonlat, zoom));
     }
 
@@ -109,11 +112,6 @@ const Example8 = (props) => {
     const tileGrid = new WMTSTileGrid({origin: getTopLeft(projectionExtent), resolutions, matrixIds});
 */
 
-    // Call this AFTER the render
-    useEffect(() => {
-        console.log("OSM opacity changed", osmOpacity);
-    }, [osmOpacity]);
-
     return (
         <>
         <h2>Example 8</h2>
@@ -135,35 +133,30 @@ const Example8 = (props) => {
 
             <MapProvider map={theMap}>
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
-{/*                <layer.Image title="Bare Earth HS" opacity={.20}>
+                <layer.Image title="Bare Earth HS" opacity={.20}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 </layer.Image>
-                */}
                 <layer.VectorTile title="Mapbox Vector Tile Streets" declutter={true} opacity={osmOpacity}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>
                 <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
                 </layer.Image>
-                {/*
                 <layer.VectorTile title="Taxlots vector tiles" declutter={true}>
                     <source.VectorTile url={taxlotsUrl}/>
                 </layer.VectorTile>
+                {/*
                     <layer.Tile title="OpenStreetMap" opacity={osmOpacity}> <source.OSM/> </layer.Tile>
                     <layer.Tile title="Taxlots">
                         <source.WMTS url={taxlotsWMTSUrl}
-                    format={taxlotsFormat}
+                            format={taxlotsFormat}
                     layer="clatsop_wm:taxlots"
                     tileGrid={tileGrid}
                     matrixSet={"EPSG:90013"}
                     />
                     </layer.Tile>
-                <Overlay id="popups"
-                    element={ popupElement }
-                    position={ popupPosition }
-                    positioning="center-center"
-                />
-                */}
+                    */}
+                <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             </Map>
             <OverviewMap layers={ovLayers}/>
