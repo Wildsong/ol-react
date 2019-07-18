@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
@@ -7,8 +7,11 @@ import {Tile as TileLayer} from 'ol/layer'
 const Tile = (props) => {
     const map = useContext(MapContext);
     const title = props.title;
-    console.log("layer.Tile new", props.title);
-    const layer = new TileLayer({opacity:0,visible:false})
+    const [layer, layerState] = useState(new TileLayer({
+        opacity: props.opacity,
+        visible: props.visible
+    }));
+    console.log("layer.Tile", title);
 
     useEffect(() => {
         console.log("layer.Tile mounted", title);

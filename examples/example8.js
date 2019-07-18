@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import {MapProvider} from '../src/map-context'
 import {Map, Feature, Overlay, control, geom, layer, source} from '../src'
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
 import {toStringHDMS} from 'ol/coordinate'
@@ -11,7 +11,6 @@ import {OverviewMap} from '../src/control'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Button} from 'reactstrap'
 import {myGeoServer, astoria_wm, usngPrecision, wgs84, wm} from '../src/constants'
-import {MapProvider} from '../src/map-context'
 
 // abandoning hope of this test of WMTS
 //import {getWidth, getTopLeft} from 'ol/extent'
@@ -22,9 +21,6 @@ import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
@@ -36,9 +32,8 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
+    //controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-//    layers: mapLayers
 })
 
 
@@ -143,21 +138,22 @@ const Example8 = (props) => {
 
             <MapProvider map={theMap}>
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
-                <layer.Image opacity={.20}>
+{/*                <layer.Image title="Bare Earth HS" opacity={.20}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 </layer.Image>
-                <layer.VectorTile declutter={true} opacity={osmOpacity}>
+                */}
+                <layer.VectorTile title="Mapbox Vector Tile Streets" declutter={true} opacity={osmOpacity}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>
-                <layer.Image visible={slidoVisible} opacity={.90}>
+                <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
                 </layer.Image>
-                <layer.VectorTile declutter={true}>
+                {/*
+                <layer.VectorTile title="Taxlots vector tiles" declutter={true}>
                     <source.VectorTile url={taxlotsUrl}/>
                 </layer.VectorTile>
-                {/*
-                    <layer.Tile opacity={osmOpacity}> <source.OSM/> </layer.Tile>
-                    <layer.Tile>
+                    <layer.Tile title="OpenStreetMap" opacity={osmOpacity}> <source.OSM/> </layer.Tile>
+                    <layer.Tile title="Taxlots">
                         <source.WMTS url={taxlotsWMTSUrl}
                     format={taxlotsFormat}
                     layer="clatsop_wm:taxlots"
@@ -175,6 +171,7 @@ const Example8 = (props) => {
             </Map>
             <OverviewMap layers={ovLayers}/>
             </MapProvider>
+            <h3>{theMap.getLayers().getLength()} layers</h3>
         </>
     );
 }
