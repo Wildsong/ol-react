@@ -1,9 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {Style as olStyle} from 'ol/style'
-import {Vector as olVectorLayer} from 'ol/layer'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
+import {Style as olStyle} from 'ol/style'
+import {Vector as olVectorLayer} from 'ol/layer'
 import {buildStyle} from '../style'
 
 const Vector = (props) => {
@@ -27,12 +27,12 @@ const Vector = (props) => {
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
-        console.log("layer.Vector opacity set to", layer.getOpacity());
+        //console.log("layer.Vector opacity set to", layer.getOpacity());
     }, [props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
-        console.log("layer.Vector visible set to", layer.getVisible());
+        //console.log("layer.Vector visible set to", layer.getVisible());
     }, [props.visible]);
 
     return (

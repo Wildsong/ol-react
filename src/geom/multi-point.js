@@ -52,7 +52,7 @@ const MultiPoint = (props) => {
     return null; // nothing to render here
 }
 MultiPoint.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.number).isRequired,
+    children: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
     animate: PropTypes.bool,
     animationLength: PropTypes.number
 }

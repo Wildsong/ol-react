@@ -7,26 +7,6 @@ import {MapProvider} from '../src/map-context'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultMapLayers as mapLayers} from '../src/map-layers'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    //layers: mapLayers
-})
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -35,6 +15,11 @@ const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEa
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
 const Example6 = () => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+    }));
+
     const [lat, setLat] = useState(46.184);
     const [lon, setLon] = useState(-123.83);
     const [zoom, setZoom] = useState(14);

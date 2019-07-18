@@ -10,7 +10,6 @@ import {interaction} from '../src'
 import {OverviewMap} from '../src/control'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Button} from 'reactstrap'
-import {myGeoServer, astoria_wm, usngPrecision, wgs84, wm} from '../src/constants'
 
 // abandoning hope of this test of WMTS
 //import {getWidth, getTopLeft} from 'ol/extent'
@@ -19,23 +18,16 @@ import {myGeoServer, astoria_wm, usngPrecision, wgs84, wm} from '../src/constant
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+import {myGeoServer, astoria_wm, astoria_ll, usngPrecision, wgs84, wm} from '../src/constants'
+import {MINZOOM} from '../src/constants'
+const DEFAULT_CENTER = astoria_ll;
+const DEFAULT_ZOOM = 12;
+
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    //controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
-
 
 const usngConverter = new Converter
 
@@ -52,6 +44,11 @@ const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
 //const taxlotsFormat = "image/png"
 
 const Example8 = (props) => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+        //controls: [],
+    }));
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
     const [osmOpacity, setOpacity] = useState(.90);

@@ -1,22 +1,18 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {LayerContext} from '../layer-context'
 import {VectorTile as olVectorTileSource} from 'ol/source'
 import {GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat} from 'ol/format'
-import {LayerContext} from '../layer-context'
 
 const VectorTile = (props) => {
     const layer = useContext(LayerContext);
+    const [source, setSource] = useState(olVectorTileSource({
+        ...props,
+        format: new MVTformat(), // All we do at the moment.
+    }));
     useEffect(() => {
-        const options = {
-            ...props,
-            format: new MVTformat(), // All we do at the moment.
-        };
-        const source = new olVectorTileSource(options);
+        console.log("source.VectorTile mounted");
         layer.setSource(source);
-        console.log("source.VectorTile mounted", options);
-        return () => {
-            console.log("source.VectorTile unmounted");
-        };
     }, []);
     return null; // Nothing needs to be rendered here.
 }

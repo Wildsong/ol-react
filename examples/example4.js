@@ -4,35 +4,15 @@ import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import {Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
 import {Button} from 'reactstrap'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src';
-import {astoria_wm, wgs84, wm} from '../src/constants'
+import {astoria_ll, wgs84, wm} from '../src/constants'
 import {MapProvider} from '../src/map-context'
-const defaultCenter_wm = astoria_wm;
-const defaultZoom = 10;
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultMapLayers as mapLayers} from '../src/map-layers'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
+import {MINZOOM} from '../src/constants'
 
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    layers: mapLayers
-})
+const DEFAULT_CENTER = astoria_ll;
+const DEFAULT_ZOOM = 13;
 
 const bingmaps_key = process.env.BINGMAPS_KEY;
 if (typeof bingmaps_key === 'undefined') console.log("BINGMAPS_KEY is undefined")
@@ -111,6 +91,11 @@ const getTextStyle = (feature, resolution) => {
 };
 
 const Example4 = (props) => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+        //controls: [],
+    }));
     const [bingVisible, setBingVisible] = useState(false);
     const [opacityBing, setOpacityBing] = useState(.50);
 
@@ -149,21 +134,17 @@ const Example4 = (props) => {
                 </p>
 
                 <MapProvider map={theMap}>
-                <Map minZoom={10} maxZoom={20} zoom={defaultZoom} center={defaultCenter_wm}>
-{/*
-                    <layer.Tile name="Bing Road"
-                        source="BingMaps" imagerySet="CanvasLight"
-                        apikey={ bingmaps_key }
-                    />
-                    <layer.Tile name="Bing Aerial"
-                        source="BingMaps" imagerySet="Aerial"
-                        visible={ this.state.bingVisible }
-                        apikey={ bingmaps_key }
-                    />
-                    <layer.Vector name="Oregon Zoning"
-                        source="esrijson" url={featureServer}
-                        style={polyStyle}
-                    />
+                <Map minZoom={10} maxZoom={20} zoom={DEFAULT_ZOOM} center={fromLonLat(DEFAULT_CENTER)}>
+                    <layer.Tile title="Bing Road">
+                        <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
+                    </layer.Tile>
+                    <layer.Tile title="Bing Aerial" visible={bingVisible}>
+                        <source.BingMaps imagerySet="Aerial" apikey={bingmaps_key}/>
+                    </layer.Tile>
+                    <layer.Vector title="Oregon Zoning">
+                        <source.JSON url={featureServer} loader="esrijson" style={polyStyle}/>
+                    </layer.Vector>
+                    {/*
 
                     <interaction.KeyboardPan
                         condition={ () => { return true; } }

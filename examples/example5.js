@@ -17,17 +17,6 @@ import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    //controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
-
-
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
 
@@ -47,7 +36,10 @@ const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z
 //console.log("url=",thunderforest_url);
 
 const Example5 = () => {
-    const [theMap, setTheMap] = useState(mymap);
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+    }));
     const [address, setAddress] = useState('');
     const [geocoderesults, setGeocoderesults] = useState([]);
     const [lats, setLats] = useState(astoria_ll[1].toString());

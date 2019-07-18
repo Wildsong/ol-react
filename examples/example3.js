@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
+import {MapProvider} from '../src/map-context'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import {toStringXY} from 'ol/coordinate'
 import {
@@ -12,33 +13,21 @@ import {
 } from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
-import {Button } from 'reactstrap'
+import {Button} from 'reactstrap'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src'
 import {buildStyle} from '../src/style'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {astoria_wm, wgs84} from '../src/constants'
-import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultMapLayers as mapLayers} from '../src/map-layers'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
-import {OSM, Stamen} from 'ol/source'
+import {astoria_ll, MINZOOM} from '../src/constants'
+const DEFAULT_CENTER = astoria_ll;
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    //controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -54,6 +43,11 @@ let attributions = [
 ];
 
 const Example3 = () => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+        //controls: [],
+    }));
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
 
@@ -176,9 +170,9 @@ const Example3 = () => {
                     <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2}><source.Stamen layer="watercolor"/></layer.Tile>
 
                     <layer.Image title="ESRI US States" opacity={opacityLayer3}>
-                    <source.ImageArcGISRest
-                    url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                    />
+                        <source.ImageArcGISRest
+                            url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                        />
                     </layer.Image>
 
                     <layer.Vector title="GPX Drag and drop" cluster={true} distance={40} style={clusterStyle}>

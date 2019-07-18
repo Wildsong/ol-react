@@ -1,13 +1,15 @@
-import React, {useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {TileWMS as olTileWMS} from 'ol/source'
 import {LayerContext} from '../layer-context'
+import {TileWMS as olTileWMS} from 'ol/source'
 
 const TileWMS = (props) => {
     const layer = useContext(LayerContext);
-    console.log("TileWMS", props);
-    const source = new olTileWMS(props);
-    layer.setSource(source)
+    const [source, setSource] = useState(new olTileWMS(props));
+    useEffect(() => {
+        console.log("source.WMS mounted");
+        layer.setSource(source);
+    }, []);
     return null; // Nothing needs to be rendered here.
 }
 TileWMS.propTypes =  {

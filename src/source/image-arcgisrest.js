@@ -1,13 +1,15 @@
-import React, {useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {ImageArcGISRest as olImageArcGISRest} from 'ol/source'
 import {LayerContext} from '../layer-context'
 
 const ImageArcGISRest = (props) => {
     const layer = useContext(LayerContext);
-    console.log("ImageArcGISRest");
-    const source = new olImageArcGISRest(props);
-    layer.setSource(source)
+    const [source, setSource] = useState(new olImageArcGISRest(props));
+    useEffect(() => {
+        console.log("source.ImageArcGISRest mounted");
+        layer.setSource(source);
+    }, [] );
     return null; // Nothing needs to be rendered here.
 }
 ImageArcGISRest.propTypes =  {

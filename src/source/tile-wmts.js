@@ -1,16 +1,18 @@
-import React, {useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {WMTS as olWMTS} from 'ol/source'
 import {LayerContext} from '../layer-context'
+import {WMTS as olWMTS} from 'ol/source'
 
 // I have not seen this code work yet.
 // I was trying to use it in Example8, briefly.
 
 const WMTS = (props) => {
     const layer = useContext(LayerContext);
-    console.log("WMTS");
-    const source = new olWMTS(props);
-    layer.setSource(source)
+    const [source, setSource] = useState(new olTileWMTS(props));
+    useEffect(() => {
+        console.log("source.WMS mounted");
+        layer.setSource(source);
+    }, []);
     return null; // Nothing needs to be rendered here.
 }
 WMTS.propTypes =  {

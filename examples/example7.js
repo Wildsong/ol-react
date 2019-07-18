@@ -20,16 +20,6 @@ import {OSM, Stamen} from 'ol/source'
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const mymap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
-
 const usngConverter = new Converter
 
 const mapbox_key = process.env.MAPBOX_KEY;
@@ -42,7 +32,12 @@ const taxlots_url = myGeoServer + '/gwc/service/tms/1.0.0/'
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 
 const Example7 = ({}) => {
-    const [theMap, setTheMap] = useState(mymap);
+    const [theMap, setTheMap] = useState(new olMap({
+            view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+            controls: olControls, interactions: olInteractions,
+            loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+        })
+    );
 
     const handleEvent = (e) => {
         console.log("Map.handleEvent", e)

@@ -16,14 +16,12 @@ import {myGeoServer, astoria_wm} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, astoria_ll} from '../src/constants'
+import {MINZOOM, astoria_ll} from '../src/constants'
+const DEFAULT_CENTER = astoria_ll;
 
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(astoria_ll), zoom: 10}),
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
+import {Collection} from 'ol'
 
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
@@ -66,6 +64,10 @@ const EventList = (props) => {
 /* ============================================================================= */
 
 const Example1 = ({setMapCenter}) => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+    }));
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
 
@@ -106,8 +108,9 @@ const Example1 = ({setMapCenter}) => {
         console.log("handleAddFeature", e, e.feature);
     }
 
-    const handleMapEvent = (e) => {
-        console.log("Map event", e);
+    const handleMapEvent = (mapEvent) => {
+        console.log("Map event", mapEvent);
+        mapEvent.stopPropagation();
     }
 
 // This version makes ALL the point markers increment at the same time. Unfortunately
@@ -160,6 +163,11 @@ const Example1 = ({setMapCenter}) => {
         width: 50,
         height: 50,
     }
+
+    // This is just here to test passing a feature collection down to the Vector source,
+    // if you don't explicitly create one, it will be done for you.
+    const features = new Collection()
+
     return (
         <>
             <h1>Example 1 - Vector draw tools</h1>
@@ -220,22 +228,22 @@ const Example1 = ({setMapCenter}) => {
                 </layer.Tile>
 
                 <layer.Vector title="Vector Shapes" opacity={1}>
-                    <source.Vector>
-                        <Feature id="test-line" style={lineStyle}>
+                    <source.Vector features={features}>
+                        <Feature style={lineStyle}>
                             <geom.LineString transform={transformfn}>
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
-                        <Feature id="test-circle-zeroradius" style={polyStyle}>
+                        <Feature style={polyStyle}>
                             <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
                         </Feature>
-                        <Feature id="test-circle" style={polyStyle}>
+                        <Feature style={polyStyle}>
                             <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
                         </Feature>
-                        <Feature id="test-point" style={ pointStyle }>
+                        <Feature style={ pointStyle }>
                             <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
                         </Feature>
-                        <Feature id="test-polygon" style={polyStyle}>
+                        <Feature style={polyStyle}>
                             <geom.Polygon transform={transformfn}>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
@@ -243,19 +251,20 @@ const Example1 = ({setMapCenter}) => {
                                 ]}
                             </geom.Polygon>
                         </Feature>
-                        <Feature id="test-multipoint" style={multipointStyle}>
+                        <Feature style={multipointStyle}>
                             <geom.MultiPoint transform={transformfn} >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
                     </source.Vector>
                 </layer.Vector>
+                {/*
                 <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}
                     addfeature={handleAddFeature}>
-    {/*                    <interaction.Draw type={ typeSelect[typeIndex].label }
+        <interaction.Draw type={ typeSelect[typeIndex].label }
                             drawend={ handleAddFeature }
-    */}
                 </layer.Vector>
+                */}
                 <control.FullScreen tipLabel="Like totally go full screen"/>
                     {/*
                         <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>

@@ -4,32 +4,22 @@ import Select from 'react-select'
 import { Button } from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { toStringXY } from 'ol/coordinate'
-import { Collection } from 'ol'
+import {MapProvider} from '../src/map-context'
 import {Map, Feature, Overlay, control, geom, interaction, layer, source} from '../src';
+import { Collection } from 'ol'
 import { platformModifierKeyOnly } from 'ol/events/condition'
 import { toStringHDMS } from 'ol/coordinate'
 import { Vector as VectorSource } from 'ol/source'
 import { bbox as bboxStrategy } from 'ol/loadingstrategy'
-import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import { buildStyle } from '../src/style'
 import { DataLoader } from '../src/source/dataloaders'
-import {MapProvider} from '../src/map-context'
 
+import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
-
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: 12}),
-    //controls: olControls, interactions: olInteractions,
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
+import {astoria_ll, MINZOOM} from '../src/constants'
+const DEFAULT_CENTER = astoria_ll
+const DEFAULT_ZOOM = 12;
 
 /*
 const taxlotsFeaturesUrl = myGeoServer
@@ -93,6 +83,11 @@ const tlSt = buildStyle(taxlotStyle);
 const selectedSt = buildStyle(selectedStyle);
 
 const Example2 = ({}) => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+        //controls: [],
+    }));
     const [aerial, setAerial] = useState(aerials[0].value); // 1966
     const [aerialVisible, setAerialVisible] = useState(false)
     const [enableModify, setEnableModify] = useState(false) // not implemented yet

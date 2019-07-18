@@ -1,30 +1,37 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {LayerContext} from '../layer-context'
+import {SourceProvider} from '../source-context'
 import {Vector as olVector} from 'ol/source'
 import {Collection} from 'ol'
-import {LayerContext} from '../layer-context'
 
 const Vector = (props) => {
     const layer = useContext(LayerContext);
-    console.log("source.Vector",props);
-    const source = new olVector(props)
-    layer.setSource(source);
+    const [source, setSource] = useState(new olVector(props));
+
     useEffect(() => {
-        console.log("source.Vector mounted", props);
-        return () => {
-            console.log("source.Vector unmounted");
-        };
-    }, []);
+        console.log("source.Vector mounted");
+
+        //  This is used for a DRAW Interaction, see example1
+        if (typeof props.addfeature !== 'undefined') {
+            source.addEventListener("addfeature", (e) => {
+                console.log("Vector.addfeature", e);
+                props.addfeature(e);
+            });
+        }
+
+        layer.setSource(source);
+    }, [] );
     return (
-        <>
+        <SourceProvider source={source}>
         {props.children}
-        </>
+        </SourceProvider>
     );
 }
 Vector.propTypes = {
     overlap: PropTypes.bool,
     //strategy:
-    url: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     features: PropTypes.instanceOf(Collection),
+    url: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 };
 export default Vector;

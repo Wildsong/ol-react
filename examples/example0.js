@@ -6,28 +6,16 @@ import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
-import { DEFAULT_CENTER,MINZOOM, wgs84 } from '../src/constants'
+import {DEFAULT_CENTER, MINZOOM, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
-const theMap = new olMap({
-    view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: [],
-    //interactions: olInteractions, // If this is undefined you get default interactions.
-    loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-})
-console.log("interactions", theMap.getInteractions());
-
 const Example0 = () => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
+        //controls: [],
+    }));
     const [zoom, setZoom] = useState(theMap.getView().getZoom());
-
-    useEffect(() => {
-        console.log("Example0 mounted");
-        return () => {console.log("Example0 unmounted")}
-    }, []);
 
     const updateZoom = (step=0) => {
         const view = theMap.getView();
@@ -42,7 +30,7 @@ const Example0 = () => {
     const incZoom = (e) => { updateZoom(1); }
     const handleMoveEnd = (mapEvent) => {
         console.log("moveEnd",mapEvent.map.getView().getCenter());
-        //updateZoom();
+        mapEvent.stopPropagation();
     };
     return (
     <>
