@@ -18,7 +18,6 @@ import {MapProvider} from '../src/map-context'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
 import {Tile as olTileLayer} from 'ol/layer'
 import {Vector as olVectorLayer} from 'ol/layer'
 
@@ -26,15 +25,10 @@ import {Vector as olVectorLayer} from 'ol/layer'
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: 12}),
-    controls: olControls, interactions: olInteractions,
+    //controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    //layers: mapLayers
 })
 
 /*
@@ -113,7 +107,7 @@ const Example2 = ({}) => {
 // I need to look at this code to make adding and removing features
 // in the current selection set.
 
-   const  handleCondition = (e) => {
+   const handleCondition = (e) => {
         moved = false;
         switch(e.type) {
             case 'click':
@@ -202,7 +196,7 @@ const Example2 = ({}) => {
 
                 <MapProvider map={theMap}>
     	        <Map center={astoria_wm}>
-                    <layer.Tile opacity={1}><source.OSM/></layer.Tile>
+                    <layer.Tile><source.OSM/></layer.Tile>
 
                     <layer.Image title="City of Astoria" visible={aerialVisible}>
                         <source.ImageWMS url={aerial}/>

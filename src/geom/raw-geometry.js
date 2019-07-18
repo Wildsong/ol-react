@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Feature} from 'ol';
-import Geometry from 'ol/geom/Geometry';
-import OLGeometry from './ol-geometry';
+import React, {useContext, useEffect} from 'react'
+import PropTypes from 'prop-types'
+import {FeatureContext} from '../feature-context'
+import Geometry from 'ol/geom/Geometry'
 
 /*
  * Allows combining a ol.geom.Geometry class with ol- Useful if you have
@@ -10,17 +9,22 @@ import OLGeometry from './ol-geometry';
  * into an ol-react component.
  */
 
-export default class RawGeometry extends OLGeometry {
-    static propTypes = {
-	geometry: PropTypes.instanceOf(Geometry).isRequired
-    }
+const RawGeometry  = (props) => {
+    const feature = useContext(FeatureContext);
 
-    componentDidMount() {
-	this.context.feature.setGeometry(this.props.geometry);
-    }
-
-    componentWillUnmount() {
-	this.context.feature.setGeometry(undefined);
-    }
+    useEffect(() => {
+        if (props.transform)
+            props.geometry.applyTransform(props.transform);
+        feature.setGeometry(props.geometry);
+        console.log("geometry mounted");
+        return () => {
+            feature.setGeometry(undefined);
+            console.log("geometry unmounted")};
+    },[]);
+    return null; // nothing to render here
 }
-
+RawGeometry.propTypes = {
+    geometry: PropTypes.instanceOf(Geometry).isRequired,
+    transform: PropTypes.func
+}
+export default RawGeometry;

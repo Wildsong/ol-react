@@ -75,12 +75,12 @@ const Example6 = () => {
 
             <MapProvider map={theMap}>
                 <Map center={ll} zoom={zoom}>
-                    <layer.Image> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
-                    <layer.Tile opacity={.5}> <source.OSM/> </layer.Tile>
-                    <layer.Vector style={pointStyle}>
+                    <layer.Image title=""> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
+                    <layer.Tile title="OpenStreetMap" opacity={.5}> <source.OSM/> </layer.Tile>
+                    <layer.Vector title="Elementary schools" style={pointStyle}>
                         <source.JSON url={featureUrl} loader="esrijson"/>
                     </layer.Vector>
-                    <layer.Vector name="Web markers" style={markerStyle}>
+                    <layer.Vector title="Web markers" style={markerStyle}>
                         <source.JSON url={web_markers} loader="geojson"/>
                     </layer.Vector>
                 </Map>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import {Map, layer, source} from '../src'
+import {Map, layer, source, control, interaction} from '../src'
 import {Point} from 'ol/geom'
 import {Feature} from 'ol'
 import {Vector as VectorSource} from 'ol/source'
@@ -12,9 +12,6 @@ import {myGeoServer, workspace, astoria_ll, wgs84} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-import {defaultControls as olControls, defaultInteractions as olInteractions} from '../src/map-widgets'
-import {Tile as olTileLayer} from 'ol/layer'
-import {Vector as olVectorLayer} from 'ol/layer'
 
 // These controls will show up on the map.
 import {FullScreen as olFullScreen} from 'ol/control'
@@ -26,9 +23,8 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // I wonder if I should persist the entire olMap or just its properties.
 const mymap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
+    //controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-    //layers: mapLayers
 })
 
 
@@ -229,16 +225,13 @@ const Example5 = () => {
                 </p>
                 <MapProvider map={theMap}>
                 <Map zoom={zoom} center={center} rotation={rotation}>
-                    <layer.Tile>
+                    <layer.Tile title="Thunderforest">
                         <source.XYZ url={thunderforest_url} apikey={thunderforest_key}/>
                     </layer.Tile>
                     <layer.Vector title="Taxlots" style={polyStyle}>
                         <source.JSON url={taxlots} loader="geojson" crossOrigin="anonymous"/>
                     </layer.Vector>
-                    {/*
- {taxlotsSource}/>
-                    <layer.Vector name="Display" source={vectorSource} style={style}/>
-*/}
+                    <layer.Vector title="Display" style={style}><source.Vector/></layer.Vector>
                 </Map>
                 </MapProvider>
             </Col><Col>

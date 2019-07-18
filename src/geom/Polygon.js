@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Feature} from 'ol';
-import Polygon from 'ol/geom/Polygon';
-import OLGeometry from './ol-geometry';
+import React, {useContext, useEffect} from 'react'
+import PropTypes from 'prop-types'
+import {FeatureContext} from '../feature-context'
+import {Polygon as olPolygon} from 'ol/geom'
 
 // A polygon is an array of linear rings,
 // (remember, it's an array of array of arrays so put in extra []...)
@@ -12,27 +11,28 @@ import OLGeometry from './ol-geometry';
 // A linear ring is a set of points and optional layout
 
 // Simple example:
-// <Circle> { [ [[0,0], [1,1], [1,0], [0,0]] ] </Circle>}
+// <Polygon> { [ [[0,0], [1,1], [1,0], [0,0]] ] </Polygon>}
 
+const Polygon = (props) => {
+    const feature = useContext(FeatureContext);
+    const geometry = new olPolygon(props.children);
 
-export default class OLPolygon extends OLGeometry {
-    static propTypes = {
-	children: PropTypes.arrayOf(
-            PropTypes.arrayOf(
-		PropTypes.arrayOf(PropTypes.number)
-            )
-	).isRequired,
-	editable: PropTypes.bool,
-	modifyEnd: PropTypes.func
-    }
-
-    constructor(props) {
-        super(props);
-        this.geometry = new Polygon(this.props.children);
-        //console.log('polygon props=', this.props);
-    }
-
-    componentWillUnmount() {
-        this.context.feature.setGeometry(undefined);
-    }
+    useEffect(() => {
+        if (props.transform)
+            geometry.applyTransform(props.transform);
+        feature.setGeometry(geometry);
+        //console.log("polygon mounted");
+        //return () => {console.log("polygon unmounted")};
+    },[]);
+    return null; // nothing to render here
 }
+Polygon.propTypes = {
+    children: PropTypes.arrayOf(
+        PropTypes.arrayOf(
+            PropTypes.arrayOf(PropTypes.number)
+        )
+    ).isRequired,
+    editable: PropTypes.bool,
+    modifyEnd: PropTypes.func
+}
+export default Polygon;

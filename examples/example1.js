@@ -20,10 +20,6 @@ import {DEFAULT_CENTER, MINZOOM, astoria_ll} from '../src/constants'
 
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
     view: new olView({ center: fromLonLat(astoria_ll), zoom: 10}),
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
@@ -87,7 +83,6 @@ const Example1 = ({setMapCenter}) => {
 
     const changeOpacityOSM = (value) => {
         setOpacityOSM(value); // this triggers a render
-        osmLayer.setOpacity(value);
     }
     const changeOpacityDraw = (value) => {
         setOpacityDraw(value); // this triggers a render
@@ -139,8 +134,8 @@ const Example1 = ({setMapCenter}) => {
         image: {
             type: 'circle',
             radius: 4,
-            fill: { color: [100,100,100, 0.5] },
-            stroke: { color: 'green', width: 1 }
+            fill: { color: [100,100,100, 0.75] },
+            stroke: { color: 'green', width: 3 }
         }
     };
     const multipointStyle = {
@@ -207,71 +202,65 @@ const Example1 = ({setMapCenter}) => {
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
-            <layer.Tile title="Toner" baseLayer={true} attributions="Stamen">
-                <source.Stamen layer="toner"/>
-            </layer.Tile>
+                <layer.Tile title="Toner" baseLayer={true} attributions="Stamen">
+                    <source.Stamen layer="toner"/>
+                </layer.Tile>
 
-            <layer.Tile title="OpenStreetMap" attributions="OpenStreetMap" opacity={opacityOSM}>
-                <source.OSM/>
-            </layer.Tile>
+                <layer.Tile title="OpenStreetMap" attributions="OpenStreetMap" opacity={opacityOSM}>
+                    <source.OSM/>
+                </layer.Tile>
 
-            <layer.Tile title="Taxlots">
-                <source.TileWMS url={geoserverWMS}
-                    params={{LAYERS: geoserverLayers,
-                        STYLES: "redline", // WMS style, from GeoServer in this case
-                        TILED: true}}
-                />
-            </layer.Tile>
+                <layer.Tile title="Taxlots">
+                    <source.TileWMS url={geoserverWMS}
+                        params={{
+                            LAYERS: geoserverLayers,
+                            STYLES: "redline", // WMS style, from GeoServer in this case
+                            TILED: true}}
+                    />
+                </layer.Tile>
 
-            <layer.Vector title="Vector Shapes" opacity={1}>
-                <source.Vector>
-                    <Feature id="test-line" style={lineStyle}>
-                        <geom.LineString transform={transformfn}>
-                            { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
-                        </geom.LineString>
-                    </Feature>
-                    <Feature id="test-circle" style={pointStyle}>
-                        <geom.Circle modify={enableModify}>{[astoria_wm, 1000]}</geom.Circle>
-                    </Feature>
-                    <Feature id="test-circle-zeroradius" style={polyStyle}>
-                        <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
-                    </Feature>
-                </source.Vector>
-            </layer.Vector>
-            {/*
-                <Feature id="test-polygon" style={ polyStyle }>
-                    <geom.Polygon transform={ transformfn }>
-                            {[
-                                [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
-                                [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
-                            ]}
-                        </geom.Polygon>
-                    </Feature>
-
-                    <Feature id="test-point" style={ pointStyle }>
-                        <geom.Point transform={ transformfn } >
-                            {[1835, -910]}
-                        </geom.Point>
-                    </Feature>
-
-                    <Feature id="test-multipoint" style={ multipointStyle }>
-                        <geom.MultiPoint transform={ transformfn } >
-                            { [[-6000, -4000], [6000, -3000], [0, 6400]] }
-                        </geom.MultiPoint>
-                    </Feature>
-                    */}
-
+                <layer.Vector title="Vector Shapes" opacity={1}>
+                    <source.Vector>
+                        <Feature id="test-line" style={lineStyle}>
+                            <geom.LineString transform={transformfn}>
+                                { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
+                            </geom.LineString>
+                        </Feature>
+                        <Feature id="test-circle-zeroradius" style={polyStyle}>
+                            <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
+                        </Feature>
+                        <Feature id="test-circle" style={polyStyle}>
+                            <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
+                        </Feature>
+                        <Feature id="test-point" style={ pointStyle }>
+                            <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
+                        </Feature>
+                        <Feature id="test-polygon" style={polyStyle}>
+                            <geom.Polygon transform={transformfn}>
+                                {[
+                                    [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                                    [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                                ]}
+                            </geom.Polygon>
+                        </Feature>
+                        <Feature id="test-multipoint" style={multipointStyle}>
+                            <geom.MultiPoint transform={transformfn} >
+                                { [[-6000, -4000], [6000, -3000], [0, 6400]] }
+                            </geom.MultiPoint>
+                        </Feature>
+                    </source.Vector>
+                </layer.Vector>
                 <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}
                     addfeature={handleAddFeature}>
-{/*                    <interaction.Draw type={ typeSelect[typeIndex].label }
-                        drawend={ handleAddFeature }
-*/}
+    {/*                    <interaction.Draw type={ typeSelect[typeIndex].label }
+                            drawend={ handleAddFeature }
+    */}
                 </layer.Vector>
                 <control.FullScreen tipLabel="Like totally go full screen"/>
-                {/*
-                    <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                    <control.LayerPopupSwitcher/>
-                    */}
+                    {/*
+                        <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
+                        <control.LayerPopupSwitcher/>
+                        */}
             </Map>
             </MapProvider>
 

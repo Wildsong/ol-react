@@ -34,15 +34,10 @@ import {OSM, Stamen} from 'ol/source'
 import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// A new instance of 'map' loads each time we come to this page.
-// If I want to persist any state in the map it has to be done
-// outside the component, either in redux or in some parent component.
-// I wonder if I should persist the entire olMap or just its properties.
 const theMap = new olMap({
     view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-    controls: olControls, interactions: olInteractions,
+    //controls: olControls, interactions: olInteractions,
     loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
-//    layers: mapLayers
 })
 
 let transformfn = (coordinates) => {
@@ -65,7 +60,7 @@ const Example3 = () => {
     const [hasError, setHasError] = useState(false);
     const [opacityLayer1, setOpacityLayer1] = useState(.20);
     const [opacityLayer2, setOpacityLayer2] = useState(.20);
-    const [opacityLayer3, setOpacityLayer3] = useState(.20);
+    const [opacityLayer3, setOpacityLayer3] = useState(1.0);
 
     const changeOpacity1 = (value) => {
         setOpacityLayer1(value);
@@ -172,25 +167,25 @@ const Example3 = () => {
 
             <MapProvider map={theMap}>
                 <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
-                    <layer.Tile opacity={1}><source.Stamen layer="toner"/></layer.Tile>
-                    <layer.Tile opacity={opacityLayer1} attributions={attributions}>
-                    <source.XYZ url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"/>
-                    </layer.Tile>
-                    <layer.Tile opacity={opacityLayer2}><source.Stamen layer="watercolor"/></layer.Tile>
-            {/*
-                    <layer.Tile>
-                        attributions={ attributions }
-                        opacity={ state.opacityLayer3/100 }
-                        <source.ArcGISRest
-                            url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        />
+                    <layer.Tile title="Stamen Toner" opacity={1}><source.Stamen layer="toner"/></layer.Tile>
+
+                    <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions}>
+                        <source.XYZ url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"/>
                     </layer.Tile>
 
-                    <layer.Vector cluster={true} distance={40}
-                        style={clusterStyle}>
+                    <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2}><source.Stamen layer="watercolor"/></layer.Tile>
+
+                    <layer.Image title="ESRI US States" opacity={opacityLayer3}>
+                    <source.ImageArcGISRest
+                    url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
+                    />
+                    </layer.Image>
+
+                    <layer.Vector title="GPX Drag and drop" cluster={true} distance={40} style={clusterStyle}>
+                    </layer.Vector>
+            {/*
                      This interaction has to be inside a vector layer.
                         <interaction.DragAndDrop />
-                    </layer.Vector>
 
                     <control.OverviewMap/>
 
