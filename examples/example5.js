@@ -12,7 +12,7 @@ import {myGeoServer, workspace, astoria_ll, wgs84} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
-const DEFAULT_ZOOM = 10;
+const DEFAULT_ZOOM = 11;
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -147,11 +147,17 @@ const Example5 = () => {
         e.preventDefault();
     }
 
-    const gotoXY = (coord,zoom) => {
-        if (coord[0]==0 || coord[1]==0 || zoom==0) return;
-        console.log('Example5.gotoXY', coord, zoom);
-	setCenter(coord);
-	setZoom(zoom);
+    const gotoXY = (center,zoom) => {
+        if (center[0]==0 || center[1]==0 || zoom==0)
+            return;
+        console.log('Example5.gotoXY', center, zoom);
+	    setCenter(toLonLat(center));
+	    setZoom(zoom);
+        const view = theMap.getView();
+        if (animate)
+            view.animate({center, zoom});
+        else
+            view.setCenter(center);
     }
 
     const gotoBookmark = (e) => {
