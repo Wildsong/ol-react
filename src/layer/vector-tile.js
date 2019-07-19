@@ -44,7 +44,7 @@ VectorTile.propTypes = {
     url: PropTypes.string,
     layer: PropTypes.string,
     declutter: PropTypes.bool,
-    style: PropTypes.oneOf(PropTypes.object, PropTypes.func),
+    style: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 /*    this.dictLayer = [
         "opacity",
         "visible",
