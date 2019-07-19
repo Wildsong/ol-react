@@ -11,11 +11,8 @@ import {myGeoServer, workspace, astoria_ll, wgs84} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
-
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
+const DEFAULT_ZOOM = 10;
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -23,29 +20,30 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 // To generate this URL, go into GeoServer Layer Preview,
 // and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
 // clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
-const taxlots = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
+const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
 const taxlotsSource = 'geojson'
 
 // Without the key you get maps with a watermark
 // see https://www.thunderforest.com/
-const thunderforest_key = process.env.THUNDERFOREST_KEY;
-const tflayername = 'cycle' // outdoors | cycle | transport | landscape | ....
-const thunderforest_url = 'https://tile.thunderforest.com/' + tflayername + '/{z}/{x}/{y}.png'
-      + ((typeof thunderforest_key === 'undefined')? '' : "?apikey=" + thunderforest_key)
+const thunderforestKey = process.env.THUNDERFOREST_KEY;
+const tflayername = 'Cycle' // outdoors | cycle | transport | landscape | ....
+const thunderforestUrl = 'https://tile.thunderforest.com/' + tflayername + '/{z}/{x}/{y}.png'
+      + ((typeof thunderforestKey === 'undefined')? '' : "?apikey=" + thunderforestKey)
 //console.log("url=",thunderforest_url);
 
 const Example5 = () => {
     const [theMap, setTheMap] = useState(new olMap({
-        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
         loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+        controls: [] // don't use default controls.
     }));
     const [address, setAddress] = useState('');
     const [geocoderesults, setGeocoderesults] = useState([]);
     const [lats, setLats] = useState(astoria_ll[1].toString());
     const [lons, setLons] = useState(astoria_ll[0].toString());
     const [center, setCenter] = useState(fromLonLat(astoria_ll));
-    const [zoom, setZoom] = useState(16);
+    const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
 
@@ -92,33 +90,52 @@ const Example5 = () => {
     	}
     }
 
-    const buttonClick = (e) => {
+    const zoomClick = (e) => {
         const { target: { name, value }} = e;
-        console.log('click', e, name, value);
         let z = zoom;
-        let r = rotation;
-        let aState = animate;
         switch (name) {
         case 'zoomin':
-            z += 1;
+            z += 1
             break;
         case 'zoomout':
             z -= 1;
             break;
+        }
+        if (z <= MAXZOOM && z >= MINZOOM) {
+            setZoom(z);
+            const view = theMap.getView();
+            if (animate)
+                view.animate({zoom: z});
+            else
+                view.setZoom(z);
+        }
+        e.preventDefault();
+    }
+
+    const rotateClick = (e) => {
+        const { target: { name, value }} = e;
+        let r = rotation;
+        switch (name) {
         case 'anticlockwise':
             r -= Math.PI/10;
             break;
         case 'clockwise':
             r += Math.PI/10;
             break;
-        case 'animate':
-            aState = !animate;
         }
-        if (z < 1) z = 1;
-        else if (z > 20) z = 20;
-	setZoom(z);
-	setRotation(r);
-	setAnimate(aState);
+        setRotation(r);
+        const view = theMap.getView();
+        if (animate)
+            view.animate({rotation: r});
+        else
+            view.setRotation(r);
+        e.preventDefault();
+    }
+
+    const toggleAnimate = (e) => {
+        const { target: { name, value }} = e;
+        let aState = !animate;
+	    setAnimate(aState);
         e.preventDefault();
     }
 
@@ -150,15 +167,16 @@ const Example5 = () => {
         gotoXY(coord, bookmark_wgs84.zoom);
     }
 
-    theMap.on('moveend', (e) => {
-        const v = e.map.getView()
-        console.log("Map.onMoveEnd",v.getCenter())
-    	    setCenter(v.getCenter());
-            setZoom(v.getZoom());
-            setRotation(v.getRotation())
-            e.stopPropagation(); // this stops draw interaction
-        }
-    );
+    const handleEvent = (mapEvent) => {
+        const v = mapEvent.map.getView()
+        console.log("Map.onMoveEnd",v.getCenter());
+/*
+ 	    setCenter(v.getCenter());
+        setZoom(v.getZoom());
+        setRotation(v.getRotation())
+    */
+        mapEvent.stopPropagation();
+    };
 
     // Show a list of bookmarks
     const keys = Object.keys(bookmarks);
@@ -190,7 +208,7 @@ const Example5 = () => {
         <><Container>
             <Row><Col>
                 <h2>Example 5</h2>
-                Thunderforest OSM<br />
+                Thunderforest {tflayername} map <b>{thunderforestKey==="undefined"?"no API key!":""}</b><br />
                 WFS GeoServer taxlots<br />
                 Vector layer (display only, no external data source) <br />
                 <p>
@@ -204,26 +222,30 @@ const Example5 = () => {
             </Col></Row>
 
             <Row><Col>
-                { lats }, { lons } { zoom } { rotation }
+                { lats }, { lons }
                 <p>
                     Zoom
-                    <button name="zoomin"  onClick={ buttonClick }>+</button>
-                    <button name="zoomout" onClick={ buttonClick }>-</button>
+                    <button name="zoomin"  onClick={zoomClick}>+</button>
+                    {zoom}
+                    <button name="zoomout" onClick={zoomClick}>-</button>
                     Rotate
-                    <button name="clockwise"     onClick={ buttonClick }>+</button>
-                    <button name="anticlockwise" onClick={ buttonClick }>-</button>
+                    <button name="clockwise"     onClick={rotateClick}>+</button>
+                    {rotation.toFixed(2)}
+                    <button name="anticlockwise" onClick={rotateClick}>-</button>
                     Animate
-                    <button name="animate"       onClick={ buttonClick }>{ animate? "on" : "off" }</button>
+                    <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
                 <MapProvider map={theMap}>
-                <Map zoom={zoom} center={center} rotation={rotation}>
+                <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleEvent}>
                     <layer.Tile title="Thunderforest">
-                        <source.XYZ url={thunderforest_url} apikey={thunderforest_key}/>
+                        <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>
                     <layer.Vector title="Taxlots" style={polyStyle}>
-                        <source.JSON url={taxlots} loader="geojson" crossOrigin="anonymous"/>
+                        <source.JSON url={taxlotsUrl} loader="geojson" crossOrigin="anonymous"/>
                     </layer.Vector>
-                    <layer.Vector title="Display" style={style}><source.Vector/></layer.Vector>
+                    <layer.Vector title="Display" style={style}>
+                        <source.Vector/>
+                    </layer.Vector>
                 </Map>
                 </MapProvider>
             </Col><Col>
