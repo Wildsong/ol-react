@@ -12,7 +12,7 @@ const Feature = (props) => {
 //    const layer = useContext(LayerContext);
     const source = useContext(SourceContext);
     const feature = new olFeature()
-    feature.setId(cuid());
+    feature.setId((typeof props.id !== 'undefined')? props.id : cuid());
     feature.setStyle(buildStyle(props.style))
 
     useEffect(() => {
