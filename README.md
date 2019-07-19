@@ -26,6 +26,9 @@ The goal is to be able to write applications using OpenLayers maps in a declarat
 
 To understand what each element does, read the [OpenLayers API documentation](http://openlayers.org/en/latest/apidoc/).
 
+I experimented for months with making the source a property of the layer component and just
+went back! So I don't even have to change the documentation!
+
 ### Styles
 
 Styles are declared using a JSON object, passing through the properties you'd like on the final object.
@@ -47,14 +50,15 @@ key into an environment variable.
 
 * BINGMAPS_KEY (used in example4)
 * MAPBOX_KEY (used in example7)
+* THUNDERFOREST_KEY (used in exampl5)
 
-Currently I keep my keys in a file called api_keys.bat and load them in the 'start' script
-in package.json. The file looks like this (with real keys, of course):
+I keep my keys in a file called ".env".
+The file looks like this (with real keys, of course):
 
 ````bash
-rem DON'T check this file into git!
-SET MAPBOX_KEY=N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5
-SET BINGMAPS_KEY=SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww
+export MAPBOX_KEY="N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5"
+export BINGMAPS_KEY="SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww"
+export THUNDERFOREST_KEY="89ausduhasd898asduyuhadha0s9djd"
 ````
 
 ## Project status
@@ -139,7 +143,6 @@ I added --no-autoinstall option in package.json to prevent parcel from installin
 This will publish the contents of the src/ folder as a new release.
 To install it for use in your own project, use "npm install @map46/ol-react".
 
-
     # Save all changes to github
     git push
     # Move to master branch
@@ -174,7 +177,6 @@ The script runs 'npm publish' after chdir'ing down into the build folder.
 
 At this point do 'git status' and you will see you're not on a branch.
 You need to do a 'git checkout master' to move back onto that branch or 'git checkout dev' to go back to work.
-
 
 ### Update git
 
