@@ -1,13 +1,20 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {Map, layer, source, control, interaction} from '../src'
+import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import {Point} from 'ol/geom'
 import {Feature} from 'ol'
-import {Vector as VectorSource} from 'ol/source'
-import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
-import {myGeoServer, workspace, astoria_ll, wgs84} from '../src/constants'
+// These are for testing passing an OL VectorSource in as a property
+import {Vector as VectorSource} from 'ol/source'
+import {Style as olStyle, Fill as olFill, Stroke as olStroke, text as olText} from 'ol/style'
+import {Circle as olCircle} from 'ol/geom'
+import {bbox} from 'ol/loadingstrategy'
+import { EsriJSON, GeoJSON } from 'ol/format'
+import jsonp from 'jsonp' // using jsonp instead of json avoids CORS problems
+
+import {myGeoServer, workspace, astoria_ll, astoria_wm, wgs84} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -22,7 +29,7 @@ const DEFAULT_ZOOM = 11;
 // clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
 const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
-const taxlotsSource = 'geojson'
+const taxlotsFormat = 'geojson'
 
 // Without the key you get maps with a watermark
 // see https://www.thunderforest.com/
@@ -192,23 +199,64 @@ const Example5 = () => {
         stroke: {color: [0, 0, 0, 1], width:4},
         fill: {color: [255, 0, 0, .250]},
     };
-    // Create an OpenLayers source/Vector source,
-    // and add a feature to it, then pass it into a
-    // Layer component as its source attribute
-    const style = {
-        image: {
-            type: 'circle',
-            radius: 10,
-            fill: { color: [100,100,100, 0.8] },
-            stroke: { color: 'green', width: 3 }
-        }
-    }
-    const point = new Point(fromLonLat(astoria_ll));
 
-    // test for issue #2, external data source
-    var pointFeature = new Feature(point);
-    var vectorSource = new VectorSource({ projection: wgs84 });
-    vectorSource.addFeatures([pointFeature]);
+    // Test building an URL from a function and using it in a Vector source.
+    // See https://openlayers.org/en/latest/apidoc/module-ol_featureloader.html#~FeatureUrlFunction
+/*
+    const completeUrl = "https://geoserver.wildsong.biz/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=clatsop%3Ataxlots&outputFormat=text/javascript&count=1000&BBOX=-124.1,45.77,-123.9,46,EPSG:4326&SRSNAME=EPSG:3857"
+    const customUrl = (extent, resolution, projection) => {
+        console.log("customUrl ", extent, resolution);
+        return completeUrl;
+    }
+*/
+    const taxlotsSource = new VectorSource({
+        format: new GeoJSON(),
+        loader: (extent, resolution, projection) => {
+            const baseUrl = taxlotsUrl
+            const bb = "&BBOX=" + extent.join(',').toString()  // BBOX SRS optional + ',EPSG:3857'
+            console.log("bbox=", bb);
+            if (!(isFinite(extent[0]) && isFinite(extent[1]) && isFinite(extent[2]) && isFinite(extent[3]))) {
+                console.log("Meaningless bounding box");
+                return;
+            }
+            const fsUrl = baseUrl + "&outputFormat=text/javascript"
+                //+ "&count=1000" // count appears to do nothing
+                + bb + '&SRSNAME=EPSG:3857'
+            console.log("geojson custom dataloader url=", baseUrl, fsUrl);
+            jsonp(fsUrl, {name:"parseResponse", timeout:60000 },
+                (err, data) => {
+                    if (err) {
+                        console.log("DataLoader failed:", err);
+                    } else {
+                        console.log("DataLoader completed.")
+                        const features = taxlotSource.getFormat().readFeatures(data, {
+                            featureProjection: projection
+                        });
+                        if (features.length > 0) {
+                            console.log("DataLoader added", features.length, " features to", taxlotSource);
+                            taxlotSource.addFeatures(features);
+                        }
+                    }
+                }
+            );
+        }
+    });
+
+    // Test for issue #2, accept an external data source
+    // Create an OpenLayers vector source, and add a
+    // styled feature to it, and pass it into a source.Vector component
+    const bigdot_style = new olStyle({
+        geometry: new olCircle(astoria_wm, 500),
+        fill: new olFill({color:"rgba(0,255,0,0.7)"}),
+        stroke: new olStroke({color:"green", width:1}),
+        //text: new olText({text:"ASTORIA IS RIGHT HERE", font:"36px sans-serif"}),
+        //zIndex: ???,
+    })
+    const point = new Point(astoria_wm);
+    const pointFeature = new Feature(point);
+    pointFeature.setStyle(bigdot_style);
+    const myVectorSource = new VectorSource();
+    myVectorSource.addFeatures([pointFeature]);
 
     return (
         <><Container>
@@ -246,11 +294,21 @@ const Example5 = () => {
                     <layer.Tile title="Thunderforest">
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>
-                    <layer.Vector title="Taxlots" style={polyStyle}>
+
+                    {/*
+                    <layer.Vector title="Taxlots" style={polyStyle} minZoom={12} maxzoom={13}>
                         <source.JSON url={taxlotsUrl} loader="geojson" crossOrigin="anonymous"/>
                     </layer.Vector>
-                    <layer.Vector title="Display" style={style}>
-                        <source.Vector/>
+
+                    <layer.Vector title="Custom URL source">
+                        <source.Vector url={completeUrl} strategy={bbox}/>
+                    </layer.Vector>
+                    <layer.Vector title="Custom vector source">
+                        <source.Vector source={myVectorSource}/>
+                    </layer.Vector>
+*/}
+                    <layer.Vector title="Custom vector source">
+                        <source.Vector source={taxlotsSource} strategy={bbox}/>
                     </layer.Vector>
                 </Map>
                 </MapProvider>
@@ -273,4 +331,25 @@ const Example5 = () => {
         </Container></>
     );
 }
+
+/*
+var parcellaireSource =  new ol.source.Vector({
+   format: new ol.format.GeoJSON(),
+   url: function (extent) {
+     return  'https://wxs.ign.fr/api key/geoportail/wfs?request=GetCapabilities
+     SERVICE=WFS&VERSION=2.0.0&request=GetFeature
+     &typename=BDPARCELLAIRE-VECTEUR_WLD_BDD_WGS84G:parcelle
+     &outputFormat=application/json&srsname=EPSG:2154
+     &bbox='+ extent.join(',') + ',EPSG:3857';
+
+         },
+
+   strategy: ol.loadingstrategy.bbox
+   });
+    var parcellairewfs =  new ol.layer.Vector({
+   source: parcellaireSource
+ });
+    map.addLayer(parcellairewfs);
+*/
+
 export default Example5;

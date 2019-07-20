@@ -10,6 +10,10 @@ import {DEFAULT_CENTER, MINZOOM, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 const Example0 = () => {
+    return (
+        <>
+        </>
+    );
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,

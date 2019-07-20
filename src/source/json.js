@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import {Vector as olVectorSource} from 'ol/source'
 import {Collection as olCollection} from 'ol'
 import FeatureFormat from 'ol/format/Feature'
-import {bbox as bboxStrategy} from 'ol/loadingstrategy'
+import {bbox, tile} from 'ol/loadingstrategy'
 import {DataLoader} from './dataloaders'
 import {LayerContext} from '../layer-context'
 
 const JSONSource = (props) => {
     const layer = useContext(LayerContext)
     const [source, setSource] = useState(new olVectorSource({
-        strategy: bboxStrategy
+        strategy: bbox // bbox or tile
     }));
     useEffect(() => {
         console.log("source.JSON mounted");
@@ -24,7 +24,7 @@ JSONSource.propTypes = {
         PropTypes.string,
         PropTypes.func
     ]).isRequired,
-    loader: PropTypes.string.isRequired, // "geojson" || "esrijson"
+    loader: PropTypes.string, // "geojson" || "esrijson" required when url is not a function
     attributions: PropTypes.func,
     features: PropTypes.instanceOf(olCollection),
     format: PropTypes.instanceOf(FeatureFormat)

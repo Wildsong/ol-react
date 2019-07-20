@@ -191,7 +191,7 @@ const Example2 = ({}) => {
 
                 <MapProvider map={theMap}>
     	        <Map center={astoria_wm}>
-                    <layer.Tile><source.OSM/></layer.Tile>
+                    <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
 
                     <layer.Image title="City of Astoria" visible={aerialVisible}>
                         <source.ImageWMS url={aerial}/>

@@ -9,7 +9,7 @@ import jsonp from 'jsonp' // jsonp avoids CORS problems
 export const DataLoader = (loader, url, source) => {
     // Returns a function that can be called to load data.
 
-    console.log('DataLoader()', loader, url, source)
+    console.log('DataLoader()', loader, url, " source=",source)
 
     switch (loader) {
         case 'geojson':
@@ -28,13 +28,16 @@ export const DataLoader = (loader, url, source) => {
 //&BBOX=-13799781.77290469780564308,5763634.00552924070507288,-13799148.80835255607962608,5763990.56951477471739054,urn:ogc:def:crs:EPSG::3857 HTTP/1.1"
 // 301 169 "-"
 //"Mozilla/5.0 QGIS/3.6.0-Noosa
+
+// Using application/json or application/javascript here instead of text/2Fjavascript
+// results in CrossOrigin errors.
                 let bb = ""
                 if (!(isNaN(extent[0]) || isNaN(extent[1]) || isNaN(extent[2]) || isNaN(extent[3])))
-                    bb = "&BBOX=" + extent.join(',').toString() + ',EPSG:3857'
-                let fsurl = url + "&outputFormat=text/javascript" +
-                    "&count=1000" + bb + '&SRSNAME=EPSG:3857'
-                jsonp(fsurl,
-                    { name:"parseResponse", timeout:60000 },
+                    bb = "&BBOX=" + extent.join(',').toString()  // BBOX SRS optional + ',EPSG:3857'
+                let fsurl = url + "&outputFormat=text/javascript"
+                    //+ "&count=1000" // count appears to do nothing
+                    + bb + '&SRSNAME=EPSG:3857'
+                jsonp(fsurl, {name:"parseResponse", timeout:60000},
                     (err, data) => {
                         if (err) {
                             console.log("DataLoader", fsurl, err);
@@ -44,11 +47,12 @@ export const DataLoader = (loader, url, source) => {
                                 featureProjection: projection
                             });
                             if (features.length > 0) {
-                                console.log("DataLoader", features.length);
+                                console.log("DataLoader features", features.length);
                                 source.addFeatures(features);
                             }
+                        }
                     }
-                });
+                );
             }
             break;
 
