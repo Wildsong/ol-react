@@ -1,16 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {MapProvider} from '../src/map-context'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, geom, control, interaction, layer, source} from '../src'
 import Select from 'react-select'
 import {buildStyle} from '../src/style'
-import {setMapCenter} from '../src/actions'
-import {MapProvider} from '../src/map-context'
 
+/*
 import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
+*/
 
 import {myGeoServer, astoria_wm} from '../src/constants'
 
@@ -264,12 +265,11 @@ const Example1 = ({setMapCenter}) => {
                         <interaction.Draw type={drawType} drawend={handleAddFeature} />
                     </source.Vector>
                 </layer.Vector>
-                    {/*
-                */}
+
                 <control.FullScreen tipLabel="Like totally go full screen"/>
+                <control.LayerPopup/>
                     {/*
                         <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                        <control.LayerPopupSwitcher/>
                         */}
             </Map>
             </MapProvider>

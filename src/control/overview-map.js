@@ -1,19 +1,18 @@
 import React, {useContext} from 'react'
 import PropTypes from 'prop-types';
-import {Map as olMap} from 'ol'
+import {MapContext} from '../map-context'
 import {Layer as olLayer} from 'ol/layer'
 import {OverviewMap as olOverviewMap} from 'ol/control'
-import {MapContext} from '../map-context'
 
 const OverviewMap = ({layers}) => {
     const map = useContext(MapContext);
-    const control = new olOverviewMap({
+    const overview = new olOverviewMap({
         layers,
         collapsed: false, collapsible: false
     });
     const setTarget = element => {
-        control.setTarget(element);
-        map.addControl(control);
+        overview.setTarget(element);
+        map.addControl(overview);
     }
     return (
         <div ref={setTarget}></div>

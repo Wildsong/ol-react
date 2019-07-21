@@ -49,7 +49,6 @@ const Example8 = (props) => {
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
-
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
     const popupElement = React.createElement('div', {className:"ol-popup"}, popupText);
@@ -132,8 +131,9 @@ const Example8 = (props) => {
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
 
             <MapProvider map={theMap}>
+            <control.LayerSwitcher/>
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
-                <layer.Image title="Bare Earth HS" opacity={.20}>
+                <layer.Image title="Bare Earth HS" opacity={.60}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 </layer.Image>
                 <layer.VectorTile title="Mapbox Vector Tile Streets" declutter={true} opacity={osmOpacity}>
@@ -161,7 +161,6 @@ const Example8 = (props) => {
             </Map>
             <OverviewMap layers={ovLayers}/>
             </MapProvider>
-            <h3>{theMap.getLayers().getLength()} layers</h3>
         </>
     );
 }

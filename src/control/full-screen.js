@@ -1,16 +1,15 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {FullScreen as olFullScreen} from 'ol/control'
 import {MapContext} from '../map-context'
+import {FullScreen as olFullScreen} from 'ol/control'
 
 const FullScreen = (props) => {
     const map = useContext(MapContext);
+    const [fullscreen, setFullscreen] = useState(new olFullScreen(props));
     useEffect(() => {
-        const control = new olFullScreen(props);
-        map.addControl(control);
+        map.addControl(fullscreen);
         return () => {
-            map.removeControl(control);
-            console.log("control.MousePosition unmounted", map.getControls().getLength());
+            map.removeControl(fullscreen);
         }
     }, []);
     return null;
