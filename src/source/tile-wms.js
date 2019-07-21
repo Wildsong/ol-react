@@ -7,7 +7,7 @@ const TileWMS = (props) => {
     const layer = useContext(LayerContext);
     const [source, setSource] = useState(new olTileWMS(props));
     useEffect(() => {
-        console.log("source.WMS mounted");
+        //console.log("source.WMS mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.

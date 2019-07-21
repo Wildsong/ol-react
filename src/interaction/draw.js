@@ -1,47 +1,52 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {LayerContext} from '../layer-context'
-import {Draw} from 'ol/interaction'
-import OLInteraction from './ol-interaction'
+import {MapContext} from '../map-context'
+import {SourceContext} from '../source-context'
+import {Draw as olDraw} from 'ol/interaction'
 
-class OLDraw extends OLInteraction {
-    static contextType = LayerContext;
-    static propTypes = {
-	    ...OLInteraction.propTypes,
-        condition: PropTypes.func,
-        drawend: PropTypes.func,
-        drawstart: PropTypes.func,
-        type: PropTypes.string.isRequired,
-        maxPoints: PropTypes.number,
-        minPoints: PropTypes.number
-    };
-    static olEvents = ["drawend", "drawstart"];
-
-    createInteraction() {
-        const source = this.context.layer.getSource()
-        //console.log("OLDraw.createInteraction", props.type)
-        const interaction = new Draw({
-            type: this.props.type,
-            source: source,
-            condition: this.props.condition,
-            maxPoints: this.props.maxPoints,
-            minPoints: this.props.minPoints
-        })
-/*
+const Draw = (props) => {
+    const map = useContext(MapContext);
+    const source = useContext(SourceContext);
+    //const olEvents = ["drawend", "drawstart"];
+    const [draw, setDraw] = useState(() => {
+        console.log("Draw", props);
+        const interaction = new olDraw({
+            type: props.type,
+            source
+        });
         interaction.addEventListener("drawend",
     	    (evt) => {
-                if (this.props.drawend) {
-                    console.log("Draw.drawend", evt);
-                    this.props.drawend(evt);
+                if (typeof props.drawend !== 'undefined') {
+                    console.log("drawend", evt);
+                    props.drawend(evt);
                 }
     	    }
     	);
-        */
         return interaction;
-    }
+    });
+
+    useEffect(() => {
+        console.log("Draw mounted");
+        map.addInteraction(draw);
+        return () => {
+            console.log("Draw UNMOUNTED");
+            map.removeInteraction(draw);
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log("Draw type changed", draw, props);
+        draw.setProperties({type:props.type});
+    }, [props.type]);
+
+    return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap
-})
-export default connect(mapStateToProps)(OLDraw);
+Draw.propTypes = {
+    type: PropTypes.string.isRequired,
+    condition: PropTypes.func,
+    drawend: PropTypes.func,
+    drawstart: PropTypes.func,
+    maxPoints: PropTypes.number,
+    minPoints: PropTypes.number
+};
+export default Draw;

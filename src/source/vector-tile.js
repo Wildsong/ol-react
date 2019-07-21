@@ -11,7 +11,7 @@ const VectorTile = (props) => {
         format: new MVTformat(), // All we support at the moment.
     }));
     useEffect(() => {
-        console.log("source.VectorTile mounted");
+        //console.log("source.VectorTile mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.

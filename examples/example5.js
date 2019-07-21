@@ -264,13 +264,11 @@ const Example5 = () => {
                 <h2>Example 5</h2>
                 Thunderforest {tflayername} map <b>{thunderforestKey==="undefined"?"no API key!":""}</b><br />
                 WFS GeoServer taxlots<br />
-                Vector layer (display only, no external data source) <br />
+                Vector layer (display only, no external data source) (The big green dot.)<br />
+                Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
+                
                 <p>
-                1. Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
-                That is what makes the green circle at the map center.
-                </p>
-                <p>
-                2. Demonstrates that I can keep the map center
+                Demonstrates that I can keep the map center
                 and zoom in component state and update the map using setState.
                 </p>
             </Col></Row>
@@ -303,10 +301,10 @@ const Example5 = () => {
                     <layer.Vector title="Custom URL source">
                         <source.Vector url={completeUrl} strategy={bbox}/>
                     </layer.Vector>
+                    */}
                     <layer.Vector title="Custom vector source">
                         <source.Vector source={myVectorSource}/>
                     </layer.Vector>
-*/}
                     <layer.Vector title="Custom vector source">
                         <source.Vector source={taxlotsSource} strategy={bbox}/>
                     </layer.Vector>

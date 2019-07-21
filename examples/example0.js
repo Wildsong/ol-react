@@ -6,20 +6,17 @@ import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, wgs84} from '../src/constants'
+import {DEFAULT_CENTER, MINZOOM, astoria_wm, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 const Example0 = () => {
-    return (
-        <>
-        </>
-    );
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
-    const [zoom, setZoom] = useState(theMap.getView().getZoom());
+    const [center, setCenter] = useState(astoria_wm);
+    const [zoom, setZoom] = useState(MINZOOM);
 
     const updateZoom = (step=0) => {
         const view = theMap.getView();
@@ -32,8 +29,12 @@ const Example0 = () => {
     }
     const decZoom = (e) => { updateZoom(-1); }
     const incZoom = (e) => { updateZoom(1); }
+    
     const handleMoveEnd = (mapEvent) => {
-        console.log("moveEnd",mapEvent.map.getView().getCenter());
+        const view = mapEvent.map.getView()
+        setCenter(view.getCenter());
+        setZoom(view.getZoom());
+        console.log("moveEnd", center, zoom)
         mapEvent.stopPropagation();
     };
     return (
@@ -45,7 +46,7 @@ const Example0 = () => {
 
         <h4>Tile source: OpenStreetMap</h4>
         <MapProvider map={theMap}>
-            <Map onMoveEnd={handleMoveEnd}
+            <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
                 style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
 
                 <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>

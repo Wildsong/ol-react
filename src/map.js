@@ -1,31 +1,48 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-//import {connect} from 'react-redux'
-//import {Map as olMap} from 'ol'
-import {toLatLon} from 'ol/proj'
-//import {setMapCenter} from './actions'
 import {MapContext} from './map-context'
 
-const Map = (props) => {
+// I want the OL map object to live up one level so that I can set up
+// components like overview maps that live outside the map component.
+// Else I'd create the map here.
+// I don't want the map to live in Redux state because then I'd have
+// just one map for the entire app.
+
+const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
     const map = useContext(MapContext);
-    const t = element => {
-        try {
-            map.setTarget(element)
-            if (props.onMoveEnd) map.on('moveend', props.onMoveEnd);
-            //console.log("map.on = ", map.on);
-        } catch {
-            console.log("Map Problems map=", map);
-        }
+    const mapTarget = element => {
+        map.setTarget(element)
+        if (typeof onMoveEnd === 'function') map.on('moveend', onMoveEnd);
     }
+/*
+    useEffect(() => {
+        const view = map.getView();
+        console.log("AND NOW", center, zoom, rotation);
+        if (animate) {
+            view.animate({center, zoom, rotation});
+        } else {
+            view.setCenter(center);
+            view.setZoom(zoom);
+            view.setRotation(rotation);
+        }
+    }, [center, rotation, zoom]);
+*/
     return (
-        <div ref={t} style={{position:"relative", top:0, width:600,height:400}}>
-        {props.children}
+        <div ref={mapTarget} className="ol-react-map" style={{position:"relative", top:0, width:600,height:400}}>
+        {children}
         </div>
     )
 }
+Map.propTypes = {
+    center: PropTypes.arrayOf(PropTypes.number).isRequired,
+    zoom: PropTypes.number.isRequired,
+    rotation: PropTypes.number,
+    animate: PropTypes.bool,
+
+    onMoveEnd: PropTypes.func,
+    //children: ,
+};
 /*
-const Map = ({map,setMapCenter}) => {
-    setMapCenter(DEFAULT_CENTER, MINZOOM)
     if (this.props.onPointerMove) this.props.map.on('pointermove', this.props.onPointerMove, this);
     //if (this.props.onPointerDrag) this.props.map.on('pointerdrag', this.props.onPointeDrag, this);
 
@@ -40,12 +57,5 @@ const Map = ({map,setMapCenter}) => {
         console.log("setMapTarget", element);
         theMap.setTarget(element)
     }
-    return (
-        <div style={props.style}>
-            {props.children}
-            <div ref={setMapTarget} className='ol-react-map'></div>
-        </div>
-    )
-}
 */
 export default Map

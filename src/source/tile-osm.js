@@ -7,7 +7,7 @@ const OSM = () => {
     const layer = useContext(LayerContext)
     const [source, setSource] = useState(new olOSM());
     useEffect(() => {
-        console.log("source.OSM mounted");
+        //console.log("source.OSM mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.

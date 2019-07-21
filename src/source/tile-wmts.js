@@ -10,7 +10,7 @@ const WMTS = (props) => {
     const layer = useContext(LayerContext);
     const [source, setSource] = useState(new olTileWMTS(props));
     useEffect(() => {
-        console.log("source.WMS mounted");
+        //console.log("source.WMS mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.

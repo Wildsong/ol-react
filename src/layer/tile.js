@@ -11,25 +11,25 @@ const Tile = (props) => {
         opacity: props.opacity,
         visible: props.visible
     }));
-    console.log("layer.Tile", title);
+    //console.log("layer.Tile", title);
 
     useEffect(() => {
-        console.log("layer.Tile mounted", title);
+        //console.log("layer.Tile mounted", title);
         map.addLayer(layer);
         return () => {
-            console.log("layer.Tile unmounted", title);
+            //console.log("layer.Tile unmounted", title);
             map.removeLayer(layer);
         }
     }, [] );
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
-        console.log("layer.Tile opacity set to", layer.getOpacity());
+        //console.log("layer.Tile opacity set to", layer.getOpacity());
     }, [props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
-        console.log("layer.Tile visible set to", layer.getVisible());
+        //console.log("layer.Tile visible set to", layer.getVisible());
     }, [props.visible]);
 
     return (

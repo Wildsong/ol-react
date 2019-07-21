@@ -7,7 +7,7 @@ const XYZ = (props) => {
     const layer = useContext(LayerContext);
     const [source, setSource] = useState(new olXYZ(props));
     useEffect(() => {
-        console.log("source.XYZ mounted");
+        //console.log("source.XYZ mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.

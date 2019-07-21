@@ -7,13 +7,11 @@ import {Collection} from 'ol'
 
 const Vector = (props) => {
     const layer = useContext(LayerContext);
-    console.log("My props are", props);
     const [source, setSource] = useState(
         (typeof props.source === "object") ? props.source : new olVectorSource(props)
     );
     useEffect(() => {
-        console.log("source.Vector mounted");
-
+        //console.log("source.Vector mounted");
         //  This is used for a DRAW Interaction, see example1
         if (typeof props.addfeature !== 'undefined') {
             source.addEventListener("addfeature", (e) => {
@@ -21,7 +19,6 @@ const Vector = (props) => {
                 props.addfeature(e);
             });
         }
-
         layer.setSource(source);
     }, [] );
     return (

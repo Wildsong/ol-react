@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import OpacitySlider from '../src/control/opacity-slider'
-import {Map, Feature, geom, control, layer, source} from '../src'
+import {Map, Feature, geom, control, interaction, layer, source} from '../src'
 import Select from 'react-select'
 import {buildStyle} from '../src/style'
 import {setMapCenter} from '../src/actions'
@@ -70,6 +70,7 @@ const Example1 = ({setMapCenter}) => {
     }));
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);
+    const [drawType, setDrawType] = useState("Point");
 
     const [enableModify, setModify] = useState(false); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(.80);
@@ -78,10 +79,10 @@ const Example1 = ({setMapCenter}) => {
     const [pointer, setPointer] = useState('');
     const [markerId, setMarker] = useState(1);
 
-    useEffect(() => {
-        console.log("Example1 mounted");
-        return () => {console.log("Example1 unmounted")}
-    }, []);
+    const selectDrawType = (e) => {
+        console.log("draw type set to ", e);
+        setDrawType(e.label);
+    }
 
     const changeOpacityOSM = (value) => {
         setOpacityOSM(value); // this triggers a render
@@ -205,7 +206,7 @@ const Example1 = ({setMapCenter}) => {
             </p>
 
             <MapProvider map={theMap}>
-            <Map style={{position:'relative',left:50,top:0}}
+            <Map center={center} zoom={zoom} style={{position:'relative',left:50,top:0}}
                 onPointerMove={ (e) => { setPointer(e.coordinate); } }
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
@@ -229,21 +230,21 @@ const Example1 = ({setMapCenter}) => {
 
                 <layer.Vector title="Vector Shapes" opacity={1}>
                     <source.Vector features={features}>
-                        <Feature style={lineStyle}>
+                        <Feature id="L1" style={lineStyle}>
                             <geom.LineString transform={transformfn}>
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
                             </geom.LineString>
                         </Feature>
-                        <Feature style={polyStyle}>
+                        <Feature id="C2" style={polyStyle}>
                             <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
                         </Feature>
-                        <Feature style={polyStyle}>
+                        <Feature id="C4" style={polyStyle}>
                             <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
                         </Feature>
-                        <Feature style={ pointStyle }>
+                        <Feature id="Pt5" style={ pointStyle }>
                             <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
                         </Feature>
-                        <Feature style={polyStyle}>
+                        <Feature id="P2" style={polyStyle}>
                             <geom.Polygon transform={transformfn}>
                                 {[
                                     [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
@@ -251,19 +252,19 @@ const Example1 = ({setMapCenter}) => {
                                 ]}
                             </geom.Polygon>
                         </Feature>
-                        <Feature style={multipointStyle}>
+                        <Feature id="MP3" style={multipointStyle}>
                             <geom.MultiPoint transform={transformfn} >
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
                     </source.Vector>
                 </layer.Vector>
-                {/*
-                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}
-                    addfeature={handleAddFeature}>
-        <interaction.Draw type={ typeSelect[typeIndex].label }
-                            drawend={ handleAddFeature }
+                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw} addfeature={handleAddFeature}>
+                    <source.Vector>
+                        <interaction.Draw type={drawType} drawend={handleAddFeature} />
+                    </source.Vector>
                 </layer.Vector>
+                    {/*
                 */}
                 <control.FullScreen tipLabel="Like totally go full screen"/>
                     {/*
@@ -279,7 +280,7 @@ const Example1 = ({setMapCenter}) => {
                 className="select"
                 defaultValue={ typeSelect[0] }
                 options={ typeSelect }
-                onChange={ (o) => { setTypeIndex(o.index); } }
+                onChange={ selectDrawType }
             />
 
             Implement and test...

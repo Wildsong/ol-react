@@ -7,7 +7,7 @@ const Stamen = (props) => {
     const layer = useContext(LayerContext);
     const [source, setSource] = useState(new olStamen(props));
     useEffect(() => {
-        console.log("source.Stamen mounted");
+        //console.log("source.Stamen mounted");
         layer.setSource(source);
     }, []);
     return null; // Nothing needs to be rendered here.
