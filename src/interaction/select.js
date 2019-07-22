@@ -1,34 +1,35 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {LayerContext} from '../layer-context'
-import {Select} from 'ol/interaction'
+import {MapContext} from '../map-context'
+import {SourceContext} from '../source-context'
+import {Select as olSelect} from 'ol/interaction'
 import {Collection} from 'ol'
-import OLInteraction from './ol-interaction'
 
-class OLSelect extends OLInteraction {
-    static contextType = LayerContext;
-    static propTypes = {
-         ...OLInteraction.propTypes,
-	     condition: PropTypes.func,  // can be from ol/events/condition or custom
-         select: PropTypes.func,     // handle select olEvents
-         features: PropTypes.instanceOf(Collection),
-         style: PropTypes.object
-    };
-    static olEvents = ["select"];
-
-    createInteraction() {
-        console.log("select.createInteraction", this.props);
-    	const interaction = new Select({
-            source: this.context.layer.getSource(),
-    	    condition: this.props.condition,
-            features: this.props.features,
-            style: this.props.style
-    	})
+const Select = (props) => {
+    const map = useContext(MapContext);
+    const source = useContext(SourceContext);
+    //const olEvents = ["select"];
+    const [select, setSelect] = useState(() => {
+        const interaction = new olSelect({
+            source,
+            ...props
+        });
         return interaction;
-    }
+    });
+
+    useEffect(() => {
+        console.log("Select mounted");
+        map.addInteraction(select);
+        return () => {
+            console.log("Select UNMOUNTED");
+            map.removeInteraction(select);
+        }
+    }, []);
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap
-})
-export default connect(mapStateToProps)(OLSelect);
+Select.propTypes = {
+     condition: PropTypes.func,  // can be from ol/events/condition or custom
+     select: PropTypes.func,     // handle select olEvents
+     features: PropTypes.instanceOf(Collection),
+     style: PropTypes.object
+};
+export default Select;

@@ -8,7 +8,6 @@ import {Collection} from 'ol'
 import {Converter} from 'usng.js'
 import {interaction} from '../src'
 import {OverviewMap} from '../src/control'
-import OpacitySlider from '../src/control/opacity-slider'
 import {Button} from 'reactstrap'
 
 // abandoning hope of this test of WMTS
@@ -53,7 +52,6 @@ const Example8 = (props) => {
     const [popupText, setPopupText] = useState("here");
     const popupElement = React.createElement('div', {className:"ol-popup"}, popupText);
 
-    const [osmOpacity, setOpacity] = useState(.90);
     const [slidoVisible, setSlido] = useState(true);
 
     const selectedFeatures = new Collection();
@@ -97,6 +95,11 @@ const Example8 = (props) => {
         fill: {color: [255, 0, 0, .250]},
     };
 
+    const tlvStyle = new Style({
+        fill: new Fill({color:"rgba(255,0,0,0.1)"}),
+        stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
+    })
+
 /* WMTS failure
     const projection = getProjection(wm);
     const projectionExtent = projection.getExtent();
@@ -127,23 +130,27 @@ const Example8 = (props) => {
                 <li> Tile source: OSM </li>
                 </ul>
 
-            <OpacitySlider title="Streets" onChange={(value)=>setOpacity(value)} value={osmOpacity}/>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
 
             <MapProvider map={theMap}>
-            <control.LayerSwitcher/>
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
-                <layer.Image title="Bare Earth HS" opacity={.60}>
+                <layer.Image title="Bare Earth HS" opacity={.60}
+                    displayInLayerSwitcher={false}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 </layer.Image>
-                <layer.VectorTile title="Mapbox Vector Tile Streets" declutter={true} opacity={osmOpacity}>
+
+                <layer.Tile title="OpenStreetMap" baseLayer={true}> <source.OSM/> </layer.Tile>
+                <layer.VectorTile title="Mapbox OSM" declutter={true} baseLayer={false}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>
+
                 <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
                 </layer.Image>
-                <layer.VectorTile title="Taxlots vector tiles" declutter={true}>
+                <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={tlvStyle}
+                    allwaysOnTop={true}>
                     <source.VectorTile url={taxlotsUrl}/>
+                    <interaction.Select/>
                 </layer.VectorTile>
                 {/*
                     <layer.Tile title="OpenStreetMap" opacity={osmOpacity}> <source.OSM/> </layer.Tile>
@@ -160,6 +167,7 @@ const Example8 = (props) => {
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             </Map>
             <OverviewMap layers={ovLayers}/>
+            <control.LayerSwitcher show_progress={true} />
             </MapProvider>
         </>
     );
