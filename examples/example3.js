@@ -3,31 +3,22 @@ import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import {toStringXY} from 'ol/coordinate'
-import {
-    Circle as CircleStyle,
-    Fill as FillStyle,
-    Icon as IconStyle,
-    Stroke as StrokeStyle,
-    Style,
-    Text as TextStyle
-} from 'ol/style'
+import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
 import {Button} from 'reactstrap'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src'
-import {buildStyle} from '../src/style'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import {astoria_wm, wgs84} from '../src/constants'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {astoria_ll, MINZOOM} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
+import {Collection} from 'ol'
 
 let transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -78,12 +69,7 @@ const Example3 = () => {
         // of point in the file and I need to address that too.
         let geocacheIcon = require('../assets/traditional.png');
         //  currently this draws a blue 5 pointed star
-        let gpxMarker = buildStyle({
-            image: {
-                type: 'icon',
-                src: geocacheIcon,
-            }
-        });
+        let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
         let styleCache = {};
         let clusterStyle = (feature) => {
             let size = 0;
@@ -99,20 +85,13 @@ const Example3 = () => {
                 style = styleCache[size];
                 if (!style) {
                     style = new Style({
-                      image: new CircleStyle({
+                      image: new Circle({
                         radius: 10,
-                        stroke: new StrokeStyle({
-                          color: '#fff'
-                        }),
-                        fill: new FillStyle({
-                          color: '#3399CC'
-                        })
+                        stroke: new Stroke({color: '#fff'}),
+                        fill: new Fill({color: '#3399CC'})
                       }),
-                      text: new TextStyle({
-                        text: size.toString(),
-                        fill: new FillStyle({
-                          color: '#fff'
-                        })
+                      text: new Text({text: size.toString(),
+                        fill: new Fill({color: '#fff'})
                       })
                     });
                     styleCache[size] = style;
@@ -124,6 +103,10 @@ const Example3 = () => {
         const coordFormatter = (coord) => {
             return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
         }
+
+        // This is just here to test passing a feature collection down to the Vector source,
+        // if you don't explicitly create one, it will be done for you.
+        const features = new Collection()
 
         return (
             <>
@@ -175,20 +158,20 @@ const Example3 = () => {
                         />
                     </layer.Image>
 
-                    <layer.Vector title="GPX Drag and drop" cluster={true} distance={40} style={clusterStyle}>
-                    </layer.Vector>
-            {/*
-                     This interaction has to be inside a vector layer.
+                    <layer.Vector title="GPX Drag and drop"
+                    cluster={true} distance={40} style={clusterStyle}>
+                        <source.Vector features={features}>
                         <interaction.DragAndDrop />
+                        </source.Vector>
+                    </layer.Vector>
 
-                    <control.OverviewMap/>
+                    {/* This interaction has to be inside a vector layer. */}
+                    <interaction.DragBox onBoxEnd={handleDragBox}/>
 
-                    <interaction.DragBox boxend={handleDragBox}/>
-
-                    <control.FullScreen />
-            */}
+                    <control.FullScreen/>
+                    <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
                 </Map>
-                <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
+                <control.OverviewMap/>
             </MapProvider>
             </>
         );

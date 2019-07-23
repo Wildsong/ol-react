@@ -7,14 +7,17 @@ const FullScreen = (props) => {
     const map = useContext(MapContext);
     const [fullscreen, setFullscreen] = useState(new olFullScreen(props));
     useEffect(() => {
+        console.log("Fullscreen mounted");
         map.addControl(fullscreen);
         return () => {
             map.removeControl(fullscreen);
+            console.log("Fullscreen UNMOUNTED");
         }
     }, []);
     return null;
 }
 FullScreen.propTypes = {
+    active: PropTypes.bool,
     className: PropTypes.string,
     keys: PropTypes.bool,
     label: PropTypes.node,

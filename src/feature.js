@@ -1,27 +1,34 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {SourceContext} from './source-context'
 import {FeatureProvider} from './feature-context'
 import {Source} from 'ol/source'
+import {Style as olStyle} from 'ol/style'
 import {Feature as olFeature} from 'ol'
-import {buildStyle} from './style'
-//import cuid from 'cuid'
+import cuid from 'cuid'
 
 const Feature = (props) => {
     const source = useContext(SourceContext);
-    const feature = new olFeature()
-    feature.setId(props.id);//(typeof props.id !== 'undefined')? props.id : cuid());
-    feature.setStyle(buildStyle(props.style))
+    const [feature, setFeature] = useState(() => {
+        const f = new olFeature()
+        f.setId((typeof props.id !== 'undefined')? props.id : cuid());
+        return f;
+    });
 
     useEffect(() => {
-
         // Using getSource does not work because source has not been set
         // when this function gets called. That's why I was forced to add
         // the SourceContext.
         //const source = layer.getSource();
 
-//        console.log("Feature mounted", props, source);
+        try {
+            feature.setStyle(props.style)
+            console.log("**HAPPY**", feature.getId(), typeof props.style)
+        } catch {
+            console.error("I do not like your style, Sam I am!", feature.getId(), props.style)
+        }
         source.addFeature(feature);
+        //console.log("Feature mounted", props, source);
         return () => {
 //            console.log("Feature unmounted", source, feature);
             source.removeFeature(feature);
@@ -36,7 +43,10 @@ const Feature = (props) => {
 }
 Feature.propTypes = {
     id: PropTypes.string.isRequired,
-    style: PropTypes.object,
+    style: PropTypes.oneOfType([PropTypes.func,
+        PropTypes.instanceOf(olStyle),
+    ]),
+
     children: PropTypes.element
 };
 export default Feature;

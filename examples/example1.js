@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
+import {Collection} from 'ol'
+import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, geom, control, interaction, layer, source} from '../src'
 import Select from 'react-select'
-import {buildStyle} from '../src/style'
 
 /*
 import './style.css'
@@ -19,10 +20,6 @@ import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {MINZOOM, astoria_ll} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
-
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-
-import {Collection} from 'ol'
 
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
@@ -94,17 +91,14 @@ const Example1 = ({setMapCenter}) => {
     }
 
     const onGeocode = (e) => {
+        console.log("Did geocode e=", e);
         setCenter(e.coordinate);
         setZoom(18);
-        theMap.getView().setCenter(e.coordinate);
-        theMap.getView().setZoom(18);
-    }
 
-    // Comes up in the wrong place, hence it needs styling.
-    //  This is the search widget that comes up on the map.
-    const searchWidget = new olSearchNominatim();
-    searchWidget.on('select', onGeocode);
-    theMap.addControl(searchWidget);
+        const view = theMap.getView();
+        view.setCenter(e.coordinate);
+        view.setZoom(18);
+    }
 
     const handleAddFeature = (e) => {
         console.log("handleAddFeature", e, e.feature);
@@ -115,60 +109,45 @@ const Example1 = ({setMapCenter}) => {
         mapEvent.stopPropagation();
     }
 
-// This version makes ALL the point markers increment at the same time. Unfortunately
+    // This version makes ALL the point markers increment at the same time. Unfortunately
     const clickMarker = (feature, resolution) => {
-        const s = buildStyle({
-            text: {
-                text: markerId.toString(),
-                offsetY: -10,
-            },
+        const s = new Style({
+            text: new Text({text: markerId.toString(),  offsetY: -10}),
         //  currently this draws a blue 5 pointed star
-            image: {
-                type: 'regularShape',
+            image: new RegularShape({
                 points: 5,
                 radius: 5,
                 radius1: 5,
                 radius2: 2,
-                stroke: { color: 'blue', width: 1.5 }
-            }
+                stroke: new Stroke({color: 'blue', width: 1.5}),
+            }),
         })
         return s;
     }
-
-    const pointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [100,100,100, 0.75] },
-            stroke: { color: 'green', width: 3 }
-        }
-    };
-    const multipointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [0,0,255, 0.4] },
-            stroke: { color: 'red', width: 1 }
-        }
-    };
-    const lineStyle = {
-        stroke: {
-            color: [255, 255, 0, 1],
-            width: 3
-        }
-    };
-    const polyStyle = {
-        stroke: {color: [0, 0, 0, 1], width:4},
-        fill: {color: [255, 0, 0, .250]},
-    };
-    const sbstyle = {
-        width: 50,
-        height: 50,
-    }
+    const pointStyle = new Style({
+        image: new Circle({
+            radius: 5,
+            fill: new Fill({color: 'rgba(100,100,100, 0.75)'}),
+            stroke: new Stroke({color: 'green', width: 5}),
+        })
+    });
+    const multipointStyle = new Style({
+        image: new Circle({
+            radius: 10,
+            fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+            stroke: new Stroke({color: 'red', width: 3})
+        })
+    })
+    const lineStyle = new Style({
+        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3}) });
+    const polyStyle = new Style({
+        stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width: 4}),
+        fill: new Fill({color: 'rgba(255, 0, 0, .250)'}),
+    });
 
     // This is just here to test passing a feature collection down to the Vector source,
     // if you don't explicitly create one, it will be done for you.
-    const features = new Collection()
+    const drawFeatures = new Collection()
 
     return (
         <>
@@ -212,11 +191,11 @@ const Example1 = ({setMapCenter}) => {
                 onChangeSize={ handleMapEvent }
                 onMoveEnd={ handleMapEvent }
             >
-                <layer.Tile title="Toner" baseLayer={true} attributions="Stamen">
+                <layer.Tile title="Toner" baseLayer={true}>
                     <source.Stamen layer="toner"/>
                 </layer.Tile>
 
-                <layer.Tile title="OpenStreetMap" attributions="OpenStreetMap" opacity={opacityOSM}>
+                <layer.Tile title="OpenStreetMap" opacity={opacityOSM} baseLayer={true}>
                     <source.OSM/>
                 </layer.Tile>
 
@@ -230,7 +209,7 @@ const Example1 = ({setMapCenter}) => {
                 </layer.Tile>
 
                 <layer.Vector title="Vector Shapes" opacity={1}>
-                    <source.Vector features={features}>
+                    <source.Vector>
                         <Feature id="L1" style={lineStyle}>
                             <geom.LineString transform={transformfn}>
                                 { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
@@ -242,7 +221,7 @@ const Example1 = ({setMapCenter}) => {
                         <Feature id="C4" style={polyStyle}>
                             <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
                         </Feature>
-                        <Feature id="Pt5" style={ pointStyle }>
+                        <Feature id="Pt5" style={pointStyle}>
                             <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
                         </Feature>
                         <Feature id="P2" style={polyStyle}>
@@ -254,21 +233,23 @@ const Example1 = ({setMapCenter}) => {
                             </geom.Polygon>
                         </Feature>
                         <Feature id="MP3" style={multipointStyle}>
-                            <geom.MultiPoint transform={transformfn} >
+                            <geom.MultiPoint transform={transformfn}>
                                 { [[-6000, -4000], [6000, -3000], [0, 6400]] }
                             </geom.MultiPoint>
                         </Feature>
                     </source.Vector>
                 </layer.Vector>
-                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw} addfeature={handleAddFeature}>
-                    <source.Vector>
+
+                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}>
+                    <source.Vector features={drawFeatures}>
                         <interaction.Draw type={drawType} drawend={handleAddFeature} />
                     </source.Vector>
                 </layer.Vector>
 
-                <control.FullScreen tipLabel="Like totally go full screen"/>
-                <control.LayerPopup/>
+                <control.FullScreen tipLabel="go full screen"/>
+                <control.SearchNominatim onGeocode={onGeocode}/>
                     {/*
+                        <control.LayerPopup/>
                         <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
                         */}
             </Map>

@@ -1,3 +1,7 @@
+// I think this thing just adds more possibility for confusion and errors.
+// Just pass actual OpenLayers styles into ol-react where needed instead.
+// It's easier to debug.
+
 import {
     Atlas as AtlasStyle,
     Circle as CircleStyle,

@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import {Map, Feature, Graticule, control, geom, layer, source} from '../src'
+import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src'
+import {Collection} from 'ol'
 import stylefunction from 'ol-mapbox-style/stylefunction'
-import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
+import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
 import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
 import {MapProvider} from '../src/map-context'
@@ -32,43 +33,28 @@ const Example7 = ({}) => {
         })
     );
 
-    const handleEvent = (e) => {
-        console.log("Map.handleEvent", e)
-        //e.stopPropagation(); // this stops draw interaction
-    }
-
     const coordFormatter = (coord) => {
         const zoom = 6;
         const ll = toLonLat(coord)
         return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
     }
-    const pointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [100,100,100, 0.5] },
-            stroke: { color: 'green', width: 1 }
-        }
-    };
-    const multipointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [0,0,255, 0.4] },
-            stroke: { color: 'red', width: 1 }
-        }
-    };
-    const lineStyle = {
-        stroke: {
-            color: [255, 255, 0, 1],
-            width: 3
-        }
-    };
-    const polyStyle = {
-        stroke: {color: [0, 0, 0, 1], width:4},
-        fill: {color: [255, 0, 0, .250]},
-    };
+
+    const handleEvent = (e) => {
+        console.log("Map.handleEvent", e)
+        //e.stopPropagation(); // this stops draw interaction
+    }
+
     const mb6style = createMapboxStreetsV6Style(Style, Fill, Stroke, Icon, Text);
+
+    const taxlotStyle = new Style({
+        fill: new Fill({color:"rgba(128,0,0,0.1)"}),
+        stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
+    })
+    const selectedStyle = new Style({
+        fill: new Fill({color:"rgba(255,40,40,0.8)"}),
+        stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
+    })
+    const selectedFeatures = new Collection();
 
     return (
         <>
@@ -78,9 +64,10 @@ const Example7 = ({}) => {
                 <h4>Vector tiles</h4>
                     <ul>
                     <li> Graticule </li>
-                    <li> Taxlots from geoserver</li>
+                    <li> Taxlots from geoserver as vector tiles</li>
                     <li> Tile source: Mapbox</li>
                     </ul>
+                    Interaction: Select - select taxlots using click or drag
 
                 <MapProvider map={theMap}>
                 <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
@@ -90,8 +77,9 @@ const Example7 = ({}) => {
                         <source.VectorTile url={mapboxStreetsUrl}/>
                     </layer.VectorTile>
 
-                    <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous">
+                    <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous" style={taxlotStyle}>
                         <source.VectorTile url={taxlotsUrl}/>
+                        <interaction.Select features={selectedFeatures} style={selectedStyle}/>
                     </layer.VectorTile>
 
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>

@@ -42,6 +42,7 @@ const Draw = (props) => {
     return null;
 }
 Draw.propTypes = {
+    active: PropTypes.bool,
     type: PropTypes.string.isRequired,
     condition: PropTypes.func,
     drawend: PropTypes.func,

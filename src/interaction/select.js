@@ -1,35 +1,51 @@
 import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
+import {LayerContext} from '../layer-context'
 import {SourceContext} from '../source-context'
+import {Style as olStyle} from 'ol/style'
+import {Layer as olLayer, Collection} from 'ol'
 import {Select as olSelect} from 'ol/interaction'
-import {Collection} from 'ol'
+import {Condition} from 'ol/events'
 
 const Select = (props) => {
     const map = useContext(MapContext);
+    const layer = useContext(LayerContext);
     const source = useContext(SourceContext);
-    //const olEvents = ["select"];
-    const [select, setSelect] = useState(() => {
+
+    const [selectInteraction, setSelectInteraction] = useState(() => {
         const interaction = new olSelect({
-            source,
-            ...props
+            //source,
+            //condition: props.condition,
+            //features: props.features,
+            layers: [layer],
+            style: props.style,
         });
+        interaction.on("select", (evt) => {
+//              if (typeof props.drawend !== 'undefined') {
+                    console.log("selected", evt, evt.selected[0]);
+                    //props.drawend(evt);
+                //}
+            }
+        );
         return interaction;
     });
 
     useEffect(() => {
-        console.log("Select mounted");
-        map.addInteraction(select);
+        console.log("Select mounted", selectInteraction);
+        map.addInteraction(selectInteraction);
         return () => {
             console.log("Select UNMOUNTED");
-            map.removeInteraction(select);
+            map.removeInteraction(selectInteraction);
         }
     }, []);
+
+    return null;
 }
 Select.propTypes = {
-     condition: PropTypes.func,  // can be from ol/events/condition or custom
-     select: PropTypes.func,     // handle select olEvents
-     features: PropTypes.instanceOf(Collection),
-     style: PropTypes.object
+    condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
+    style: PropTypes.instanceOf(olStyle),
+    multi: PropTypes.bool,
+    features: PropTypes.instanceOf(Collection),
 };
 export default Select;

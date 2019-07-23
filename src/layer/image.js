@@ -37,7 +37,7 @@ const Image = (props) => {
     );
 }
 Image.propTypes =  {
-    //children: PropTypes.object.isRequired,
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
     title: PropTypes.string.isRequired,
     extent: PropTypes.arrayOf(PropTypes.number),
     minResolution: PropTypes.number,

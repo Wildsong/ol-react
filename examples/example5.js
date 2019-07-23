@@ -8,7 +8,7 @@ import {MapProvider} from '../src/map-context'
 
 // These are for testing passing an OL VectorSource in as a property
 import {Vector as VectorSource} from 'ol/source'
-import {Style as olStyle, Fill as olFill, Stroke as olStroke, text as olText} from 'ol/style'
+import {Style, Circle, Fill, Stroke, Text} from 'ol/style'
 import {Circle as olCircle} from 'ol/geom'
 import {bbox} from 'ol/loadingstrategy'
 import { EsriJSON, GeoJSON } from 'ol/format'
@@ -195,10 +195,10 @@ const Example5 = () => {
     const keys = Object.keys(bookmarks);
     const bookmarkTitles = keys.map(k => [k, bookmarks[k].title]);
 
-    const polyStyle = {
-        stroke: {color: [0, 0, 0, 1], width:4},
-        fill: {color: [255, 0, 0, .250]},
-    };
+    const polyStyle = new Style({
+        stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width:4}),
+        fill: new Fill({color: 'rgba(255, 0, 0, .250)'})
+    });
 
     // Test building an URL from a function and using it in a Vector source.
     // See https://openlayers.org/en/latest/apidoc/module-ol_featureloader.html#~FeatureUrlFunction
@@ -245,10 +245,10 @@ const Example5 = () => {
     // Test for issue #2, accept an external data source
     // Create an OpenLayers vector source, and add a
     // styled feature to it, and pass it into a source.Vector component
-    const bigdot_style = new olStyle({
+    const bigdot_style = new Style({
         geometry: new olCircle(astoria_wm, 500),
-        fill: new olFill({color:"rgba(0,255,0,0.7)"}),
-        stroke: new olStroke({color:"green", width:1}),
+        fill: new Fill({color: 'rgba(0,255,0,0.7)'}),
+        stroke: new Stroke({color:"green", width:1}),
         //text: new olText({text:"ASTORIA IS RIGHT HERE", font:"36px sans-serif"}),
         //zIndex: ???,
     })
@@ -266,7 +266,7 @@ const Example5 = () => {
                 WFS GeoServer taxlots<br />
                 Vector layer (display only, no external data source) (The big green dot.)<br />
                 Demonstrates passing an OpenLayers Vector source object directly into the Layer component.
-                
+
                 <p>
                 Demonstrates that I can keep the map center
                 and zoom in component state and update the map using setState.

@@ -1,32 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
-import {LayerContext} from '../layer-context'
-import {DragBox} from 'ol/interaction'
-import OLInteraction from './ol-interaction'
+import React, {useState, useContext, useEffect} from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from '../map-context'
+import {SourceContext} from '../source-context'
+import {DragBox as olDragBox} from 'ol/interaction'
 
-class OLDragBox extends OLInteraction {
-    static propTypes = {
-        ...OLInteraction.propTypes,
-    	boxdrag: PropTypes.func,
-    	boxend: PropTypes.func,
-    	boxstart: PropTypes.func,
-    	condition: PropTypes.func
-    };
-    static olEvents = ["boxdrag", "boxend", "boxstart"]
-
-    createInteraction() {
-        console.log("dragbox.createInteraction", this.props);
-    	const interaction = new DragBox({
-    	    condition: this.props.condition
-    	})
-
-        //this.source = this.context.layer.getSource()
-
+const DragBox = (props) => {
+    const map = useContext(MapContext);
+    const source = useContext(SourceContext);
+    const [dragbox, setDragbox] = useState(() => {
+        console.log("DragBox", props);
+        const interaction = new olDragBox(props);
+/*
+use onBoxEnd instead?
+        interaction.addEventListener("boxend",
+    	    (evt) => {
+                if (typeof props.drawend !== 'undefined') {
+                    console.log("boxend", evt);
+                    props.drawend(evt);
+                }
+    	    }
+    	);
+        */
         return interaction;
-    }
+    });
+
+    useEffect(() => {
+        console.log("DragBox mounted");
+        //map.addInteraction(DragBox);
+        return () => {
+            console.log("DragBox UNMOUNTED");
+            //map.removeInteraction(DragBox);
+        }
+    }, []);
+
+    return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap
-})
-export default connect(mapStateToProps)(OLDragBox);
+
+DragBox.propTypes = {
+    active: PropTypes.bool,
+    boxdrag: PropTypes.func,
+    onBoxEnd: PropTypes.func,
+    boxend: PropTypes.func,
+    boxstart: PropTypes.func,
+    className: PropTypes.string,
+    condition: PropTypes.func
+};
+export default DragBox;

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {Map, Feature, Overlay, control, geom, layer, source} from '../src'
-import {Fill, Icon, Stroke, Style, Text} from 'ol/style'
+import {Style, Fill, Icon, Stroke, Text} from 'ol/style'
 import {toStringHDMS} from 'ol/coordinate'
 import {Collection} from 'ol'
 import {Converter} from 'usng.js'
@@ -38,6 +38,10 @@ const taxlotslayer = 'clatsop_wm:taxlots'
 const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotslayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf'
+const taxlotVectorStyle = new Style({
+    fill: new Fill({color:"rgba(255,0,0,0.1)"}),
+    stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
+})
 
 //const taxlotsWMTSUrl = myGeoServer + '/gwc/service/wmts/'
 //const taxlotsFormat = "image/png"
@@ -46,7 +50,6 @@ const Example8 = (props) => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
-        //controls: [],
     }));
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
@@ -54,7 +57,6 @@ const Example8 = (props) => {
 
     const [slidoVisible, setSlido] = useState(true);
 
-    const selectedFeatures = new Collection();
     const usngCoordFormatter = (coord, zoom=6) => {
         const ll = toLonLat(coord)
         return usngConverter.LLtoUSNG(ll[1], ll[0], usngPrecision[zoom]);
@@ -67,38 +69,6 @@ const Example8 = (props) => {
         setPopupPosition(mapEvent.coordinate)
         setPopupText(usngCoordFormatter(lonlat, zoom));
     }
-
-    const pointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [100,100,100, 0.5] },
-            stroke: { color: 'green', width: 1 }
-        }
-    };
-    const multipointStyle = {
-        image: {
-            type: 'circle',
-            radius: 4,
-            fill: { color: [0,0,255, 0.4] },
-            stroke: { color: 'red', width: 1 }
-        }
-    };
-    const lineStyle = {
-        stroke: {
-            color: [255, 255, 0, 1],
-            width: 3
-        }
-    };
-    const polyStyle = {
-        stroke: {color: [0, 0, 0, 1], width:4},
-        fill: {color: [255, 0, 0, .250]},
-    };
-
-    const tlvStyle = new Style({
-        fill: new Fill({color:"rgba(255,0,0,0.1)"}),
-        stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
-    })
 
 /* WMTS failure
     const projection = getProjection(wm);
@@ -117,10 +87,6 @@ const Example8 = (props) => {
     return (
         <>
         <h2>Example 8</h2>
-            <p>TODO Selection is mostly working, I need to change the taxlot polygon
-            style to fill so that clicking in the taxlot works. But I am
-            not sure if we are ever going to use Vector Tiles so... later...</p>
-
             <h4>Vector tiles</h4>
                 <ul>
                 <li> Overlay (popups) </li>
@@ -147,10 +113,9 @@ const Example8 = (props) => {
                 <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
                 </layer.Image>
-                <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={tlvStyle}
+                <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={taxlotVectorStyle}
                     allwaysOnTop={true}>
                     <source.VectorTile url={taxlotsUrl}/>
-                    <interaction.Select/>
                 </layer.VectorTile>
                 {/*
                     <layer.Tile title="OpenStreetMap" opacity={osmOpacity}> <source.OSM/> </layer.Tile>

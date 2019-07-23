@@ -1,18 +1,17 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import Select from 'react-select'
-import { Button } from 'reactstrap'
-import BootstrapTable from 'react-bootstrap-table-next'
-import { toStringXY } from 'ol/coordinate'
 import {MapProvider} from '../src/map-context'
+import Select from 'react-select'
+import {Button} from 'reactstrap'
+import BootstrapTable from 'react-bootstrap-table-next'
+import {toStringXY} from 'ol/coordinate'
 import {Map, Feature, Overlay, control, geom, interaction, layer, source} from '../src';
-import { Collection } from 'ol'
-import { platformModifierKeyOnly } from 'ol/events/condition'
-import { toStringHDMS } from 'ol/coordinate'
-import { Vector as VectorSource } from 'ol/source'
-import { bbox as bboxStrategy } from 'ol/loadingstrategy'
-import { buildStyle } from '../src/style'
-import { DataLoader } from '../src/source/dataloaders'
+import {Collection} from 'ol'
+import {platformModifierKeyOnly} from 'ol/events/condition'
+import {toStringHDMS} from 'ol/coordinate'
+import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
+import {bbox as bboxStrategy} from 'ol/loadingstrategy'
+import {DataLoader} from '../src/source/dataloaders'
 
 import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
@@ -71,16 +70,14 @@ const aerials = [
     { label: "2015", value: astoriagis + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fair_2015.map&LAYERS=air_2015"},
 ];
 
-const taxlotStyle = { // pink w black outline
-    stroke: {color: [255, 0, 0, 1.00], width:1},
-    fill:   {color: [255, 0, 0, .000]}, // no fill = not selectable
-};
-const selectedStyle = { // yellow
-    stroke: {color: [255, 255, 0, 1.00], width:2},
-    fill:   {color: [255, 255, 0, .001]},
-};
-const tlSt = buildStyle(taxlotStyle);
-const selectedSt = buildStyle(selectedStyle);
+const taxlotStyle = new Style({ // pink w black outline
+    stroke: new Stroke({color: 'rgba(255, 0, 0, 1.0)', width:1}),
+    fill:   new Fill({color: 'rgba(255, 0, 0, .1)'}), // no fill = not selectable
+});
+const selectedStyle = new Style({ // yellow
+    stroke: new Stroke({color: 'rgba(255, 255, 0, 1.0)', width:2}),
+    fill:   new Fill({color: 'rgba(255, 255, 0, .001)'}),
+});
 
 const Example2 = ({}) => {
     const [theMap, setTheMap] = useState(new olMap({
@@ -88,6 +85,7 @@ const Example2 = ({}) => {
         loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
+    const [zoom,setZoom] = useState(DEFAULT_ZOOM);
     const [aerial, setAerial] = useState(aerials[0].value); // 1966
     const [aerialVisible, setAerialVisible] = useState(false)
     const [enableModify, setEnableModify] = useState(false) // not implemented yet
@@ -190,7 +188,7 @@ const Example2 = ({}) => {
                 <Select options={ aerials } onChange={ changeAerial } />
 
                 <MapProvider map={theMap}>
-    	        <Map center={astoria_wm}>
+    	        <Map center={astoria_wm} zoom={zoom}>
                     <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
 
                     <layer.Image title="City of Astoria" visible={aerialVisible}>
@@ -198,15 +196,14 @@ const Example2 = ({}) => {
                     </layer.Image>
 
                     <layer.Vector title="Taxlots" style={taxlotStyle}>
-                        <source.JSON loader="esrijson" url={taxlotsFeaturesUrl} crossOrigin="anonymous"/>
+                        <source.JSON loader="esrijson" url={taxlotsFeaturesUrl}/>
                     </layer.Vector>
     {/*
-                        editStyle={selectedStyle}>
                         <interaction.Select
                             select={ onSelectInteraction }
                             condition={ handleCondition }
                             features={ selectedFeatures }
-                            style={ selectedSt }
+                            style={ selectedStyle }
                             active={ true }
                         />
 

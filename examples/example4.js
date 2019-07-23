@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import {Style, Text as TextStyle, Fill as FillStyle, Stroke as StrokeStyle } from 'ol/style'
+import {Style, Text, Fill, Stroke} from 'ol/style'
 import {Button} from 'reactstrap'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src';
 import {astoria_ll, wgs84, wm} from '../src/constants'
@@ -75,15 +75,15 @@ const getTextStyle = (feature, resolution) => {
     let fontsize = (attributes.FontSize>0 ? attributes.FontSize.toString() : '16') + 'px';
     font = (attributes.Bold? "bold ":' ') + (attributes.Italic? "italic ":' ') + fontsize + ' ' + font
     console.log(attributes, font)
-    const s = new TextStyle({
+    const s = new Text({
         scale: 2,
         font: font,
         overflow: overflow,
         placement: placement,
         textBaseline: baseline,
         text: attributes.TextString,
-        fill: new FillStyle({color: fillColor}),
-        stroke: new StrokeStyle({color: outlineColor, width: outlineWidth}),
+        fill: new Fill({color: fillColor}),
+        stroke: new Stroke({color: outlineColor, width: outlineWidth}),
     })
     n += 1;
     return new Style({ text:s });
@@ -101,14 +101,14 @@ const Example4 = (props) => {
     const toggleLayer = () => {
         setBingVisible(!bingVisible);
     }
-    const polyStyle = {
-        stroke: {color: [0, 255, 0, 1], width:2},
-        //fill: {color: [255, 0, 0, .250]},
-    };
-    const polylineStyle = {
-        stroke: {color: [0, 0, 0, 1], width:44},
-        //fill: {color: [255, 0, 0, .250]},
-    };
+    const polyStyle = new Stroke({
+        stroke: new Stroke({color: [0, 255, 0, 1], width:2}),
+        //fill: new Fill({color: [255, 0, 0, .250]}),
+    });
+    const polylineStyle = new Stroke({
+        stroke: new Stroke({color: [0, 0, 0, 1], width:44}),
+        //fill: new Fill({color: [255, 0, 0, .250]}),
+    });
     let feat = undefined
     let res = 9000
     let dom = undefined
@@ -128,9 +128,6 @@ const Example4 = (props) => {
 
                 <p>
                     Controls: ScaleLine <br />
-                    Interactions:<br />
-                    KeyboardPan (does not work yet! or I don't know the keys)<br />
-                    DoubleClickZoom (works more or less)<br />
                 </p>
 
                 <MapProvider map={theMap}>
@@ -144,16 +141,7 @@ const Example4 = (props) => {
                     <layer.Vector title="Oregon Zoning">
                         <source.JSON url={featureServer} loader="esrijson" style={polyStyle}/>
                     </layer.Vector>
-                    {/*
 
-                    <interaction.KeyboardPan
-                        condition={ () => { return true; } }
-                        duration={ 750 }
-                        pixelDelta={ 100 }
-                    />
-
-                    <interaction.DoubleClickZoom duration={ 750 } delta={ 1 }/>
-                    */}
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
                 </Map>
                 <control.ScaleLine units={control.ScaleLineUnits.METRIC} />

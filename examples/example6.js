@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
+import {MapProvider} from '../src/map-context'
+import {Style, Circle, Fill, Stroke} from 'ol/style'
 import {Map, Feature, geom, control, layer, source} from '../src'
 import {myGeoServer, workspace, wm} from '../src/constants'
-import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -25,23 +26,20 @@ const Example6 = () => {
     const [zoom, setZoom] = useState(14);
     const [rotation, setRotation] = useState(0.0);
 
-    const pointStyle = {
-        image: {
-            type: 'circle',
+    const pointStyle = new Style({
+        image: new Circle({
             radius: 12,
-            fill: { color: [100,100,255, .5] },
-            stroke: { color: 'blue', width: 1 }
-        }
-    };
-    const markerStyle = {
-        image: {
-            type: 'circle',
+            fill: new Fill({color: 'rgba(100,100,255, .5)'}),
+            stroke: new Stroke({color: 'blue', width: 1})
+        })
+    });
+    const markerStyle = new Style({
+        image: new Circle({
             radius: 4,
-            fill: { color: [200,10,10, 0.5] },
-            stroke: { color: 'red', width: 1 }
-        }
-    };
-
+            fill: new Fill({color: 'rgba(200,10,10, 0.5)'}),
+            stroke: new Stroke({color: 'red', width: 1})
+        })
+    });
     let ll = toLonLat([lon, lat]);
 
     return (
