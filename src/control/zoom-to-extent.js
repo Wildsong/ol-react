@@ -1,30 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
-import OLPropTypes from '../ol-proptypes'
-import {ZoomToExtent} from 'ol/control';
-import OLControl from './ol-control'
+import React, {useState, useContext, useEffect} from 'react'
+import PropTypes from 'prop-types'
+import {MapContext} from '../map-context'
+import {ZoomToExtent as olZoomToExtent} from 'ol/control';
 
-class OLZoomToExtent extends OLControl {
-    static propTypes = {
-        ...OLControl.propTypes,
-    	className: PropTypes.string,
-    	extent: PropTypes.arrayOf(PropTypes.number),
-    	label: PropTypes.node,
-    	tipLabel: PropTypes.string
-    }
-
-    constructor(props) {
-	super(props);
-        this.control = new ZoomToExtent({
-            className: this.props.className,
-            extent: this.props.extent,
-            label: this.props.label,
-            tipLabel: this.props.tipLabel
-        })
-    }
+const ZoomToExtent = (props) => {
+	const map = useContext(MapContext);
+	const [control, setControl] = useState(new olZoomToExtent(props));
+	useEffect(() => {
+		map.addControl(control);
+		return () => { map.removeControl(control); }
+	}, []);
+	return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLZoomToExtent);
+ZoomToExtent.propTypes = {
+    className: PropTypes.string,
+    extent: PropTypes.arrayOf(PropTypes.number),
+    label: PropTypes.node,
+    tipLabel: PropTypes.string
+};
+export default ZoomToExtent;

@@ -5,12 +5,12 @@ import {FullScreen as olFullScreen} from 'ol/control'
 
 const FullScreen = (props) => {
     const map = useContext(MapContext);
-    const [fullscreen, setFullscreen] = useState(new olFullScreen(props));
+    const [control, setControl] = useState(new olFullScreen(props));
     useEffect(() => {
         console.log("Fullscreen mounted");
-        map.addControl(fullscreen);
+        map.addControl(control);
         return () => {
-            map.removeControl(fullscreen);
+            map.removeControl(control);
             console.log("Fullscreen UNMOUNTED");
         }
     }, []);

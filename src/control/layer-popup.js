@@ -7,12 +7,10 @@ import 'ol-ext/control/LayerPopup.css'
 
 const LayerPopup = (props) => {
     const map = useContext(MapContext)
-    const [popup, setPopup] = useState(new olextLayerPopup());
+    const [popup, setControl] = useState(new olextLayerPopup());
     useEffect(() => {
-        map.addControl(popup);
-        return () => {
-            map.removeControl(popup);
-        }
+        map.addControl(control);
+        return () => { map.removeControl(control); }
     }, []);
     return null;
 }

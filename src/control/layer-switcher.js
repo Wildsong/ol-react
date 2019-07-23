@@ -7,18 +7,14 @@ import 'ol-ext/control/LayerSwitcher.css'
 
 const LayerSwitcher = (props) => {
     const map = useContext(MapContext)
-    const [switcher, setSwitcher] = useState(new olextLayerSwitcher(props));
+    const [control, setControl] = useState(new olextLayerSwitcher(props));
     useEffect(() => {
-        map.addControl(switcher);
-        return () => {
-            map.removeControl(switcher);
+        const setTarget = element => {
+            control.setTarget(element);
         }
+        map.addControl(control);
+        return () => { map.removeControl(control); }
     }, []);
-
-    const setTarget = element => {
-        switcher.setTarget(element);
-    }
-
     return (
         <div ref={setTarget} className="ol-layerswitcher"></div>
     );

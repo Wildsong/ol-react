@@ -1,36 +1,21 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Zoom} from 'ol/control'
-import OLControl from './ol-control'
+import {MapContext} from '../map-context'
+import {zoom as olZoom} from 'ol/control';
 
-class OLZoom extends OLControl {
-    static propTypes = {
-    	className: PropTypes.string,
-    	delta: PropTypes.number,
-    	duration: PropTypes.number,
-    	zoomInLabel: PropTypes.node,
-    	zoomInTipLabel: PropTypes.string,
-    	zoomOutLabel: PropTypes.node,
-    	zoomOutTipLabel: PropTypes.string
-    };
-    static defaultProps = {
-	    duration: 250
-    }
-    constructor(props) {
-        super(props);
-        this.control = new Zoom({
-            className: props.className,
-            delta: props.delta,
-            duration: props.duration,
-            zoomInLabel: props.zoomInLabel,
-            zoomInTipLabel: props.zoomInTipLabel,
-            zoomOutLabel: props.zoomOutLabel,
-            zoomOutTipLabel: props.zoomOutTipLabel
-        })
-    }
+const Zoom = (props) => {
+	const map = useContext(MapContext);
+	const [control, setControl] = useState(new olZoom(props));
+	useEffect(() => {
+		map.addControl(control);
+		return () => { map.removeControl(control); }
+	}, []);
+	return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLZoom);
+Zoom.propTypes = {
+    className: PropTypes.string,
+    extent: PropTypes.arrayOf(PropTypes.number),
+    label: PropTypes.node,
+    tipLabel: PropTypes.string
+};
+export default Zoom;

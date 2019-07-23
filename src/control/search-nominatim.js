@@ -12,14 +12,13 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
 const SearchNominatim = (props) => {
     const map = useContext(MapContext);
-    const [search, setSearch] = useState(new olSearchNominatim());
+    const [control, setControl] = useState(new olSearchNominatim());
     useEffect(() => {
         console.log("SearchNominatim mounted");
-        map.addControl(search);
+        map.addControl(control);
         search.on('select', props.onGeocode);
-
         return () => {
-            map.removeControl(search);
+            map.removeControl(control);
             console.log("SearchNominatim UNMOUNTED");
         }
     }, []);

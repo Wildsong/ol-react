@@ -1,34 +1,27 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Attribution} from 'ol/control'
-import OLControl from './ol-control'
+import {MapContext} from '../map-context'
+import {Attribution as olAttribution} from 'ol/control'
 
-class OLAttribution extends OLControl {
-    static propTypes = {
-        ...OLControl.propTypes,
-        className: PropTypes.string,
-    	collapsed: PropTypes.bool,
-    	collapseLabel: PropTypes.string,
-    	collapsible: PropTypes.bool,
-    	label: PropTypes.node,
-    	tipLabel: PropTypes.string
-    }
-
-    constructor(props) {
-        super(props);
-        console.log("control.Attribution props=", props)
-    	this.control = new Attribution({
-    	    className: props.className,
-    	    collapsed: props.collapsed,
-    	    collapseLabel: props.collapseLabel,
-    	    collapsible: props.collapsible,
-    	    label: props.label,
-    	    tipLabel: props.tipLabel
-    	})
-    }
+const Control = (props) => {
+    const map = useContext(MapContext);
+    const [control, setControl] = useState(new olAttribution(props));
+    useEffect(() => {
+        console.log("Attribution mounted");
+        map.addControl(control);
+        return () => {
+            map.removeControl(control);
+            console.log("Attribution UNMOUNTED");
+        }
+    }, []);
+    return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLAttribution);
+Attribution.propTypes = {
+    className: PropTypes.string,
+    collapsed: PropTypes.bool,
+    collapseLabel: PropTypes.string,
+    collapsible: PropTypes.bool,
+    label: PropTypes.node,
+    tipLabel: PropTypes.string
+}
+export default Attribution;

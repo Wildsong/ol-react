@@ -1,21 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import OLControl from './ol-control'
-import GeoBookmark from 'ol-ext/control/GeoBookmark'
+import React, {useState, useContext, useEffect} from 'react'
+import PropTypes from 'prop-types';
+import {MapContext} from '../map-context'
+import olextGeoBookmark from 'ol-ext/control/GeoBookmark'
 import 'ol-ext/control/GeoBookmark.css'
 
-class OLExtGeoBookmarkControl extends OLControl {
-    static propTypes = {
-        ...OLControl.propTypes,
-    	marks: PropTypes.object,
-    }
-    constructor(props) {
-        super(props);
-        this.control = new GeoBookmark(props)
-    }
+const GeoBookmark = (props) => {
+    const map = useContext(MapContext);
+    const [control, setControl] = useState(new olextGeoBookmark(props));
+    useEffect(() => {
+        map.addControl(control);
+        return () => { map.removeControl(control); }
+    }, []);
+    return null;
 }
-const mapStateToProps = (state) => ({
-    map: state.map.theMap,
-})
-export default connect(mapStateToProps)(OLExtGeoBookmarkControl);
+GeoBookmark.propTypes = {
+    marks: PropTypes.object,
+}
+export default GeoBookmark;
