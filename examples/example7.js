@@ -1,25 +1,28 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
+import {MapProvider} from '../src/map-context'
 import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src'
 import {Collection} from 'ol'
 import stylefunction from 'ol-mapbox-style/stylefunction'
 import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
+import {click} from 'ol/events/condition'
 import {Converter} from 'usng.js'
 import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
-import {MapProvider} from '../src/map-context'
-import {createMapboxStreetsV6Style} from '../src/mapbox-streets-v6-style'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {MINZOOM, MAXZOOM, astoria_ll} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 const usngConverter = new Converter
 
+import {createMapboxStreetsV6Style} from '../src/mapbox-streets-v6-style'
 const mapbox_key = process.env.MAPBOX_KEY;
 const mapboxStreetsUrl = 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/'
         + '{z}/{x}/{y}.vector.pbf?access_token=' + mapbox_key
+const mapboxStyle = createMapboxStreetsV6Style(Style, Fill, Stroke, Icon, Text);
 
 const taxlotsLayer = 'clatsop_wm%3Ataxlots'
 const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
@@ -30,8 +33,10 @@ const Example7 = ({}) => {
     const [theMap, setTheMap] = useState(new olMap({
             view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
             loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+            //interactions:[] // this map is not slippy so we can use drag select
         })
     );
+    const [selectCount, setSelectCount] = useState(0);
 
     const coordFormatter = (coord) => {
         const zoom = 6;
@@ -44,7 +49,6 @@ const Example7 = ({}) => {
         //e.stopPropagation(); // this stops draw interaction
     }
 
-    const mb6style = createMapboxStreetsV6Style(Style, Fill, Stroke, Icon, Text);
 
     const taxlotStyle = new Style({
         fill: new Fill({color:"rgba(128,0,0,0.1)"}),
@@ -57,9 +61,9 @@ const Example7 = ({}) => {
     const selectedFeatures = new Collection();
     const selectEvent = (e) => {
         console.log("selectEvent", e, selectedFeatures)
+        setSelectCount(selectedFeatures.getLength());
         e.stopPropagation(); // this stops draw interaction
     }
-
 
     return (
         <>
@@ -72,19 +76,21 @@ const Example7 = ({}) => {
                     <li> Taxlots from geoserver as vector tiles</li>
                     <li> Tile source: Mapbox</li>
                     </ul>
-                    Interaction: Select - select taxlots using click or drag
+                    Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
 
                 <MapProvider map={theMap}>
                 <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
                     <Graticule showLabels={true} maxLines={100} targetSize={50}/>
+                    <control.LayerSwitcher show_progress={true}/>
 
-                    <layer.VectorTile title="Mapbox Vector Tile Streets" style={mb6style} declutter={true}>
+                    <layer.VectorTile title="Mapbox Streets" style={mapboxStyle} declutter={true}>
                         <source.VectorTile url={mapboxStreetsUrl}/>
                     </layer.VectorTile>
 
                     <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous" style={taxlotStyle}>
                         <source.VectorTile url={taxlotsUrl}/>
-                        <interaction.Select features={selectedFeatures} style={selectedStyle} selected={selectEvent}/>
+                        <interaction.Select features={selectedFeatures} style={selectedStyle}
+                            condition={click} selected={selectEvent}/>
                     </layer.VectorTile>
 
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>

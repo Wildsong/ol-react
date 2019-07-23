@@ -21,18 +21,15 @@ import {myGeoServer, astoria_wm, astoria_ll, usngPrecision, wgs84, wm} from '../
 import {MINZOOM} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
-
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-
-// These controls will show up on the map.
-import {FullScreen as olFullScreen} from 'ol/control'
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
 const usngConverter = new Converter
 
-const key = process.env.MAPBOX_KEY;
-const mapboxStreetsUrl = 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
-'{z}/{x}/{y}.vector.pbf?access_token=' + key
+import {createMapboxStreetsV6Style} from '../src/mapbox-streets-v6-style'
+const mapbox_key = process.env.MAPBOX_KEY;
+const mapboxStreetsUrl = 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/'
+        + '{z}/{x}/{y}.vector.pbf?access_token=' + mapbox_key
+const mapboxStyle = createMapboxStreetsV6Style(Style, Fill, Stroke, Icon, Text);
 
 const taxlotslayer = 'clatsop_wm:taxlots'
 const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
@@ -99,15 +96,20 @@ const Example8 = (props) => {
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
 
             <MapProvider map={theMap}>
+            <OverviewMap layers={ovLayers}/>
+            <control.LayerSwitcher show_progress={true} />
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
+                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
+
                 <layer.Image title="Bare Earth HS" opacity={.60}
                     displayInLayerSwitcher={false}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
                 </layer.Image>
 
-                <layer.Tile title="OpenStreetMap" baseLayer={true}> <source.OSM/> </layer.Tile>
-
-                <layer.VectorTile title="Mapbox OSM" declutter={true} baseLayer={false}>
+                <layer.Tile title="OpenStreetMap" baseLayer={true}>
+                    <source.OSM/>
+                </layer.Tile>
+                <layer.VectorTile title="Mapbox Streets" declutter={true} baseLayer={true} style={mapboxStyle} visible={false}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>
 
@@ -119,7 +121,6 @@ const Example8 = (props) => {
                     <source.VectorTile url={taxlotsUrl}/>
                 </layer.VectorTile>
                 {/*
-                    <layer.Tile title="OpenStreetMap" opacity={osmOpacity}> <source.OSM/> </layer.Tile>
                     <layer.Tile title="Taxlots">
                         <source.WMTS url={taxlotsWMTSUrl}
                             format={taxlotsFormat}
@@ -130,10 +131,7 @@ const Example8 = (props) => {
                     </layer.Tile>
                     */}
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
-                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             </Map>
-            <OverviewMap layers={ovLayers}/>
-            <control.LayerSwitcher show_progress={true} />
             </MapProvider>
         </>
     );
