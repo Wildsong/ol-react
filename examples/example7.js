@@ -5,7 +5,7 @@ import {Map, Feature, Graticule, control, interaction, geom, layer, source} from
 import {Collection} from 'ol'
 import stylefunction from 'ol-mapbox-style/stylefunction'
 import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
-import {click} from 'ol/events/condition'
+import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Converter} from 'usng.js'
 import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
 
@@ -64,7 +64,19 @@ const Example7 = ({}) => {
         setSelectCount(selectedFeatures.getLength());
         e.stopPropagation(); // this stops draw interaction
     }
+    const onBoxStart = (e) => {
+        console.log("onBoxStart", e)
+        selectedFeatures.clear();
+        e.stopPropagation(); // this stops draw interaction
+    }
+    const onBoxEnd = (e) => {
+        console.log("onBoxEnd", e)
 
+        continue reading here
+https://openlayers.org/en/latest/examples/box-selection.html?q=select
+
+        e.stopPropagation(); // this stops draw interaction
+    }
     return (
         <>
             <h2>Example7</h2>
@@ -82,6 +94,7 @@ const Example7 = ({}) => {
                 <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
                     <Graticule showLabels={true} maxLines={100} targetSize={50}/>
                     <control.LayerSwitcher show_progress={true}/>
+                    <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
 
                     <layer.VectorTile title="Mapbox Streets" style={mapboxStyle} declutter={true}>
                         <source.VectorTile url={mapboxStreetsUrl}/>
@@ -91,9 +104,8 @@ const Example7 = ({}) => {
                         <source.VectorTile url={taxlotsUrl}/>
                         <interaction.Select features={selectedFeatures} style={selectedStyle}
                             condition={click} selected={selectEvent}/>
+                            <interaction.DragBox condition={platformModifierKeyOnly} boxstart={onBoxStart} boxend={onBoxEnd}/>
                     </layer.VectorTile>
-
-                    <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                 </Map>
                 </MapProvider>
         </>

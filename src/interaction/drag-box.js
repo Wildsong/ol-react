@@ -3,33 +3,27 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {SourceContext} from '../source-context'
 import {DragBox as olDragBox} from 'ol/interaction'
+import {Condition} from 'ol/events'
 
 const DragBox = (props) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
-    const [dragbox, setDragbox] = useState(() => {
-        console.log("DragBox", props);
-        const interaction = new olDragBox(props);
-/*
-use onBoxEnd instead?
-        interaction.addEventListener("boxend",
-    	    (evt) => {
-                if (typeof props.drawend !== 'undefined') {
-                    console.log("boxend", evt);
-                    props.drawend(evt);
-                }
-    	    }
-    	);
-        */
+    const [dragboxInteraction, setDragbox] = useState(() => {
+        const interaction = new olDragBox({
+            condition: props.condition
+        });
+        //use onBoxEnd instead?
+        interaction.on("boxstart", props.boxstart);
+        interaction.on("boxend", props.boxend);
         return interaction;
     });
 
     useEffect(() => {
-        console.log("DragBox mounted");
-        //map.addInteraction(DragBox);
+        console.log("DragBox mounted", dragboxInteraction);
+        map.addInteraction(dragboxInteraction);
         return () => {
             console.log("DragBox UNMOUNTED");
-            //map.removeInteraction(DragBox);
+            map.removeInteraction(dragboxInteraction);
         }
     }, []);
 
@@ -37,12 +31,8 @@ use onBoxEnd instead?
 }
 
 DragBox.propTypes = {
-    active: PropTypes.bool,
-    boxdrag: PropTypes.func,
-    onBoxEnd: PropTypes.func,
+    //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
     boxend: PropTypes.func,
     boxstart: PropTypes.func,
-    className: PropTypes.string,
-    condition: PropTypes.func
 };
 export default DragBox;
