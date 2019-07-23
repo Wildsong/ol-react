@@ -106,6 +106,7 @@ const Example8 = (props) => {
                 </layer.Image>
 
                 <layer.Tile title="OpenStreetMap" baseLayer={true}> <source.OSM/> </layer.Tile>
+
                 <layer.VectorTile title="Mapbox OSM" declutter={true} baseLayer={false}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>

@@ -12,22 +12,15 @@ const Select = (props) => {
     const map = useContext(MapContext);
     const layer = useContext(LayerContext);
     const source = useContext(SourceContext);
-
     const [selectInteraction, setSelectInteraction] = useState(() => {
         const interaction = new olSelect({
             //source,
-            //condition: props.condition,
-            //features: props.features,
+            condition: props.condition,
+            features: props.features,
             layers: [layer],
             style: props.style,
         });
-        interaction.on("select", (evt) => {
-//              if (typeof props.drawend !== 'undefined') {
-                    console.log("selected", evt, evt.selected[0]);
-                    //props.drawend(evt);
-                //}
-            }
-        );
+        interaction.on("select", props.selected);
         return interaction;
     });
 
@@ -47,5 +40,6 @@ Select.propTypes = {
     style: PropTypes.instanceOf(olStyle),
     multi: PropTypes.bool,
     features: PropTypes.instanceOf(Collection),
+    selected: PropTypes.func,
 };
 export default Select;

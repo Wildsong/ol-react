@@ -42,9 +42,8 @@ const VectorTile = (props) => {
 }
 VectorTile.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
-
     title: PropTypes.string.isRequired,
-    
+
     source: PropTypes.oneOf(['geojson','JSON','MVT','WKT']),
     url: PropTypes.string,
     layer: PropTypes.string,

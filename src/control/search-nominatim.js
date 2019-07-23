@@ -16,7 +16,7 @@ const SearchNominatim = (props) => {
     useEffect(() => {
         console.log("SearchNominatim mounted");
         map.addControl(control);
-        search.on('select', props.onGeocode);
+        control.on('select', props.onGeocode);
         return () => {
             map.removeControl(control);
             console.log("SearchNominatim UNMOUNTED");

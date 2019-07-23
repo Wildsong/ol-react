@@ -7,17 +7,13 @@ import {Tile as TileLayer} from 'ol/layer'
 const Tile = (props) => {
     const map = useContext(MapContext);
     const title = props.title;
-    const [layer, layerState] = useState(new TileLayer({
-        opacity: props.opacity,
-        visible: props.visible
-    }));
-    //console.log("layer.Tile", title);
+    const [layer, layerState] = useState(new TileLayer(props));
 
     useEffect(() => {
-        //console.log("layer.Tile mounted", title);
+        console.log("layer.Tile mounted", title);
         map.addLayer(layer);
         return () => {
-            //console.log("layer.Tile unmounted", title);
+            console.log("layer.Tile unmounted", title);
             map.removeLayer(layer);
         }
     }, [] );
@@ -39,7 +35,9 @@ const Tile = (props) => {
     );
 }
 Tile.propTypes =  {
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
     title: PropTypes.string.isRequired,
+
     opacity: PropTypes.number,
     visible: PropTypes.bool,
 };

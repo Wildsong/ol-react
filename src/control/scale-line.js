@@ -7,21 +7,15 @@ import {enumScaleLineUnits} from './scale-line-units'
 const ScaleLine = (props) => {
    const map = useContext(MapContext);
    const [control, setControl] = useState(new olScaleLine(props));
+   const setTarget = element => {
+       control.setTarget(element);
+   }
    useEffect(() => {
-       console.log("ScaleLine mounted");
-       const setTarget = element => {
-           control.setTarget(element);
-       }
        map.addControl(control);
-       return () => {
-           map.removeControl(control);
-           console.log("ScaleLine UNMOUNTED");
-       }
+       return () => { map.removeControl(control); }
    }, []);
    return (
        <div ref={setTarget}></div>
    );
 }
 export default ScaleLine;
-    return null;
-}

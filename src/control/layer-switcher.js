@@ -8,10 +8,10 @@ import 'ol-ext/control/LayerSwitcher.css'
 const LayerSwitcher = (props) => {
     const map = useContext(MapContext)
     const [control, setControl] = useState(new olextLayerSwitcher(props));
+    const setTarget = element => {
+        control.setTarget(element);
+    }
     useEffect(() => {
-        const setTarget = element => {
-            control.setTarget(element);
-        }
         map.addControl(control);
         return () => { map.removeControl(control); }
     }, []);

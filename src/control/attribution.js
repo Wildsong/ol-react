@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {Attribution as olAttribution} from 'ol/control'
 
-const Control = (props) => {
+const Attribution = (props) => {
     const map = useContext(MapContext);
     const [control, setControl] = useState(new olAttribution(props));
     useEffect(() => {

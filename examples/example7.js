@@ -40,7 +40,7 @@ const Example7 = ({}) => {
     }
 
     const handleEvent = (e) => {
-        console.log("Map.handleEvent", e)
+        console.log("handleEvent", e)
         //e.stopPropagation(); // this stops draw interaction
     }
 
@@ -55,6 +55,11 @@ const Example7 = ({}) => {
         stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
     })
     const selectedFeatures = new Collection();
+    const selectEvent = (e) => {
+        console.log("selectEvent", e, selectedFeatures)
+        e.stopPropagation(); // this stops draw interaction
+    }
+
 
     return (
         <>
@@ -79,7 +84,7 @@ const Example7 = ({}) => {
 
                     <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous" style={taxlotStyle}>
                         <source.VectorTile url={taxlotsUrl}/>
-                        <interaction.Select features={selectedFeatures} style={selectedStyle}/>
+                        <interaction.Select features={selectedFeatures} style={selectedStyle} selected={selectEvent}/>
                     </layer.VectorTile>
 
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>

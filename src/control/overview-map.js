@@ -10,10 +10,10 @@ const OverviewMap = ({layers}) => {
         layers,
         collapsed: false, collapsible: false
     }));
+    const setTarget = element => {
+        control.setTarget(element);
+    }
     useEffect(() => {
-        const setTarget = element => {
-            control.setTarget(element);
-        }
         map.addControl(control);
         return () => { map.removeControl(control); };
     }, []);

@@ -14,7 +14,7 @@ import {MINZOOM} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 13;
 
-const bingmaps_key = process.env.BINGMAPS_KEY;
+const bingmaps_key = (typeof process.env.BINGMAPS_KEY !== "undefined")? process.env.BINGMAPS_KEY : "";
 
 // Supported formats: JSON, GeoJSON, PBF
 const featureServer = "https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Zoning_2017/FeatureServer/0"
@@ -117,7 +117,7 @@ const Example4 = (props) => {
     return (
         <>
             <h2>Example 4</h2>
-                <b>{(typeof bingmaps_key === 'undefined')? "BINGMAPS_KEY is undefined":""}</b>
+                <b>{bingmaps_key? "BINGMAPS_KEY is undefined":""}</b>
                 <ul>
                 <li> Zoning: ArcGIS FeatureServer JSON format </li>
                 <li> BingMaps aerial </li>

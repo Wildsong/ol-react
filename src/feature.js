@@ -5,13 +5,14 @@ import {FeatureProvider} from './feature-context'
 import {Source} from 'ol/source'
 import {Style as olStyle} from 'ol/style'
 import {Feature as olFeature} from 'ol'
-import cuid from 'cuid'
+//import cuid from 'cuid'
 
 const Feature = (props) => {
     const source = useContext(SourceContext);
     const [feature, setFeature] = useState(() => {
         const f = new olFeature()
-        f.setId((typeof props.id !== 'undefined')? props.id : cuid());
+        f.setId(props.id);
+//        f.setId((typeof props.id !== 'undefined')? props.id : cuid());
         return f;
     });
 
