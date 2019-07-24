@@ -32,11 +32,11 @@ export const DataLoader = (loader, url, source) => {
 // Using application/json or application/javascript here instead of text/2Fjavascript
 // results in CrossOrigin errors.
                 let bb = ""
-                if (!(isNaN(extent[0]) || isNaN(extent[1]) || isNaN(extent[2]) || isNaN(extent[3])))
-                    bb = "&BBOX=" + extent.join(',').toString()  // BBOX SRS optional + ',EPSG:3857'
+                if ((isFinite(extent[0]) && isFinite(extent[1]) && isFinite(extent[2]) && isFinite(extent[3])))
+                    bb = "&BBOX=" + extent.join(',').toString()   + ',EPSG%3A3857'
                 let fsurl = url + "&outputFormat=text/javascript"
-                    //+ "&count=1000" // count appears to do nothing
-                    + bb + '&SRSNAME=EPSG:3857'
+                    //+ "&count=1000"
+                    + bb + '&SRSNAME=EPSG%3A3857'
                 jsonp(fsurl, {name:"parseResponse", timeout:60000},
                     (err, data) => {
                         if (err) {

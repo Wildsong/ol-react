@@ -52,7 +52,8 @@ const Example5 = () => {
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
-
+    const view = theMap.getView();
+    
     const bookmarks = {
         1 : {
     	    location: astoria_ll,
@@ -293,20 +294,21 @@ const Example5 = () => {
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>
 
-                    {/*
                     <layer.Vector title="Taxlots" style={polyStyle} minZoom={12} maxzoom={13}>
-                        <source.JSON url={taxlotsUrl} loader="geojson" crossOrigin="anonymous"/>
+                    <source.JSON url={taxlotsUrl} loader="geojson" crossOrigin="anonymous"/>
                     </layer.Vector>
+                    {/*
 
                     <layer.Vector title="Custom URL source">
                         <source.Vector url={completeUrl} strategy={bbox}/>
                     </layer.Vector>
+
+                    <layer.Vector title="Taxlots">
+                    <source.Vector source={taxlotsSource} strategy={bbox}/>
+                    </layer.Vector>
                     */}
                     <layer.Vector title="Custom vectors">
                         <source.Vector source={myVectorSource}/>
-                    </layer.Vector>
-                    <layer.Vector title="Taxlots">
-                        <source.Vector source={taxlotsSource} strategy={bbox}/>
                     </layer.Vector>
                 </Map>
                 </MapProvider>
