@@ -64,7 +64,6 @@ const EventList = (props) => {
 const Example1 = ({setMapCenter}) => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
     }));
     const [center, setCenter] = useState(astoria_wm);
     const [zoom, setZoom] = useState(10);

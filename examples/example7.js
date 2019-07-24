@@ -32,7 +32,6 @@ const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
 const Example7 = ({}) => {
     const [theMap, setTheMap] = useState(new olMap({
             view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
-            loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
             //interactions:[] // this map is not slippy so we can use drag select
         })
     );
@@ -49,7 +48,6 @@ const Example7 = ({}) => {
         //e.stopPropagation(); // this stops draw interaction
     }
 
-
     const taxlotStyle = new Style({
         fill: new Fill({color:"rgba(128,0,0,0.1)"}),
         stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
@@ -59,24 +57,12 @@ const Example7 = ({}) => {
         stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
     })
     const selectedFeatures = new Collection();
-    const selectEvent = (e) => {
+    const onSelectEvent = (e) => {
         console.log("selectEvent", e, selectedFeatures)
         setSelectCount(selectedFeatures.getLength());
         e.stopPropagation(); // this stops draw interaction
     }
-    const onBoxStart = (e) => {
-        console.log("onBoxStart", e)
-        selectedFeatures.clear();
-        e.stopPropagation(); // this stops draw interaction
-    }
-    const onBoxEnd = (e) => {
-        console.log("onBoxEnd", e)
 
-        continue reading here
-https://openlayers.org/en/latest/examples/box-selection.html?q=select
-
-        e.stopPropagation(); // this stops draw interaction
-    }
     return (
         <>
             <h2>Example7</h2>
@@ -91,9 +77,9 @@ https://openlayers.org/en/latest/examples/box-selection.html?q=select
                     Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
 
                 <MapProvider map={theMap}>
+                <control.LayerSwitcher show_progress={true}/>
                 <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
                     <Graticule showLabels={true} maxLines={100} targetSize={50}/>
-                    <control.LayerSwitcher show_progress={true}/>
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
 
                     <layer.VectorTile title="Mapbox Streets" style={mapboxStyle} declutter={true}>
@@ -101,10 +87,10 @@ https://openlayers.org/en/latest/examples/box-selection.html?q=select
                     </layer.VectorTile>
 
                     <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous" style={taxlotStyle}>
-                        <source.VectorTile url={taxlotsUrl}/>
-                        <interaction.Select features={selectedFeatures} style={selectedStyle}
-                            condition={click} selected={selectEvent}/>
-                            <interaction.DragBox condition={platformModifierKeyOnly} boxstart={onBoxStart} boxend={onBoxEnd}/>
+                        <source.VectorTile url={taxlotsUrl}>
+                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
+                            <interaction.SelectDragBox condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                        </source.VectorTile>
                     </layer.VectorTile>
                 </Map>
                 </MapProvider>

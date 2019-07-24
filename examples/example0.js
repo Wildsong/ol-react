@@ -4,7 +4,7 @@ import {Map, control, layer, source} from '../src'
 import {Button} from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, VERSION} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, astoria_wm, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
@@ -12,7 +12,6 @@ import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 const Example0 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
     const [center, setCenter] = useState(astoria_wm);
@@ -29,7 +28,7 @@ const Example0 = () => {
     }
     const decZoom = (e) => { updateZoom(-1); }
     const incZoom = (e) => { updateZoom(1); }
-    
+
     const handleMoveEnd = (mapEvent) => {
         const view = mapEvent.map.getView()
         setCenter(view.getCenter());
@@ -40,10 +39,11 @@ const Example0 = () => {
     return (
     <>
         <h1>ol-react examples</h1>
-
+        <em>Currently using OpenLayers version {VERSION}</em>
+        <p>
         This is the simplest possible example of using ol-react to show a map.
         It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
-
+        </p>
         <h4>Tile source: OpenStreetMap</h4>
         <MapProvider map={theMap}>
             <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}

@@ -5,8 +5,8 @@ import {LayerContext} from '../layer-context'
 import {SourceContext} from '../source-context'
 import {Style as olStyle} from 'ol/style'
 import {Layer as olLayer, Collection} from 'ol'
-import {Select as olSelect} from 'ol/interaction'
 import {Condition} from 'ol/events'
+import {Select as olSelect} from 'ol/interaction'
 
 const Select = (props) => {
     const map = useContext(MapContext);
@@ -14,7 +14,6 @@ const Select = (props) => {
     const source = useContext(SourceContext);
     const [selectInteraction, setSelectInteraction] = useState(() => {
         const interaction = new olSelect({
-            //source,
             condition: props.condition,
             features: props.features,
             layers: [layer],

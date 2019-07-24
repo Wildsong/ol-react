@@ -8,13 +8,15 @@ import {Condition} from 'ol/events'
 const DragBox = (props) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
-    const [dragboxInteraction, setDragbox] = useState(() => {
+    const [dragboxInteraction, setDragboxInteraction] = useState(() => {
         const interaction = new olDragBox({
             condition: props.condition
         });
         //use onBoxEnd instead?
-        interaction.on("boxstart", props.boxstart);
-        interaction.on("boxend", props.boxend);
+        if (typeof props.boxstart !== 'undefined')
+            interaction.on("boxstart", props.boxstart);
+        if (typeof props.boxend !== 'undefined')
+            interaction.on("boxend", props.boxend);
         return interaction;
     });
 

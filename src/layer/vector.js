@@ -9,14 +9,10 @@ import {Vector as olVectorLayer} from 'ol/layer'
 const Vector = (props) => {
     const map = useContext(MapContext);
     const title = props.title;
-    const [layer, layerState] = useState(new olVectorLayer({
-        style: props.style,
-        opacity: props.opacity
-    }));
-    console.log('layer.Vector', title);
+    const [layer, setLayer] = useState(new olVectorLayer(props));
 
     useEffect(() => {
-        console.log("layer.Vector mounted", title, typeof props.style);
+        console.log("layer.Vector mounted", title);
         map.addLayer(layer);
         return () => {
             console.log("layer.Vector unmounted", title);
@@ -42,7 +38,6 @@ const Vector = (props) => {
 }
 Vector.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
-
     title: PropTypes.string.isRequired,
 
     opacity: PropTypes.number,
@@ -52,8 +47,5 @@ Vector.propTypes = {
 
     declutter: PropTypes.bool,
     style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
-
-    updateWhileAnimating: PropTypes.bool,
-    updateWhileInteracting: PropTypes.bool,
 };
 export default Vector;

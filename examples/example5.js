@@ -41,8 +41,7 @@ const thunderforestUrl = 'https://tile.thunderforest.com/' + tflayername + '/{z}
 
 const Example5 = () => {
     const [theMap, setTheMap] = useState(new olMap({
-        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
-        loadTilesWhileAnimating:true,loadTilesWhileInteracting:true,
+        view: new olView({ center: astoria_wm, zoom: DEFAULT_ZOOM}),
         controls: [] // don't use default controls.
     }));
     const [address, setAddress] = useState('');
@@ -288,6 +287,7 @@ const Example5 = () => {
                     <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
                 <MapProvider map={theMap}>
+                <control.LayerSwitcher show_progress={true}/>
                 <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleEvent}>
                     <layer.Tile title="Thunderforest">
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
@@ -302,10 +302,10 @@ const Example5 = () => {
                         <source.Vector url={completeUrl} strategy={bbox}/>
                     </layer.Vector>
                     */}
-                    <layer.Vector title="Custom vector source">
+                    <layer.Vector title="Custom vectors">
                         <source.Vector source={myVectorSource}/>
                     </layer.Vector>
-                    <layer.Vector title="Custom vector source">
+                    <layer.Vector title="Taxlots">
                         <source.Vector source={taxlotsSource} strategy={bbox}/>
                     </layer.Vector>
                 </Map>
@@ -329,25 +329,5 @@ const Example5 = () => {
         </Container></>
     );
 }
-
-/*
-var parcellaireSource =  new ol.source.Vector({
-   format: new ol.format.GeoJSON(),
-   url: function (extent) {
-     return  'https://wxs.ign.fr/api key/geoportail/wfs?request=GetCapabilities
-     SERVICE=WFS&VERSION=2.0.0&request=GetFeature
-     &typename=BDPARCELLAIRE-VECTEUR_WLD_BDD_WGS84G:parcelle
-     &outputFormat=application/json&srsname=EPSG:2154
-     &bbox='+ extent.join(',') + ',EPSG:3857';
-
-         },
-
-   strategy: ol.loadingstrategy.bbox
-   });
-    var parcellairewfs =  new ol.layer.Vector({
-   source: parcellaireSource
- });
-    map.addLayer(parcellairewfs);
-*/
 
 export default Example5;

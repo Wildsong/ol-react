@@ -92,7 +92,6 @@ const getTextStyle = (feature, resolution) => {
 const Example4 = (props) => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
     const [bingVisible, setBingVisible] = useState(false);
@@ -132,10 +131,10 @@ const Example4 = (props) => {
 
                 <MapProvider map={theMap}>
                 <Map minZoom={10} maxZoom={20} zoom={DEFAULT_ZOOM} center={fromLonLat(DEFAULT_CENTER)}>
-                    <layer.Tile title="Bing Road">
+                    <layer.Tile title="Bing Road" baseLayer={true}>
                         <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
                     </layer.Tile>
-                    <layer.Tile title="Bing Aerial" visible={bingVisible}>
+                    <layer.Tile title="Bing Aerial" visible={bingVisible} baseLayer={true}>
                         <source.BingMaps imagerySet="Aerial" apikey={bingmaps_key}/>
                     </layer.Tile>
                     <layer.Vector title="Oregon Zoning">
@@ -144,6 +143,7 @@ const Example4 = (props) => {
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
                 </Map>
+                <control.LayerSwitcher/>
                 <control.ScaleLine units={control.ScaleLineUnits.METRIC} />
                 </MapProvider>
             </>

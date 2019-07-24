@@ -7,7 +7,7 @@ import {Tile as TileLayer} from 'ol/layer'
 const Tile = (props) => {
     const map = useContext(MapContext);
     const title = props.title;
-    const [layer, layerState] = useState(new TileLayer(props));
+    const [layer, setLayer] = useState(new TileLayer(props));
 
     useEffect(() => {
         console.log("layer.Tile mounted", title);

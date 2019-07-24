@@ -1,7 +1,8 @@
-export {default as DragAndDrop } from './drag-and-drop';
-export {default as DragBox } from './drag-box';
-export {default as Draw } from './draw';
-export {default as Select } from './select';
+export {default as DragAndDrop} from './drag-and-drop';
+export {default as DragBox} from './drag-box';
+export {default as Draw} from './draw';
+export {default as Select} from './select';
+export {default as SelectDragBox} from './select-drag-box';
 
 // These have been removed, I was not using them
 // They will be restored if I ever need any of them.

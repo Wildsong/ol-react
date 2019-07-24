@@ -46,7 +46,6 @@ const taxlotVectorStyle = new Style({
 const Example8 = (props) => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
     }));
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");

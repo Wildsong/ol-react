@@ -36,7 +36,6 @@ let attributions = [
 const Example3 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
     const [center, setCenter] = useState(astoria_wm);

@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'redux-first-router-link'
-import { connect } from 'react-redux'
-import { Navbar, Nav, NavItem } from 'reactstrap'
-
+import {NavLink} from 'redux-first-router-link'
+import {connect} from 'react-redux'
+import {Navbar, Nav, NavItem} from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'ol-ext/dist/ol-ext.css'
 import './App.css';

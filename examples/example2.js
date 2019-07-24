@@ -13,7 +13,7 @@ import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
 import {bbox as bboxStrategy} from 'ol/loadingstrategy'
 import {DataLoader} from '../src/source/dataloaders'
 
-import { myGeoServer,workspace, astoria_wm, wgs84 } from '../src/constants'
+import {myGeoServer,workspace, astoria_wm, wgs84} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {astoria_ll, MINZOOM} from '../src/constants'
@@ -35,6 +35,10 @@ const taxlotsColumns = [
 ]
 const taxlotPopupField = 'situs_addr';
 */
+
+// Adding a CORS compliant header, which does not seem to have helped.
+// https://www.paulleasure.com/ajax-web-design/cors-how-to-set-http-response-header-on-iis-windows-server-2012-r2-to-access-control-allow-origin/
+
 const taxlotsService  = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer"
 const taxlotsLabels   = taxlotsService + "/0";
 const taxlotsFeaturesUrl = taxlotsService + "/1";
@@ -82,7 +86,6 @@ const selectedStyle = new Style({ // yellow
 const Example2 = ({}) => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
         //controls: [],
     }));
     const [zoom,setZoom] = useState(DEFAULT_ZOOM);
@@ -181,14 +184,16 @@ const Example2 = ({}) => {
                     <li>Image WMS: City of Astoria aerial photos</li>
                     <li>Taxlots Feature Server (WFS or ESRI Rest)</li>
                 </ul>
-                Controls: Rotate, MousePosition, ZoomSlider <br />
+                Controls: MousePositiondp <br />
                 Interactions: Select, DragBox <br />
 
                 <Button>Drag to select</Button>
                 <Select options={ aerials } onChange={ changeAerial } />
 
                 <MapProvider map={theMap}>
+                <control.LayerSwitcher show_progress={true} />
     	        <Map center={astoria_wm} zoom={zoom}>
+
                     <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
 
                     <layer.Image title="City of Astoria" visible={aerialVisible}>
@@ -218,8 +223,6 @@ const Example2 = ({}) => {
                         position={popupPosition}
                         positioning="center-center"
                     />
-                    <control.Rotate autoHide={false}/>
-                    <control.ZoomSlider />
 */}
                     <control.MousePosition projection={wgs84}
                         coordinateFormat={(coord) => {return toStringXY(coord, 3)}}

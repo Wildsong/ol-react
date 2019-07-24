@@ -18,7 +18,6 @@ const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/ser
 const Example6 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
-        loadTilesWhileAnimating:true, loadTilesWhileInteracting:true,
     }));
 
     const [lat, setLat] = useState(46.184);
@@ -57,8 +56,9 @@ const Example6 = () => {
             </p>
 
             <MapProvider map={theMap}>
+            <control.LayerSwitcher show_progress={true}/>
                 <Map center={ll} zoom={zoom}>
-                    <layer.Image title=""> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
+                    <layer.Image title="Bare Earth HS"> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
                     <layer.Tile title="OpenStreetMap" opacity={.5}> <source.OSM/> </layer.Tile>
                     <layer.Vector title="Elementary schools" style={pointStyle}>
                         <source.JSON url={featureUrl} loader="esrijson"/>

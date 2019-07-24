@@ -7,10 +7,7 @@ import {VectorTile as olVectorTileLayer} from 'ol/layer'
 
 const VectorTile = (props) => {
     const map = useContext(MapContext);
-    const [layer, layerState] = useState(new olVectorTileLayer({
-        ...props,
-        style: props.style
-    }));
+    const [layer, layerState] = useState(new olVectorTileLayer(props));
     const title = props.title;
 //    const style = buildStyle(props.style);
     console.log("layer.VectorTile", title);
