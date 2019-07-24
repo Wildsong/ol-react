@@ -1,11 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import {LayerContext} from '../layer-context'
+import {SourceProvider} from '../source-context'
 import {Vector as olVectorSource} from 'ol/source'
 import {Collection as olCollection} from 'ol'
 import FeatureFormat from 'ol/format/Feature'
 import {bbox, tile} from 'ol/loadingstrategy'
 import {DataLoader} from './dataloaders'
-import {LayerContext} from '../layer-context'
 
 const JSONSource = (props) => {
     const layer = useContext(LayerContext)
@@ -17,9 +18,15 @@ const JSONSource = (props) => {
         source.setLoader(DataLoader(props.loader, props.url, source));
         layer.setSource(source);
     }, []);
-    return null;
+    return (
+        <SourceProvider source={source}>
+        {props.children}
+        </SourceProvider>
+    );
 }
 JSONSource.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
+
     url: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func

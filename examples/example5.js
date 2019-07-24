@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {Map, layer, source, control, interaction} from '../src'
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import {Point} from 'ol/geom'
-import {Feature} from 'ol'
+import {click, platformModifierKeyOnly} from 'ol/events/condition'
+import {Feature, Collection} from 'ol'
 import {MapProvider} from '../src/map-context'
 
 // These are for testing passing an OL VectorSource in as a property
@@ -19,7 +20,7 @@ import {myGeoServer, workspace, astoria_ll, astoria_wm, wgs84} from '../src/cons
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
-const DEFAULT_ZOOM = 11;
+const DEFAULT_ZOOM = 14;
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -50,51 +51,21 @@ const Example5 = () => {
     const [lons, setLons] = useState(astoria_ll[0].toString());
     const [center, setCenter] = useState(fromLonLat(astoria_ll));
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
+    const [resolution, setResolution] = useState(0)
+    const [selectCount, setSelectCount] = useState(0);
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
     const view = theMap.getView();
-    
+
     const bookmarks = {
-        1 : {
-    	    location: astoria_ll,
-            zoom: 13,
-    	    title: "Astoria",
-    	},
-    	2 : {
-    	    location: [-123.969,45.893],
-            zoom: 13,
-    	    title: "Cannon Beach",
-        },
-        3 : {
-    	    location: [-123.9188,46.026],
-            zoom: 13,
-    	    title: "Gearhart",
-        },
-        4 : {
-            location: [-123.9520,46.2000],
-            zoom: 14,
-            title: "Hammond",
-        },
-        5 : {
-            location: [-123.5032,45.9345],
-            zoom: 14,
-    	    title: "Jewell",
-        },
-        6 : {
-    	    location: [-123.9407,45.7297],
-            zoom: 13,
-    	    title: "Neahkahnie Beach",
-    	},
-        7 : {
-    	    location: [-123.920,45.994],
-            zoom: 12,
-    	    title: "Seaside",
-    	},
-        8 : {
-    	    location: [-123.924,46.165],
-            zoom: 13,
-    	    title: "Warrenton",
-    	}
+        1 : {   location: astoria_ll,            zoom: 13,   title: "Astoria"},
+    	2 : {   location: [-123.969,45.893],     zoom: 13,   title: "Cannon Beach",},
+        3 : {   location: [-123.9188,46.026],    zoom: 13,   title: "Gearhart",},
+        4 : {   location: [-123.9520,46.2000],  zoom: 14,   title: "Hammond",},
+        5 : {   location: [-123.5032,45.9345],  zoom: 14,  title: "Jewell",},
+        6 : {   location: [-123.9407,45.7297],  zoom: 13, title: "Neahkahnie Beach",},
+        7 : {   location: [-123.920,45.994],  zoom: 12, title: "Seaside"},
+        8 : {   location: [-123.924,46.165], zoom: 13,   title: "Warrenton"}
     }
 
     const zoomClick = (e) => {
@@ -180,14 +151,15 @@ const Example5 = () => {
         gotoXY(coord, bookmark_wgs84.zoom);
     }
 
-    const handleEvent = (mapEvent) => {
-        const v = mapEvent.map.getView()
-        console.log("Map.onMoveEnd",v.getCenter());
+    const handleMove = (mapEvent) => {
+        const view = mapEvent.map.getView()
+        console.log("Map.onMoveEnd",view.getCenter());
 /*
- 	    setCenter(v.getCenter());
-        setZoom(v.getZoom());
-        setRotation(v.getRotation())
+ 	    setCenter(view.getCenter());
+        setZoom(view.getZoom());
+        setRotation(view.getRotation())
     */
+        setResolution(view.getResolution().toFixed(2));
         mapEvent.stopPropagation();
     };
 
@@ -258,6 +230,21 @@ const Example5 = () => {
     const myVectorSource = new VectorSource();
     myVectorSource.addFeatures([pointFeature]);
 
+    const taxlotStyle = new Style({
+        fill: new Fill({color:"rgba(128,0,0,0.1)"}),
+        stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
+    })
+    const selectedStyle = new Style({
+        fill: new Fill({color:"rgba(255,40,40,0.8)"}),
+        stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
+    })
+    const selectedFeatures = new Collection();
+    const onSelectEvent = (e) => {
+        console.log("selectEvent", e)
+        setSelectCount(selectedFeatures.getLength());
+        e.stopPropagation(); // this stops draw interaction
+    }
+
     return (
         <><Container>
             <Row><Col>
@@ -271,10 +258,12 @@ const Example5 = () => {
                 Demonstrates that I can keep the map center
                 and zoom in component state and update the map using setState.
                 </p>
+
+                Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
             </Col></Row>
 
             <Row><Col>
-                { lats }, { lons }
+                { lats }, { lons } resolution: {resolution}
                 <p>
                     Zoom
                     <button name="zoomin"  onClick={zoomClick}>+</button>
@@ -289,13 +278,16 @@ const Example5 = () => {
                 </p>
                 <MapProvider map={theMap}>
                 <control.LayerSwitcher show_progress={true}/>
-                <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleEvent}>
+                <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleMove}>
                     <layer.Tile title="Thunderforest">
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>
 
-                    <layer.Vector title="Taxlots" style={polyStyle} minZoom={12} maxzoom={13}>
-                    <source.JSON url={taxlotsUrl} loader="geojson" crossOrigin="anonymous"/>
+                    <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={9}>
+                        <source.JSON url={taxlotsUrl} loader="geojson">
+                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
+                            <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                        </source.JSON>
                     </layer.Vector>
                     {/*
 
