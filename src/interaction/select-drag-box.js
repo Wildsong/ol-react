@@ -13,7 +13,7 @@ const SelectDragBox = (props) => {
 
     const boxstart = (e) => {
         console.log("onBoxStart", e)
-        props.features.clear();
+        //props.features.clear();
         e.stopPropagation(); // this stops draw interaction
     }
     const boxend = (e) => {
@@ -23,7 +23,7 @@ const SelectDragBox = (props) => {
             props.features.push(feature);
         });
         e.stopPropagation(); // this stops draw interaction
-        // I think I need to call the 'selected' function here.
+        props.selected(e);
     }
 
     const [dragboxInteraction, setDragboxInteraction] = useState(() => {
@@ -54,6 +54,6 @@ SelectDragBox.propTypes = {
     //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
     style: PropTypes.instanceOf(olStyle),
     features: PropTypes.instanceOf(Collection),
-    selected: PropTypes.func,
+    selected: PropTypes.func.isRequired,
 };
 export default SelectDragBox;
