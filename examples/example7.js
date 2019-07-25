@@ -77,8 +77,8 @@ const Example7 = ({}) => {
                     Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
 
                 <MapProvider map={theMap}>
-                <control.LayerSwitcher show_progress={true}/>
                 <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
+                <control.LayerSwitcher show_progress={true}/>
                     <Graticule showLabels={true} maxLines={100} targetSize={50}/>
                     <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
 

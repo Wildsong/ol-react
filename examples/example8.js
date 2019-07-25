@@ -93,13 +93,8 @@ const Example8 = (props) => {
                 </ul>
 
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
-
             <MapProvider map={theMap}>
-            <OverviewMap layers={ovLayers}/>
-            <control.LayerSwitcher show_progress={true} />
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
-                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
-
                 <layer.Image title="Bare Earth HS" opacity={.60}
                     displayInLayerSwitcher={false}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
@@ -130,6 +125,9 @@ const Example8 = (props) => {
                     </layer.Tile>
                     */}
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
+                <OverviewMap layers={ovLayers}/>
+                <control.LayerSwitcher show_progress={true} />
+                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             </Map>
             </MapProvider>
         </>

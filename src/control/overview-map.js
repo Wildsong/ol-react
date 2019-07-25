@@ -18,7 +18,7 @@ const OverviewMap = ({layers}) => {
         return () => { map.removeControl(control); };
     }, []);
     return (
-        <div ref={setTarget}></div>
+        <div ref={setTarget} className="ol-overviewmap"></div>
     );
 }
 OverviewMap.propTypes = {

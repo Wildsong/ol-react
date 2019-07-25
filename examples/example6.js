@@ -56,8 +56,8 @@ const Example6 = () => {
             </p>
 
             <MapProvider map={theMap}>
-            <control.LayerSwitcher show_progress={true}/>
                 <Map center={ll} zoom={zoom}>
+                <control.LayerSwitcher show_progress={true}/>
                     <layer.Image title="Bare Earth HS"> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
                     <layer.Tile title="OpenStreetMap" opacity={.5}> <source.OSM/> </layer.Tile>
                     <layer.Vector title="Elementary schools" style={pointStyle}>

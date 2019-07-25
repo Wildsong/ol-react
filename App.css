@@ -18,6 +18,14 @@
     width: 16px;
 }
 
+.ol-layerswitcher {
+    z-index: 1;
+}
+
+.ol-overviewmap {
+    z-index: 2;
+}
+
 .ol-zoom-in {
     position: absolute;
     top: 0px;
