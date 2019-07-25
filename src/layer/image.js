@@ -9,25 +9,25 @@ const Image = (props) => {
     const map = useContext(MapContext);
     const title = props.title;
     const [layer, layerState] = useState(new olImageLayer(props));
-    console.log("layer.Image", title);
+    //console.log("layer.Image", title);
 
     useEffect(() => {
-        console.log("layer.Image mounted", title);
+        //console.log("layer.Image mounted", title);
         map.addLayer(layer);
         return () => {
-            console.log("layer.Image unmounted", title);
+            //console.log("layer.Image unmounted", title);
             map.removeLayer(layer);
         }
     }, []);
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
-        console.log("layer.Image opacity set to", layer.getOpacity());
+        //console.log("layer.Image opacity set to", layer.getOpacity());
     }, [props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
-        console.log("layer.Image visible set to", layer.getVisible());
+        //console.log("layer.Image visible set to", layer.getVisible());
     }, [props.visible]);
 
     return (

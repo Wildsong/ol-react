@@ -12,12 +12,12 @@ const SelectDragBox = (props) => {
     const source = useContext(SourceContext);
 
     const boxstart = (e) => {
-        console.log("onBoxStart", e)
-        //props.features.clear();
+//        console.log("onBoxStart", e)
+        //props.features.clear(); We want to be able to select several times and collect features so don't call this
         e.stopPropagation(); // this stops draw interaction
     }
     const boxend = (e) => {
-        console.log("onBoxEnd", e)
+//        console.log("onBoxEnd", e)
         const extent = dragboxInteraction.getGeometry().getExtent();
         source.forEachFeatureIntersectingExtent(extent, (feature) => {
             props.features.push(feature);
@@ -37,10 +37,10 @@ const SelectDragBox = (props) => {
     });
 
     useEffect(() => {
-        console.log("SelectDragBox mounted", dragboxInteraction);
+//        console.log("SelectDragBox mounted", dragboxInteraction);
         map.addInteraction(dragboxInteraction);
         return () => {
-            console.log("SelectDragBox UNMOUNTED");
+//            console.log("SelectDragBox UNMOUNTED");
             map.removeInteraction(dragboxInteraction);
         }
     }, []);

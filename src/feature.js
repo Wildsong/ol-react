@@ -24,9 +24,8 @@ const Feature = (props) => {
 
         try {
             feature.setStyle(props.style)
-            console.log("**HAPPY**", feature.getId(), typeof props.style)
         } catch {
-            console.error("I do not like your style, Sam I am!", feature.getId(), props.style)
+            console.error("feature lacks style", feature.getId(), props.style)
         }
         source.addFeature(feature);
         //console.log("Feature mounted", props, source);
@@ -43,11 +42,11 @@ const Feature = (props) => {
     );
 }
 Feature.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
+
     id: PropTypes.string.isRequired,
     style: PropTypes.oneOfType([PropTypes.func,
         PropTypes.instanceOf(olStyle),
     ]),
-
-    children: PropTypes.element
 };
 export default Feature;

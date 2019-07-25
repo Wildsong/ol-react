@@ -1,26 +1,28 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import {Map, layer, source, control, interaction} from '../src'
+import {Map, layer, source, control, interaction, overlay} from '../src'
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
 import {Point} from 'ol/geom'
+import {Vector as VectorSource} from 'ol/source'
+import {Style, Circle, Fill, Stroke, Text} from 'ol/style'
+import {Circle as olCircle} from 'ol/geom'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Feature, Collection} from 'ol'
 import {MapProvider} from '../src/map-context'
 
-// These are for testing passing an OL VectorSource in as a property
-import {Vector as VectorSource} from 'ol/source'
-import {Style, Circle, Fill, Stroke, Text} from 'ol/style'
-import {Circle as olCircle} from 'ol/geom'
-import {bbox} from 'ol/loadingstrategy'
-import { EsriJSON, GeoJSON } from 'ol/format'
-import jsonp from 'jsonp' // using jsonp instead of json avoids CORS problems
-
 import {myGeoServer, workspace, astoria_ll, astoria_wm, wgs84} from '../src/constants'
-
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
 const DEFAULT_ZOOM = 14;
+
+// These are for testing passing an OL VectorSource in as a property
+/*
+import {bbox} from 'ol/loadingstrategy'
+import {EsriJSON, GeoJSON} from 'ol/format'
+import jsonp from 'jsonp' // using jsonp instead of json avoids CORS problems
+*/
+
 
 // CC service only works inside firewall
 // const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
@@ -45,28 +47,30 @@ const Example5 = () => {
         view: new olView({ center: astoria_wm, zoom: DEFAULT_ZOOM}),
         controls: [] // don't use default controls.
     }));
-    const [address, setAddress] = useState('');
-    const [geocoderesults, setGeocoderesults] = useState([]);
-    const [lats, setLats] = useState(astoria_ll[1].toString());
-    const [lons, setLons] = useState(astoria_ll[0].toString());
     const [center, setCenter] = useState(fromLonLat(astoria_ll));
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [resolution, setResolution] = useState(0)
+    const [address, setAddress] = useState('');
+    const [lats, setLats] = useState(astoria_ll[1].toString());
+    const [lons, setLons] = useState(astoria_ll[0].toString());
     const [selectCount, setSelectCount] = useState(0);
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
     const view = theMap.getView();
 
     const bookmarks = {
-        1 : {   location: astoria_ll,            zoom: 13,   title: "Astoria"},
-    	2 : {   location: [-123.969,45.893],     zoom: 13,   title: "Cannon Beach",},
-        3 : {   location: [-123.9188,46.026],    zoom: 13,   title: "Gearhart",},
-        4 : {   location: [-123.9520,46.2000],  zoom: 14,   title: "Hammond",},
-        5 : {   location: [-123.5032,45.9345],  zoom: 14,  title: "Jewell",},
-        6 : {   location: [-123.9407,45.7297],  zoom: 13, title: "Neahkahnie Beach",},
-        7 : {   location: [-123.920,45.994],  zoom: 12, title: "Seaside"},
-        8 : {   location: [-123.924,46.165], zoom: 13,   title: "Warrenton"}
+        1 : { location: astoria_ll,          zoom: 13, title: "Astoria"},
+    	2 : { location: [-123.969,45.893],   zoom: 13, title: "Cannon Beach",},
+        3 : { location: [-123.9188,46.026],  zoom: 13, title: "Gearhart",},
+        4 : { location: [-123.9520,46.2000], zoom: 14, title: "Hammond",},
+        5 : { location: [-123.5032,45.9345], zoom: 14, title: "Jewell",},
+        6 : { location: [-123.9407,45.7297], zoom: 13, title: "Neahkahnie Beach",},
+        7 : { location: [-123.920,45.994],   zoom: 12, title: "Seaside"},
+        8 : { location: [-123.924,46.165],   zoom: 13, title: "Warrenton"}
     }
+
+// Set the new view and let OpenLayers generate a moveend event.
+// Then use the new view settings to update state in this component.
 
     const zoomClick = (e) => {
         const { target: { name, value }} = e;
@@ -80,8 +84,6 @@ const Example5 = () => {
             break;
         }
         if (z <= MAXZOOM && z >= MINZOOM) {
-            setZoom(z);
-            const view = theMap.getView();
             if (animate)
                 view.animate({zoom: z});
             else
@@ -101,8 +103,6 @@ const Example5 = () => {
             r += Math.PI/10;
             break;
         }
-        setRotation(r);
-        const view = theMap.getView();
         if (animate)
             view.animate({rotation: r});
         else
@@ -117,21 +117,10 @@ const Example5 = () => {
         e.preventDefault();
     }
 
-    const submit = (e) => {
-        console.log("Geocode request", e);
-        setLons(parseFloat(lons));
-	    setLats(parseFloat(lats));
-        console.log("goto", lats, lons, zoom);
-        e.preventDefault();
-    }
-
     const gotoXY = (center,zoom) => {
         if (center[0]==0 || center[1]==0 || zoom==0)
             return;
         console.log('Example5.gotoXY', center, zoom);
-	    setCenter(toLonLat(center));
-	    setZoom(zoom);
-        const view = theMap.getView();
         if (animate)
             view.animate({center, zoom});
         else
@@ -152,13 +141,12 @@ const Example5 = () => {
     }
 
     const handleMove = (mapEvent) => {
-        const view = mapEvent.map.getView()
         console.log("Map.onMoveEnd",view.getCenter());
 /*
  	    setCenter(view.getCenter());
-        setZoom(view.getZoom());
+*/
         setRotation(view.getRotation())
-    */
+        setZoom(view.getZoom());
         setResolution(view.getResolution().toFixed(2));
         mapEvent.stopPropagation();
     };
@@ -180,7 +168,6 @@ const Example5 = () => {
         console.log("customUrl ", extent, resolution);
         return completeUrl;
     }
-*/
     const taxlotsSource = new VectorSource({
         format: new GeoJSON(),
         loader: (extent, resolution, projection) => {
@@ -213,6 +200,7 @@ const Example5 = () => {
             );
         }
     });
+*/
 
     // Test for issue #2, accept an external data source
     // Create an OpenLayers vector source, and add a
@@ -238,7 +226,8 @@ const Example5 = () => {
         fill: new Fill({color:"rgba(255,40,40,0.8)"}),
         stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
     })
-    const selectedFeatures = new Collection();
+
+    const selectedFeatures = new Collection()
     const onSelectEvent = (e) => {
         console.log("selectEvent", e)
         setSelectCount(selectedFeatures.getLength());
@@ -289,9 +278,9 @@ const Example5 = () => {
                             <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
                         </source.JSON>
                     </layer.Vector>
-                    {/*
 
-                    <layer.Vector title="Custom URL source">
+                    {/*
+                    <layer.Vector title="Custom taxlot source">
                         <source.Vector url={completeUrl} strategy={bbox}/>
                     </layer.Vector>
 
@@ -315,8 +304,8 @@ const Example5 = () => {
             </Col></Row>
             <Row><Col>
                 <table>
-                    { geocoderesults.map(gc =>
-                        <tr key={ gc.place_id }><td>{ gc.display_name }</td></tr>
+                    { selectedFeatures.forEach(f =>
+                        <tr key={ f.account_id }><td>{ f.situs }</td></tr>
                     )}
                 </table>
             </Col></Row>

@@ -8,11 +8,9 @@ import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, geom, control, interaction, layer, source} from '../src'
 import Select from 'react-select'
 
-/*
 import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
-*/
 
 import {myGeoServer, astoria_wm} from '../src/constants'
 
@@ -77,7 +75,7 @@ const Example1 = ({setMapCenter}) => {
     const [markerId, setMarker] = useState(1);
 
     const selectDrawType = (e) => {
-        console.log("draw type set to ", e);
+        console.log("draw type set to ", e.label);
         setDrawType(e.label);
     }
 
@@ -108,21 +106,19 @@ const Example1 = ({setMapCenter}) => {
         mapEvent.stopPropagation();
     }
 
-    // This version makes ALL the point markers increment at the same time. Unfortunately
-    const clickMarker = (feature, resolution) => {
-        const s = new Style({
-            text: new Text({text: markerId.toString(),  offsetY: -10}),
-        //  currently this draws a blue 5 pointed star
-            image: new RegularShape({
-                points: 5,
-                radius: 5,
-                radius1: 5,
-                radius2: 2,
-                stroke: new Stroke({color: 'blue', width: 1.5}),
-            }),
-        })
-        return s;
-    }
+    const drawStyle = new Style({
+        text: new Text({text: markerId.toString(),  offsetY: -10}),
+    //  currently this draws a blue 5 pointed star
+        image: new RegularShape({
+            points: 5,
+            radius: 5,
+            radius1: 5,
+            radius2: 2,
+            stroke: new Stroke({color: 'blue', width: 1.5}),
+        }),
+        stroke: new Stroke({color: "black", width: 4}),
+        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+    })
     const pointStyle = new Style({
         image: new Circle({
             radius: 5,
@@ -239,9 +235,9 @@ const Example1 = ({setMapCenter}) => {
                     </source.Vector>
                 </layer.Vector>
 
-                <layer.Vector title="Draw" style={clickMarker} opacity={opacityDraw}>
+                <layer.Vector title="Draw" opacity={opacityDraw} style={drawStyle}>
                     <source.Vector features={drawFeatures}>
-                        <interaction.Draw type={drawType} drawend={handleAddFeature} />
+                        <interaction.Draw type={drawType} drawend={handleAddFeature}/>
                     </source.Vector>
                 </layer.Vector>
 
@@ -256,12 +252,7 @@ const Example1 = ({setMapCenter}) => {
 
             <p> { pointer[0] + ', ' + pointer[1] } </p>
             Select vector type to draw
-            <Select
-                className="select"
-                defaultValue={ typeSelect[0] }
-                options={ typeSelect }
-                onChange={ selectDrawType }
-            />
+            <Select defaultValue={typeSelect[0]} options={typeSelect} onChange={selectDrawType}/>
 
             Implement and test...
             <ul>
