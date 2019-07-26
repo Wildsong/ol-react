@@ -40,11 +40,11 @@
 }
 
 .ol-layerswitcher {
-    z-index: 1;
+    z-index: 50;
 }
 
 .ol-overviewmap {
-    z-index: 1;
+    z-index: 30;
 }
 
 .ol-zoom-in {
@@ -254,7 +254,7 @@ p {
   cursor: pointer;
   max-width: 17em;
   overflow-x: hidden;
-  z-index: 1;
+  z-index: 10;
   background: #fff;
 }
 .nominatim ul li {
@@ -290,5 +290,5 @@ p {
   -webkit-animation: pulse .5s infinite alternate linear;
           animation: pulse .5s infinite alternate linear;
   background: red;
-  z-index: 2;
+  z-index: 20;
 }
