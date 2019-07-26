@@ -172,7 +172,6 @@ const Example2 = ({}) => {
             popup.hide()
         }
         copyFeaturesToTable(selectedFeatures)
-        //e.stopPropagation(); // this stops draw interaction
     }
 
     return (
@@ -212,10 +211,7 @@ const Example2 = ({}) => {
                 </MapProvider>
 
                 <BootstrapTable bootstrap4 striped condensed
-                    keyField={taxlotsKey}
-                    columns={taxlotsColumns}
-                    data={rows}
-                />
+                    keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
             </>
         );
 }

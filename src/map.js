@@ -28,7 +28,7 @@ const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
     }, [center, rotation, zoom]);
 */
     return (
-        <div ref={mapTarget} className="ol-react-map" style={{position:"relative", top:0, width:600,height:400}}>
+        <div ref={mapTarget} className="ore-map" style={{position:"relative", top:0, width:600,height:400}}>
         {children}
         </div>
     )
