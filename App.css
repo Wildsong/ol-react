@@ -75,27 +75,10 @@
     right: 32px;
 }
 
-.ol-scale-line {
-    font-family: arial;
-    position: relative;
-    left: 180px;
-    bottom: 30px;
-    width: 180px;
-    background-color: rgba(0,0,0,0.4);
-}
-
 .ol-zoomslider {
     left: 8px;
     top: 70px;
     background-color: rgba(50,50,240,0.4);
-}
-
-.ol-attribution {
-    position: relative;
-    bottom: 40px;
-    right: 10px;
-    width: 400px;
-    font-family: cursive;
 }
 
 .button {

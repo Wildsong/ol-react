@@ -145,6 +145,7 @@ const Example4 = (props) => {
                 </Map>
                 <control.LayerSwitcher/>
                 <control.ScaleLine units={control.ScaleLineUnits.METRIC} />
+                <control.Attribution />
                 </MapProvider>
             </>
         );

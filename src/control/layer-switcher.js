@@ -16,13 +16,14 @@ const LayerSwitcher = (props) => {
         return () => { map.removeControl(control); }
     }, []);
     return (
-        <div ref={setTarget} className="ol-layerswitcher"></div>
+        <div ref={setTarget} className="ore-layerswitcher"></div>
     );
 }
 LayerSwitcher.propsTypes = {
     extent: PropTypes.bool,
     setHeader: PropTypes.func,
     show_progress: PropTypes.bool,
-    collapsed: PropTypes.bool
+    collapsed: PropTypes.bool,
+    collapsible: PropTypes.bool,
 };
 export default LayerSwitcher;

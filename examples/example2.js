@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import Select from 'react-select'
-import {Button} from 'reactstrap'
+import {Container, Row, Col, Button} from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {bbox as bboxStrategy} from 'ol/loadingstrategy'
@@ -193,28 +193,36 @@ const Example2 = ({}) => {
                 <br />
 
                 <MapProvider map={theMap}>
-                <control.LayerSwitcher show_progress={true} />
-    	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
+                <Container>
+                    <Row><Col>
+        	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
 
-                    <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
+                        <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
 
-                    <layer.Image title="City of Astoria 2015" visible={false}>
-                        <source.ImageWMS url={astoriagis}/>
-                    </layer.Image>
+                        <layer.Image title="City of Astoria 2015" visible={false}>
+                            <source.ImageWMS url={astoriagis}/>
+                        </layer.Image>
 
-                    <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
-                        <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
-                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
-                            <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
-                        </source.JSON>
-                    </layer.Vector>
+                        <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
+                            <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
+                                <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
+                                <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                            </source.JSON>
+                        </layer.Vector>
 
-                    <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
-                </Map>
+                        <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
+                        <control.Attribution />
+                    </Map>
+                    </Col><Col>
+                    <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+                    </Col></Row>
+                    <Row><Col>
+                        <BootstrapTable bootstrap4 striped condensed
+                        keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
+                    </Col></Row>
+                </Container>
                 </MapProvider>
 
-                <BootstrapTable bootstrap4 striped condensed
-                    keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
             </>
         );
 }

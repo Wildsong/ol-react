@@ -7,11 +7,11 @@ const Attribution = (props) => {
     const map = useContext(MapContext);
     const [control, setControl] = useState(new olAttribution(props));
     useEffect(() => {
-        console.log("Attribution mounted");
+        //console.log("Attribution mounted");
         map.addControl(control);
         return () => {
             map.removeControl(control);
-            console.log("Attribution UNMOUNTED");
+            //console.log("Attribution UNMOUNTED");
         }
     }, []);
     return null;

@@ -243,6 +243,7 @@ const Example1 = ({setMapCenter}) => {
 
                 <control.FullScreen tipLabel="go full screen"/>
                 <control.SearchNominatim onGeocode={onGeocode}/>
+                <control.Attribution />
                     {/*
                         <control.LayerPopup/>
                         <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
