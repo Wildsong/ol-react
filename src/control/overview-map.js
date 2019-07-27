@@ -4,12 +4,9 @@ import {MapContext} from '../map-context'
 import {Layer as olLayer} from 'ol/layer'
 import {OverviewMap as olOverviewMap} from 'ol/control'
 
-const OverviewMap = ({layers}) => {
+const OverviewMap = (props) => {
     const map = useContext(MapContext);
-    const [control, setControl] = useState(new olOverviewMap({
-        layers,
-        collapsed: false, collapsible: false
-    }));
+    const [control, setControl] = useState(new olOverviewMap(props));
     const setTarget = element => {
         control.setTarget(element);
     }
@@ -23,5 +20,7 @@ const OverviewMap = ({layers}) => {
 }
 OverviewMap.propTypes = {
     layers: PropTypes.arrayOf(PropTypes.instanceOf(olLayer)),
+    collapsible: PropTypes.bool,
+    collapsed: PropTypes.bool
 }
 export default OverviewMap;

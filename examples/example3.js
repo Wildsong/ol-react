@@ -170,8 +170,8 @@ const Example3 = () => {
 
                     <control.FullScreen/>
                     <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
+                    <control.OverviewMap layers={ovLayers}/>
                 </Map>
-                <control.OverviewMap layers={ovLayers}/>
             </MapProvider>
             </>
         );

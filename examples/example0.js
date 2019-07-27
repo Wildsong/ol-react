@@ -59,7 +59,7 @@ const Example0 = () => {
                     <Button onClick={incZoom}>+</Button>{zoom}
                     <Button onClick={decZoom}>-</Button>
             </Col><Col>
-                <control.OverviewMap layers={ovLayers}/>
+                <control.OverviewMap layers={ovLayers} collapsible={false} collapsed={false}/>
             </Col></Row>
         </Container>
         </MapProvider>

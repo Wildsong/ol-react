@@ -21,7 +21,8 @@
     top: 5px;
 }
 
-.ore-overviewmap {
+.ol-overviewmap {
+    background: black;
     z-index: 30;
 }
 
