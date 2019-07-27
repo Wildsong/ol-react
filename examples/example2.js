@@ -102,6 +102,7 @@ const Example2 = ({}) => {
         })
     }, []);
 
+
 // IMPROVEMENT
 // https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
 // I need to look at this code to support adding AND removing features
@@ -174,6 +175,10 @@ const Example2 = ({}) => {
         copyFeaturesToTable(selectedFeatures)
     }
 
+    const coordFormatter = (coord) => {
+		return toStringXY(coord, 4);
+	}
+
     return (
         <>
             <h2>Example 2</h2>
@@ -204,9 +209,7 @@ const Example2 = ({}) => {
                         </source.JSON>
                     </layer.Vector>
 
-                    <control.MousePosition projection={wgs84}
-                        coordinateFormat={(coord) => {return toStringXY(coord, 3)}}
-                    />
+                    <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                 </Map>
                 </MapProvider>
 

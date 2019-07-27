@@ -75,3 +75,15 @@ h2 {
   list-style: none;
 	padding-left: 0.5em;
 }
+
+/* This affects the reactstrap listgroup component */
+
+.geobookmark.list-group-item {
+    padding: 2px;
+    border: solid .5px #f0f0f0;
+    max-width: 12em;
+}
+
+.react-bootstrap-table {
+    margin: 2px;
+}

@@ -17,6 +17,7 @@ import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
 const DEFAULT_ZOOM = 14;
 
+import './style.css'
 
 // These are for testing passing an OL VectorSource in as a property
 /*
@@ -157,7 +158,7 @@ const Example5 = () => {
  	    setCenter(view.getCenter());
 */
         setRotation(view.getRotation())
-        setZoom(view.getZoom());
+        setZoom(Math.round(view.getZoom()));
         setResolution(view.getResolution().toFixed(2));
         mapEvent.stopPropagation();
     };
@@ -281,7 +282,7 @@ const Example5 = () => {
             </Col></Row>
 
             <Row><Col>
-                { lats }, { lons } resolution: {resolution}
+                {lats}, {lons} resolution: {resolution}
                 <p>
                     Zoom
                     <button name="zoomin"  onClick={zoomClick}>+</button>
@@ -321,10 +322,10 @@ const Example5 = () => {
                 </Map>
                 <control.LayerSwitcher show_progress={true} collapsed={false}/>
                 </Col><Col>
-                <ListGroup>
+                <ListGroup flush={true}>Click to recenter map
                 { bookmarkTitles.map(item =>
                     <ListGroupItem tag="button" key={item[0]} name={item[0]}
-                    onClick={gotoBookmark}
+                    onClick={gotoBookmark} className="geobookmark"
                     action>{item[0]} {item[1]}</ListGroupItem>
                 )}
                 </ListGroup>

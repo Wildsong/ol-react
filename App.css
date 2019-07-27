@@ -21,13 +21,12 @@
     top: 5px;
 }
 
-.ol-overviewmap {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 155px;
-    height: 155px;
-    background-color: #4CAF50;
+.ore-overviewmap {
+    z-index: 30;
+}
+
+.ol-mouse-position {
+    z-index: 30;
 }
 
 // These are default classNames from OpenLayers.
@@ -41,10 +40,6 @@
 
 .ol-layerswitcher {
     z-index: 50;
-}
-
-.ol-overviewmap {
-    z-index: 30;
 }
 
 .ol-zoom-in {

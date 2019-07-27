@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Map, control, layer, source} from '../src'
-import {Button} from 'reactstrap'
+import {Container, Row, Col, Button} from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView, VERSION} from 'ol'
@@ -39,22 +39,29 @@ const Example0 = () => {
     return (
     <>
         <h1>ol-react examples</h1>
-        <em>Currently using OpenLayers version {VERSION}</em>
-        <p>
-        This is the simplest possible example of using ol-react to show a map.
-        It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
-        </p>
-        <h4>Tile source: OpenStreetMap</h4>
         <MapProvider map={theMap}>
-            <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
-                style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
+        <Container>
+            <Row><Col>
+            <em>Currently using OpenLayers version {VERSION}</em>
+            <p>
+            This is the simplest possible example of using ol-react to show a map.
+            It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
+            </p>
+            <p>Tile source: OpenStreetMap</p>
+            </Col></Row>
+            <Row><Col>
+                    <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
+                        style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
 
-                <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
-            </Map>
-            <Button onClick={incZoom}>+</Button>{zoom}
-            <Button onClick={decZoom}>-</Button>
-            <control.OverviewMap layers={ovLayers}/>
-            <control.MousePosition projection={wgs84}/>
+                        <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
+                        <control.MousePosition projection={wgs84}/>
+                    </Map>
+                    <Button onClick={incZoom}>+</Button>{zoom}
+                    <Button onClick={decZoom}>-</Button>
+            </Col><Col>
+                <control.OverviewMap layers={ovLayers}/>
+            </Col></Row>
+        </Container>
         </MapProvider>
     </>
     );

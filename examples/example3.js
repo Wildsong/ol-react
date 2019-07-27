@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {astoria_ll, MINZOOM} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 const DEFAULT_CENTER = astoria_ll;
 
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
@@ -170,7 +171,7 @@ const Example3 = () => {
                     <control.FullScreen/>
                     <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
                 </Map>
-                <control.OverviewMap/>
+                <control.OverviewMap layers={ovLayers}/>
             </MapProvider>
             </>
         );
