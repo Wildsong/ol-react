@@ -12,4 +12,8 @@ const XYZ = (props) => {
     }, []);
     return null; // Nothing needs to be rendered here.
 }
+//XYZ.propTypes = {
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
+//}
 export default XYZ;

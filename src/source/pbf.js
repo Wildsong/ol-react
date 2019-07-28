@@ -15,6 +15,9 @@ const PBF = (props) => {
     }, []);
     return null;
 }
-//PBF.propTypes = {
-//};
+PBF.propTypes = {
+    url: PropTypes.string,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
+};
 export default PBF;

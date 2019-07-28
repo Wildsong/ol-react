@@ -4,7 +4,7 @@ import {MapContext} from '../map-context'
 import olextGeoBookmark from 'ol-ext/control/GeoBookmark'
 import 'ol-ext/control/GeoBookmark.css'
 
-const GeoBookmarkControl = (props) => {
+const GeoBookmark = (props) => {
     const map = useContext(MapContext);
     const [control, setControl] = useState(new olextGeoBookmark(props));
     useEffect(() => {
@@ -13,7 +13,7 @@ const GeoBookmarkControl = (props) => {
     }, []);
     return null;
 }
-GeoBookmarkControl.propTypes = {
+GeoBookmark.propTypes = {
     marks: PropTypes.object,
 }
-export default GeoBookmarkControl;
+export default GeoBookmark;

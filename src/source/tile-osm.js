@@ -12,4 +12,9 @@ const OSM = () => {
     }, []);
     return null; // Nothing needs to be rendered here.
 }
+OSM.propTypes = {
+    url: PropTypes.string,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
+}
 export default OSM;

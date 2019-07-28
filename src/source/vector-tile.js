@@ -36,7 +36,8 @@ const VectorTile = (props) => {
 VectorTile.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 
-    attributions: PropTypes.string,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
     //format: PropTypes.oneOf(['geojson','JSON','MVT','WKT']),
     url: PropTypes.string,
     crossOrigin: PropTypes.string, // null | '' | "anonymous" |

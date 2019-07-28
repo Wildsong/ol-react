@@ -12,4 +12,9 @@ const Stamen = (props) => {
     }, []);
     return null; // Nothing needs to be rendered here.
 }
+Stamen.propTypes = {
+    url: PropTypes.string,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
+}
 export default Stamen;

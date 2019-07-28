@@ -17,7 +17,8 @@ const WMTS = (props) => {
 }
 WMTS.propTypes =  {
     url: PropTypes.string,
-    attributions: PropTypes.string,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
     layer: PropTypes.string,
     format: PropTypes.string, // "image/png" | "application/vnd.mapbox-vector-tile" | ...
     crossOrigin: PropTypes.string, // null | '' | 'anonymous'

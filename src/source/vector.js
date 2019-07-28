@@ -28,6 +28,8 @@ const Vector = (props) => {
     );
 }
 Vector.propTypes = {
+    //attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+    //    PropTypes.arrayOf(PropTypes.string)]),
     overlap: PropTypes.bool,
     strategy: PropTypes.func,
     features: PropTypes.instanceOf(Collection),

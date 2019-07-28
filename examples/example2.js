@@ -196,11 +196,9 @@ const Example2 = ({}) => {
                 <Container>
                     <Row><Col>
         	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
-
                         <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
-
                         <layer.Image title="City of Astoria 2015" visible={false}>
-                            <source.ImageWMS url={astoriagis}/>
+                        <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
                         </layer.Image>
 
                         <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
@@ -210,8 +208,9 @@ const Example2 = ({}) => {
                             </source.JSON>
                         </layer.Vector>
 
+                        <control.GeoBookmarks/>
+                        <control.Attribution/>
                         <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
-                        <control.Attribution />
                     </Map>
                     </Col><Col>
                     <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
