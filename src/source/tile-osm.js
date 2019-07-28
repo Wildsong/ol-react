@@ -14,7 +14,7 @@ const OSM = () => {
 }
 OSM.propTypes = {
     url: PropTypes.string,
-//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
-//        PropTypes.arrayOf(PropTypes.string)]),
+    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
+        PropTypes.arrayOf(PropTypes.string)]),
 }
 export default OSM;

@@ -14,8 +14,8 @@ const ImageArcGISRest = (props) => {
 }
 ImageArcGISRest.propTypes =  {
     url: PropTypes.string,
-//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
-//        PropTypes.arrayOf(PropTypes.string)]),
+    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
+        PropTypes.arrayOf(PropTypes.string)]),
     crossOrigin: PropTypes.string, // null | '' | "anonymous" |
     params: PropTypes.string,
     projection: PropTypes.string,

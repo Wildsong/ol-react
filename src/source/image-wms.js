@@ -15,8 +15,8 @@ const ImageWMS = (props) => {
 }
 ImageWMS.propTypes =  {
     url: PropTypes.string,
-    //attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
-    //    PropTypes.arrayOf(PropTypes.string)]),
+    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
+        PropTypes.arrayOf(PropTypes.string)]),
     crossOrigin: PropTypes.string,
     params: PropTypes.string,
     projection: PropTypes.string,

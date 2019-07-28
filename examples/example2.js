@@ -183,11 +183,11 @@ const Example2 = ({}) => {
         <>
             <h2>Example 2</h2>
                 <ul>
-                    <li>Image ArcGIS REST: United States map</li>
-                    <li>Image WMS: City of Astoria aerial photos</li>
                     <li>Taxlots Feature Server (WFS or ESRI Rest) <b>{taxlotsVisible?"":"Zoom in to see taxlots"}</b></li>
+                    <li>Image WMS: City of Astoria aerial photos</li>
+                    <li>OpenStreetMap</li>
                 </ul>
-                Controls: MousePosition <br />
+                Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
                 <br />
@@ -208,7 +208,7 @@ const Example2 = ({}) => {
                             </source.JSON>
                         </layer.Vector>
 
-                        <control.GeoBookmarks/>
+                        <control.GeoBookmark/>
                         <control.Attribution/>
                         <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                     </Map>
