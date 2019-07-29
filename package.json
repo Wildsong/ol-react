@@ -1,13 +1,13 @@
 {
   "name": "@map46/ol-react",
   "version": "0.5.0",
-  "description": "React interface for OpenLayers 5",
+  "description": "React interface for OpenLayers 6",
   "keywords": [
     "mapping",
     "gis",
     "openlayers",
     "ol",
-    "ol5",
+    "ol6",
     "react"
   ],
   "main": "./index.html",
@@ -44,11 +44,12 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.5.5",
-    "@babel/preset-es2016": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
     "cssnano": "^4.1.10",
+    "eslint": "^6.1.0",
     "eslint-plugin-react-hooks": "^1.6.1",
-    "mapbox-gl-styles": "^2.0.2"
+    "mapbox-gl-styles": "^2.0.2",
+    "ol": "https://github.com/openlayers/openlayers/archive/v6.0.0-beta.11.tar.gz"
   },
   "dependencies": {
     "@geonet/geohash": "^1.0.10",
@@ -59,9 +60,9 @@
     "cuid": "^2.1.6",
     "jsonp": "^0.2.1",
     "mapbox-to-css-font": "^2.4.0",
-    "ol": "file:ol",
     "ol-ext": "^3.1.4",
     "ol-mapbox-style": "^4.3.1",
+    "prop-types": "^15.7.2",
     "rc-slider": "^8.6.13",
     "react": "^16.8.6",
     "react-bootstrap-table-next": "^3.1.5",
@@ -76,5 +77,8 @@
     "redux-logger": "^3.0.6",
     "usng.js": "^0.4.2",
     "webfont-matcher": "^1.1.0"
+  },
+  "alias": {
+    "ol": "./node_modules/ol/build/ol"
   }
 }
