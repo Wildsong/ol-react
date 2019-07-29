@@ -4,6 +4,7 @@ import {NavLink} from 'redux-first-router-link'
 import {connect} from 'react-redux'
 import {Navbar, Nav, NavItem} from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'ol/ol.css'
 import 'ol-ext/dist/ol-ext.css'
 import './App.css';
 
