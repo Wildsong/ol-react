@@ -56,9 +56,9 @@ I keep my keys in a file called ".env".
 The file looks like this (with real keys, of course):
 
 ````bash
-export MAPBOX_KEY="N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5"
-export BINGMAPS_KEY="SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww"
-export THUNDERFOREST_KEY="89ausduhasd898asduyuhadha0s9djd"
+MAPBOX_KEY="N0SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLwws5"
+BINGMAPS_KEY="SeynB28iOx7U04i7OTz0xPqqgCU3vOs0tcLww"
+THUNDERFOREST_KEY="89ausduhasd898asduyuhadha0s9djd"
 ````
 
 ## Project status
