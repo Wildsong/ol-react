@@ -48,8 +48,7 @@
     "cssnano": "^4.1.10",
     "eslint": "^6.1.0",
     "eslint-plugin-react-hooks": "^1.6.1",
-    "mapbox-gl-styles": "^2.0.2",
-    "ol": "https://github.com/openlayers/openlayers/archive/v6.0.0-beta.11.tar.gz"
+    "mapbox-gl-styles": "^2.0.2"
   },
   "dependencies": {
     "@geonet/geohash": "^1.0.10",
@@ -60,6 +59,7 @@
     "cuid": "^2.1.6",
     "jsonp": "^0.2.1",
     "mapbox-to-css-font": "^2.4.0",
+    "ol": "https://github.com/openlayers/openlayers/archive/v6.0.0-beta.11.tar.gz",
     "ol-ext": "^3.1.4",
     "ol-mapbox-style": "^4.3.1",
     "prop-types": "^15.7.2",
