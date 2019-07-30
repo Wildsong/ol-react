@@ -1,8 +1,8 @@
 import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {Map, Graticule as olGraticule} from 'ol'
-import {Stroke} from 'ol/style'
-import {MapContext} from '../src/map-context'
+import olGraticule from 'ol/layer/Graticule'
+import Stroke from 'ol/style/Stroke'
+import {MapContext} from './map-context'
 
 const Graticule = (props) => {
     const map = useContext(MapContext);

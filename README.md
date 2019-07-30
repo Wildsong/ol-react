@@ -152,6 +152,17 @@ npm uninstall ol
 npm install ol@^5.0.0
 ```
 
+### Build a package and test it
+
+Do this before sending a new version of the package up to npmjs.com.
+It will build the package and then run a simple app that uses the package.
+I need to learn how to do real tests...
+
+```
+npm run build-package
+npm run test
+```
+
 ### How I publish to npmjs.com
 
 This will publish the contents of the src/ folder as a new release.
@@ -166,7 +177,7 @@ To install it for use in your own project, use "npm install @map46/ol-react".
     git commit -a
     git push
 
-Today I had to wrestle for an hour before finding I had to do this to make "npm version" work.
+I had to wrestle for an hour before finding I had to do this to make "npm version" work.
 
     eval $(ssh-agent -s) && ssh-add "j:\.ssh\id_rsa_github_bwilsoncc"
 

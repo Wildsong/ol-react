@@ -27,10 +27,10 @@
   "license": "MIT",
   "contributors": [
     "Brian H Wilson <brian@wildsong.biz>",
+    "Richard Hills (original author) richard.hills@gmail.com",
     "Tamás Nepusz ntamas",
     "Jono Rogers @statusas",
-    "Victor Grigoriu vgrigoriu@gmail.com",
-    "Richard Hills (original author) richard.hills@gmail.com"
+    "Victor Grigoriu vgrigoriu@gmail.com"
   ],
   "bugs": {
     "url": "https://github.com/Wildsong/ol-react/issues",
