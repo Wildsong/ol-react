@@ -1,13 +1,13 @@
 {
   "name": "@map46/ol-react",
-  "version": "0.5.0",
-  "description": "React interface for OpenLayers 5",
+  "version": "0.5.1",
+  "description": "React interface for OpenLayers 6",
   "keywords": [
     "mapping",
     "gis",
     "openlayers",
     "ol",
-    "ol5",
+    "ol6",
     "react"
   ],
   "main": "./index.html",
@@ -27,10 +27,10 @@
   "license": "MIT",
   "contributors": [
     "Brian H Wilson <brian@wildsong.biz>",
+    "Richard Hills (original author) richard.hills@gmail.com",
     "Tamás Nepusz ntamas",
     "Jono Rogers @statusas",
-    "Victor Grigoriu vgrigoriu@gmail.com",
-    "Richard Hills (original author) richard.hills@gmail.com"
+    "Victor Grigoriu vgrigoriu@gmail.com"
   ],
   "bugs": {
     "url": "https://github.com/Wildsong/ol-react/issues",
@@ -62,6 +62,7 @@
     "ol": "file:../openlayers-6.0.0-beta.11/build/ol",
     "ol-ext": "^3.1.4",
     "ol-mapbox-style": "^4.3.1",
+    "prop-types": "^15.7.2",
     "rc-slider": "^8.6.13",
     "react": "^16.8.6",
     "react-bootstrap-table-next": "^3.1.5",

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {Collection} from 'ol'
 import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
@@ -59,7 +58,7 @@ const EventList = (props) => {
 
 /* ============================================================================= */
 
-const Example1 = ({setMapCenter}) => {
+const Example1 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
@@ -134,7 +133,8 @@ const Example1 = ({setMapCenter}) => {
         })
     })
     const lineStyle = new Style({
-        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3}) });
+        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3})
+    });
     const polyStyle = new Style({
         stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width: 4}),
         fill: new Fill({color: 'rgba(255, 0, 0, .250)'}),

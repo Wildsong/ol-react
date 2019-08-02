@@ -1,13 +1,13 @@
 This code started out as richardhills/ol-react for ol3
-and brian32768 forked it and adapted it for ol5
+and brian32768 rewrote it for ol6
 
-It's changed so much now that I consider it a new project.
+This version is written for OpenLayers 6 (which is currently in beta).
 
 ## Overview
+A wrapper for [OpenLayers 6](http://openlayers.org/) in [React](https://reactjs.org/).
 
-A wrapper for [OpenLayers5](http://openlayers.org/) in [React](https://reactjs.org/).
-
-The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component, to generate a map with a red square near the equator.
+The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component,
+to generate a map with a square near the equator.
 
     <Map view=<View resolution={10000} center={[0, 0]}/>>
       <layer.Tile>
@@ -15,7 +15,7 @@ The goal is to be able to write applications using OpenLayers maps in a declarat
       </layer.Tile>
       <layer.Vector>
         <source.Vector>
-          <Feature style={{stroke: {color: [255, 0, 0, 1]}}}>
+          <Feature>
             <geom.LineString>
               {[[0, 0], [100000, 0], [100000, 100000], [0, 100000]]}
             </geom.LineString>
@@ -29,12 +29,58 @@ To understand what each element does, read the [OpenLayers API documentation](ht
 I experimented for months with making the source a property of the layer component and just
 went back! So I don't even have to change the documentation!
 
+### Other projects
+Someone sent me a link to [allenhkim/react-openlayers](https://github.com/allenhwkim/react-openlayers), which looks good too. If you know of others let me know.
+
+## Trying it out
+The examples at this point rely pretty heavily on data that I host for my own development.
+I need to fix that. They will still run but there will be layers missing.
+
+The project uses npm and the parcel bundler. You need to install npm and then
+install parcel globally. (``npm install parcel -g``) Once you have done that, use
+```
+npm start
+```
+to launch node and open a brower on http://localhost:1234/
+
+```
+npm
 ### Styles
 
-Styles are declared using a JSON object, passing through the properties you'd like on the final object.
-When creating an Icon, Circle or RegularShape, a `type` parameter must be present, with the value of `icon`, `circle`, or `regular-shape`.
+The original richardhills version of ol-react had a way to generate styles in JSX notation
+but I decided that it's not worth writing and maintaining extra wrapper code,
+so currently I write the styles using JavaScript
+and pass an OpenLayers Style object in to ol-react.
+It takes about the same amount of code either way.
 
-Example: (See App.js)
+See examples/example1.js for more code.
+
+#### The current version
+Write the JavaScript to generate an OpenLayers Style object then pass the object to a Feature component.
+
+JavaScript style declaration
+```
+import {Style, Circle, Fill, Stroke} from 'ol/style'
+const cStyle = new Style(
+    new Circle({ radius: 10,
+        fill: new Fill({color: rgba(100,100,100,0.5)}),
+        stroke: new Stroke({color: "green"})
+    }))
+```
+
+JSX snippet using the style
+``` JSX
+    <Feature id="C2" style={cStyle}>
+        <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
+    </Feature>
+```
+
+#### The OLD way
+This does not work anymore, I am leaving it here in case I resurrect it next week. :-)
+
+Styles used to be declared using a JSON object, passing through the properties you'd like on the final object. For example, when creating a Circle, a `type` parameter must be present,
+with the value of `circle`. Like this:
+
 ```
 image: {
     type: 'circle',
@@ -71,74 +117,53 @@ seen before.
 
 https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-mocha-part-i-9a2ca0458ba1
 
-### Tested and working in the sample app:
-* Controls
- * FullScreen
- * Rotate (actually "set rotation to 0")
- * Zoom slider
-* Sources
- * OSM
- * BingMaps -- requires your API key
- * Tile ArcGIS REST and GeoServer WMS
- * Vector tiles (only tested with GeoServer so far, not ArcGIS)
- * XYZ tiles tested with ArcGIS
-* Layers
- * Tile
- * Vector (with option for clustered point features)
-* Feature
-* Geometry
- * Circle
- * LineString
- * MultiPoint
- * Point
- * Polygon
-* Graticule
-* Interactions
- * double click zoom
- * Mouse position - works; need to show how to do formatting
-* Map
-* View
-* Style (needs more tests)
- * Atlas ?? not yet, not sure what it is anyway
- * Circle
- * Fill
- * Icon - untested
- * Image
- * RegularShape
- * Stroke
- * Style - maybe I can attach a function with this?
- * Text - untested
- * TextPlacement - not yet
-
-#### Work in progress / untested
-* Geocoding (in example 5) is under development
-* Controls
- * Attribution - not hiding the attributions in basemap layer
- * Overview map - works; needs more testing
- * Scale line - works, needs styling in example
- * Zoom to extent
- * Zoom
-* Geometry
- * Point and MultiPoint animation
- * Polygons
-* Overlay - not sure what this even is right now
-
-I need to update examples that use servers that are accessible publicly so that my
-samples work everywhere. The examples are currently tied to a GeoServer at
-maps.wildsong.biz (not public) and cc-gis (also not public).
-If you run them you will see generic base maps but the data layers will not load.
-
-In development it's much easier to debug when I can see the log files from the
-servers and make changes on the servers as needed.
-
 ## How to test and develop
 
+### Download and build openlayers 6.
+
+I am sure there is a better way to do this, but right now here is what I do.
+
+This process will leave the package in node_modules/ol/build/ol which is where the alias in package.json expects to find it.
+
+The first "npm install" downloads the OpenLayers source tarball (and also every other package needed).
+The second "npm install" will install the packages needed to build the OpenLayers package.
+```
+npm install
+cd node_modules/ol
+npm install
+npm run build-package
+```
 ### Test
-The command `npm start` will launch the test setup in a browser.
+The command `npm start` will launch the demo setup in a browser. Currently that is where I do my testing.
 
-I added --no-autoinstall option in package.json to prevent parcel from installing openlayers 4 while I am upgrading the source to ol5. This means (for now anyway) you need to run `npm install` before `npm start` to get the dependencies installed.
+To work with OpenLayers 6, I use an npm command to download a tgz tarball from github and
+an alias in package.json to refer to the subdirectory in node_modules.
 
-### Publishing to npmjs.com
+Here is the code from package.json, which will go away when OpenLayers 6 is released.
+```
+"alias": {
+  "ol": "./node_modules/ol/src/ol"
+}
+```
+
+If you want to run OpenLayers 5 instead remove the alias and do
+```
+npm uninstall ol
+npm install ol@^5.0.0
+```
+
+### Build a package and test it
+
+Do this before sending a new version of the package up to npmjs.com.
+It will build the package and then run a simple app that uses the package.
+I need to learn how to do real tests...
+
+```
+npm run build-package
+npm run test
+```
+
+### How I publish to npmjs.com
 
 This will publish the contents of the src/ folder as a new release.
 To install it for use in your own project, use "npm install @map46/ol-react".
@@ -152,7 +177,7 @@ To install it for use in your own project, use "npm install @map46/ol-react".
     git commit -a
     git push
 
-Today I had to wrestle for an hour before finding I had to do this to make "npm version" work.
+I had to wrestle for an hour before finding I had to do this to make "npm version" work.
 
     eval $(ssh-agent -s) && ssh-add "j:\.ssh\id_rsa_github_bwilsoncc"
 
@@ -192,15 +217,15 @@ and in either case, it's all pushed up to github.
 
 ### Deploy
 
-Install in your project with ````npm install ol-react````.
+Install in your project with ````npm install @map46/ol-react````.
 
 ## The cry for help
 
 If you're familiar with React and/or OpenLayers and are interested in helping, please get in touch.
 
 The original OL3 version available on [github](https://github.com/richardhills/ol-react) and [npm](https://www.npmjs.com/package/ol-react).
-Brian's fork for OL5 at [github](https://github.com/brian32768/ol-react)
+my fork at [github](https://github.com/wildsong/ol-react)
 
 Richard says he is "especially interested in assistance with having each component be optionally [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components). This would allow binding of the components with, say, Redux and for sophisticated state management outside of OpenLayers."
 
-Brian says "Okay learning about this now :-) Every day is like Monday to me at this stage."
+Brian says "Every day is like Monday to me at this stage."
