@@ -9,13 +9,13 @@ import {bbox as bboxStrategy} from 'ol/loadingstrategy'
 import {toStringXY, toStringHDMS} from 'ol/coordinate'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {Map, source, Feature, control, interaction, layer} from '../src';
 import Popup from 'ol-ext/overlay/Popup'
 import {DataLoader} from '../src/source/dataloaders'
 
-import {myGeoServer,workspace, astoria_wm, wgs84} from '../src/constants'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {astoria_ll, MINZOOM} from '../src/constants'
+import {myGeoServer, workspace, astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
 
@@ -28,7 +28,6 @@ const taxlotsColumns  = [
     {dataField: 'situs_addr', text: 'Situs Address'},
 ]
 const taxlotPopupField = 'situs_addr';
-
 
 // CC service only works inside firewall
 // Adding a CORS compliant header, which does not seem to have helped.

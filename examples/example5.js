@@ -11,10 +11,11 @@ import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Feature, Collection} from 'ol'
 import {MapProvider} from '../src/map-context'
 
-import {myGeoServer, workspace, astoria_ll, astoria_wm, wgs84} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
+
+import {myGeoServer, workspace, astoria_ll, astoria_wm, DEFAULT_CENTER, MINZOOM, MAXZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_ZOOM = 14;
 
 import './style.css'

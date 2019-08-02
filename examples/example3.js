@@ -9,13 +9,14 @@ import {Converter} from 'usng.js'
 import {Button} from 'reactstrap'
 import OpacitySlider from '../src/control/opacity-slider'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src'
-import {astoria_wm, wgs84} from '../src/constants'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {astoria_ll, MINZOOM} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+
+import {astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'

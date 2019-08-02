@@ -7,14 +7,15 @@ import stylefunction from 'ol-mapbox-style/stylefunction'
 import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Converter} from 'usng.js'
-import {myGeoServer, astoria_wm, usngPrecision, wm, wgs84} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {MINZOOM, MAXZOOM, astoria_ll} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+
+import {myGeoServer, astoria_wm, astoria_ll, MINZOOM, MAXZOOM} from './constants'
+import {usngPrecision, wm, wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 const usngConverter = new Converter
 

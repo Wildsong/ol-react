@@ -11,11 +11,10 @@ import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
-import {myGeoServer, astoria_wm} from '../src/constants'
-
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {MINZOOM, astoria_ll} from '../src/constants'
+
+import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
 const DEFAULT_CENTER = astoria_ll;
 
 const geoserverWMS = myGeoServer + "/wms?"

@@ -6,9 +6,11 @@ import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, astoria_wm, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 import {OpenLayersVersion} from '../src'
+
+import {astoria_wm, DEFAULT_CENTER, MINZOOM} from './constants'
+import {wgs84} from '../src/constants'
 
 const Example0 = () => {
     const [theMap, setTheMap] = useState(new olMap({

@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {Style, Circle, Fill, Stroke} from 'ol/style'
 import {Map, Feature, geom, control, layer, source} from '../src'
-import {myGeoServer, workspace, wm} from '../src/constants'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM} from '../src/constants'
+
+import {myGeoServer, workspace, DAFAULT_CENTER, MINZOOM} from './constants'
+import {wm} from '../src/constants'
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'

@@ -17,11 +17,12 @@ import {Button} from 'reactstrap'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {myGeoServer, astoria_wm, astoria_ll, usngPrecision, wgs84, wm} from '../src/constants'
-import {MINZOOM} from '../src/constants'
+import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+
+import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {usngPrecision, wgs84, wm} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 const usngConverter = new Converter
 
