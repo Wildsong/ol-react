@@ -14,3 +14,7 @@ export {default as Feature} from './feature'
 export {default as Graticule} from './graticule'
 export {default as Map} from './map'
 export {default as Overlay} from './overlay'
+
+import React from 'react'
+import {VERSION} from 'ol/util'
+export const OpenLayersVersion = () => ( <>{VERSION}</> );

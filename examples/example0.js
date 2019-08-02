@@ -4,10 +4,11 @@ import {Map, control, layer, source} from '../src'
 import {Container, Row, Col, Button} from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
-import {Map as olMap, View as olView, VERSION} from 'ol'
+import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
 import {DEFAULT_CENTER, MINZOOM, astoria_wm, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {OpenLayersVersion} from '../src'
 
 const Example0 = () => {
     const [theMap, setTheMap] = useState(new olMap({
@@ -42,7 +43,7 @@ const Example0 = () => {
         <MapProvider map={theMap}>
         <Container>
             <Row><Col>
-            <em>Currently using OpenLayers version {VERSION}</em>
+            <em>Currently using OpenLayers version <OpenLayersVersion/></em>
             <p>
             This is the simplest possible example of using ol-react to show a map.
             It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
