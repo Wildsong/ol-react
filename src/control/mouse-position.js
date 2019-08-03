@@ -8,6 +8,7 @@ import {MousePosition as olMousePosition} from 'ol/control'
 const MousePosition = (props) => {
 	const map = useContext(MapContext);
 	const [control, setControl] = useState(new olMousePosition(props));
+	const setTarget = element => {control.setTarget(element);}
 	useEffect(() => {
 		// default formatter has about 20 decimal places, looks stupid.
 		if (control.getCoordinateFormat() === undefined) {
@@ -20,7 +21,9 @@ const MousePosition = (props) => {
 			//console.log("control.MousePosition unmounted", map.getControls().getLength());
 		}
 	}, []);
-	return null;
+	return (
+    	<div ref={setTarget} className="ore-mouse-position"></div>
+    );
 }
 MousePosition.propTypes = {
     className: PropTypes.string,

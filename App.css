@@ -27,6 +27,7 @@
 }
 
 .ol-mouse-position {
+    position: relative;
     z-index: 30;
 }
 

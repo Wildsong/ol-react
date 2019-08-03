@@ -180,6 +180,7 @@ const Example2 = ({}) => {
 
     return (
         <>
+            <MapProvider map={theMap}>
             <h2>Example 2</h2>
                 <ul>
                     <li>Taxlots Feature Server (WFS or ESRI Rest) <b>{taxlotsVisible?"":"Zoom in to see taxlots"}</b></li>
@@ -189,9 +190,9 @@ const Example2 = ({}) => {
                 Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
+                <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                 <br />
 
-                <MapProvider map={theMap}>
                 <Container>
                     <Row><Col>
         	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
@@ -209,7 +210,6 @@ const Example2 = ({}) => {
 
                         <control.GeoBookmark/>
                         <control.Attribution/>
-                        <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                     </Map>
                     </Col><Col>
                     <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
@@ -219,9 +219,9 @@ const Example2 = ({}) => {
                         keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
                     </Col></Row>
                 </Container>
-                </MapProvider>
 
-            </>
-        );
+            </MapProvider>
+        </>
+    );
 }
 export default Example2;

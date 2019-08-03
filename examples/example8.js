@@ -83,7 +83,8 @@ const Example8 = (props) => {
 
     return (
         <>
-        <h2>Example 8</h2>
+        <MapProvider map={theMap}>
+            <h2>Example 8</h2>
             <h4>Vector tiles</h4>
                 <ul>
                 <li> Overlay (popups) </li>
@@ -92,9 +93,10 @@ const Example8 = (props) => {
                 <li> DOGAMI Oregon Canopy HS ImageServer </li>
                 <li> Tile source: OSM </li>
                 </ul>
-
+                <p>
+                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
+                </p>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
-            <MapProvider map={theMap}>
             <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
                 <layer.Image title="Bare Earth HS" opacity={.60}
                     displayInLayerSwitcher={false}>
@@ -128,9 +130,8 @@ const Example8 = (props) => {
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
                 <OverviewMap layers={ovLayers}/>
                 <control.LayerSwitcher show_progress={true} />
-                <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             </Map>
-            </MapProvider>
+        </MapProvider>
         </>
     );
 }

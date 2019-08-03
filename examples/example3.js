@@ -111,6 +111,7 @@ const Example3 = () => {
 
         return (
             <>
+            <MapProvider map={theMap}>
                 <h2>Example 3</h2>
                     Street and map tiles,
                     Stamen watercolor and toner,
@@ -143,7 +144,6 @@ const Example3 = () => {
                         <br />
                     Using zIndex to control order of layers.
 
-            <MapProvider map={theMap}>
                 <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
                     <layer.Tile title="Stamen Toner" opacity={1}><source.Stamen layer="toner"/></layer.Tile>
 
@@ -170,9 +170,10 @@ const Example3 = () => {
                     <interaction.DragBox onBoxEnd={handleDragBox}/>
 
                     <control.FullScreen/>
-                    <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
                     <control.OverviewMap layers={ovLayers}/>
                 </Map>
+
+                <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
             </MapProvider>
             </>
         );

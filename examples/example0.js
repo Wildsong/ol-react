@@ -35,7 +35,7 @@ const Example0 = () => {
     const handleMoveEnd = (mapEvent) => {
         const view = mapEvent.map.getView()
         setCenter(view.getCenter());
-        setZoom(view.getZoom());
+        setZoom(Math.round(view.getZoom()));
         console.log("moveEnd", center, zoom)
         mapEvent.stopPropagation();
     };
