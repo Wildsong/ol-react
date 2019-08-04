@@ -35,6 +35,13 @@ let attributions = [
     'and ESRI too.'
 ];
 
+const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/' +
+                    'World_Imagery/MapServer/tile/{z}/{y}/{x}'
+const esriWorldStreetsUrl = "https://services.arcgisonline.com/ArcGIS/rest/services/" +
+                    "World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
+                    "Specialty/ESRI_StateCityHighway_USA/MapServer"
+
 const Example3 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
@@ -60,9 +67,6 @@ const Example3 = () => {
         setOpacityLayer3(value);
     }
 
-    const handleDragBox = (e) => {
-        console.log("You dragged a box.", e);
-    }
 
         // FIXME: I'd like to control how the points appear
         // at different levels and cluster them when we're
@@ -118,12 +122,12 @@ const Example3 = () => {
                     Vector layer with clustered features
 
                     <OpacitySlider
-                        onChange={ changeOpacity3 }
+                        onChange={ changeOpacity1 }
                         title="ESRI streets tiles"
                         value={ opacityLayer3 }
                     />
                     <OpacitySlider
-                        onChange={ changeOpacity1 }
+                        onChange={ changeOpacity3 }
                         title="US Map Tiles"
                         value={ opacityLayer1 }
                     />
@@ -137,26 +141,33 @@ const Example3 = () => {
                         FullScreen
                         OverviewMap
                         ScaleLine
+                        LayerSwitcher
+                        MousePosition
                         <br />
                     Interactions tested here:
-                        DragBox,
                         DragAndDrop (drop a GPX or KML file onto the map)
                         <br />
                     Using zIndex to control order of layers.
 
                 <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
-                    <layer.Tile title="Stamen Toner" opacity={1}><source.Stamen layer="toner"/></layer.Tile>
-
-                    <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions}>
-                        <source.XYZ url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"/>
+                    <layer.Tile title="Stamen Toner" baseLayer={true} visible={false}>
+                        <source.Stamen layer="toner"/>
                     </layer.Tile>
 
-                    <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2}><source.Stamen layer="watercolor"/></layer.Tile>
+                    <layer.Tile title="ESRI Clarity" baseLayer={true}>
+                        <source.XYZ url={esriClarityUrl}/>
+                    </layer.Tile>
 
-                    <layer.Image title="ESRI US States" opacity={opacityLayer3}>
-                        <source.ImageArcGISRest
-                            url="https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer"
-                        />
+                    <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions}>
+                        <source.XYZ url={esriWorldStreetsUrl}/>
+                    </layer.Tile>
+
+                    <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false}>
+                        <source.Stamen layer="watercolor"/>
+                    </layer.Tile>
+
+                    <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false}>
+                        <source.ImageArcGISRest url={esriUSStatesUrl}/>
                     </layer.Image>
 
                     <layer.Vector title="GPX Drag and drop"
@@ -166,13 +177,10 @@ const Example3 = () => {
                         </source.Vector>
                     </layer.Vector>
 
-                    {/* This interaction has to be inside a vector layer. */}
-                    <interaction.DragBox onBoxEnd={handleDragBox}/>
-
                     <control.FullScreen/>
                     <control.OverviewMap layers={ovLayers}/>
                 </Map>
-
+                <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
                 <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
             </MapProvider>
             </>
