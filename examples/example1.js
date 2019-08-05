@@ -145,7 +145,7 @@ const Example1 = () => {
 
     return (
         <>
-            <h1>Example 1 - Vector draw tools</h1>
+            <h2>Example 1 - Vector draw tools</h2>
             Tile source: OpenStreetMap<br />
             WMS source: taxlots from GeoServer
             <h4>Vector source</h4>

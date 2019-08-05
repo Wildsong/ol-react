@@ -87,11 +87,11 @@ const Example8 = (props) => {
             <h2>Example 8</h2>
             <h4>Vector tiles</h4>
                 <ul>
-                <li> Overlay (popups) </li>
-                <li> Taxlots GeoServer WMTS </li>
-                <li> DOGAMI SLIDO MapServer </li>
-                <li> DOGAMI Oregon Canopy HS ImageServer </li>
-                <li> Tile source: OSM </li>
+                    <li> Overlay (popups) </li>
+                    <li> Taxlots GeoServer WMTS </li>
+                    <li> DOGAMI SLIDO MapServer </li>
+                    <li> DOGAMI Oregon Canopy HS ImageServer </li>
+                    <li> Tile source: OSM </li>
                 </ul>
                 <p>
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>

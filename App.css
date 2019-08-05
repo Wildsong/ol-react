@@ -6,8 +6,8 @@
     color: #808080;
     background-color: #F0F0FF;
 }
-.nav-item {
-    margin-left: 13px;
+a {
+    margin-left: 10px;
 }
 .nav-item:hover {
     background-color: #F8F8F8;

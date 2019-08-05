@@ -297,7 +297,7 @@ const Example5 = () => {
                     <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
                 <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleMove}>
-                    <layer.Tile title="Thunderforest">
+                    <layer.Tile title="Thunderforest" displayInLayerSwitcher={false}>
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>
 

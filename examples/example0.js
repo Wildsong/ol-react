@@ -41,7 +41,7 @@ const Example0 = () => {
     };
     return (
     <>
-        <h1>ol-react examples</h1>
+        <h2>ol-react examples</h2>
         <MapProvider map={theMap}>
         <Container>
             <Row><Col>
