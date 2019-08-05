@@ -2,8 +2,8 @@ import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {SourceContext} from '../source-context'
-import {Style as olStyle} from 'ol/style'
-import {Layer as olLayer, Collection} from 'ol'
+import {Style} from 'ol/style'
+import {Collection} from 'ol'
 import {Condition} from 'ol/events'
 import {DragBox as olDragBox} from 'ol/interaction'
 
@@ -52,7 +52,7 @@ const SelectDragBox = (props) => {
 }
 SelectDragBox.propTypes = {
     //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
-    style: PropTypes.instanceOf(olStyle),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func.isRequired,
 };

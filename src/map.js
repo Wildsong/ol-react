@@ -8,7 +8,7 @@ import {MapContext} from './map-context'
 // I don't want the map to live in Redux state because then I'd have
 // just one map for the entire app.
 
-const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
+const Map = (props) => {
     const map = useContext(MapContext);
     const mapTarget = element => {
         map.setTarget(element)
@@ -16,19 +16,18 @@ const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
         // There are about 20 different events we could watch here
         // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
 
-        if (typeof onPointerMove === 'function') map.on('pointermove', onPointerMove);
-        if (typeof onPointerDrag === 'function') map.on('pointerdrag', onPointerMove);
-        if (typeof onMoveEnd === 'function') map.on('moveend', onMoveEnd);
-        if (typeof onChangeSize === 'function') map.on('change:size', onChangeSize);
+        if (typeof props.onPointerMove === 'function') map.on('pointermove', props.onPointerMove);
+        if (typeof props.onPointerDrag === 'function') map.on('pointerdrag', props.onPointerMove);
+        if (typeof props.onMoveEnd === 'function') map.on('moveend', props.onMoveEnd);
+        if (typeof props.onChangeSize === 'function') map.on('change:size', props.onChangeSize);
 
-        if (typeof onClick === 'function') map.on('click', onClick);
-        if (typeof onSingleClick === 'function') map.on('singleclick', onSingleClick);
-        if (typeof onDoubleClick === 'function') map.on('doubleclick', onDoubleClick);
+        if (typeof props.onClick === 'function') map.on('click', props.onClick);
+        if (typeof props.onSingleClick === 'function') map.on('singleclick', props.onSingleClick);
+        if (typeof props.onDoubleClick === 'function') map.on('doubleclick', props.onDoubleClick);
     }
 /*
     useEffect(() => {
         const view = map.getView();
-        console.log("AND NOW", center, zoom, rotation);
         if (animate) {
             view.animate({center, zoom, rotation});
         } else {
@@ -40,7 +39,7 @@ const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
 */
     return (
         <div ref={mapTarget} className="ore-map" style={{position:"relative", top:0, width:600,height:400}}>
-        {children}
+        {props.children}
         </div>
     )
 }

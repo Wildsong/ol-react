@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
 import Extent from 'ol/extent'
-import Style from 'ol/style/style'
+import {Style} from 'ol/style'
 import olVectorLayer from 'ol/layer/vector'
 
 const Vector = (props) => {
