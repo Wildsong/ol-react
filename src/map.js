@@ -12,7 +12,18 @@ const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
     const map = useContext(MapContext);
     const mapTarget = element => {
         map.setTarget(element)
+
+        // There are about 20 different events we could watch here
+        // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
+
+        if (typeof onPointerMove === 'function') map.on('pointermove', onPointerMove);
+        if (typeof onPointerDrag === 'function') map.on('pointerdrag', onPointerMove);
         if (typeof onMoveEnd === 'function') map.on('moveend', onMoveEnd);
+        if (typeof onChangeSize === 'function') map.on('change:size', onChangeSize);
+
+        if (typeof onClick === 'function') map.on('click', onClick);
+        if (typeof onSingleClick === 'function') map.on('singleclick', onSingleClick);
+        if (typeof onDoubleClick === 'function') map.on('doubleclick', onDoubleClick);
     }
 /*
     useEffect(() => {
@@ -28,7 +39,7 @@ const Map = ({center, rotation, zoom, animate, onMoveEnd, children}) => {
     }, [center, rotation, zoom]);
 */
     return (
-        <div ref={mapTarget} className="ol-react-map" style={{position:"relative", top:0, width:600,height:400}}>
+        <div ref={mapTarget} className="ore-map" style={{position:"relative", top:0, width:600,height:400}}>
         {children}
         </div>
     )
@@ -39,23 +50,14 @@ Map.propTypes = {
     rotation: PropTypes.number,
     animate: PropTypes.bool,
 
+    onPointerMove: PropTypes.func,
+    onPointerDrag: PropTypes.func,
     onMoveEnd: PropTypes.func,
+    onChangeSize: PropTypes.func,
+
+    onClick: PropTypes.func,
+    onSingleClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
     //children: ,
 };
-/*
-    if (this.props.onPointerMove) this.props.map.on('pointermove', this.props.onPointerMove, this);
-    //if (this.props.onPointerDrag) this.props.map.on('pointerdrag', this.props.onPointeDrag, this);
-
-    // There are about 20 different events we could watch here
-    // see https://github.com/openlayers/openlayers/blob/v5.3.0/src/ol/events/EventType.js
-    if (this.props.onChangeSize)  this.props.map.on('change:size', this.props.onChangeSize);
-    if (this.props.onClick)       this.props.map.on('click', this.props.onClick);
-    if (this.props.onSingleClick) this.props.map.on('singleclick', this.props.onSingleClick);
-    //if (this.props.onDblClick)    this.props.map.on('doubleclick', this.props.onDblClick);
-    if (this.props.onPostrender)  this.props.map.on('postrender', this.props.onPostrender);
-    const setMapTarget = element => {
-        console.log("setMapTarget", element);
-        theMap.setTarget(element)
-    }
-*/
 export default Map

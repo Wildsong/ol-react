@@ -1,21 +1,9 @@
-import React, { Component, Fragment } from 'react'
-import { render } from 'react-dom'
-import PropTypes from 'prop-types'
-import { ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
-import { transform } from 'ol/proj'
-// Bootstrap (reactstrap in this case)
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Button
-} from 'reactstrap'
-import SliderControl from './slider-control'
-import { Map, View, Feature, control, geom, interaction, layer, VERSION } from '../build/@map46/ol-react'
+import React, {useState, useEffect} from 'react'
+import {MapProvider} from '../src/map-context'
+import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
+import {transform} from 'ol/proj'
+
+import {Map, View, Feature, control, geom, interaction, layer, VERSION} from '../build/@map46/ol-react'
 import Select from 'react-select'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -23,7 +11,6 @@ import '../App.css'
 
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
-
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
 
 let transformfn = (coordinates) => {
@@ -38,8 +25,6 @@ let attributions = [
     osmAttribution,
 ];
 
-let pi = 3.1416;
-
 // This controls what kind of features we are drawing.
 const typeSelect = [
     { index: 0,  label: "Point" },
@@ -48,162 +33,124 @@ const typeSelect = [
     { index: 3,  label: "Circle" },
 ];
 
-export default class Example1 extends Component {
-    constructor(props) {
-        super(props)
-        this.changeOpacity1 = this.changeOpacity1.bind(this);
-        this.changeOpacity2 = this.changeOpacity2.bind(this);
-        this.changeType = this.changeType.bind(this);
-        this.state = {
-            enableModify: true, // can't change this in the app yet
-            opacityOSM : 100,
-            opacityVector : 100,
-            typeIndex : 0 // index into typeSelect
-        }
+const Example1 = () => {
+    const [theMap, setTheMap] = useState(new olMap({
+        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+    }));
+    const [center, setCenter] = useState(astoria_wm);
+    const [zoom, setZoom] = useState(10);
+    const [enableModify, setEnableModify] = useState(true); // can't change this in the app yet
+    const [typeIndex, setTypeIndex] = useState(0); // index into typeSelect
+
+    const changeType = (o) => {
+        console.log("example1.changeType from", typeIndex, " to", o.index);
+        setTypeIndex(o.index);
     }
 
-    changeOpacity1(value) {
-        this.setState({opacityOSM : value});
-    }
+    const textMarker = new Style({
+        text: new Text({ text: 'Hee' })
+    });
+    const drawStyle = new Style({
+        text: new Text({text: markerId.toString(),  offsetY: -10}),
+    //  currently this draws a blue 5 pointed star
+        image: new RegularShape({
+            points: 5,
+            radius: 5,
+            radius1: 5,
+            radius2: 2,
+            stroke: new Stroke({color: 'blue', width: 1.5}),
+        }),
+        stroke: new Stroke({color: "black", width: 4}),
+        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+    })
+    const pointStyle = new Style({
+        image: new Circle({
+            radius: 5,
+            fill: new Fill({color: 'rgba(100,100,100, 0.75)'}),
+            stroke: new Stroke({color: 'green', width: 5}),
+        })
+    });
+    const multipointStyle = new Style({
+        image: new Circle({
+            radius: 10,
+            fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+            stroke: new Stroke({color: 'red', width: 3})
+        })
+    })
+    const lineStyle = new Style({
+        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3})
+    });
+    const polyStyle = new Style({
+        stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width: 4}),
+        fill: new Fill({color: 'rgba(255, 0, 0, .250)'}),
+    });
 
-    changeOpacity2(value) {
-        this.setState({opacityVector : value});
-    }
+    return (
+        <>
+            <h2> version { VERSION }</h2>
 
-    changeType(o) {
-        console.log("example1.changeType from", this.state.typeIndex,
-                    " to", o.index);
-        this.setState({ typeIndex : o.index });
-    }
+            This is a minimal test of the ol-react package.
+            <MapProvider map={theMap}>
+            <Map zoom={zoom} center={center}>
+            {/*
 
-    render(props) {
-        let textMarker = {
-            text: {
-                text: 'Hee',
-            }
-        }
-        //  currently this draws a blue 5 pointed star
-        let pointMarker = {
-            image: {
-                type: 'regularShape',
-                points: 5,
-                radius: 5,
-                radius1: 5,
-                radius2: 2,
-                stroke: { color: 'blue', width: 1.5 }
-            }
-        }
-        let pointStyle = {
-            image: {
-                type: 'circle',
-                radius: 4,
-                fill: { color: [100,100,100, 0.5] },
-                stroke: { color: 'green', width: 1 }
-            }
-        };
-        let multipointStyle = {
-            image: {
-                type: 'circle',
-                radius: 4,
-                fill: { color: [0,0,255, 0.4] },
-                stroke: { color: 'red', width: 1 }
-            }
-        };
-        let lineStyle = {
-            stroke: {
-                color: [255, 255, 0, 1],
-                width: 3
-            }
-        };
-        let polyStyle = {
-            stroke: {color: [0, 0, 0, 1], width:4},
-            fill: {color: [255, 0, 0, .250]},
-        };
+                <layer.Tile opacity={this.state.opacityOSM/100}>
+                    <source.OSM attributions={attributions}/>
+                </layer.Tile>
 
-        return (
-            <Fragment>
-                <h2> version { VERSION }</h2>
+                <layer.Vector style={ pointMarker } opacity={ this.state.opacityVector/100 }>
+                    <source.Vector>
 
-                This is a minimal test of the ol-react package.
+                    <Feature id="test-line" style={ lineStyle }>
+                        <geom.LineString transform={transformfn} modify={enableModify} layout="XY">
+                            { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
+                        </geom.LineString>
+                    </Feature>
 
-                <SliderControl
-                    onChange={ this.changeOpacity1 }
-                    title="OSM"
-                    value={ this.state.opacityOSM }
-                />
-                <SliderControl
-                    onChange={ this.changeOpacity2 }
-                    title="Vectors"
-                    value={ this.state.opacityVector }
-                />
+                    <Feature id="test-circle" style={pointStyle}>
+                        <geom.Circle modify={enableModify}>{[astoria_wm, 100]}</geom.Circle>
+                    </Feature>
 
-                <Map view=<View zoom={10} center={ astoria_wm }/> useDefaultControls={false}>
+                    <Feature id="test-circle-zeroradius" style={polyStyle}>
+                        <geom.Circle transform={ transformfn } modify={enableModify} >{[6000,0]}</geom.Circle>
+                    </Feature>
 
-                    <layer.Tile source="OSM"
-                        attributions={ attributions }
-                        opacity={ this.state.opacityOSM/100 }
-                    />
+                    <Feature id="test-polygon" style={polyStyle}>
+                        <geom.Polygon transform={transformfn} modify={enableModify } insertVertexCondition={ ()=>{return true;} }>
+                            {[
+                                [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                                [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                            ]}
+                        </geom.Polygon>
+                    </Feature>
 
-                    <layer.Vector
-                        style={ pointMarker }
-                        opacity={ this.state.opacityVector/100 } >
+                    <Feature id="test-point" style={pointStyle}>
+                        <geom.Point transform={transformfn} modify={enableModify}>
+                            {[1835, -910]}
+                        </geom.Point>
+                    </Feature>
 
-                        <Feature id="test-line" style={ lineStyle }>
-                            <geom.LineString transform={transformfn} modify={this.state.enableModify} layout="XY">
-                                { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
-                            </geom.LineString>
-                        </Feature>
+                    <Feature id="test-multipoint" style={multipointStyle}>
+                        <geom.MultiPoint transform={transformfn} modify={enableModify}>
+                            { [[-6000, -4000], [6000, -3000], [0, 6400]] }
+                        </geom.MultiPoint>
+                    </Feature>
+                    </source.Vector>
 
-                        <Feature id="test-circle" style={ pointStyle }>
-                            <geom.Circle modify={ this.state.enableModify } >{[astoria_wm, 100]}</geom.Circle>
-                        </Feature>
+                    <interaction.Draw type={ typeSelect[typeIndex].label } />
 
-                        <Feature id="test-circle-zeroradius" style={ polyStyle }>
-                            <geom.Circle transform={ transformfn } modify={this.state.enableModify} >{[6000,0]}</geom.Circle>
-                        </Feature>
+                </layer.Vector>
 
-                        <Feature id="test-polygon" style={ polyStyle }>
-                            <geom.Polygon transform={ transformfn } modify={ this.state.enableModify } insertVertexCondition={ ()=>{return true;} }>
-                                {[
-                                    [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
-                                    [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
-                                ]}
-                            </geom.Polygon>
-                        </Feature>
-
-                        <Feature id="test-point" style={ pointStyle }>
-                            <geom.Point transform={ transformfn } modify={ this.state.enableModify } >
-                                {[1835, -910]}
-                            </geom.Point>
-                        </Feature>
-
-                        <Feature id="test-multipoint" style={ multipointStyle }>
-                            <geom.MultiPoint transform={ transformfn } modify={ this.state.enableModify } >
-                                { [[-6000, -4000], [6000, -3000], [0, 6400]] }
-                            </geom.MultiPoint>
-                        </Feature>
-
-                        <interaction.Draw type={ typeSelect[this.state.typeIndex].label } />
-
-                    </layer.Vector>
-
-                    <control.FullScreen />
-                    <control.Zoom />
-                </Map>
-
-                Select vector type to draw
-                <Select
-                    className="select"
-                    defaultValue={ typeSelect[ 0 ] }
-                    options={ typeSelect }
-                    onChange={ this.changeType }
-                />
-
-            </Fragment>
-        );
-    }
+                <control.FullScreen/>
+                <control.LayerSwitcher/>
+                */}
+            </Map>
+            </MapProvider>
+            Select vector type to draw
+            <Select className="select" defaultValue={ typeSelect[0] }
+                options={typeSelect} onChange={changeType}
+            />
+        </>
+    );
 }
-
-Example1.propTypes = {
-    title: PropTypes.string
-};
+export default Example1;

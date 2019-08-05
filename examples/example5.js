@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {Map, layer, source, control, interaction, overlay} from '../src'
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
+import BootstrapTable from 'react-bootstrap-table-next'
 import {Point} from 'ol/geom'
 import {Vector as VectorSource} from 'ol/source'
 import {Style, Circle, Fill, Stroke, Text} from 'ol/style'
@@ -10,11 +11,14 @@ import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Feature, Collection} from 'ol'
 import {MapProvider} from '../src/map-context'
 
-import {myGeoServer, workspace, astoria_ll, astoria_wm, wgs84} from '../src/constants'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, MAXZOOM} from '../src/constants'
+
+import {myGeoServer, workspace, astoria_ll, astoria_wm, DEFAULT_CENTER, MINZOOM, MAXZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_ZOOM = 14;
+
+import './style.css'
 
 // These are for testing passing an OL VectorSource in as a property
 /*
@@ -22,6 +26,15 @@ import {bbox} from 'ol/loadingstrategy'
 import {EsriJSON, GeoJSON} from 'ol/format'
 import jsonp from 'jsonp' // using jsonp instead of json avoids CORS problems
 */
+
+const taxlotsKey      = 'taxlotkey';
+const taxlotsColumns  = [
+    {dataField: 'taxlotkey',  text: 'Taxlot Key'},
+    {dataField: 'account_id', text: 'Account'},
+    {dataField: 'taxlot',     text: 'Taxlot'},
+    {dataField: 'owner_line', text: 'Owner'},
+    {dataField: 'situs_addr', text: 'Situs Address'},
+]
 
 
 // CC service only works inside firewall
@@ -146,7 +159,7 @@ const Example5 = () => {
  	    setCenter(view.getCenter());
 */
         setRotation(view.getRotation())
-        setZoom(view.getZoom());
+        setZoom(Math.round(view.getZoom()));
         setResolution(view.getResolution().toFixed(2));
         mapEvent.stopPropagation();
     };
@@ -227,15 +240,33 @@ const Example5 = () => {
         stroke: new Stroke({color:"rgba(255,0,0,1.0)", width:1.5}),
     })
 
+    const [rows, setRows] = useState([]);
+    const copyFeaturesToTable = (features) => {
+        const rows = [];
+        if (features.getLength()) {
+            features.forEach( (feature) => {
+                const attributes = {};
+                // Copy the data from each feature into a list
+                taxlotsColumns.forEach ( (column) => {
+                    attributes[column.dataField] = feature.get(column.dataField);
+                });
+                rows.push(attributes)
+            });
+        }
+        setRows(rows);
+    }
+
     const selectedFeatures = new Collection()
     const onSelectEvent = (e) => {
         console.log("selectEvent", e)
         setSelectCount(selectedFeatures.getLength());
-        e.stopPropagation(); // this stops draw interaction
+        copyFeaturesToTable(selectedFeatures);
     }
 
     return (
-        <><Container>
+        <>
+        <MapProvider map={theMap}>
+        <Container>
             <Row><Col>
                 <h2>Example 5</h2>
                 Thunderforest {tflayername} map <b>{thunderforestKey==="undefined"?"no API key!":""}</b><br />
@@ -248,11 +279,11 @@ const Example5 = () => {
                 and zoom in component state and update the map using setState.
                 </p>
 
-                Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
+                Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or ctl-drag
             </Col></Row>
 
             <Row><Col>
-                { lats }, { lons } resolution: {resolution}
+                {lats}, {lons} resolution: {resolution}
                 <p>
                     Zoom
                     <button name="zoomin"  onClick={zoomClick}>+</button>
@@ -265,8 +296,6 @@ const Example5 = () => {
                     Animate
                     <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
-                <MapProvider map={theMap}>
-                <control.LayerSwitcher show_progress={true}/>
                 <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleMove}>
                     <layer.Tile title="Thunderforest">
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
@@ -292,25 +321,23 @@ const Example5 = () => {
                         <source.Vector source={myVectorSource}/>
                     </layer.Vector>
                 </Map>
-                </MapProvider>
-            </Col><Col>
-                <ListGroup>
-                    { bookmarkTitles.map(item =>
-                          <ListGroupItem tag="button" key={ item[0] } name={ item[0] }
-                          onClick={ gotoBookmark }
-                          action>{item[0]} {item[1]}</ListGroupItem>
-                    )}
+                <control.LayerSwitcher show_progress={true} collapsed={false}/>
+                </Col><Col>
+                <ListGroup flush={true}>Click to recenter map
+                { bookmarkTitles.map(item =>
+                    <ListGroupItem tag="button" key={item[0]} name={item[0]}
+                    onClick={gotoBookmark} className="geobookmark"
+                    action>{item[0]} {item[1]}</ListGroupItem>
+                )}
                 </ListGroup>
-            </Col></Row>
-            <Row><Col>
-                <table>
-                    { selectedFeatures.forEach(f =>
-                        <tr key={ f.account_id }><td>{ f.situs }</td></tr>
-                    )}
-                </table>
-            </Col></Row>
-        </Container></>
+                </Col></Row>
+                <Row><Col>
+                <BootstrapTable bootstrap4 condensed
+                    keyField={taxlotsKey} columns={taxlotsColumns} data={rows} />
+                </Col></Row>
+        </Container>
+        </MapProvider>
+        </>
     );
 }
-
 export default Example5;

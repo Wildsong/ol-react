@@ -36,7 +36,7 @@ const Select = (props) => {
 }
 Select.propTypes = {
     //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
-    style: PropTypes.instanceOf(olStyle),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
     multi: PropTypes.bool,
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func,

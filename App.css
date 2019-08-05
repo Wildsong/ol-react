@@ -1,3 +1,7 @@
+#app {
+    padding: .8em;
+}
+
 .map46-navbar {
     color: #808080;
     background-color: #F0F0FF;
@@ -6,24 +10,38 @@
     margin-left: 13px;
 }
 .nav-item:hover {
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
+}
+
+.ore-map {
+    width: 450px;
+    height: 250px;
+    position: relative;
+    left: 5px;
+    top: 5px;
+}
+
+.ol-overviewmap {
+    background: black;
+    z-index: 30;
+}
+
+.ol-mouse-position {
+    position: relative;
+    z-index: 30;
 }
 
 // These are default classNames from OpenLayers.
 // You can override them with your own names when you create the components.
 
-.ol-full-screen .ol-rotate .ol-zoom-extent .ol-mouse-position {
+.ol-full-screen .ol-rotate .ol-zoom .ol-mouse-position {
     position: relative;
     top: 4px;
     width: 16px;
 }
 
 .ol-layerswitcher {
-    z-index: 1;
-}
-
-.ol-overviewmap {
-    z-index: 1;
+    z-index: 50;
 }
 
 .ol-zoom-in {
@@ -58,27 +76,10 @@
     right: 32px;
 }
 
-.ol-scale-line {
-    font-family: arial;
-    position: relative;
-    left: 180px;
-    bottom: 30px;
-    width: 180px;
-    background-color: rgba(0,0,0,0.4);
-}
-
 .ol-zoomslider {
     left: 8px;
     top: 70px;
     background-color: rgba(50,50,240,0.4);
-}
-
-.ol-attribution {
-    position: relative;
-    bottom: 40px;
-    right: 10px;
-    width: 400px;
-    font-family: cursive;
 }
 
 .button {
@@ -88,21 +89,6 @@
     text-align: center;
     display: inline-block;
     font-size: 16px;
-}
-
-.ol-react-map {
-    width: 450px;
-    height: 250px;
-    position: relative;
-    left: 5px;
-    top: 5px;
-}
-
-.ol-overviewmap {
-    position: relative;
-    width: 155px;
-    height: 155px;
-    background-color: #4CAF50;
 }
 
 .sliders {
@@ -212,10 +198,12 @@ p {
 {	display: block;
 }
 
+/*
 .nominatim {
     top: 30px;
     left: 0px;
 }
+*/
 .nominatim button {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABPUlEQVQoU41SwXHCQAzUHh58eoUOIBWEDkI6oAToIKkg7iAuwakgpAIowXRACcnrzp6BzchjMx4wE/S6kW5XK60gvQghzJIkmVoqSZI9gJ9+/fINS5Cc1HX9QXIlIr/tpwcRyb33b7cIGnAIYQdg4pxbjcfj0nJ1Xc+Px+PGObdN03Q9RIAQwgpAnqbp7FKmjQGgJLlU1d2V7BjjRkQO3vvXIXarkyxVNbsCm2QR2Q0V7XOMMReRmfd+OQQubN6hYgs22ZtbnRcAtiRfLueqqmpJ8ovko6oeBq0KIWQA3gFkzrlmMafTaUEyI/mpqmbhVTRWWbRdbClPbeobQNES5KPRqOxs7DBn8K1DsAOKMZYApiTXqlrcDe4d0XN7jWeCfzt351tVle2iGalTcBd4gGDvvZ/fDe4RmCOFLe8Pr7mvEP2N9PQAAAAASUVORK5CYII=");
   background-repeat: no-repeat;
@@ -246,7 +234,7 @@ p {
   cursor: pointer;
   max-width: 17em;
   overflow-x: hidden;
-  z-index: 1;
+  z-index: 10;
   background: #fff;
 }
 .nominatim ul li {
@@ -282,5 +270,5 @@ p {
   -webkit-animation: pulse .5s infinite alternate linear;
           animation: pulse .5s infinite alternate linear;
   background: red;
-  z-index: 2;
+  z-index: 20;
 }

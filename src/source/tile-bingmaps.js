@@ -16,6 +16,9 @@ const BingMaps = (props) => {
     return null; // Nothing needs to be rendered here.
 }
 BingMaps.propTypes = {
+    url: PropTypes.string,
+    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
+        PropTypes.arrayOf(PropTypes.string)]),
     imagerySet: PropTypes.string.isRequired, // "CanvasLight" | "Aerial" |...
     apikey: PropTypes.string.isRequired,  // Bing API key
     transition: PropTypes.number,      // time for opacity rendering transition feature

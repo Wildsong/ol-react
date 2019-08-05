@@ -4,13 +4,13 @@ import {ATTRIBUTION as osmAttribution } from 'ol/source/OSM'
 import {Style, Text, Fill, Stroke} from 'ol/style'
 import {Button} from 'reactstrap'
 import {Map, Feature, control, geom, interaction, layer, source} from '../src';
-import {astoria_ll, wgs84, wm} from '../src/constants'
 import {MapProvider} from '../src/map-context'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {MINZOOM} from '../src/constants'
 
+import {astoria_ll, MINZOOM} from './constants'
+import {wgs84, wm} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 13;
 
@@ -145,6 +145,7 @@ const Example4 = (props) => {
                 </Map>
                 <control.LayerSwitcher/>
                 <control.ScaleLine units={control.ScaleLineUnits.METRIC} />
+                <control.Attribution />
                 </MapProvider>
             </>
         );

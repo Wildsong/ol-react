@@ -2,9 +2,9 @@ import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {SourceContext} from './source-context'
 import {FeatureProvider} from './feature-context'
-import {Source} from 'ol/source'
-import {Style as olStyle} from 'ol/style'
-import {Feature as olFeature} from 'ol'
+import Source from 'ol/source/Source'
+import olStyle from 'ol/style/Style'
+import olFeature from 'ol/Feature'
 //import cuid from 'cuid'
 
 const Feature = (props) => {
@@ -45,8 +45,6 @@ Feature.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 
     id: PropTypes.string.isRequired,
-    style: PropTypes.oneOfType([PropTypes.func,
-        PropTypes.instanceOf(olStyle),
-    ]),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
 };
 export default Feature;

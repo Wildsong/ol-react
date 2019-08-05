@@ -5,12 +5,13 @@ import * as interaction from './interaction'
 import * as layer from './layer'
 import * as source from './source'
 
-// CSS for the openlayers controls
-import 'ol/ol.css'
-
 export {control, geom, interaction, layer, source}
 
 export {default as Feature} from './feature'
 export {default as Graticule} from './graticule'
 export {default as Map} from './map'
 export {default as Overlay} from './overlay'
+
+import React from 'react'
+import {VERSION} from 'ol/util'
+export const OpenLayersVersion = () => ( <>{VERSION}</> );

@@ -1,13 +1,13 @@
 {
   "name": "@map46/ol-react",
-  "version": "0.3.6",
-  "description": "React interface for OpenLayers 5",
+  "version": "0.5.4",
+  "description": "React interface for OpenLayers 6",
   "keywords": [
     "mapping",
     "gis",
     "openlayers",
     "ol",
-    "ol5",
+    "ol6",
     "react"
   ],
   "main": "./index.html",
@@ -27,10 +27,10 @@
   "license": "MIT",
   "contributors": [
     "Brian H Wilson <brian@wildsong.biz>",
+    "Richard Hills (original author) richard.hills@gmail.com",
     "Tamás Nepusz ntamas",
     "Jono Rogers @statusas",
-    "Victor Grigoriu vgrigoriu@gmail.com",
-    "Richard Hills (original author) richard.hills@gmail.com"
+    "Victor Grigoriu vgrigoriu@gmail.com"
   ],
   "bugs": {
     "url": "https://github.com/Wildsong/ol-react/issues",
@@ -44,9 +44,9 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.5.5",
-    "@babel/preset-es2016": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
     "cssnano": "^4.1.10",
+    "eslint": "^6.1.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "mapbox-gl-styles": "^2.0.2"
   },
@@ -59,9 +59,10 @@
     "cuid": "^2.1.6",
     "jsonp": "^0.2.1",
     "mapbox-to-css-font": "^2.4.0",
-    "ol": "file:ol",
+    "ol": "file:../openlayers-6.0.0-beta.11/build/ol",
     "ol-ext": "^3.1.4",
     "ol-mapbox-style": "^4.3.1",
+    "prop-types": "^15.7.2",
     "rc-slider": "^8.6.13",
     "react": "^16.8.6",
     "react-bootstrap-table-next": "^3.1.7",
@@ -76,5 +77,20 @@
     "redux-logger": "^3.0.6",
     "usng.js": "^0.4.2",
     "webfont-matcher": "^1.1.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-object-rest-spread",
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ]
+    ]
   }
 }

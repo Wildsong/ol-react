@@ -11,7 +11,7 @@ marks: {
 }
 */
 
-const GeoBookmarkControl = (props) => {
+const GeoBookmark = (props) => {
     const map = useContext(MapContext);
     const [control, setControl] = useState(new olextGeoBookmark(props));
     useEffect(() => {
@@ -20,8 +20,8 @@ const GeoBookmarkControl = (props) => {
     }, []);
     return null;
 }
-GeoBookmarkControl.propTypes = {
+GeoBookmark.propTypes = {
     marks: PropTypes.object,
     editable: PropTypes.bool
 }
-export default GeoBookmarkControl;
+export default GeoBookmark;

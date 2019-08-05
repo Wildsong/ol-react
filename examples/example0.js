@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Map, control, layer, source} from '../src'
-import {Button} from 'reactstrap'
+import {Container, Row, Col, Button} from 'reactstrap'
 import {MapProvider} from '../src/map-context'
 
-import {Map as olMap, View as olView, VERSION} from 'ol'
+import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
-import {DEFAULT_CENTER, MINZOOM, astoria_wm, wgs84} from '../src/constants'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {OpenLayersVersion} from '../src'
+
+import {astoria_wm, DEFAULT_CENTER, MINZOOM} from './constants'
+import {wgs84} from '../src/constants'
 
 const Example0 = () => {
     const [theMap, setTheMap] = useState(new olMap({
@@ -32,29 +35,36 @@ const Example0 = () => {
     const handleMoveEnd = (mapEvent) => {
         const view = mapEvent.map.getView()
         setCenter(view.getCenter());
-        setZoom(view.getZoom());
+        setZoom(Math.round(view.getZoom()));
         console.log("moveEnd", center, zoom)
         mapEvent.stopPropagation();
     };
     return (
     <>
         <h1>ol-react examples</h1>
-        <em>Currently using OpenLayers version {VERSION}</em>
-        <p>
-        This is the simplest possible example of using ol-react to show a map.
-        It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
-        </p>
-        <h4>Tile source: OpenStreetMap</h4>
         <MapProvider map={theMap}>
-            <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
-                style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
+        <Container>
+            <Row><Col>
+            <em>Currently using OpenLayers version <OpenLayersVersion/></em>
+            <p>
+            This is the simplest possible example of using ol-react to show a map.
+            It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
+            </p>
+            <p>Tile source: OpenStreetMap</p>
+            </Col></Row>
+            <Row><Col>
+                    <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
+                        style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
 
-                <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
-            </Map>
-            <Button onClick={incZoom}>+</Button>{zoom}
-            <Button onClick={decZoom}>-</Button>
-            <control.OverviewMap layers={ovLayers}/>
-            <control.MousePosition projection={wgs84}/>
+                        <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
+                        <control.MousePosition projection={wgs84}/>
+                    </Map>
+                    <Button onClick={incZoom}>+</Button>{zoom}
+                    <Button onClick={decZoom}>-</Button>
+            </Col><Col>
+                <control.OverviewMap layers={ovLayers} collapsible={false} collapsed={false}/>
+            </Col></Row>
+        </Container>
         </MapProvider>
     </>
     );

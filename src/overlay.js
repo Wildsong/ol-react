@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import {MapContext} from './map-context'
-import {Overlay as olOverlay} from 'ol'
+import olOverlay from 'ol/Overlay'
 
 /*
 const animate(finishCoords, animationLength) {

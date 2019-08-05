@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {Collection} from 'ol'
 import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
@@ -12,11 +11,10 @@ import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
-import {myGeoServer, astoria_wm} from '../src/constants'
-
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {MINZOOM, astoria_ll} from '../src/constants'
+
+import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
 const DEFAULT_CENTER = astoria_ll;
 
 const geoserverWMS = myGeoServer + "/wms?"
@@ -59,7 +57,7 @@ const EventList = (props) => {
 
 /* ============================================================================= */
 
-const Example1 = ({setMapCenter}) => {
+const Example1 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
@@ -134,7 +132,8 @@ const Example1 = ({setMapCenter}) => {
         })
     })
     const lineStyle = new Style({
-        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3}) });
+        stroke: new Stroke({color: 'rgba(255, 255, 0, 1)', width: 3})
+    });
     const polyStyle = new Style({
         stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width: 4}),
         fill: new Fill({color: 'rgba(255, 0, 0, .250)'}),
@@ -243,6 +242,7 @@ const Example1 = ({setMapCenter}) => {
 
                 <control.FullScreen tipLabel="go full screen"/>
                 <control.SearchNominatim onGeocode={onGeocode}/>
+                <control.Attribution />
                     {/*
                         <control.LayerPopup/>
                         <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>

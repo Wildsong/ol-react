@@ -22,5 +22,7 @@ LayerSwitcher.propsTypes = {
     extent: PropTypes.bool,
     setHeader: PropTypes.func,
     show_progress: PropTypes.bool,
+    collapsed: PropTypes.bool,
+    collapsible: PropTypes.bool,
 };
 export default LayerSwitcher;

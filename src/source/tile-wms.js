@@ -14,7 +14,8 @@ const TileWMS = (props) => {
 }
 TileWMS.propTypes =  {
     url: PropTypes.string,
-    attributions: PropTypes.string,
+    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
+        PropTypes.arrayOf(PropTypes.string)]),
     crossOrigin: PropTypes.string, // null | '' | 'anonymous'
     params: PropTypes.object,
     projection: PropTypes.string,

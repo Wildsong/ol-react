@@ -2,20 +2,20 @@ import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import Select from 'react-select'
-import {Button} from 'reactstrap'
+import {Container, Row, Col, Button} from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {bbox as bboxStrategy} from 'ol/loadingstrategy'
 import {toStringXY, toStringHDMS} from 'ol/coordinate'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
+import {toLonLat, fromLonLat, transform} from 'ol/proj'
 import {Map, source, Feature, control, interaction, layer} from '../src';
 import Popup from 'ol-ext/overlay/Popup'
 import {DataLoader} from '../src/source/dataloaders'
 
-import {myGeoServer,workspace, astoria_wm, wgs84} from '../src/constants'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {astoria_ll, MINZOOM} from '../src/constants'
+import {myGeoServer, workspace, astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
 
@@ -28,7 +28,6 @@ const taxlotsColumns  = [
     {dataField: 'situs_addr', text: 'Situs Address'},
 ]
 const taxlotPopupField = 'situs_addr';
-
 
 // CC service only works inside firewall
 // Adding a CORS compliant header, which does not seem to have helped.
@@ -102,6 +101,7 @@ const Example2 = ({}) => {
         })
     }, []);
 
+
 // IMPROVEMENT
 // https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
 // I need to look at this code to support adding AND removing features
@@ -172,51 +172,56 @@ const Example2 = ({}) => {
             popup.hide()
         }
         copyFeaturesToTable(selectedFeatures)
-        //e.stopPropagation(); // this stops draw interaction
     }
+
+    const coordFormatter = (coord) => {
+		return toStringXY(coord, 4);
+	}
 
     return (
         <>
+            <MapProvider map={theMap}>
             <h2>Example 2</h2>
                 <ul>
-                    <li>Image ArcGIS REST: United States map</li>
-                    <li>Image WMS: City of Astoria aerial photos</li>
                     <li>Taxlots Feature Server (WFS or ESRI Rest) <b>{taxlotsVisible?"":"Zoom in to see taxlots"}</b></li>
+                    <li>Image WMS: City of Astoria aerial photos</li>
+                    <li>OpenStreetMap</li>
                 </ul>
-                Controls: MousePosition <br />
+                Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
+                <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                 <br />
 
-                <MapProvider map={theMap}>
-                <control.LayerSwitcher show_progress={true} />
-    	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
+                <Container>
+                    <Row><Col>
+        	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
+                        <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
+                        <layer.Image title="City of Astoria 2015" visible={false}>
+                        <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
+                        </layer.Image>
 
-                    <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
+                        <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
+                            <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
+                                <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
+                                <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                            </source.JSON>
+                        </layer.Vector>
 
-                    <layer.Image title="City of Astoria 2015" visible={false}>
-                        <source.ImageWMS url={astoriagis}/>
-                    </layer.Image>
+                        <control.GeoBookmark/>
+                        <control.Attribution/>
+                    </Map>
+                    </Col><Col>
+                    <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+                    </Col></Row>
+                    <Row><Col>
+                        <BootstrapTable bootstrap4 striped condensed
+                        keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
+                    </Col></Row>
+                </Container>
 
-                    <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
-                        <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
-                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
-                            <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
-                        </source.JSON>
-                    </layer.Vector>
-
-                    <control.MousePosition projection={wgs84}
-                        coordinateFormat={(coord) => {return toStringXY(coord, 3)}}
-                    />
-                </Map>
-                </MapProvider>
-
-                <BootstrapTable bootstrap4 striped condensed
-                    keyField={taxlotsKey}
-                    columns={taxlotsColumns}
-                    data={rows}
-                />
-            </>
-        );
+            </MapProvider>
+        </>
+    );
 }
 export default Example2;

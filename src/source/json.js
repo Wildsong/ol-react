@@ -31,8 +31,9 @@ JSONSource.propTypes = {
         PropTypes.string,
         PropTypes.func
     ]).isRequired,
+//    attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.function,
+//        PropTypes.arrayOf(PropTypes.string)]),
     loader: PropTypes.string, // "geojson" || "esrijson" required when url is not a function
-    attributions: PropTypes.func,
     features: PropTypes.instanceOf(olCollection),
     format: PropTypes.instanceOf(FeatureFormat)
 };
