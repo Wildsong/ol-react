@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerContext} from '../layer-context'
 import {SourceContext} from '../source-context'
-import {Style as olStyle} from 'ol/style'
-import {Layer as olLayer, Collection} from 'ol'
+import Style from 'ol/style/style'
+import Collection from 'ol/collection'
 import {Condition} from 'ol/events'
-import {Select as olSelect} from 'ol/interaction'
+import olSelect from 'ol/interaction/Select'
 
 const Select = (props) => {
     const map = useContext(MapContext);
@@ -36,7 +36,7 @@ const Select = (props) => {
 }
 Select.propTypes = {
     //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
-    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
     multi: PropTypes.bool,
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func,

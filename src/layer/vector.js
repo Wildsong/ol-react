@@ -2,9 +2,9 @@ import React, {useState, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'
-import {Extent as olExtent} from 'ol'
-import {Style as olStyle} from 'ol/style'
-import {Vector as olVectorLayer} from 'ol/layer'
+import Extent from 'ol/extent'
+import Style from 'ol/style/style'
+import olVectorLayer from 'ol/layer/vector'
 
 const Vector = (props) => {
     const map = useContext(MapContext);
@@ -42,10 +42,10 @@ Vector.propTypes = {
 
     opacity: PropTypes.number,
     visible: PropTypes.bool,
-    extent: PropTypes.instanceOf(olExtent),
+    extent: PropTypes.instanceOf(Extent),
     zIndex: PropTypes.number,
 
     declutter: PropTypes.bool,
-    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
 };
 export default Vector;
