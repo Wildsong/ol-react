@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {SourceContext} from '../source-context'
 import {Style} from 'ol/style'
-import {Collection} from 'ol'
+import Collection from 'ol/collection'
 import {Condition} from 'ol/events'
 import {DragBox as olDragBox} from 'ol/interaction'
 

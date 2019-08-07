@@ -24,10 +24,10 @@ const Select = (props) => {
     });
 
     useEffect(() => {
-        console.log("Select mounted", selectInteraction);
+        //console.log("Select mounted", selectInteraction);
         map.addInteraction(selectInteraction);
         return () => {
-            console.log("Select UNMOUNTED");
+            //console.log("Select UNMOUNTED");
             map.removeInteraction(selectInteraction);
         }
     }, []);
