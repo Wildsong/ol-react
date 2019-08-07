@@ -44,11 +44,14 @@ const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/serv
 
 const Example3 = () => {
     const [theMap, setTheMap] = useState(new olMap({
-        view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        view: new olView({
+            center: fromLonLat(DEFAULT_CENTER),
+            zoom: MINZOOM,
+            minZoom: 8,
+            maxZoom: 18,
+        }),
         //controls: [],
     }));
-    const [center, setCenter] = useState(astoria_wm);
-    const [zoom, setZoom] = useState(10);
 
     const [hasError, setHasError] = useState(false);
     const [opacityLayer1, setOpacityLayer1] = useState(.20);
@@ -66,7 +69,6 @@ const Example3 = () => {
     const changeOpacity3 = (value) => {
         setOpacityLayer3(value);
     }
-
 
         // FIXME: I'd like to control how the points appear
         // at different levels and cluster them when we're
@@ -149,7 +151,7 @@ const Example3 = () => {
                         <br />
                     Using zIndex to control order of layers.
 
-                <Map zoom={8} center={astoria_wm} minZoom={8} maxZoom={18}>
+                <Map>
                     <layer.Tile title="Stamen Toner" baseLayer={true} visible={false}>
                         <source.Stamen layer="toner"/>
                     </layer.Tile>

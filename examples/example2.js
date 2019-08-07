@@ -4,7 +4,8 @@ import {MapProvider} from '../src/map-context'
 import Select from 'react-select'
 import {Container, Row, Col, Button} from 'reactstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
-import {Map as olMap, View as olView, Collection} from 'ol'
+import {Map as olMap, View as olView} from 'ol'
+import Collection from 'ol/collection'
 import {bbox as bboxStrategy} from 'ol/loadingstrategy'
 import {toStringXY, toStringHDMS} from 'ol/coordinate'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
@@ -75,8 +76,6 @@ const Example2 = ({}) => {
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
         //controls: [],
     }));
-    const [center, setCenter] = useState(fromLonLat(astoria_ll));
-    const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [resolution, setResolution] = useState(0)
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
@@ -129,21 +128,20 @@ const Example2 = ({}) => {
 //            case 'platformModifierKeyOnly':
 //                return false;
         }
-        console.log("mystery", e);
-        return false; // pass event along I guess
+//        console.log("mystery", e);
+        return false; // condition has not been met
     }
 
     const handleMove = (mapEvent) => {
-        //setRotation(view.getRotation())
-        setZoom(view.getZoom());
-        setCenter(view.getCenter());
         const viewres = view.getResolution().toFixed(2)
         setResolution(viewres);
-
-        let maxres = taxlotLayer.get("maxResolution");
-        setTaxlotsVisible(maxres >= viewres);
-
-        mapEvent.stopPropagation();
+        try {
+            let maxres = taxlotLayer.get("maxResolution");
+            setTaxlotsVisible(maxres >= viewres);
+        } catch (err) {
+            // this probably means that taxlotLayer was not found
+        }
+        return false; // stop event propagation
     };
 
     const copyFeaturesToTable = (features) => {
@@ -172,6 +170,7 @@ const Example2 = ({}) => {
             popup.hide()
         }
         copyFeaturesToTable(selectedFeatures)
+        return false; // stop event propagation
     }
 
     const coordFormatter = (coord) => {
@@ -195,10 +194,12 @@ const Example2 = ({}) => {
 
                 <Container>
                     <Row><Col>
-        	        <Map center={astoria_wm} zoom={zoom} onMoveEnd={handleMove}>
+        	        <Map onMoveEnd={handleMove} animate={false}>
+
                         <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
+
                         <layer.Image title="City of Astoria 2015" visible={false}>
-                        <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
+                            <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
                         </layer.Image>
 
                         <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
@@ -212,11 +213,11 @@ const Example2 = ({}) => {
                         <control.Attribution/>
                     </Map>
                     </Col><Col>
-                    <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+                        <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
                     </Col></Row>
                     <Row><Col>
                         <BootstrapTable bootstrap4 striped condensed
-                        keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
+                            keyField={taxlotsKey} columns={taxlotsColumns} data={rows}/>
                     </Col></Row>
                 </Container>
 

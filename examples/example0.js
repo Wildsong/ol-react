@@ -17,28 +17,21 @@ const Example0 = () => {
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
         //controls: [],
     }));
-    const [center, setCenter] = useState(astoria_wm);
-    const [zoom, setZoom] = useState(MINZOOM);
-
+    const [zoom, setZoom] = useState(theMap.getView().getZoom());
     const updateZoom = (step=0) => {
         const view = theMap.getView();
-        const newzoom = view.getZoom() + step
-        if (newzoom !== zoom) {
-            console.log("Zooming from", zoom, " to", newzoom);
-            setZoom(newzoom);
-            view.setZoom(newzoom);
-        }
+        const newZoom = view.getZoom() + step
+        setZoom(newZoom)
+        view.setZoom(newZoom);
     }
     const decZoom = (e) => { updateZoom(-1); }
     const incZoom = (e) => { updateZoom(1); }
-
-    const handleMoveEnd = (mapEvent) => {
-        const view = mapEvent.map.getView()
-        setCenter(view.getCenter());
-        setZoom(Math.round(view.getZoom()));
-        console.log("moveEnd", center, zoom)
-        mapEvent.stopPropagation();
-    };
+    const onMove = (e) => {
+        const newZoom = theMap.getView().getZoom();
+        if (newZoom !== zoom) {
+            setZoom(newZoom);
+        }
+    }
     return (
     <>
         <h2>ol-react examples</h2>
@@ -53,9 +46,7 @@ const Example0 = () => {
             <p>Tile source: OpenStreetMap</p>
             </Col></Row>
             <Row><Col>
-                    <Map onMoveEnd={handleMoveEnd} center={center} zoom={zoom} animate={true}
-                        style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
-
+                    <Map onMoveEnd={onMove} style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
                         <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
                         <control.MousePosition projection={wgs84}/>
                     </Map>

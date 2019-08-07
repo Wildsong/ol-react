@@ -21,11 +21,6 @@ const DEFAULT_ZOOM = 14;
 import './style.css'
 
 // These are for testing passing an OL VectorSource in as a property
-/*
-import {bbox} from 'ol/loadingstrategy'
-import {EsriJSON, GeoJSON} from 'ol/format'
-import jsonp from 'jsonp' // using jsonp instead of json avoids CORS problems
-*/
 
 const taxlotsKey      = 'taxlotkey';
 const taxlotsColumns  = [
@@ -173,48 +168,6 @@ const Example5 = () => {
         fill: new Fill({color: 'rgba(255, 0, 0, .250)'})
     });
 
-    // Test building an URL from a function and using it in a Vector source.
-    // See https://openlayers.org/en/latest/apidoc/module-ol_featureloader.html#~FeatureUrlFunction
-/*
-    const completeUrl = "https://geoserver.wildsong.biz/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=clatsop%3Ataxlots&outputFormat=text/javascript&count=1000&BBOX=-124.1,45.77,-123.9,46,EPSG:4326&SRSNAME=EPSG:3857"
-    const customUrl = (extent, resolution, projection) => {
-        console.log("customUrl ", extent, resolution);
-        return completeUrl;
-    }
-    const taxlotsSource = new VectorSource({
-        format: new GeoJSON(),
-        loader: (extent, resolution, projection) => {
-            const baseUrl = taxlotsUrl
-            const bb = "&BBOX=" + extent.join(',').toString()  // BBOX SRS optional + ',EPSG:3857'
-            console.log("bbox=", bb);
-            if (!(isFinite(extent[0]) && isFinite(extent[1]) && isFinite(extent[2]) && isFinite(extent[3]))) {
-                console.log("Meaningless bounding box");
-                return;
-            }
-            const fsUrl = baseUrl + "&outputFormat=text/javascript"
-                //+ "&count=1000" // count appears to do nothing
-                + bb + '&SRSNAME=EPSG:3857'
-            console.log("geojson custom dataloader url=", baseUrl, fsUrl);
-            jsonp(fsUrl, {name:"parseResponse", timeout:60000 },
-                (err, data) => {
-                    if (err) {
-                        console.log("DataLoader failed:", err);
-                    } else {
-                        console.log("DataLoader completed.")
-                        const features = taxlotSource.getFormat().readFeatures(data, {
-                            featureProjection: projection
-                        });
-                        if (features.length > 0) {
-                            console.log("DataLoader added", features.length, " features to", taxlotSource);
-                            taxlotSource.addFeatures(features);
-                        }
-                    }
-                }
-            );
-        }
-    });
-*/
-
     // Test for issue #2, accept an external data source
     // Create an OpenLayers vector source, and add a
     // styled feature to it, and pass it into a source.Vector component
@@ -296,7 +249,7 @@ const Example5 = () => {
                     Animate
                     <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
-                <Map zoom={zoom} center={center} rotation={rotation} onMoveEnd={handleMove}>
+                <Map onMoveEnd={handleMove}>
                     <layer.Tile title="Thunderforest" displayInLayerSwitcher={false}>
                         <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
                     </layer.Tile>

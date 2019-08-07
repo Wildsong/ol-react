@@ -91,7 +91,12 @@ const getTextStyle = (feature, resolution) => {
 
 const Example4 = (props) => {
     const [theMap, setTheMap] = useState(new olMap({
-        view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        view: new olView({
+            center: fromLonLat(DEFAULT_CENTER),
+            zoom: DEFAULT_ZOOM,
+            minZoom: 10,
+            maxZoom: 20,
+        }),
         //controls: [],
     }));
     const [bingVisible, setBingVisible] = useState(false);
@@ -130,7 +135,7 @@ const Example4 = (props) => {
                 </p>
 
                 <MapProvider map={theMap}>
-                <Map minZoom={10} maxZoom={20} zoom={DEFAULT_ZOOM} center={fromLonLat(DEFAULT_CENTER)}>
+                <Map>
                     <layer.Tile title="Bing Road" baseLayer={true}>
                         <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
                     </layer.Tile>

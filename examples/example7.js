@@ -2,10 +2,9 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {MapProvider} from '../src/map-context'
 import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src'
-import {Collection} from 'ol'
+import Collection from 'ol/collection'
 import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
-import {Converter} from 'usng.js'
 
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
@@ -15,8 +14,6 @@ import {myGeoServer, astoria_wm, astoria_ll, MINZOOM, MAXZOOM} from './constants
 import {usngPrecision, wm, wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
-
-const usngConverter = new Converter
 
 import {createMapboxStreetsV6Style} from '../src/mapbox-streets-v6-style'
 const mapbox_key = process.env.MAPBOX_KEY;
@@ -31,7 +28,12 @@ const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
 
 const Example7 = ({}) => {
     const [theMap, setTheMap] = useState(new olMap({
-            view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+            view: new olView({
+                center: fromLonLat(DEFAULT_CENTER),
+                zoom: DEFAULT_ZOOM,
+                minZoom: MINZOOM,
+                maxZoom: MAXZOOM,
+             }),
             //interactions:[] // this map is not slippy so we can use drag select
         })
     );
@@ -42,7 +44,7 @@ const Example7 = ({}) => {
         return ll;
     }
 
-    const handleEvent = (e) => {
+    const onMove = (e) => {
         console.log("handleEvent", e)
         //e.stopPropagation(); // this stops draw interaction
     }
@@ -77,7 +79,7 @@ const Example7 = ({}) => {
                 </ul>
                 Interaction: Select <b>{selectCount>0?(selectCount + " selected"):""}</b> - select taxlots using click or shift drag
 
-            <Map zoom={DEFAULT_ZOOM} center={astoria_wm} minZoom={MINZOOM} maxZoom={MAXZOOM} onMoveEnd={handleEvent}>
+            <Map onMoveEnd={onMove}>
                 <control.LayerSwitcher show_progress={true}/>
                 <Graticule showLabels={true} maxLines={100} targetSize={50}/>
 

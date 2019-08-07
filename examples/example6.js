@@ -7,7 +7,7 @@ import {Map, Feature, geom, control, layer, source} from '../src'
 import {Map as olMap, View as olView} from 'ol'
 import {toLonLat, fromLonLat, transform} from 'ol/proj'
 
-import {myGeoServer, workspace, DAFAULT_CENTER, MINZOOM} from './constants'
+import {myGeoServer, workspace, DEFAULT_CENTER, MINZOOM} from './constants'
 import {wm} from '../src/constants'
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
@@ -20,11 +20,6 @@ const Example6 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
-
-    const [lat, setLat] = useState(46.184);
-    const [lon, setLon] = useState(-123.83);
-    const [zoom, setZoom] = useState(14);
-    const [rotation, setRotation] = useState(0.0);
 
     const pointStyle = new Style({
         image: new Circle({
@@ -40,7 +35,6 @@ const Example6 = () => {
             stroke: new Stroke({color: 'red', width: 1})
         })
     });
-    let ll = toLonLat([lon, lat]);
 
     return (
         <>
@@ -57,7 +51,7 @@ const Example6 = () => {
             </p>
 
             <MapProvider map={theMap}>
-                <Map center={ll} zoom={zoom}>
+                <Map>
                 <control.LayerSwitcher show_progress={true}/>
                     <layer.Image title="Bare Earth HS"> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
                     <layer.Tile title="OpenStreetMap" opacity={.5}> <source.OSM/> </layer.Tile>

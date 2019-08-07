@@ -4,7 +4,7 @@ import {MapProvider} from '../src/map-context'
 import {Map, Feature, Overlay, control, geom, layer, source} from '../src'
 import {Style, Fill, Icon, Stroke, Text} from 'ol/style'
 import {toStringHDMS} from 'ol/coordinate'
-import {Collection} from 'ol'
+import Collection from 'ol/collection'
 import {Converter} from 'usng.js'
 import {interaction} from '../src'
 import {OverviewMap} from '../src/control'
@@ -46,7 +46,12 @@ const taxlotVectorStyle = new Style({
 
 const Example8 = (props) => {
     const [theMap, setTheMap] = useState(new olMap({
-        view: new olView({center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        view: new olView({
+            center: fromLonLat(DEFAULT_CENTER),
+            zoom: DEFAULT_ZOOM,
+            minZoom: 12,
+            maxZoom: 17,
+        }),
     }));
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
@@ -93,11 +98,9 @@ const Example8 = (props) => {
                     <li> DOGAMI Oregon Canopy HS ImageServer </li>
                     <li> Tile source: OSM </li>
                 </ul>
-                <p>
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>
-                </p>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
-            <Map zoom={15} center={astoria_wm} minZoom={8} maxZoom={18} onClick={handleMapClick}>
+            <Map onClick={handleMapClick}>
                 <layer.Image title="Bare Earth HS" opacity={.60}
                     displayInLayerSwitcher={false}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>

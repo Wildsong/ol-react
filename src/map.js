@@ -1,12 +1,11 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useLayoutEffect} from 'react'
 import PropTypes from 'prop-types'
 import {MapContext} from './map-context'
 
-// I want the OL map object to live up one level so that I can set up
+// The OL map object has to live up one level in a context object so that I can set up
 // components like overview maps that live outside the map component.
 // Else I'd create the map here.
-// I don't want the map to live in Redux state because then I'd have
-// just one map for the entire app.
+// The map can't live in Redux state because then I'd have just one map for the entire app.
 
 const Map = (props) => {
     const map = useContext(MapContext);
@@ -25,18 +24,7 @@ const Map = (props) => {
         if (typeof props.onSingleClick === 'function') map.on('singleclick', props.onSingleClick);
         if (typeof props.onDoubleClick === 'function') map.on('doubleclick', props.onDoubleClick);
     }
-/*
-    useEffect(() => {
-        const view = map.getView();
-        if (animate) {
-            view.animate({center, zoom, rotation});
-        } else {
-            view.setCenter(center);
-            view.setZoom(zoom);
-            view.setRotation(rotation);
-        }
-    }, [center, rotation, zoom]);
-*/
+
     return (
         <div ref={mapTarget} className="ore-map" style={{position:"relative", top:0, width:600,height:400}}>
         {props.children}
@@ -44,11 +32,6 @@ const Map = (props) => {
     )
 }
 Map.propTypes = {
-    center: PropTypes.arrayOf(PropTypes.number).isRequired,
-    zoom: PropTypes.number.isRequired,
-    rotation: PropTypes.number,
-    animate: PropTypes.bool,
-
     onPointerMove: PropTypes.func,
     onPointerDrag: PropTypes.func,
     onMoveEnd: PropTypes.func,

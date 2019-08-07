@@ -61,8 +61,6 @@ const Example1 = () => {
     const [theMap, setTheMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
-    const [center, setCenter] = useState(astoria_wm);
-    const [zoom, setZoom] = useState(10);
     const [drawType, setDrawType] = useState("Point");
 
     const [enableModify, setModify] = useState(false); // no button yet!
@@ -86,10 +84,6 @@ const Example1 = () => {
     }
 
     const onGeocode = (e) => {
-        console.log("Did geocode e=", e);
-        setCenter(e.coordinate);
-        setZoom(18);
-
         const view = theMap.getView();
         view.setCenter(e.coordinate);
         view.setZoom(18);
@@ -97,11 +91,6 @@ const Example1 = () => {
 
     const handleAddFeature = (e) => {
         console.log("handleAddFeature", e, e.feature);
-    }
-
-    const handleMapEvent = (mapEvent) => {
-        console.log("Map event", mapEvent);
-        mapEvent.stopPropagation();
     }
 
     const drawStyle = new Style({
@@ -180,11 +169,8 @@ const Example1 = () => {
             </p>
 
             <MapProvider map={theMap}>
-            <Map center={center} zoom={zoom} style={{position:'relative',left:50,top:0}}
-                onPointerMove={ (e) => { setPointer(e.coordinate); } }
-                onChangeSize={ handleMapEvent }
-                onMoveEnd={ handleMapEvent }
-            >
+            <Map style={{position:'relative',left:50,top:0}}
+                onPointerMove={ (e) => { setPointer(e.coordinate); } } >
                 <layer.Tile title="Toner" baseLayer={true}>
                     <source.Stamen layer="toner"/>
                 </layer.Tile>
