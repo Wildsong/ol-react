@@ -1,21 +1,23 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {SourceContext} from '../source-context'
-import {Style} from 'ol/style'
-import Collection from 'ol/collection'
-import {Condition} from 'ol/events'
+import Style from 'ol/style/Style'
+import Collection from 'ol/Collection'
+import Condition from 'ol/events/condition'
 import {DragBox as olDragBox} from 'ol/interaction'
 
 const SelectDragBox = (props) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
 
+/*
     const boxstart = (e) => {
 //        console.log("onBoxStart", e)
         //props.features.clear(); We want to be able to select several times and collect features so don't call this
         e.stopPropagation(); // this stops draw interaction
     }
+*/
     const boxend = (e) => {
 //        console.log("onBoxEnd", e)
         const extent = dragboxInteraction.getGeometry().getExtent();
@@ -26,7 +28,7 @@ const SelectDragBox = (props) => {
         props.selected(e);
     }
 
-    const [dragboxInteraction, setDragboxInteraction] = useState(() => {
+    const [dragboxInteraction] = useState(() => {
         const interaction = new olDragBox({
             condition: props.condition
         });
@@ -37,10 +39,10 @@ const SelectDragBox = (props) => {
     });
 
     useEffect(() => {
-//        console.log("SelectDragBox mounted", dragboxInteraction);
+        console.log("SelectDragBox mounted", dragboxInteraction);
         map.addInteraction(dragboxInteraction);
         return () => {
-//            console.log("SelectDragBox UNMOUNTED");
+            console.log("SelectDragBox UNMOUNTED");
             map.removeInteraction(dragboxInteraction);
         }
     }, []);
@@ -51,7 +53,7 @@ const SelectDragBox = (props) => {
     return null;
 }
 SelectDragBox.propTypes = {
-    //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
+    condition: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Condition)]), // default is singleClick(), can be a func
     style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func.isRequired,

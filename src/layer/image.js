@@ -1,14 +1,12 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
-import {LayerProvider} from '../layer-context'
-import {Style} from 'ol/style'
+import {LayerProvider} from '../layer-context'  // eslint-disable-line no-unused-vars
 import {Image as olImageLayer} from 'ol/layer'
 
 const Image = (props) => {
     const map = useContext(MapContext);
-    const title = props.title;
-    const [layer, layerState] = useState(new olImageLayer(props));
+    const [layer] = useState(new olImageLayer(props));
     //console.log("layer.Image", title);
 
     useEffect(() => {
@@ -18,17 +16,17 @@ const Image = (props) => {
             //console.log("layer.Image unmounted", title);
             map.removeLayer(layer);
         }
-    }, []);
+    }, [layer, map]);
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
         //console.log("layer.Image opacity set to", layer.getOpacity());
-    }, [props.opacity]);
+    }, [layer, props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
         //console.log("layer.Image visible set to", layer.getVisible());
-    }, [props.visible]);
+    }, [layer, props.visible]);
 
     return (
         <LayerProvider layer={layer}>

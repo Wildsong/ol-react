@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react'
-import {MapProvider} from '../src/map-context'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {transform} from 'ol/proj'
+import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {fromLonLat, transform} from 'ol/proj'
 
-import {Map, View, Feature, control, geom, interaction, layer, VERSION} from '../build/@map46/ol-react'
-import Select from 'react-select'
+import {Map as olMap, View as olView} from 'ol'
+import {Map, View, Feature, control, geom, interaction, layer, VERSION} from '../build/@map46/ol-react' // eslint-disable-line no-unused-vars
+import Select from 'react-select' // eslint-disable-line no-unused-vars
+
+import {DEFAULT_CENTER, MINZOOM} from './constants'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
@@ -12,18 +14,6 @@ import '../App.css'
 const wgs84 = "EPSG:4326";
 const wm = "EPSG:3857";
 const astoria_wm = transform([-123.834,46.187], wgs84,wm)
-
-let transformfn = (coordinates) => {
-    for (let i = 0; i < coordinates.length; i+=2) {
-        coordinates[i]   += astoria_wm[0];
-        coordinates[i+1] += astoria_wm[1];
-    }
-    return coordinates
-}
-
-let attributions = [
-    osmAttribution,
-];
 
 // This controls what kind of features we are drawing.
 const typeSelect = [
@@ -34,19 +24,18 @@ const typeSelect = [
 ];
 
 const Example1 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
-    const [center, setCenter] = useState(astoria_wm);
-    const [zoom, setZoom] = useState(10);
-    const [enableModify, setEnableModify] = useState(true); // can't change this in the app yet
+    const [center] = useState(astoria_wm);
+    const [zoom] = useState(10);
     const [typeIndex, setTypeIndex] = useState(0); // index into typeSelect
 
     const changeType = (o) => {
         console.log("example1.changeType from", typeIndex, " to", o.index);
         setTypeIndex(o.index);
     }
-
+/*
     const textMarker = new Style({
         text: new Text({ text: 'Hee' })
     });
@@ -84,7 +73,7 @@ const Example1 = () => {
         stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width: 4}),
         fill: new Fill({color: 'rgba(255, 0, 0, .250)'}),
     });
-
+*/
     return (
         <>
             <h2> version { VERSION }</h2>

@@ -1,11 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {ImageArcGISRest as olImageArcGISRest} from 'ol/source'
 import {LayerContext} from '../layer-context'
 
 const ImageArcGISRest = (props) => {
     const layer = useContext(LayerContext);
-    const [source, setSource] = useState(new olImageArcGISRest(props));
+    const [source] = useState(new olImageArcGISRest(props));
     useEffect(() => {
         console.log("source.ImageArcGISRest mounted");
         layer.setSource(source);

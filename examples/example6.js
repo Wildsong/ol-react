@@ -1,14 +1,13 @@
-import React, {useState} from 'react'
-import PropTypes from 'prop-types'
-import {MapProvider} from '../src/map-context'
-import {Style, Circle, Fill, Stroke} from 'ol/style'
-import {Map, Feature, geom, control, layer, source} from '../src'
+import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import Style from 'ol/style/Style'
+import {Circle, Fill, Stroke} from 'ol/style'
+import {Map, Feature, geom, control, layer, source} from '../src' // eslint-disable-line no-unused-vars
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {fromLonLat} from 'ol/proj'
 
 import {myGeoServer, workspace, DEFAULT_CENTER, MINZOOM} from './constants'
-import {wm} from '../src/constants'
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -17,7 +16,7 @@ const wmsImageUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEa
 const featureUrl = "https://services.arcgis.com/uUvqNMGPm7axC2dD/ArcGIS/rest/services/Elementary_Schools/FeatureServer/0"
 
 const Example6 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
 

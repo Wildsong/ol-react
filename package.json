@@ -1,84 +1,91 @@
 {
-  "name": "@map46/ol-react",
-  "version": "0.5.8",
-  "description": "React interface for OpenLayers 6",
-  "keywords": [
-    "mapping",
-    "gis",
-    "openlayers",
-    "ol",
-    "ol6",
-    "react"
-  ],
-  "main": "./index.html",
-  "scripts": {
-    "test": "parcel serve test.html --open",
-    "start": "parcel serve index.html --open",
-    "build": "parcel build index.html",
-    "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
-    "clean": "rm -rf build/*",
-    "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
-    "postversion": "git push --verbose && git push --tags --verbose"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Wildsong/ol-react.git"
-  },
-  "license": "MIT",
-  "contributors": [
-    "Brian H Wilson <brian@wildsong.biz>",
-    "Richard Hills (original author) richard.hills@gmail.com",
-    "Tamás Nepusz ntamas",
-    "Jono Rogers @statusas",
-    "Victor Grigoriu vgrigoriu@gmail.com"
-  ],
-  "bugs": {
-    "url": "https://github.com/Wildsong/ol-react/issues",
-    "email": "brian@wildsong.biz"
-  },
-  "homepage": "https://github.com/Wildsong/ol-react#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/plugin-transform-object-assign": "^7.0.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "cssnano": "^4.1.10",
-    "eslint": "^6.1.0",
-    "eslint-plugin-react-hooks": "^1.6.1"
-  },
-  "dependencies": {
-    "bootstrap": "^4.3.1",
-    "cors": "^2.8.5",
-    "jsonp": "^0.2.1",
-    "ol": "file:../openlayers-6.0.0-beta.11/build/ol",
-    "ol-ext": "^3.1.4",
-    "prop-types": "^15.7.2",
-    "rc-slider": "^8.6.13",
-    "react": "^16.8.6",
-    "react-bootstrap-table-next": "^3.1.7",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^4.3.1",
-    "react-select": "^2.4.4",
-    "reactstrap": "^6.5.0",
-    "usng.js": "^0.4.2",
-    "webfont-matcher": "^1.1.0"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
+    "name": "@map46/ol-react",
+    "version": "0.5.8",
+    "description": "React interface for OpenLayers 6",
+    "keywords": [
+        "mapping",
+        "gis",
+        "openlayers",
+        "ol",
+        "ol6",
+        "react"
     ],
-    "plugins": [
-      "@babel/plugin-proposal-object-rest-spread",
-      [
-        "@babel/plugin-proposal-class-properties",
-        {
-          "loose": true
-        }
-      ]
-    ]
-  }
+    "main": "./index.html",
+    "scripts": {
+        "lint": "eslint .",
+        "test": "parcel serve test.html --open",
+        "start": "parcel serve index.html --open",
+        "build": "parcel build index.html",
+        "build-package": "npm run clean && npm run transpile && node tasks/prepare-package && cp README.md build/@map46/ol-react",
+        "clean": "rm -rf build/*",
+        "transpile": "babel src --out-dir build/@map46/ol-react --source-maps",
+        "postversion": "git push --verbose && git push --tags --verbose"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Wildsong/ol-react.git"
+    },
+    "license": "MIT",
+    "contributors": [
+        "Brian H Wilson <brian@wildsong.biz>",
+        "Richard Hills (original author) richard.hills@gmail.com",
+        "Tamás Nepusz ntamas",
+        "Jono Rogers @statusas",
+        "Victor Grigoriu vgrigoriu@gmail.com"
+    ],
+    "bugs": {
+        "url": "https://github.com/Wildsong/ol-react/issues",
+        "email": "brian@wildsong.biz"
+    },
+    "homepage": "https://github.com/Wildsong/ol-react#readme",
+    "devDependencies": {
+        "@babel/cli": "^7.5.5",
+        "@babel/core": "^7.5.5",
+        "@babel/plugin-proposal-class-properties": "^7.5.5",
+        "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+        "@babel/plugin-transform-object-assign": "^7.0.0",
+        "@babel/preset-env": "^7.5.5",
+        "@babel/preset-react": "^7.0.0",
+        "cssnano": "^4.1.10",
+        "eslint-config-standard": "^13.0.1",
+        "eslint-config-standard-react": "^8.0.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^9.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-react": "^7.14.3",
+        "eslint-plugin-react-hooks": "^1.6.1",
+        "eslint-plugin-standard": "^4.0.0"
+    },
+    "dependencies": {
+        "bootstrap": "^4.3.1",
+        "cors": "^2.8.5",
+        "jsonp": "^0.2.1",
+        "ol": "file:../openlayers-6.0.0-beta.11/build/ol",
+        "ol-ext": "^3.1.4",
+        "prop-types": "^15.7.2",
+        "rc-slider": "^8.6.13",
+        "react": "^16.8.6",
+        "react-bootstrap-table-next": "^3.1.7",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^4.3.1",
+        "react-select": "^2.4.4",
+        "reactstrap": "^6.5.0",
+        "usng.js": "^0.4.2",
+        "webfont-matcher": "^1.1.0"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ],
+        "plugins": [
+            "@babel/plugin-proposal-object-rest-spread",
+            [
+                "@babel/plugin-proposal-class-properties",
+                {
+                    "loose": true
+                }
+            ]
+        ]
+    }
 }

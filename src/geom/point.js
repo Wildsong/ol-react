@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {FeatureContext} from '../feature-context'
 import {Point as olPoint} from 'ol/geom'
@@ -52,7 +52,7 @@ const Point = (props) => {
         feature.setGeometry(geometry);
         //console.log("point mounted");
         //return () => {console.log("point unmounted")};
-    },[]);
+    },[feature, geometry, props.transform]);
     return null; // nothing to render here
 }
 Point.propTypes = {

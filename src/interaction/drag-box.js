@@ -1,14 +1,14 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
-import {SourceContext} from '../source-context'
+//import {SourceContext} from '../source-context'
 import {DragBox as olDragBox} from 'ol/interaction'
-import {Condition} from 'ol/events'
+import Condition from 'ol/events/condition'
 
 const DragBox = (props) => {
     const map = useContext(MapContext);
-    const source = useContext(SourceContext);
-    const [dragboxInteraction, setDragboxInteraction] = useState(() => {
+    //const source = useContext(SourceContext);
+    const [dragboxInteraction] = useState(() => {
         const interaction = new olDragBox({
             condition: props.condition
         });
@@ -27,13 +27,13 @@ const DragBox = (props) => {
             console.log("DragBox UNMOUNTED");
             map.removeInteraction(dragboxInteraction);
         }
-    }, []);
+    }, [dragboxInteraction, map]);
 
     return null;
 }
 
 DragBox.propTypes = {
-    //condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
+    condition: PropTypes.instanceOf(Condition), // default is singleClick(), can be a func
     boxend: PropTypes.func,
     boxstart: PropTypes.func,
 };

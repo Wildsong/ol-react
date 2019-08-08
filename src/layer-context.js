@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';  // eslint-disable-line no-unused-vars
 
 // https://upmostly.com/tutorials/how-to-use-the-usecontext-hook-in-react
 

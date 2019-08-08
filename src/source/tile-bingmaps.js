@@ -1,11 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
 import {BingMaps as olBingMaps} from 'ol/source'
 
 const BingMaps = (props) => {
     const layer = useContext(LayerContext);
-    const [source, setSource] = useState(new olBingMaps({
+    const [source] = useState(new olBingMaps({
         ...props,
         key: props.apikey // key appears to be a reserved word
     }));

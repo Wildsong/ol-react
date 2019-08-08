@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
 import {WMTS as olWMTS} from 'ol/source'
@@ -8,7 +8,7 @@ import {WMTS as olWMTS} from 'ol/source'
 
 const WMTS = (props) => {
     const layer = useContext(LayerContext);
-    const [source, setSource] = useState(new olTileWMTS(props));
+    const [source] = useState(new olWMTS(props));
     useEffect(() => {
         //console.log("source.WMS mounted");
         layer.setSource(source);

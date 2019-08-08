@@ -1,4 +1,4 @@
-import { EsriJSON, GeoJSON } from 'ol/format'
+import {EsriJSON, GeoJSON} from 'ol/format'
 // import { WKT } from 'ol/format' // I suppose this is theoretically a way to read PostGIS data?
 // import { TopoJSON } from 'ol/format'  // Topology JSON supports Microsoft PowerBI
 import jsonp from 'jsonp' // jsonp avoids CORS problems
@@ -6,14 +6,18 @@ import jsonp from 'jsonp' // jsonp avoids CORS problems
 //import { Projection, transformExtent } from 'ol/proj'
 //import { wgs84, wm } from '../utils'
 
+
 export const DataLoader = (loader, url, source) => {
     // Returns a function that can be called to load data.
 
     console.log('DataLoader()', loader, url, " source=",source)
 
+    const geojsonFormat = new GeoJSON();
+    const esrijsonFormat = new EsriJSON();
+    const format = 'json' // Options are: { html | json | pbf | GeoJson }
+
     switch (loader) {
         case 'geojson':
-            let geojsonFormat = new GeoJSON();
             return (extent, resolution, projection) => {
                 console.log("geojson dataloader url=", url);
                 // Reproject from Web Mercator to OR North
@@ -54,10 +58,8 @@ export const DataLoader = (loader, url, source) => {
                     }
                 );
             }
-            break;
 
         case 'esrijson':
-            let esrijsonFormat = new EsriJSON();
 /*
 This is the full URL captured from the debbugger. I think some fields are probably defaults,
 so far what I have enabled below seems to work at least for ArcGIS Online.
@@ -65,8 +67,6 @@ https://services.arcgis.com/uUvqNMGPm7axC2dD/arcgis/rest/services/Oregon_Zoning_
 https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer/1/query/?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A-13786331.473719545%2C%22ymin%22%3A5809530.407877925%2C%22xmax%22%3A-13783942.816585634%2C%22ymax%22%3A5811202.467871663%7D&callback=__jp0
 */
 // https://developers.arcgis.com/rest/services-reference/feature-service.htm#GUID-173F40CB-5EBE-4450-B7C8-AC104A8B18F7
-
-            const format = 'json' // Options are: { html | json | pbf | GeoJson }
             return (extent, resolution, projection) => {
                 let fsurl = url + '/query/?='
                     + 'f=' + format
@@ -100,10 +100,8 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
                     }
                 });
             }
-            break;
 
         default:
             throw('Dataloader(): Unknown format:', loader);
-            break;
     }
 }

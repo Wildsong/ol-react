@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types';
 import {MapContext} from '../map-context'
 import olextGeoBookmark from 'ol-ext/control/GeoBookmark'
@@ -13,11 +13,11 @@ marks: {
 
 const GeoBookmark = (props) => {
     const map = useContext(MapContext);
-    const [control, setControl] = useState(new olextGeoBookmark(props));
+    const [control] = useState(new olextGeoBookmark(props));
     useEffect(() => {
         map.addControl(control);
         return () => { map.removeControl(control); }
-    }, []);
+    }, [control, map]);
     return null;
 }
 GeoBookmark.propTypes = {

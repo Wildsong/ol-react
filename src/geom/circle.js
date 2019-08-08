@@ -1,29 +1,29 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {Circle as olCircle} from 'ol/geom'
 import {FeatureContext} from '../feature-context'
 
 // A linestring is an array of points and an optional layout.
 
-const Circle = (props) => {
+const Circle = ({transform, children}) => {
     const feature = useContext(FeatureContext);
     let geometry;
-    let center = props.children[0];
+    let center = children[0];
     if (typeof center === 'number') {
         // center only
-        center = props.children;
+        center = children;
         geometry = new olCircle(center);
     } else {
-        const radius = props.children[1];
+        const radius = children[1];
         geometry = new olCircle(center, radius);
     }
     useEffect(() => {
-        if (props.transform)
-            geometry.applyTransform(props.transform);
+        if (transform)
+            geometry.applyTransform(transform);
         feature.setGeometry(geometry);
         //console.log("lineString mounted");
         //return () => {console.log("lineString unmounted")};
-    },[]);
+    }, [feature, geometry, transform]);
     return null; // nothing to render here
 }
 Circle.propTypes = {

@@ -1,34 +1,23 @@
-import React, {useState} from 'react'
-import PropTypes from 'prop-types'
-import {MapProvider} from '../src/map-context'
+import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {toStringXY} from 'ol/coordinate'
 import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
-import {Button} from 'reactstrap'
-import OpacitySlider from '../src/control/opacity-slider'
-import {Map, Feature, control, geom, interaction, layer, source} from '../src'
+import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
+import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
+import {Map, Feature, control, geom, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {fromLonLat} from 'ol/proj'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
-import {astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {astoria_ll, MINZOOM} from './constants'
 import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 
-import olSearchNominatim from 'ol-ext/control/SearchNominatim'
-import {Collection} from 'ol'
-
-let transformfn = (coordinates) => {
-    for (let i = 0; i < coordinates.length; i+=2) {
-        coordinates[i]   += astoria_wm[0];
-        coordinates[i+1] += astoria_wm[1];
-    }
-    return coordinates
-}
+import Collection from 'ol/Collection'
 
 let attributions = [
     osmAttribution,
@@ -43,7 +32,7 @@ const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/serv
                     "Specialty/ESRI_StateCityHighway_USA/MapServer"
 
 const Example3 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({
             center: fromLonLat(DEFAULT_CENTER),
             zoom: MINZOOM,
@@ -53,7 +42,6 @@ const Example3 = () => {
         //controls: [],
     }));
 
-    const [hasError, setHasError] = useState(false);
     const [opacityLayer1, setOpacityLayer1] = useState(.20);
     const [opacityLayer2, setOpacityLayer2] = useState(.20);
     const [opacityLayer3, setOpacityLayer3] = useState(1.0);
@@ -79,12 +67,8 @@ const Example3 = () => {
         let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
         let styleCache = {};
         let clusterStyle = (feature) => {
-            let size = 0;
             let style;
-            try {
-                size = feature.get('features').length;
-            } catch {
-            }
+            const size = feature === undefined? 0 : feature.get('features').length;
 //            console.log("clusterStyle", size);
             if (size <= 1) {
                 style = gpxMarker;

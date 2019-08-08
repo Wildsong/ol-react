@@ -1,14 +1,11 @@
-import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
-import {MapProvider} from '../src/map-context'
-import {Map, Feature, Overlay, control, geom, layer, source} from '../src'
-import {Style, Fill, Icon, Stroke, Text} from 'ol/style'
-import {toStringHDMS} from 'ol/coordinate'
-import Collection from 'ol/collection'
+import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {Map, Feature, Overlay, control, geom, layer, source, interaction} from '../src' // eslint-disable-line no-unused-vars
+import Style from 'ol/style/Style'
+import {Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
-import {interaction} from '../src'
-import {OverviewMap} from '../src/control'
-import {Button} from 'reactstrap'
+import {OverviewMap} from '../src/control' // eslint-disable-line no-unused-vars
+import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 
 // abandoning hope of this test of WMTS
 //import {getWidth, getTopLeft} from 'ol/extent'
@@ -16,11 +13,11 @@ import {Button} from 'reactstrap'
 //import WMTSTileGrid from 'ol/tilegrid/WMTS'
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {toLonLat, fromLonLat} from 'ol/proj'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
-import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
-import {usngPrecision, wgs84, wm} from '../src/constants'
+import {myGeoServer, astoria_ll} from './constants'
+import {usngPrecision} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
 
@@ -44,8 +41,8 @@ const taxlotVectorStyle = new Style({
 //const taxlotsWMTSUrl = myGeoServer + '/gwc/service/wmts/'
 //const taxlotsFormat = "image/png"
 
-const Example8 = (props) => {
-    const [theMap, setTheMap] = useState(new olMap({
+const Example8 = () => {
+    const [theMap] = useState(new olMap({
         view: new olView({
             center: fromLonLat(DEFAULT_CENTER),
             zoom: DEFAULT_ZOOM,
@@ -85,7 +82,6 @@ const Example8 = (props) => {
     }
     const tileGrid = new WMTSTileGrid({origin: getTopLeft(projectionExtent), resolutions, matrixIds});
 */
-
     return (
         <>
         <MapProvider map={theMap}>

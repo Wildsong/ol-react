@@ -1,11 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {FullScreen as olFullScreen} from 'ol/control'
 
 const FullScreen = (props) => {
     const map = useContext(MapContext);
-    const [control, setControl] = useState(new olFullScreen(props));
+    const [control] = useState(new olFullScreen(props));
     useEffect(() => {
         console.log("Fullscreen mounted");
         map.addControl(control);
@@ -13,7 +13,7 @@ const FullScreen = (props) => {
             map.removeControl(control);
             console.log("Fullscreen UNMOUNTED");
         }
-    }, []);
+    }, [control, map]);
     return null;
 }
 FullScreen.propTypes = {

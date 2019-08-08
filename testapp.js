@@ -1,17 +1,15 @@
-import React from 'react'
+import React from 'react';  // eslint-disable-line no-unused-vars
 import {render} from 'react-dom'
-import Example1 from './examples/test'
+import Example1 from './examples/test' // eslint-disable-line no-unused-vars
 
-class App extends React.Component {
-    render() {
-        return (
-            <>
-                <h1>{ this.props.title }</h1>
-                This loads an example to confirm there is a loadable ol-react package.
-                <Example1 />
-            </>
-        );
-    }
+const App = () => {  // eslint-disable-line no-unused-vars
+    return (
+        <>
+            <h1>{ this.props.title }</h1>
+            This loads an example to confirm there is a loadable ol-react package.
+            <Example1 />
+        </>
+    );
 }
 
 render(

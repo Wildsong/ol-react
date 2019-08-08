@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {FeatureContext} from '../feature-context'
 import {Polygon as olPolygon} from 'ol/geom'
@@ -23,7 +23,7 @@ const Polygon = (props) => {
         feature.setGeometry(geometry);
         //console.log("polygon mounted");
         //return () => {console.log("polygon unmounted")};
-    },[]);
+    },[feature, geometry, props.transform]);
     return null; // nothing to render here
 }
 Polygon.propTypes = {

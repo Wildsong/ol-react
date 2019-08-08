@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
-import {MapProvider} from '../src/map-context'
-import Select from 'react-select'
-import {Container, Row, Col, Button} from 'reactstrap'
-import BootstrapTable from 'react-bootstrap-table-next'
+import React, {useState, useEffect, useRef} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no-unused-vars
+import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
 import {Map as olMap, View as olView} from 'ol'
-import Collection from 'ol/collection'
-import {bbox as bboxStrategy} from 'ol/loadingstrategy'
-import {toStringXY, toStringHDMS} from 'ol/coordinate'
-import {click, platformModifierKeyOnly} from 'ol/events/condition'
-import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {Map, source, Feature, control, interaction, layer} from '../src';
+import Collection from 'ol/Collection'
+import {toStringXY} from 'ol/coordinate'
+import {platformModifierKeyOnly} from 'ol/events/condition'
+import Style from 'ol/style/Style'
+import {Fill, Stroke} from 'ol/style'
+import {fromLonLat} from 'ol/proj'
+import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
-import {DataLoader} from '../src/source/dataloaders'
 
-import {myGeoServer, workspace, astoria_wm, astoria_ll, MINZOOM} from './constants'
+import {myGeoServer, workspace, astoria_ll} from './constants'
 import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
@@ -48,16 +45,8 @@ const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeat
     + '&typeName=' + workspace + '%3Ataxlots'
 const taxlotsFormat = 'geojson'
 
-const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
-    "Specialty/ESRI_StateCityHighway_USA/MapServer"
-
-let transformfn = (coordinates) => {
-    for (let i = 0; i < coordinates.length; i+=2) {
-        coordinates[i]   += astoria_wm[0];
-        coordinates[i+1] += astoria_wm[1];
-    }
-    return coordinates
-}
+//const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
+    //"Specialty/ESRI_StateCityHighway_USA/MapServer"
 
 const astoriagis = "https://gis.astoria.or.us/cgi-bin/mapserv.exe?SERVICE=WMS&VERSION=1.1.1"
     + "&MAP=%2Fms4w%2Fapps%2Fastoria31_Public%2Fhtdocs%2Fastoria31%2Fmaps%2F.%2Fair_2015.map&LAYERS=air_2015";
@@ -71,33 +60,32 @@ const selectedStyle = new Style({ // yellow
     fill:   new Fill({color: 'rgba(255, 255, 0, .001)'}),
 });
 
-const Example2 = ({}) => {
-    const [theMap, setTheMap] = useState(new olMap({
+const Example2 = () => {
+    const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
         //controls: [],
     }));
-    const [resolution, setResolution] = useState(0)
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
     const [selectCount, setSelectCount] = useState(0);
-    const [enableModify, setEnableModify] = useState(false) // not implemented yet
+//    const [enableModify, setEnableModify] = useState(false) // not implemented yet
     const [rows, setRows] = useState([]) // rows in table
     const view = theMap.getView();
 
-    const [popup, setPopup] = useState(new Popup());
+    const [popup] = useState(new Popup());
+    /*
     const [popupPosition, setPopupPosition] = useState([0,0]) // location on screen
     const [popupText, setPopupText] = useState("HERE") // text for popup
-
-    let taxlotLayer = null;
+    */
+    const layers = theMap.getLayers();
+    const taxlotLayer = useRef(null);
 
     useEffect(() => {
         theMap.addOverlay(popup);
-
-        const layers = theMap.getLayers();
         layers.forEach(layer => {
-            if (layer.get("title") == 'Taxlots')
-                taxlotLayer = layer;
+            if (layer.get("title") == 'Taxlots') taxlotLayer.current = layer;
         })
+        console.log("taxlotLayer = ", taxlotLayer)
     }, []);
 
 
@@ -113,13 +101,14 @@ const Example2 = ({}) => {
 
             case 'pointermove':
                 // roll over - just show taxlot popup
-                const lonlat = toLonLat(e.coordinate)
-                const features = taxlotLayer.getSource().getFeaturesAtCoordinate(e.coordinate)
-                if (features.length > 0) {
-                    const text = features[0].get(taxlotPopupField)
-                    if (text != null && text.length > 0) {
-                        popup.show(e.coordinate, text);
-                        return false;
+                {
+                    const features = taxlotLayer.current.getSource().getFeaturesAtCoordinate(e.coordinate)
+                    if (features.length > 0) {
+                        const text = features[0].get(taxlotPopupField)
+                        if (text != null && text.length > 0) {
+                            popup.show(e.coordinate, text);
+                            return false;
+                        }
                     }
                 }
                 popup.hide();
@@ -132,9 +121,9 @@ const Example2 = ({}) => {
         return false; // condition has not been met
     }
 
-    const handleMove = (mapEvent) => {
+    const handleMove = () => {
         const viewres = view.getResolution().toFixed(2)
-        setResolution(viewres);
+//        setResolution(viewres);
         try {
             let maxres = taxlotLayer.get("maxResolution");
             setTaxlotsVisible(maxres >= viewres);
@@ -194,7 +183,7 @@ const Example2 = ({}) => {
 
                 <Container>
                     <Row><Col>
-        	        <Map onMoveEnd={handleMove} animate={false}>
+                        <Map onMoveEnd={handleMove} animate={false}>
 
                         <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
 

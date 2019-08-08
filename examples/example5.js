@@ -1,21 +1,21 @@
-import React, {useState} from 'react'
-import PropTypes from 'prop-types'
-import {Map, layer, source, control, interaction, overlay} from '../src'
-import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap'
-import BootstrapTable from 'react-bootstrap-table-next'
+import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
+import {Map, layer, source, control, interaction, overlay} from '../src' // eslint-disable-line no-unused-vars
+import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap' // eslint-disable-line no-unused-vars
+import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
 import {Point} from 'ol/geom'
 import {Vector as VectorSource} from 'ol/source'
-import {Style, Circle, Fill, Stroke, Text} from 'ol/style'
+import Style from 'ol/style/Style'
+import {Fill, Stroke} from 'ol/style'
 import {Circle as olCircle} from 'ol/geom'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
-import {Feature, Collection} from 'ol'
-import {MapProvider} from '../src/map-context'
+import Feature from 'ol/Feature'
+import Collection from 'ol/Collection'
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {fromLonLat} from 'ol/proj'
 
-import {myGeoServer, workspace, astoria_ll, astoria_wm, DEFAULT_CENTER, MINZOOM, MAXZOOM} from './constants'
-import {wgs84} from '../src/constants'
+import {myGeoServer, workspace, astoria_ll, astoria_wm, MINZOOM, MAXZOOM} from './constants'
 const DEFAULT_ZOOM = 14;
 
 import './style.css'
@@ -40,7 +40,6 @@ const taxlotsColumns  = [
 // clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
 const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
-const taxlotsFormat = 'geojson'
 
 // Without the key you get maps with a watermark
 // see https://www.thunderforest.com/
@@ -51,16 +50,14 @@ const thunderforestUrl = 'https://tile.thunderforest.com/' + tflayername + '/{z}
 //console.log("url=",thunderforest_url);
 
 const Example5 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({ center: astoria_wm, zoom: DEFAULT_ZOOM}),
         controls: [] // don't use default controls.
     }));
-    const [center, setCenter] = useState(fromLonLat(astoria_ll));
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [resolution, setResolution] = useState(0)
-    const [address, setAddress] = useState('');
-    const [lats, setLats] = useState(astoria_ll[1].toString());
-    const [lons, setLons] = useState(astoria_ll[0].toString());
+    const [lats] = useState(astoria_ll[1].toString());
+    const [lons] = useState(astoria_ll[0].toString());
     const [selectCount, setSelectCount] = useState(0);
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
@@ -68,7 +65,7 @@ const Example5 = () => {
 
     const bookmarks = {
         1 : { location: astoria_ll,          zoom: 13, title: "Astoria"},
-    	2 : { location: [-123.969,45.893],   zoom: 13, title: "Cannon Beach",},
+        2 : { location: [-123.969,45.893],   zoom: 13, title: "Cannon Beach"},
         3 : { location: [-123.9188,46.026],  zoom: 13, title: "Gearhart",},
         4 : { location: [-123.9520,46.2000], zoom: 14, title: "Hammond",},
         5 : { location: [-123.5032,45.9345], zoom: 14, title: "Jewell",},
@@ -121,11 +118,11 @@ const Example5 = () => {
     const toggleAnimate = (e) => {
         const { target: { name, value }} = e;
         let aState = !animate;
-	    setAnimate(aState);
+        setAnimate(aState);
         e.preventDefault();
     }
 
-    const gotoXY = (center,zoom) => {
+    const gotoXY = (center, zoom) => {
         if (center[0]==0 || center[1]==0 || zoom==0)
             return;
         console.log('Example5.gotoXY', center, zoom);
@@ -162,11 +159,6 @@ const Example5 = () => {
     // Show a list of bookmarks
     const keys = Object.keys(bookmarks);
     const bookmarkTitles = keys.map(k => [k, bookmarks[k].title]);
-
-    const polyStyle = new Style({
-        stroke: new Stroke({color: 'rgba(0, 0, 0, 1)', width:4}),
-        fill: new Fill({color: 'rgba(255, 0, 0, .250)'})
-    });
 
     // Test for issue #2, accept an external data source
     // Create an OpenLayers vector source, and add a

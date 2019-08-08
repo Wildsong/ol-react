@@ -1,13 +1,13 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
-import {LayerProvider} from '../layer-context'
+import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import {Style as olStyle} from 'ol/style'
 import {VectorTile as olVectorTileLayer} from 'ol/layer'
 
 const VectorTile = (props) => {
     const map = useContext(MapContext);
-    const [layer, layerState] = useState(new olVectorTileLayer(props));
+    const [layer] = useState(new olVectorTileLayer(props));
     const title = props.title;
 //    const style = buildStyle(props.style);
     console.log("layer.VectorTile", title);
@@ -19,17 +19,17 @@ const VectorTile = (props) => {
             console.log("layer.VectorTile unmounted", title);
             map.removeLayer(layer);
         }
-    }, []);
+    }, [layer, map, title]);
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
         console.log("layer.VectorTile opacity set to", layer.getOpacity());
-    }, [props.opacity]);
+    }, [layer, props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
         console.log("layer.VectorTile visible set to", layer.getVisible());
-    }, [props.visible]);
+    }, [layer, props.visible]);
 
     return (
         <LayerProvider layer={layer}>

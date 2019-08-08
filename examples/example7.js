@@ -1,17 +1,16 @@
-import React, {useState} from 'react'
-import PropTypes from 'prop-types'
-import {MapProvider} from '../src/map-context'
-import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src'
-import Collection from 'ol/collection'
-import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
+import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src' // eslint-disable-line no-unused-vars
+import Collection from 'ol/Collection'
+import Style from 'ol/style/Style'
+import {Fill, Icon, Stroke, Text} from 'ol/style'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
-import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import {fromLonLat} from 'ol/proj'
 
-import {myGeoServer, astoria_wm, astoria_ll, MINZOOM, MAXZOOM} from './constants'
-import {usngPrecision, wm, wgs84} from '../src/constants'
+import {myGeoServer, astoria_ll, MINZOOM, MAXZOOM} from './constants'
+import {wgs84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
 const DEFAULT_ZOOM = 12;
 
@@ -26,8 +25,8 @@ const taxlotsUrl = myGeoServer + '/gwc/service/tms/1.0.0/'
         + taxlotsLayer
         + '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf';
 
-const Example7 = ({}) => {
-    const [theMap, setTheMap] = useState(new olMap({
+const Example7 = () => {
+    const [theMap] = useState(new olMap({
             view: new olView({
                 center: fromLonLat(DEFAULT_CENTER),
                 zoom: DEFAULT_ZOOM,

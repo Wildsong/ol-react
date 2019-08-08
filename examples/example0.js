@@ -1,19 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import PropTypes from 'prop-types'
-import {Map, control, layer, source} from '../src'
-import {Container, Row, Col, Button} from 'reactstrap'
-import {MapProvider} from '../src/map-context'
+import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
+import {Map, control, layer, source} from '../src' // eslint-disable-line no-unused-vars
+import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat} from 'ol/proj'
+import {fromLonLat} from 'ol/proj'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
-import {OpenLayersVersion} from '../src'
+import {OpenLayersVersion} from '../src' // eslint-disable-line no-unused-vars
 
-import {astoria_wm, DEFAULT_CENTER, MINZOOM} from './constants'
+import {DEFAULT_CENTER, MINZOOM} from './constants'
 import {wgs84} from '../src/constants'
 
 const Example0 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
         //controls: [],
     }));
@@ -24,9 +23,9 @@ const Example0 = () => {
         setZoom(newZoom)
         view.setZoom(newZoom);
     }
-    const decZoom = (e) => { updateZoom(-1); }
-    const incZoom = (e) => { updateZoom(1); }
-    const onMove = (e) => {
+    const decZoom = () => { updateZoom(-1); }
+    const incZoom = () => { updateZoom(1); }
+    const onMove = () => {
         const newZoom = theMap.getView().getZoom();
         if (newZoom !== zoom) {
             setZoom(newZoom);

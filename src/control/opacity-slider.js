@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import Slider from 'rc-slider'
+import Slider from 'rc-slider' // eslint-disable-line no-unused-vars
 import 'rc-slider/assets/index.css'
 
 const OpacitySlider = ({title,value,onChange}) => {

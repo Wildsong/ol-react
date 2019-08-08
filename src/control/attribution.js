@@ -1,11 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {Attribution as olAttribution} from 'ol/control'
 
 const Attribution = (props) => {
     const map = useContext(MapContext);
-    const [control, setControl] = useState(new olAttribution(props));
+    const [control] = useState(new olAttribution(props));
     useEffect(() => {
         //console.log("Attribution mounted");
         map.addControl(control);
@@ -13,7 +13,7 @@ const Attribution = (props) => {
             map.removeControl(control);
             //console.log("Attribution UNMOUNTED");
         }
-    }, []);
+    }, [map, control]);
     return null;
 }
 Attribution.propTypes = {

@@ -1,15 +1,16 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
-import {SourceProvider} from '../source-context'
+import {SourceProvider} from '../source-context'  // eslint-disable-line no-unused-vars
 import {Vector as olVectorSource} from 'ol/source'
 import {Collection} from 'ol'
 
 const Vector = (props) => {
     const layer = useContext(LayerContext);
-    const [source, setSource] = useState(
+    const [source] = useState(
         (typeof props.source === "object") ? props.source : new olVectorSource(props)
     );
+
     useEffect(() => {
         //console.log("source.Vector mounted");
         //  This is used for a DRAW Interaction, see example1
@@ -21,6 +22,7 @@ const Vector = (props) => {
         }
         layer.setSource(source);
     }, [] );
+
     return (
         <SourceProvider source={source}>
         {props.children}

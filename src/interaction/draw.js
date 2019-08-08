@@ -1,8 +1,8 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {SourceContext} from '../source-context'
-import {GeometryType as olGeometryType} from 'ol/geom'
+//import {GeometryType as olGeometryType} from 'ol/geom'
 import {Style as olStyle} from 'ol/style'
 import {Draw as olDraw} from 'ol/interaction'
 
@@ -30,7 +30,7 @@ const Draw = (props) => {
             console.log("Draw UNMOUNTED");
             map.removeInteraction(interaction);
         }
-    }, [props.type]);
+    }, []);
 
 /*
 This did not work.

@@ -1,18 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import {MapProvider} from '../src/map-context'
-import {Collection} from 'ol'
-import {Style, RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import OpacitySlider from '../src/control/opacity-slider'
-import {Map, Feature, geom, control, interaction, layer, source} from '../src'
-import Select from 'react-select'
+import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import Collection from 'ol/Collection'
+import Style from 'ol/style/Style'
+import {RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
+import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
+import {Map, Feature, geom, control, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
+import Select from 'react-select' // eslint-disable-line no-unused-vars
 
 import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
 import {Map as olMap, View as olView} from 'ol'
-import {toLonLat, fromLonLat, transform} from 'ol/proj'
+import {fromLonLat} from 'ol/proj'
 
 import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
 const DEFAULT_CENTER = astoria_ll;
@@ -20,6 +20,7 @@ const DEFAULT_CENTER = astoria_ll;
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
 
+/*
 const initialGeoBookmarks = {
     "Astoria": { pos: fromLonLat([-123.836,46.182]), zoom: 13, permanent:true },
 	"Cannon Beach": { pos: fromLonLat([-123.969,45.893]), zoom: 13, permanent:true },
@@ -29,6 +30,7 @@ const initialGeoBookmarks = {
     "Seaside": { pos: fromLonLat([-123.920,45.994]), zoom: 12, permanent:true },
     "Warrenton": { pos: fromLonLat([-123.924,46.165]), zoom: 13, permanent:true },
 };
+*/
 
 const transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -46,29 +48,23 @@ const typeSelect = [
     { index: 3,  label: "Circle" },
 ];
 
-const EventList = (props) => {
-    let keyval=0; // Some weird react rule, each row needs a unique key.
-    return (
-        <ol>
-        { props.events.slice(0).reverse().map( (listVal) => <li key={ keyval++ }>{ listVal }</li> )}
-        </ol>
-    );
-}
-
 /* ============================================================================= */
 
 const Example1 = () => {
-    const [theMap, setTheMap] = useState(new olMap({
+    const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
     const [drawType, setDrawType] = useState("Point");
 
-    const [enableModify, setModify] = useState(false); // no button yet!
+    const [enableModify] = useState(false); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(.80);
-    const [opacityDraw, setOpacityDraw] = useState(1);
-    const [typeIndex, setTypeIndex] = useState(0); // index into draw typeSelect
-    const [pointer, setPointer] = useState('');
-    const [markerId, setMarker] = useState(1);
+    const [pointer, setPointer] = useState([0,0]);
+    const [markerId] = useState(1);
+
+    const onPointerMove = (e) => {
+        setPointer(e.coordinate);
+        return false;
+    }
 
     const selectDrawType = (e) => {
         console.log("draw type set to ", e.label);
@@ -77,10 +73,6 @@ const Example1 = () => {
 
     const changeOpacityOSM = (value) => {
         setOpacityOSM(value); // this triggers a render
-    }
-    const changeOpacityDraw = (value) => {
-        setOpacityDraw(value); // this triggers a render
-        drawLayer.setOpacity(value);
     }
 
     const onGeocode = (e) => {
@@ -157,7 +149,6 @@ const Example1 = () => {
                 </p>
 
             <OpacitySlider title="OSM" onChange={changeOpacityOSM}  value={opacityOSM}/>
-            <OpacitySlider title="Draw" onChange={changeOpacityDraw} value={opacityDraw}/>
 
             FIXME I can change the Vector Type now but the style does not update
             so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
@@ -169,8 +160,7 @@ const Example1 = () => {
             </p>
 
             <MapProvider map={theMap}>
-            <Map style={{position:'relative',left:50,top:0}}
-                onPointerMove={ (e) => { setPointer(e.coordinate); } } >
+            <Map style={{position:'relative',left:50,top:0}} onPointerMove={onPointerMove}>
                 <layer.Tile title="Toner" baseLayer={true}>
                     <source.Stamen layer="toner"/>
                 </layer.Tile>
@@ -220,7 +210,7 @@ const Example1 = () => {
                     </source.Vector>
                 </layer.Vector>
 
-                <layer.Vector title="Draw" opacity={opacityDraw} style={drawStyle}>
+                <layer.Vector title="Draw" opacity={1} style={drawStyle}>
                     <source.Vector features={drawFeatures}>
                         <interaction.Draw type={drawType} drawend={handleAddFeature}/>
                     </source.Vector>

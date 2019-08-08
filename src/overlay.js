@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import {MapContext} from './map-context'
@@ -30,7 +30,7 @@ const animate(finishCoords, animationLength) {
 
 const Overlay = (props) => {
     const map = useContext(MapContext);
-    const [overlay, setOverlay] = useState(new olOverlay({
+    const [overlay] = useState(new olOverlay({
             id: props.id,
             offset: props.offset,
             position: props.position,
@@ -38,15 +38,12 @@ const Overlay = (props) => {
             stopEvent: props.stopEvent,
             insertFirst: props.insertFirst
         }));
-    const [element, setElement] = useState(document.createElement("div"));
+    const [element] = useState(document.createElement("div"));
+/*
     const olay = element => {
-        try {
-            overlay.setTarget(element)
-        } catch {
-            console.log("error");
-        }
+        overlay.setTarget(element)
     }
-
+*/
     useEffect(() => {
         map.addOverlay(overlay);
         console.log("Overlay mounted.");
@@ -60,12 +57,12 @@ const Overlay = (props) => {
             //        this.element.parentNode.removeChild(this.element);
             console.log("Overlay unmounted.");
         };
-    }, []);
+    }, [element, map, map.title, overlay, props.element]);
 
     useEffect(() => {
         console.log("Offset set to ", props.offset);
         overlay.setOffset(props.offset);
-    }, [props.offset]);
+    }, [overlay, props.offset]);
 
 /*    if (props.animate) {
         if (typeof this.props.position !== 'undefined')
@@ -82,7 +79,6 @@ const Overlay = (props) => {
     return null;
     /*(
         <div ref={olay}>
-        dylan harris and wayne klebold
         {props.children}
         </div>
     );*/

@@ -1,7 +1,7 @@
 // See full docs at
 // http://viglino.github.io/ol-ext/doc/doc-pages/ol.control.SearchNominatim.html
 
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
@@ -12,7 +12,7 @@ import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
 const SearchNominatim = (props) => {
     const map = useContext(MapContext);
-    const [control, setControl] = useState(new olSearchNominatim());
+    const [control] = useState(new olSearchNominatim());
     useEffect(() => {
         console.log("SearchNominatim mounted");
         map.addControl(control);

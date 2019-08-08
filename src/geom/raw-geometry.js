@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {FeatureContext} from '../feature-context'
 import Geometry from 'ol/geom/Geometry'
@@ -20,7 +20,7 @@ const RawGeometry  = (props) => {
         return () => {
             feature.setGeometry(undefined);
             console.log("geometry unmounted")};
-    },[]);
+    },[feature, props.geometry, props.transform]);
     return null; // nothing to render here
 }
 RawGeometry.propTypes = {

@@ -1,36 +1,33 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
-import {LayerProvider} from '../layer-context'
+import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import {Tile as TileLayer} from 'ol/layer'
 
-const Tile = (props) => {
+const Tile = ({title, opacity, visible, children}) => {
     const map = useContext(MapContext);
-    const title = props.title;
-    const [layer, setLayer] = useState(new TileLayer(props));
+    const [layer] = useState(new TileLayer({opacity, visible}));
 
     useEffect(() => {
-        console.log("layer.Tile mounted", title);
         map.addLayer(layer);
         return () => {
-            console.log("layer.Tile unmounted", title);
             map.removeLayer(layer);
         }
-    }, [] );
+    }, [layer, map, title] );
 
     useEffect(() => {
-        layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
+        layer.setOpacity((opacity === undefined)? 1.0 : opacity);
         //console.log("layer.Tile opacity set to", layer.getOpacity());
-    }, [props.opacity]);
+    }, [layer, opacity]);
 
     useEffect(() => {
-        layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
+        layer.setVisible((visible === undefined)? true : visible);
         //console.log("layer.Tile visible set to", layer.getVisible());
-    }, [props.visible]);
+    }, [layer, visible]);
 
     return (
         <LayerProvider layer={layer}>
-            {props.children}
+            {children}
         </LayerProvider>
     );
 }

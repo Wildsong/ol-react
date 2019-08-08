@@ -1,7 +1,6 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect} from 'react' // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {FeatureContext} from '../feature-context'
-import {Point as olPoint} from 'ol/geom'
 import {MultiPoint as olMultiPoint} from 'ol/geom'
 
 const MultiPoint = (props) => {
@@ -48,7 +47,8 @@ const MultiPoint = (props) => {
         feature.setGeometry(geometry);
         //console.log("multipoint mounted");
         //return () => {console.log("multipoint unmounted")};
-    },[]);
+    }, [feature, geometry, props.transform]);
+
     return null; // nothing to render here
 }
 MultiPoint.propTypes = {

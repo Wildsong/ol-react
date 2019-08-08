@@ -1,13 +1,13 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';    // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {Projection} from 'ol/proj'
-import {toStringXY, toStringHDMS} from 'ol/coordinate'
+import {toStringXY} from 'ol/coordinate'
 import {MousePosition as olMousePosition} from 'ol/control'
 
 const MousePosition = (props) => {
 	const map = useContext(MapContext);
-	const [control, setControl] = useState(new olMousePosition(props));
+	const [control] = useState(new olMousePosition(props));
 	const setTarget = element => {control.setTarget(element);}
 	useEffect(() => {
 		// default formatter has about 20 decimal places, looks stupid.
@@ -20,9 +20,9 @@ const MousePosition = (props) => {
 			map.removeControl(control);
 			//console.log("control.MousePosition unmounted", map.getControls().getLength());
 		}
-	}, []);
+	}, [control, map]);
 	return (
-    	<div ref={setTarget} className="ore-mouse-position"></div>
+		<div ref={setTarget} className="ore-mouse-position"></div>
     );
 }
 MousePosition.propTypes = {

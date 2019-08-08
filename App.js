@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import {BrowserRouter as Router, Route, NavLink} from "react-router-dom"
+import {BrowserRouter as Router, Route, NavLink} from "react-router-dom" // eslint-disable-line no-unused-vars
 
 import 'ol/ol.css'
 import 'ol-ext/dist/ol-ext.css'
