@@ -21,10 +21,8 @@ const DragBox = (props) => {
     });
 
     useEffect(() => {
-        console.log("DragBox mounted", dragboxInteraction);
         map.addInteraction(dragboxInteraction);
         return () => {
-            console.log("DragBox UNMOUNTED");
             map.removeInteraction(dragboxInteraction);
         }
     }, [dragboxInteraction, map]);

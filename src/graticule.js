@@ -6,12 +6,14 @@ import {MapContext} from './map-context'
 const Graticule = (props) => {
     const map = useContext(MapContext);
     const [control] = useState(new olGraticule(props));
+
     useEffect(() => {
         map.addControl(control);
         return () => {
             map.removeControl(control);
         }
     }, [map, control]);
+
     return null;
 }
 Graticule.propTypes = {

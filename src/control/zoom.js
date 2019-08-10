@@ -6,10 +6,12 @@ import {zoom as olZoom} from 'ol/control';
 const Zoom = (props) => {
 	const map = useContext(MapContext);
 	const [control] = useState(new olZoom(props));
+
 	useEffect(() => {
 		map.addControl(control);
 		return () => { map.removeControl(control); }
-	}, [control, map]);
+	}, []);
+
 	return null;
 }
 Zoom.propTypes = {

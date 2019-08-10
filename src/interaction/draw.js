@@ -12,22 +12,18 @@ const Draw = (props) => {
     //const olEvents = ["drawend", "drawstart"];
 
     useEffect(() => {
-        console.log("Draw mounted", props.type);
-
         const interaction = new olDraw({
             ...props,
             source
         });
         interaction.addEventListener("drawend", (evt) => {
             if (typeof props.drawend !== 'undefined') {
-                console.log("drawend", evt);
                 props.drawend(evt);
             }
         });
 
         map.addInteraction(interaction);
         return () => {
-            console.log("Draw UNMOUNTED");
             map.removeInteraction(interaction);
         }
     }, []);

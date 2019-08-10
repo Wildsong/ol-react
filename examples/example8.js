@@ -6,6 +6,7 @@ import {Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
 import {OverviewMap} from '../src/control' // eslint-disable-line no-unused-vars
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
+import Popup from 'ol-ext/overlay/Popup'
 
 // abandoning hope of this test of WMTS
 //import {getWidth, getTopLeft} from 'ol/extent'
@@ -112,10 +113,12 @@ const Example8 = () => {
                 <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
                     <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
                 </layer.Image>
+
                 <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={taxlotVectorStyle}
                     allwaysOnTop={true}>
                     <source.VectorTile url={taxlotsUrl}/>
                 </layer.VectorTile>
+
                 {/*
                     <layer.Tile title="Taxlots">
                         <source.WMTS url={taxlotsWMTSUrl}
@@ -126,6 +129,7 @@ const Example8 = () => {
                     />
                     </layer.Tile>
                     */}
+
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
                 <OverviewMap layers={ovLayers}/>
                 <control.LayerSwitcher show_progress={true} />

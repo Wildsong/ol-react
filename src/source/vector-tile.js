@@ -25,7 +25,6 @@ const VectorTile = (props) => {
     }));
 
     useEffect(() => {
-        //console.log("source.VectorTile mounted");
         layer.setSource(source);
     }, []);
 

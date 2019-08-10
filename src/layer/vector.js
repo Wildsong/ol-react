@@ -12,23 +12,21 @@ const Vector = (props) => {
     const [layer] = useState(new olVectorLayer(props));
 
     useEffect(() => {
-        console.log("layer.Vector mounted", title);
         map.addLayer(layer);
         return () => {
-            console.log("layer.Vector unmounted", title);
             map.removeLayer(layer);
         }
-    }, [layer, map, title]);
+    }, []);
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
         //console.log("layer.Vector opacity set to", layer.getOpacity());
-    }, [layer, props.opacity]);
+    }, [props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
         //console.log("layer.Vector visible set to", layer.getVisible());
-    }, [layer, props.visible]);
+    }, [props.visible]);
 
     return (
         <LayerProvider layer={layer}>
@@ -38,7 +36,9 @@ const Vector = (props) => {
 }
 Vector.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
+
     title: PropTypes.string.isRequired,
+    baseLayer: PropTypes.bool,
 
     opacity: PropTypes.number,
     visible: PropTypes.bool,

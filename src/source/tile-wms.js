@@ -6,10 +6,11 @@ import {TileWMS as olTileWMS} from 'ol/source'
 const TileWMS = (props) => {
     const layer = useContext(LayerContext);
     const [source] = useState(new olTileWMS(props));
+
     useEffect(() => {
-        console.log("source.TileWMS mounted");
         layer.setSource(source);
     }, []);
+
     return null; // Nothing needs to be rendered here.
 }
 TileWMS.propTypes =  {

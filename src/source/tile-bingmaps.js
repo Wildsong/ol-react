@@ -9,10 +9,11 @@ const BingMaps = (props) => {
         ...props,
         key: props.apikey // key appears to be a reserved word
     }));
+
     useEffect(() => {
-        console.log("source.BingMaps mounted");
         layer.setSource(source);
     }, []);
+
     return null; // Nothing needs to be rendered here.
 }
 BingMaps.propTypes = {

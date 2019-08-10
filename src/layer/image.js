@@ -7,26 +7,21 @@ import {Image as olImageLayer} from 'ol/layer'
 const Image = (props) => {
     const map = useContext(MapContext);
     const [layer] = useState(new olImageLayer(props));
-    //console.log("layer.Image", title);
 
     useEffect(() => {
-        //console.log("layer.Image mounted", title);
         map.addLayer(layer);
         return () => {
-            //console.log("layer.Image unmounted", title);
             map.removeLayer(layer);
         }
-    }, [layer, map]);
+    }, []);
 
     useEffect(() => {
         layer.setOpacity((typeof props.opacity === "undefined")? 1.0 : props.opacity);
-        //console.log("layer.Image opacity set to", layer.getOpacity());
-    }, [layer, props.opacity]);
+    }, [props.opacity]);
 
     useEffect(() => {
         layer.setVisible((typeof props.visible === "undefined")? true : props.visible);
-        //console.log("layer.Image visible set to", layer.getVisible());
-    }, [layer, props.visible]);
+    }, [props.visible]);
 
     return (
         <LayerProvider layer={layer}>
@@ -36,7 +31,10 @@ const Image = (props) => {
 }
 Image.propTypes =  {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
+
     title: PropTypes.string.isRequired,
+    baseLayer: PropTypes.bool,
+
     extent: PropTypes.arrayOf(PropTypes.number),
     minResolution: PropTypes.number,
     maxResolution: PropTypes.number,

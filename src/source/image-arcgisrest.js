@@ -6,10 +6,11 @@ import {LayerContext} from '../layer-context'
 const ImageArcGISRest = (props) => {
     const layer = useContext(LayerContext);
     const [source] = useState(new olImageArcGISRest(props));
+
     useEffect(() => {
-        console.log("source.ImageArcGISRest mounted");
         layer.setSource(source);
-    }, [] );
+    }, []);
+
     return null; // Nothing needs to be rendered here.
 }
 ImageArcGISRest.propTypes =  {

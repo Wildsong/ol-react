@@ -6,10 +6,11 @@ import {Stamen as olStamen} from 'ol/source'
 const Stamen = (props) => {
     const layer = useContext(LayerContext);
     const [source] = useState(new olStamen(props));
+
     useEffect(() => {
-        //console.log("source.Stamen mounted");
         layer.setSource(source);
     }, []);
+
     return null; // Nothing needs to be rendered here.
 }
 Stamen.propTypes = {

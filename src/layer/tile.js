@@ -4,36 +4,36 @@ import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import {Tile as TileLayer} from 'ol/layer'
 
-const Tile = ({title, opacity, visible, children}) => {
+const Tile = (props) => {
     const map = useContext(MapContext);
-    const [layer] = useState(new TileLayer({opacity, visible}));
+    const [layer] = useState(new TileLayer(props));
 
     useEffect(() => {
         map.addLayer(layer);
         return () => {
             map.removeLayer(layer);
         }
-    }, [layer, map, title] );
+    }, []);
 
     useEffect(() => {
-        layer.setOpacity((opacity === undefined)? 1.0 : opacity);
-        //console.log("layer.Tile opacity set to", layer.getOpacity());
-    }, [layer, opacity]);
+        layer.setOpacity((props.opacity === undefined)? 1.0 : props.opacity);
+    }, [props.opacity]);
 
     useEffect(() => {
-        layer.setVisible((visible === undefined)? true : visible);
-        //console.log("layer.Tile visible set to", layer.getVisible());
-    }, [layer, visible]);
+        layer.setVisible((props.visible === undefined)? true : props.visible);
+    }, [props.visible]);
 
     return (
         <LayerProvider layer={layer}>
-            {children}
+            {props.children}
         </LayerProvider>
     );
 }
 Tile.propTypes =  {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
+
     title: PropTypes.string.isRequired,
+    baseLayer: PropTypes.bool,
 
     opacity: PropTypes.number,
     visible: PropTypes.bool,

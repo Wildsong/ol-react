@@ -6,14 +6,13 @@ import {Attribution as olAttribution} from 'ol/control'
 const Attribution = (props) => {
     const map = useContext(MapContext);
     const [control] = useState(new olAttribution(props));
+
     useEffect(() => {
-        //console.log("Attribution mounted");
         map.addControl(control);
         return () => {
             map.removeControl(control);
-            //console.log("Attribution UNMOUNTED");
         }
-    }, [map, control]);
+    }, []);
     return null;
 }
 Attribution.propTypes = {

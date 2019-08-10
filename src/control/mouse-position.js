@@ -20,7 +20,7 @@ const MousePosition = (props) => {
 			map.removeControl(control);
 			//console.log("control.MousePosition unmounted", map.getControls().getLength());
 		}
-	}, [control, map]);
+	}, []);
 	return (
 		<div ref={setTarget} className="ore-mouse-position"></div>
     );

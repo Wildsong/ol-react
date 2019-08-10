@@ -46,21 +46,18 @@ const Overlay = (props) => {
 */
     useEffect(() => {
         map.addOverlay(overlay);
-        console.log("Overlay mounted.");
         ReactDOM.render(props.element, element);
         overlay.setElement(element);
         element.onclick = function () {
-            console.log('ReactOverlay clicked');
+            console.log('Overlay clicked');
         }
         return () => {
             ReactDOM.unmountComponentAtNode(element);
             //        this.element.parentNode.removeChild(this.element);
-            console.log("Overlay unmounted.");
         };
     }, [element, map, map.title, overlay, props.element]);
 
     useEffect(() => {
-        console.log("Offset set to ", props.offset);
         overlay.setOffset(props.offset);
     }, [overlay, props.offset]);
 

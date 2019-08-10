@@ -9,10 +9,11 @@ import {WMTS as olWMTS} from 'ol/source'
 const WMTS = (props) => {
     const layer = useContext(LayerContext);
     const [source] = useState(new olWMTS(props));
+
     useEffect(() => {
-        //console.log("source.WMS mounted");
         layer.setSource(source);
     }, []);
+
     return null; // Nothing needs to be rendered here.
 }
 WMTS.propTypes =  {

@@ -8,9 +8,9 @@ const ImageWMS = (props) => {
     const [source] = useState(new olImageWMS(props));
 
     useEffect(() => {
-        console.log("source.ImageWMS mounted");
         layer.setSource(source);
     }, [] );
+
     return null; // Nothing needs to be rendered here.
 }
 ImageWMS.propTypes =  {

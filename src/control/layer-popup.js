@@ -8,10 +8,11 @@ import 'ol-ext/control/LayerPopup.css'
 const LayerPopup = (props) => {
     const map = useContext(MapContext)
     const [control] = useState(new olextLayerPopup(props));
+
     useEffect(() => {
         map.addControl(control);
         return () => { map.removeControl(control); }
-    }, [control, map]);
+    }, []);
     return null;
 }
 export default LayerPopup;

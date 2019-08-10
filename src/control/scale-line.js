@@ -9,10 +9,12 @@ const ScaleLine = (props) => {
    const setTarget = element => {
        control.setTarget(element);
    }
+
    useEffect(() => {
        map.addControl(control);
        return () => { map.removeControl(control); }
-   }, [control, map]);
+   }, []);
+
    return (
        <div ref={setTarget}></div>
    );

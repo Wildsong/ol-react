@@ -13,7 +13,7 @@ const LayerSwitcher = (props) => {
     useEffect(() => {
         map.addControl(control);
         return () => { map.removeControl(control); }
-    }, [control, map]);
+    }, []);
     return (
         <div ref={setTarget} className="ore-layerswitcher"></div>
     );

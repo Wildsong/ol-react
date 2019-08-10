@@ -16,7 +16,6 @@ const JSONSource = ({loader, url, features, children}) => {
     }));
 
     useEffect(() => {
-        console.log("source.JSON mounted");
         source.setLoader(DataLoader(loader, url, source));
         layer.setSource(source);
     }, []);

@@ -19,7 +19,6 @@ const SelectDragBox = (props) => {
     }
 */
     const boxend = (e) => {
-//        console.log("onBoxEnd", e)
         const extent = dragboxInteraction.getGeometry().getExtent();
         source.forEachFeatureIntersectingExtent(extent, (feature) => {
             props.features.push(feature);
@@ -39,10 +38,8 @@ const SelectDragBox = (props) => {
     });
 
     useEffect(() => {
-        console.log("SelectDragBox mounted", dragboxInteraction);
         map.addInteraction(dragboxInteraction);
         return () => {
-            console.log("SelectDragBox UNMOUNTED");
             map.removeInteraction(dragboxInteraction);
         }
     }, []);

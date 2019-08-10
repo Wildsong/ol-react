@@ -125,10 +125,11 @@ const Example2 = () => {
         const viewres = view.getResolution().toFixed(2)
 //        setResolution(viewres);
         try {
-            let maxres = taxlotLayer.get("maxResolution");
+            let maxres = taxlotLayer.current.get("maxResolution");
             setTaxlotsVisible(maxres >= viewres);
         } catch (err) {
             // this probably means that taxlotLayer was not found
+            console.error(err, "taxlotLayer not found, perhaps?")
         }
         return false; // stop event propagation
     };
@@ -175,6 +176,7 @@ const Example2 = () => {
                     <li>Image WMS: City of Astoria aerial photos</li>
                     <li>OpenStreetMap</li>
                 </ul>
+                This example uses ol-ext popups, for another way see example 8.<br />
                 Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>

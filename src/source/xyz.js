@@ -6,9 +6,8 @@ import {XYZ as olXYZ} from 'ol/source'
 const XYZ = (props) => {
     const layer = useContext(LayerContext);
     const [source] = useState(new olXYZ(props));
-    
+
     useEffect(() => {
-        //console.log("source.XYZ mounted");
         layer.setSource(source);
     }, []);
 

@@ -16,7 +16,6 @@ const Vector = (props) => {
         //  This is used for a DRAW Interaction, see example1
         if (typeof props.addfeature !== 'undefined') {
             source.addEventListener("addfeature", (e) => {
-                console.log("Vector.addfeature", e);
                 props.addfeature(e);
             });
         }

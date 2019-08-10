@@ -6,22 +6,20 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import olSearchNominatim from 'ol-ext/control/SearchNominatim'
 
-// Comes up in the wrong place, hence it needs styling.
-//  This is the search widget that comes up on the map.
-// Needs suport for target prop
+// This is the search widget that comes up on the map.
+// Needs suport for target prop to make it come up elsewhere
 
 const SearchNominatim = (props) => {
     const map = useContext(MapContext);
     const [control] = useState(new olSearchNominatim());
     useEffect(() => {
-        console.log("SearchNominatim mounted");
         map.addControl(control);
         control.on('select', props.onGeocode);
         return () => {
             map.removeControl(control);
-            console.log("SearchNominatim UNMOUNTED");
         }
     }, []);
+
     return null;
 }
 SearchNominatim.propTypes = {

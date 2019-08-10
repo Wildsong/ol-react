@@ -11,11 +11,12 @@ const PBF = ({loader, url}) => {
     const [source] = useState(new Vector({
         strategy: tileStrategy( createXYZ({ tileSize: 512 })),
     }));
+
     useEffect(() => {
-        console.log("source.PBF mounted");
         source.setLoader(DataLoader(loader, url, source));
         layer.setSource(source);
     }, []);
+
     return null;
 }
 PBF.propTypes = {

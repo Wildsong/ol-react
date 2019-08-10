@@ -17,6 +17,7 @@ const Circle = ({transform, children}) => {
         const radius = children[1];
         geometry = new olCircle(center, radius);
     }
+
     useEffect(() => {
         if (transform)
             geometry.applyTransform(transform);

@@ -27,9 +27,8 @@ const Feature = ({id, style, children}) => {
             console.error(err, feature.getId(), style);
         }
         source.addFeature(feature);
-        //console.log("Feature mounted", props, source);
+
         return () => {
-//            console.log("Feature unmounted", source, feature);
             source.removeFeature(feature);
         }
     }, [feature, style, source]);
