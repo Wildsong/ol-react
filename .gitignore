@@ -5,5 +5,4 @@ lib/
 dist/
 .cache
 build/
-package-lock.json
 .env
