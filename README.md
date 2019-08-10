@@ -179,9 +179,10 @@ To install it for use in your own project, use "npm install @map46/ol-react".
 
 I had to wrestle for an hour before finding I had to do this to make "npm version" work.
 
-    eval $(ssh-agent -s) && ssh-add "j:\.ssh\id_rsa_github_bwilsoncc"
+    eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github_bwilsoncc
 
-or on the Mac,
+or at home,
+
     eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
 
 Update version in package.json (see below)
