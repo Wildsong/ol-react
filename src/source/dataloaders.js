@@ -68,7 +68,7 @@ https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServ
 */
 // https://developers.arcgis.com/rest/services-reference/feature-service.htm#GUID-173F40CB-5EBE-4450-B7C8-AC104A8B18F7
             return (extent, resolution, projection) => {
-                let fsurl = url + '/query/?='
+                let fsurl = url + '/query/?'
                     + 'f=' + format
                     + '&maxRecordCount=1000'
                     + '&returnGeometry=true&spatialRel=esriSpatialRelIntersects'
