@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import Extent from 'ol/extent'
-import {Style} from 'ol/style'
+import Style from 'ol/style/Style'
 import olVectorLayer from 'ol/layer/vector'
 
 const Vector = (props) => {
     const map = useContext(MapContext);
-    const title = props.title;
     const [layer] = useState(new olVectorLayer(props));
 
     useEffect(() => {

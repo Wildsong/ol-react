@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from 'react';  // eslint-disable
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
-import {Style as olStyle} from 'ol/style'
+import Style from 'ol/style/Style'
 import {VectorTile as olVectorTileLayer} from 'ol/layer'
 
 const VectorTile = (props) => {
@@ -40,6 +40,6 @@ VectorTile.propTypes = {
     url: PropTypes.string,
     layer: PropTypes.string,
     declutter: PropTypes.bool,
-    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(olStyle)]),
+    style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
 };
 export default VectorTile;
