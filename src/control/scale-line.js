@@ -6,17 +6,19 @@ import {ScaleLine as olScaleLine} from 'ol/control';
 const ScaleLine = (props) => {
    const map = useContext(MapContext);
    const [control] = useState(new olScaleLine(props));
-   const setTarget = element => {
+/*   const setTarget = element => {
        control.setTarget(element);
    }
-
+*/
    useEffect(() => {
        map.addControl(control);
        return () => { map.removeControl(control); }
    }, []);
-
+/*
    return (
        <div ref={setTarget}></div>
    );
+   */
+   return null;
 }
 export default ScaleLine;
