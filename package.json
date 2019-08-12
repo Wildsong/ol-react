@@ -55,12 +55,13 @@
         "eslint-plugin-react-hooks": "^1.6.1",
         "eslint-plugin-standard": "^4.0.0"
     },
+    "bundle-dependecies": "false",
     "dependencies": {
         "bootstrap": "^4.3.1",
         "cors": "^2.8.5",
         "jsonp": "^0.2.1",
         "ol": "file:../openlayers-6.0.0-beta.11/build/ol",
-        "ol-ext": "^3.1.4",
+        "ol-ext": "^3.1.5",
         "prop-types": "^15.7.2",
         "rc-slider": "^8.6.13",
         "react": "^16.8.6",
