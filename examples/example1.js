@@ -54,7 +54,7 @@ const Example1 = () => {
     const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
     }));
-    const [drawType, setDrawType] = useState("Point");
+    const [drawType, setDrawType] = useState("LineString");
 
     const [enableModify] = useState(false); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(.80);
@@ -67,7 +67,6 @@ const Example1 = () => {
     }
 
     const selectDrawType = (e) => {
-        console.log("draw type set to ", e.label);
         setDrawType(e.label);
     }
 
@@ -142,17 +141,13 @@ const Example1 = () => {
                     and one that can be edited.
                     <br />
                     Interactions: DRAW into "draw" layer.
-                    Controls: Sliders, Full screen, Zoom (range 8...12)
-                    Ol-ext controls: Geobookmarks
-                    Layer switcher (doesn't quite work)
-                    Search Nominatim
+                    Controls: Sliders, Full screen, Zoom (range 8...12)<br />
+                    Ol-ext controls: Geobookmarks,
+                    Layer switcher, Search Nominatim,
+                    Scale, Scale Line
                 </p>
 
             <OpacitySlider title="OSM" onChange={changeOpacityOSM}  value={opacityOSM}/>
-
-            FIXME I can change the Vector Type now but the style does not update
-            so after drawing (eg) a linestring, there is no defined line style so the line poof! disappears.
-            Not high on my priorities right now.
 
             <p>
                 Handling map events:
@@ -216,6 +211,8 @@ const Example1 = () => {
                     </source.Vector>
                 </layer.Vector>
 
+                <control.Scale/>
+                <control.ScaleLine/>
                 <control.FullScreen tipLabel="go full screen"/>
                 <control.SearchNominatim onGeocode={onGeocode}/>
                 <control.Attribution />
@@ -225,7 +222,6 @@ const Example1 = () => {
                         */}
             </Map>
             </MapProvider>
-
             <p> { pointer[0] + ', ' + pointer[1] } </p>
             Select vector type to draw
             <Select defaultValue={typeSelect[0]} options={typeSelect} onChange={selectDrawType}/>
