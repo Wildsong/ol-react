@@ -182,12 +182,15 @@ const Example2 = () => {
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
                 <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
                 <br />
+                ol-ext controls: LayerSwitcher
+                Note that you can use reordering=false on either individual layers or
+                the entire switcher, as I have done here.
 
                 <Container>
                     <Row><Col>
                         <Map onMoveEnd={handleMove} animate={false}>
 
-                        <layer.Tile title="OpenStreetMap"><source.OSM/></layer.Tile>
+                        <layer.Tile title="OpenStreetMap" baseLayer={true}><source.OSM/></layer.Tile>
 
                         <layer.Image title="City of Astoria 2015" visible={false}>
                             <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
@@ -204,7 +207,7 @@ const Example2 = () => {
                         <control.Attribution/>
                     </Map>
                     </Col><Col>
-                        <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+                        <control.LayerSwitcher reordering={false} show_progress={true} collapsed={false} collapsible={false}/>
                     </Col></Row>
                     <Row><Col>
                         <BootstrapTable bootstrap4 striped condensed

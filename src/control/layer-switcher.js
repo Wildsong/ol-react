@@ -20,6 +20,7 @@ const LayerSwitcher = (props) => {
 }
 LayerSwitcher.propsTypes = {
     extent: PropTypes.bool,
+    reordering: PropTypes.bool,
     setHeader: PropTypes.func,
     show_progress: PropTypes.bool,
     collapsed: PropTypes.bool,

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import Style from 'ol/style/Style'
-import {VectorTile as olVectorTileLayer} from 'ol/layer'
+import VectorTileLayer from 'ol/layer/Vector'
 
 const VectorTile = (props) => {
     const map = useContext(MapContext);
-    const [layer] = useState(new olVectorTileLayer(props));
+    const [layer] = useState(new VectorTileLayer(props));
 
     useEffect(() => {
         map.addLayer(layer);
@@ -33,8 +33,16 @@ const VectorTile = (props) => {
 VectorTile.propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
 
+    // These are for the layer switcher, if you use one.
     title: PropTypes.string.isRequired,
     baseLayer: PropTypes.bool,
+    reordering: PropTypes.bool,
+    permalink: PropTypes.string,
+
+    // There are no minZoom, maxZoom properties on layer type. :-(
+    minResolution: PropTypes.number,
+    maxResolution: PropTypes.number,
+    extent: PropTypes.arrayOf(PropTypes.number),
 
     source: PropTypes.oneOf(['geojson','JSON','MVT','WKT']),
     url: PropTypes.string,

@@ -1,10 +1,10 @@
 This code started out as richardhills/ol-react for ol3
-and brian32768 rewrote it for ol6
+and brian32768 rewrote it for ol5
 
-This version is written for OpenLayers 6 (which is currently in beta).
+This version is written for OpenLayers 55555.
 
 ## Overview
-A wrapper for [OpenLayers 6](http://openlayers.org/) in [React](https://reactjs.org/).
+A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
 
 The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component,
 to generate a map with a square near the equator.
@@ -119,38 +119,11 @@ https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-moch
 
 ## How to test and develop
 
-### Download and build openlayers 6.
+I had instructions here for a few days on using OpenLayers 6 beta but saw some
+very strange behaviour this morning and decided to stick with 5 for now!
 
-I am sure there is a better way to do this, but right now here is what I do.
-
-This process will leave the package in node_modules/ol/build/ol which is where the alias in package.json expects to find it.
-
-The first "npm install" downloads the OpenLayers source tarball (and also every other package needed).
-The second "npm install" will install the packages needed to build the OpenLayers package.
-```
-npm install
-cd node_modules/ol
-npm install
-npm run build-package
-```
 ### Test
 The command `npm start` will launch the demo setup in a browser. Currently that is where I do my testing.
-
-To work with OpenLayers 6, I use an npm command to download a tgz tarball from github and
-an alias in package.json to refer to the subdirectory in node_modules.
-
-Here is the code from package.json, which will go away when OpenLayers 6 is released.
-```
-"alias": {
-  "ol": "./node_modules/ol/src/ol"
-}
-```
-
-If you want to run OpenLayers 5 instead remove the alias and do
-```
-npm uninstall ol
-npm install ol@^5.0.0
-```
 
 ### Build a package and test it
 

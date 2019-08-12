@@ -2,11 +2,11 @@ import React, {useState, useContext, useEffect} from 'react';  // eslint-disable
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context'  // eslint-disable-line no-unused-vars
-import {Image as olImageLayer} from 'ol/layer'
+import ImageLayer from 'ol/layer/Image'
 
 const Image = (props) => {
     const map = useContext(MapContext);
-    const [layer] = useState(new olImageLayer(props));
+    const [layer] = useState(new ImageLayer(props));
 
     useEffect(() => {
         map.addLayer(layer);
@@ -32,12 +32,17 @@ const Image = (props) => {
 Image.propTypes =  {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
 
+    // These are for the layer switcher, if you use one.
     title: PropTypes.string.isRequired,
     baseLayer: PropTypes.bool,
+    reordering: PropTypes.bool,
+    permalink: PropTypes.string,
 
-    extent: PropTypes.arrayOf(PropTypes.number),
+    // There are no minZoom, maxZoom properties on layer type. :-(
     minResolution: PropTypes.number,
     maxResolution: PropTypes.number,
+    extent: PropTypes.arrayOf(PropTypes.number),
+
     opacity: PropTypes.number,
     opaque: PropTypes.bool,
     projection: PropTypes.string,

@@ -43,133 +43,131 @@ const Example3 = () => {
     }));
 
     const [opacityLayer1, setOpacityLayer1] = useState(.20);
+    const changeOpacity1 = (value) => { setOpacityLayer1(value); }
+
     const [opacityLayer2, setOpacityLayer2] = useState(.20);
+    const changeOpacity2 = (value) => { setOpacityLayer2(value); }
+
     const [opacityLayer3, setOpacityLayer3] = useState(1.0);
+    const changeOpacity3 = (value) => { setOpacityLayer3(value); }
 
-    const changeOpacity1 = (value) => {
-        setOpacityLayer1(value);
+    const onPermalink = (e) => {
+        console.log('permalinked', e);
     }
 
-    const changeOpacity2 = (value) => {
-        setOpacityLayer2(value);
-    }
-
-    const changeOpacity3 = (value) => {
-        setOpacityLayer3(value);
-    }
-
-        // FIXME: I'd like to control how the points appear
-        // at different levels and cluster them when we're
-        // zoomed out and of course there is more than one type
-        // of point in the file and I need to address that too.
-        let geocacheIcon = require('../assets/traditional.png');
-        //  currently this draws a blue 5 pointed star
-        let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
-        let styleCache = {};
-        let clusterStyle = (feature) => {
-            let style;
-            const size = feature === undefined? 0 : feature.get('features').length;
+    // FIXME: I'd like to control how the points appear
+    // at different levels and cluster them when we're
+    // zoomed out and of course there is more than one type
+    // of point in the file and I need to address that too.
+    let geocacheIcon = require('../assets/traditional.png');
+    //  currently this draws a blue 5 pointed star
+    let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
+    let styleCache = {};
+    let clusterStyle = (feature) => {
+        let style;
+        const size = feature === undefined? 0 : feature.get('features').length;
 //            console.log("clusterStyle", size);
-            if (size <= 1) {
-                style = gpxMarker;
-            } else {
-                style = styleCache[size];
-                if (!style) {
-                    style = new Style({
-                      image: new Circle({
-                        radius: 10,
-                        stroke: new Stroke({color: '#fff'}),
-                        fill: new Fill({color: '#3399CC'})
-                      }),
-                      text: new Text({text: size.toString(),
-                        fill: new Fill({color: '#fff'})
-                      })
-                    });
-                    styleCache[size] = style;
-                }
+        if (size <= 1) {
+            style = gpxMarker;
+        } else {
+            style = styleCache[size];
+            if (!style) {
+                style = new Style({
+                  image: new Circle({
+                    radius: 10,
+                    stroke: new Stroke({color: '#fff'}),
+                    fill: new Fill({color: '#3399CC'})
+                  }),
+                  text: new Text({text: size.toString(),
+                    fill: new Fill({color: '#fff'})
+                  })
+                });
+                styleCache[size] = style;
             }
-            return style;
         }
-        const usngConverter = new Converter;
-        const coordFormatter = (coord) => {
-            return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
-        }
+        return style;
+    }
+    const usngConverter = new Converter;
+    const coordFormatter = (coord) => {
+        return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
+    }
 
-        // This is just here to test passing a feature collection down to the Vector source,
-        // if you don't explicitly create one, it will be done for you.
-        const features = new Collection()
+    // This is just here to test passing a feature collection down to the Vector source,
+    // if you don't explicitly create one, it will be done for you.
+    const features = new Collection()
 
-        return (
-            <>
-            <MapProvider map={theMap}>
-                <h2>Example 3</h2>
-                    Street and map tiles,
-                    Stamen watercolor and toner,
-                    Vector layer with clustered features
+    return (
+        <>
+        <MapProvider map={theMap}>
+            <h2>Example 3</h2>
+                Street and map tiles,
+                Stamen watercolor and toner,
+                Vector layer with clustered features
 
-                    <OpacitySlider
-                        onChange={ changeOpacity1 }
-                        title="ESRI streets tiles"
-                        value={ opacityLayer3 }
-                    />
-                    <OpacitySlider
-                        onChange={ changeOpacity3 }
-                        title="US Map Tiles"
-                        value={ opacityLayer1 }
-                    />
-                    <OpacitySlider
-                        onChange={ changeOpacity2 }
-                        title="Stamen Watercolor"
-                        value={ opacityLayer2 }
-                    />
+                <OpacitySlider
+                    onChange={ changeOpacity1 }
+                    title="ESRI streets tiles"
+                    value={ opacityLayer3 }
+                />
+                <OpacitySlider
+                    onChange={ changeOpacity3 }
+                    title="US Map Tiles"
+                    value={ opacityLayer1 }
+                />
+                <OpacitySlider
+                    onChange={ changeOpacity2 }
+                    title="Stamen Watercolor"
+                    value={ opacityLayer2 }
+                />
 
-                    Controls tested here:
-                        FullScreen
-                        OverviewMap
-                        ScaleLine
-                        LayerSwitcher
-                        MousePosition
-                        <br />
-                    Interactions tested here:
-                        DragAndDrop (drop a GPX or KML file onto the map)
-                        <br />
-                    Using zIndex to control order of layers.
+                Controls tested here:
+                    FullScreen
+                    OverviewMap
+                    ScaleLine
+                    LayerSwitcher
+                    MousePosition
+                    <br />
+                Interactions tested here:
+                    DragAndDrop (drop a GPX or KML file onto the map)
+                    <br />
+                Using zIndex to control order of layers.
 
-                <Map>
-                    <layer.Tile title="Stamen Toner" baseLayer={true} visible={false}>
-                        <source.Stamen layer="toner"/>
-                    </layer.Tile>
+            <Map>
+                <layer.Tile title="Stamen Toner" baseLayer={true} visible={false} permalink="Toner">
+                    <source.Stamen layer="toner"/>
+                </layer.Tile>
 
-                    <layer.Tile title="ESRI Clarity" baseLayer={true}>
-                        <source.XYZ url={esriClarityUrl}/>
-                    </layer.Tile>
+                <layer.Tile title="ESRI Clarity" baseLayer={true} permalink="Aerial">
+                    <source.XYZ url={esriClarityUrl}/>
+                </layer.Tile>
 
-                    <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions}>
-                        <source.XYZ url={esriWorldStreetsUrl}/>
-                    </layer.Tile>
+                <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions} permalink="Streets">
+                    <source.XYZ url={esriWorldStreetsUrl}/>
+                </layer.Tile>
 
-                    <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false}>
-                        <source.Stamen layer="watercolor"/>
-                    </layer.Tile>
+                <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false} permalink="Watercolor">
+                    <source.Stamen layer="watercolor"/>
+                </layer.Tile>
 
-                    <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false}>
-                        <source.ImageArcGISRest url={esriUSStatesUrl}/>
-                    </layer.Image>
+                <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false} permalink="States">
+                    <source.ImageArcGISRest url={esriUSStatesUrl}/>
+                </layer.Image>
 
-                    <layer.Vector title="GPX Drag and drop"
-                    cluster={true} distance={40} style={clusterStyle}>
-                        <source.Vector features={features}>
-                        <interaction.DragAndDrop />
-                        </source.Vector>
-                    </layer.Vector>
+                <layer.Vector title="GPX Drag and drop"
+                  cluster={true} distance={40} style={clusterStyle}>
+                    <source.Vector features={features}>
+                    <interaction.DragAndDrop />
+                    </source.Vector>
+                </layer.Vector>
 
-                    <control.FullScreen/>
-                    <control.OverviewMap layers={ovLayers}/>
-                </Map>
-                <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
-                <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
-            </MapProvider>
-            </>
-        );
+                <control.FullScreen/>
+                <control.OverviewMap layers={ovLayers}/>
+                <control.Permalink urlReplace={true} onclick={onPermalink}/>
+            </Map>
+            <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+            <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
+        </MapProvider>
+        </>
+    );
 }
 export default Example3;

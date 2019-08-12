@@ -8,8 +8,11 @@ export {default as Zoom} from './zoom'
 export {default as ZoomToExtent} from './zoom-to-extent'
 
 // from ol-ext package
+export {default as Button} from './button'
 export {default as LayerPopup} from './layer-popup'
 export {default as LayerSwitcher} from './layer-switcher'
 export {default as GeoBookmark} from './geobookmark'
+export {default as Permalink} from './permalink'
 export {default as SearchNominatim} from './search-nominatim'
 export {default as Scale} from './scale'
+export {default as TextButton} from './textbutton'

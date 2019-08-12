@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import olGraticule from 'ol/layer/Graticule'
+import olGraticule from 'ol/Graticule'
 import {MapContext} from './map-context'
 
 const Graticule = (props) => {
