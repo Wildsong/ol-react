@@ -85,13 +85,14 @@ const Example7 = () => {
                     <source.VectorTile url={mapboxStreetsUrl}/>
                 </layer.VectorTile>
 
+                {/*
                 <layer.VectorTile title="Taxlots" declutter={true} crossOrigin="anonymous" style={taxlotStyle}>
                     <source.VectorTile url={taxlotsUrl}>
                         <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
                         <interaction.SelectDragBox condition={platformModifierKeyOnly} selected={onSelectEvent}/>
                     </source.VectorTile>
                 </layer.VectorTile>
-
+*/}
                 <layer.Graticule showLabels={true} maxLines={100} targetSize={50}/>
             </Map>
         </MapProvider>

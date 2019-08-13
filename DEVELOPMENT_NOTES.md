@@ -1,5 +1,10 @@
 Most of this used to be in README.md
 
+2019-08-13
+
+vector tiles (examples 7 and 8) quit on me, not sure if it's my problem or OL6 beta 13.
+Not using that feature right now anyway.
+
 2019-07-29
 This list needs updating -- every day :-)
 

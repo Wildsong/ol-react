@@ -2,13 +2,14 @@ import React, {useState, useContext, useEffect} from 'react';  // eslint-disable
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
 import {SourceProvider} from '../source-context' // eslint-disable-line no-unused-vars
-import {VectorTile as olVectorTileSource} from 'ol/source'
+import VectorTileSource from 'ol/source/VectorTile'
 import {GeoJSON as GeoJsonFormat, MVT as MVTformat, WKT as WKTformat} from 'ol/format'  // eslint-disable-line no-unused-vars
-import olFeature from 'ol/feature'
+import Feature from 'ol/Feature'
 
 const VectorTile = (props) => {
     const layer = useContext(LayerContext);
-    const [source] = useState(new olVectorTileSource({
+//    console.log("vectortilesource props", props);
+    const [source] = useState(new VectorTileSource({
         ...props,
 /*        attributions: props.attributions,
         extent: props.extent,
@@ -19,7 +20,7 @@ const VectorTile = (props) => {
         transition: props.transition,
 */
         format: new MVTformat({
-            featureClass: olFeature // slower but allows full edit and geometry
+            featureClass: Feature // slower but allows full edit and geometry
             // see https://stackoverflow.com/questions/42088348/ol-interaction-select-gives-an-error-on-ol-source-vectortile
         }),
     }));
