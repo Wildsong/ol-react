@@ -1,7 +1,7 @@
 This code started out as richardhills/ol-react for ol3
-and brian32768 rewrote it for ol5
+and brian32768 rewrote it for ol5/ol6
 
-This version is written for OpenLayers 55555.
+This version is written for OpenLayers 6.
 
 ## Overview
 A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
@@ -29,12 +29,32 @@ To understand what each element does, read the [OpenLayers API documentation](ht
 I experimented for months with making the source a property of the layer component and just
 went back! So I don't even have to change the documentation!
 
-### Other projects
+### Other similar projects
 Someone sent me a link to [allenhkim/react-openlayers](https://github.com/allenhwkim/react-openlayers), which looks good too. If you know of others let me know.
 
 ## Trying it out
 The examples at this point rely pretty heavily on data that I host for my own development.
-I need to fix that. They will still run but there will be layers missing.
+They will still run but there will be layers missing.
+
+### Set up OpenLayers 6 beta.
+
+I am sure there is a better way to do this, but right now here is what I do.
+Download the tarball or zip file from github and unpack it in the parent folder
+to this project. Or in package.json, alter the "ol" line in "dependencies" that points there.
+
+In that folder (openlayer-6.0.0-beta.13 as of today) do these commands:
+```
+npm install
+npm run build-package
+```
+Once it's done you will have a build/ol folder containing the latest OpenLayers build.
+Go back into the ol-react source folder and do
+```npm install```
+That will create a link from node-modules/ol to build/ol, and then you are ready.
+When you run the samples you should see the current OpenLayers version at the top
+of the home page.
+
+## Run!
 
 The project uses npm and the parcel bundler. You need to install npm and then
 install parcel globally. (``npm install parcel -g``) Once you have done that, use
@@ -75,7 +95,7 @@ JSX snippet using the style
     </Feature>
 ```
 
-#### The OLD way
+#### Styles the OLD way
 This does not work anymore, I am leaving it here in case I resurrect it next week. :-)
 
 Styles used to be declared using a JSON object, passing through the properties you'd like on the final object. For example, when creating a Circle, a `type` parameter must be present,
@@ -119,8 +139,7 @@ https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-moch
 
 ## How to test and develop
 
-I had instructions here for a few days on using OpenLayers 6 beta but saw some
-very strange behaviour this morning and decided to stick with 5 for now!
+Set up OpenLayers 6 as described above.
 
 ### Test
 The command `npm start` will launch the demo setup in a browser. Currently that is where I do my testing.

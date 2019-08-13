@@ -12,7 +12,7 @@ import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
 import {Map as olMap, View as olView} from 'ol'
-import {fromLonLat} from 'ol/proj'
+import {fromLonLat, toLonLat} from 'ol/proj'
 
 import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
 const DEFAULT_CENTER = astoria_ll;
@@ -62,7 +62,8 @@ const Example1 = () => {
     const [markerId] = useState(1);
 
     const onPointerMove = (e) => {
-        setPointer(e.coordinate);
+//        console.log("onPointerMove", e.coordinate)
+        setPointer(toLonLat(e.coordinate));
         return false;
     }
 
@@ -164,7 +165,7 @@ const Example1 = () => {
                     <source.OSM/>
                 </layer.Tile>
 
-                <layer.Tile title="Taxlots">
+                <layer.Tile title="Taxlots" maxResolution={10}>
                     <source.TileWMS url={geoserverWMS}
                         params={{
                             LAYERS: geoserverLayers,
@@ -211,15 +212,18 @@ const Example1 = () => {
                     </source.Vector>
                 </layer.Vector>
 
+                <layer.Graticule showLabels={true} maxLines={100} targetSize={50}/>
+
                 <control.Scale/>
                 <control.ScaleLine/>
                 <control.FullScreen tipLabel="go full screen"/>
                 <control.SearchNominatim onGeocode={onGeocode}/>
                 <control.Attribution />
-                    {/*
-                        <control.LayerPopup/>
-                        <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-                        */}
+{/*
+                <control.LayerPopup/>
+                <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
+*/}
+
             </Map>
             </MapProvider>
             <p> { pointer[0] + ', ' + pointer[1] } </p>

@@ -9,8 +9,10 @@ const Tile = (props) => {
     const [layer] = useState(new TileLayer(props));
 
     useEffect(() => {
+        console.log("addLayer", props.title);
         map.addLayer(layer);
         return () => {
+            console.log("removeLayer", props.title);
             map.removeLayer(layer);
         }
     }, []);

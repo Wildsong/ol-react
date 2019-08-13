@@ -1,6 +1,6 @@
 import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
-import {Map, Feature, Graticule, control, interaction, geom, layer, source} from '../src' // eslint-disable-line no-unused-vars
+import {Map, Feature, control, interaction, geom, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import Collection from 'ol/Collection'
 import Style from 'ol/style/Style'
 import {Fill, Icon, Stroke, Text} from 'ol/style'
@@ -67,7 +67,7 @@ const Example7 = () => {
         <>
         <MapProvider map={theMap}>
             <h2>Example7</h2>
-            <b>{(typeof mapbox_key === 'undefined')? "The mapbox key is undefined!" : ""}</b>
+            <b>{(mapbox_key === undefined)? "The mapbox key is undefined!" : ""}</b>
 
             <h4>Vector tiles</h4>
                 <ul>
@@ -80,7 +80,6 @@ const Example7 = () => {
 
             <Map onMoveEnd={onMove}>
                 <control.LayerSwitcher show_progress={true}/>
-                <Graticule showLabels={true} maxLines={100} targetSize={50}/>
 
                 <layer.VectorTile title="Mapbox Streets" style={mapboxStyle} declutter={true}>
                     <source.VectorTile url={mapboxStreetsUrl}/>
@@ -92,6 +91,8 @@ const Example7 = () => {
                         <interaction.SelectDragBox condition={platformModifierKeyOnly} selected={onSelectEvent}/>
                     </source.VectorTile>
                 </layer.VectorTile>
+
+                <layer.Graticule showLabels={true} maxLines={100} targetSize={50}/>
             </Map>
         </MapProvider>
         </>

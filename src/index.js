@@ -9,7 +9,6 @@ import * as source from './source'
 export {control, geom, interaction, layer, source}
 
 export {default as Feature} from './feature'
-export {default as Graticule} from './graticule'
 export {default as Map} from './map'
 export {default as Overlay} from './overlay'
 
