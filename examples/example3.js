@@ -60,7 +60,6 @@ const Example3 = () => {
     // zoomed out and of course there is more than one type
     // of point in the file and I need to address that too.
     let geocacheIcon = require('../assets/traditional.png');
-    //  currently this draws a blue 5 pointed star
     let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
     let styleCache = {};
     let clusterStyle = (feature) => {
