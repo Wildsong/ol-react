@@ -1,7 +1,6 @@
 import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
-import {ATTRIBUTION as osmAttribution} from 'ol/source/OSM'
-import {Style, Circle, Fill, Icon, Stroke, Text} from 'ol/style'
+import {Style, Fill, Icon, Stroke} from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
@@ -19,10 +18,7 @@ const DEFAULT_CENTER = astoria_ll;
 
 import Collection from 'ol/Collection'
 
-let attributions = [
-    osmAttribution,
-    'and ESRI too.'
-];
+const geocacheIcon = require('../assets/traditional.png'); // eslint-disable-line no-undef
 
 const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/' +
                     'World_Imagery/MapServer/tile/{z}/{y}/{x}'
@@ -55,45 +51,30 @@ const Example3 = () => {
         console.log('permalinked', e);
     }
 
-    // FIXME: I'd like to control how the points appear
+    // TODO: I'd like to control how the points appear
     // at different levels and cluster them when we're
     // zoomed out and of course there is more than one type
     // of point in the file and I need to address that too.
-    let geocacheIcon = require('../assets/traditional.png');
-    let gpxMarker = new Style({ image: new Icon({src: geocacheIcon}) });
-    let styleCache = {};
-    let clusterStyle = (feature) => {
-        let style;
-        const size = feature === undefined? 0 : feature.get('features').length;
-//            console.log("clusterStyle", size);
-        if (size <= 1) {
-            style = gpxMarker;
-        } else {
-            style = styleCache[size];
-            if (!style) {
-                style = new Style({
-                  image: new Circle({
-                    radius: 10,
-                    stroke: new Stroke({color: '#fff'}),
-                    fill: new Fill({color: '#3399CC'})
-                  }),
-                  text: new Text({text: size.toString(),
-                    fill: new Fill({color: '#fff'})
-                  })
-                });
-                styleCache[size] = style;
-            }
-        }
-        return style;
+
+    // TODO: I'd like a style that shows arrow heads on lines
+
+    const gpxFeatures = new Collection()
+    const [gpxFeatureCount, setGpxFeatureCount] = useState(0);
+    const gpxStyle = new Style({
+        image: new Icon({src: geocacheIcon}),
+        stroke: new Stroke({color: "magenta", width: 4}),
+        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+    });
+    const onAddFeature = (e) => {
+        //console.log("Example3: feature added to gpx source", e);
+        // TODO: implement a progress bar when the GPX file is big.
+        setGpxFeatureCount(gpxFeatures.getLength())
     }
+
     const usngConverter = new Converter;
     const coordFormatter = (coord) => {
         return usngConverter.LLtoUSNG(coord[1], coord[0], 5);
     }
-
-    // This is just here to test passing a feature collection down to the Vector source,
-    // if you don't explicitly create one, it will be done for you.
-    const features = new Collection()
 
     return (
         <>
@@ -119,17 +100,17 @@ const Example3 = () => {
                     value={ opacityLayer2 }
                 />
 
-                Controls tested here:
+                Controls:
                     FullScreen
                     OverviewMap
                     ScaleLine
                     LayerSwitcher
                     MousePosition
+                    Attributions
                     <br />
-                Interactions tested here:
-                    DragAndDrop (drop a GPX or KML file onto the map)
-                    <br />
-                Using zIndex to control order of layers.
+                Interactions:
+                    DragAndDrop (drop a GPX, KML, or GeoJSON file onto the map)
+                    <b>{gpxFeatureCount? " Features: " + gpxFeatureCount : ''}</b>
 
             <Map>
                 <layer.Tile title="Stamen Toner" baseLayer={true} visible={false} permalink="Toner">
@@ -137,11 +118,11 @@ const Example3 = () => {
                 </layer.Tile>
 
                 <layer.Tile title="ESRI Clarity" baseLayer={true} permalink="Aerial">
-                    <source.XYZ url={esriClarityUrl}/>
+                    <source.XYZ url={esriClarityUrl} attributions="ESRI Clarity"/>
                 </layer.Tile>
 
-                <layer.Tile title="ESRI Streets" opacity={opacityLayer1} attributions={attributions} permalink="Streets">
-                    <source.XYZ url={esriWorldStreetsUrl}/>
+                <layer.Tile title="ESRI Streets" opacity={opacityLayer1} permalink="Streets">
+                    <source.XYZ url={esriWorldStreetsUrl} attributions="ESRI Streets"/>
                 </layer.Tile>
 
                 <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false} permalink="Watercolor">
@@ -149,21 +130,22 @@ const Example3 = () => {
                 </layer.Tile>
 
                 <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false} permalink="States">
-                    <source.ImageArcGISRest url={esriUSStatesUrl}/>
+                    <source.ImageArcGISRest url={esriUSStatesUrl} attributions="ESRI States"/>
                 </layer.Image>
 
-                <layer.Vector title="GPX Drag and drop"
-                  cluster={true} distance={40} style={clusterStyle}>
-                    <source.Vector features={features}>
-                    <interaction.DragAndDrop />
+                <layer.Vector title="GPX Drag and drop" style={gpxStyle}>
+                    <source.Vector features={gpxFeatures} addFeature={onAddFeature}>
+                    <interaction.DragAndDrop fit={true}/>
                     </source.Vector>
                 </layer.Vector>
 
                 <control.FullScreen/>
+                <control.ScaleLine units="us"/>
                 <control.OverviewMap layers={ovLayers}/>
                 <control.Permalink urlReplace={true} onclick={onPermalink}/>
+                <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
+                <control.Attribution tipLabel="Credits"/>
             </Map>
-            <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
             <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
         </MapProvider>
         </>
