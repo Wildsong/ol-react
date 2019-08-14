@@ -14,13 +14,12 @@ const Vector = (props) => {
     useEffect(() => {
         //console.log("source.Vector mounted");
         //  This is used for a DRAW Interaction, see example1
-        if (typeof props.addfeature !== 'undefined') {
-            source.addEventListener("addfeature", (e) => {
-                props.addfeature(e);
-            });
+        if (props.addFeature !== undefined) {
+            //console.log("vector: Add feature listener", props.addFeature, source)
+            source.on("addfeature", props.addFeature);
         }
         layer.setSource(source);
-    }, [] );
+    }, []);
 
     return (
         <SourceProvider source={source}>
@@ -36,6 +35,8 @@ Vector.propTypes = {
     features: PropTypes.instanceOf(Collection),
     url: PropTypes.oneOfType([PropTypes.string, PropTypes.func]), // option 1: give me an URL as a string or function
     format: PropTypes.func, // feature format required when url is set.
+    addFeature: PropTypes.func,
+
     source: PropTypes.instanceOf(olVectorSource), // option 2, give me a source object here
 };
 export default Vector;
