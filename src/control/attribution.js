@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
-import {Attribution as olAttribution} from 'ol/control'
+import olAttribution from 'ol/control/Attribution'
 
 const Attribution = (props) => {
     const map = useContext(MapContext);

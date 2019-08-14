@@ -7,28 +7,30 @@ import {Collection} from 'ol'
 import {GPX, KML, EsriJSON, GeoJSON} from 'ol/format'
 import {DragAndDrop as olDragAndDrop} from 'ol/interaction'
 
-// TODO: inplement support for a drag and drop target outside the map.
+// TODO: implement support for a drag and drop target outside the map.
 
-const DragAndDrop = (props) => {
+const DragAndDrop = ({projection, fit}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
     const [drag] = useState(() => {
         const interaction = new olDragAndDrop({
-            source,
-            features: props.features,
-            projection: props.projection,
-            formatConstructors: [GPX, KML, EsriJSON, GeoJSON]
+            formatConstructors: [GPX, KML, EsriJSON, GeoJSON],
+            //source, // with this, I will replace old features with new ones
+            projection,
+            //target
         });
 /*
         if (source instanceof Cluster) {
             source = source.source;
         }
 */
-        interaction.on("addfeatures", () => {
-            //source.addFeatures(evt.features); // Don't need to do this
-            // FIXME: This should probably be an option
-            // Zoom to extent of data
-            map.getView().fit(source.getExtent());
+        // with this, I will add more features to an existing set on subsequent drops
+        interaction.on("addfeatures", (evt) => {
+            //console.log("DragAndDrop \"addfeatures\" events", evt.features, " to", source);
+            source.addFeatures(evt.features);
+            if (fit && source.getFeatures().length > 0) { // Zoom to extent of all data
+                map.getView().fit(source.getExtent());
+            }
         });
         return interaction;
     });
@@ -44,6 +46,6 @@ const DragAndDrop = (props) => {
 }
 DragAndDrop.propTypes = {
     projection: PropTypes.string,
-    features: PropTypes.instanceOf(Collection)
+    fit: PropTypes.bool
 };
 export default DragAndDrop;
