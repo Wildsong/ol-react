@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
 import createXYZ from 'ol/tilegrid'
 import {tile as tileStrategy} from 'ol/loadingstrategy'
-import Vector from 'ol/source/vector'
+import Vector from 'ol/source/Vector'
 import {DataLoader} from './dataloaders'
 
 const PBF = ({loader, url}) => {

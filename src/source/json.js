@@ -2,10 +2,10 @@ import React, {useState, useContext, useEffect} from 'react';  // eslint-disable
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
 import {SourceProvider} from '../source-context'  // eslint-disable-line no-unused-vars
-import Vector from 'ol/source/vector'
-import Collection from 'ol/collection'
+import Vector from 'ol/source/Vector'
+import Collection from 'ol/Collection'
 import {bbox, tile} from 'ol/loadingstrategy'  // eslint-disable-line no-unused-vars
-import Feature from 'ol/format/feature'
+import Feature from 'ol/format/Feature'
 import {DataLoader} from './dataloaders'
 
 const JSONSource = ({loader, url, features, children}) => {
