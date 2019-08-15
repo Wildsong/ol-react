@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
-import {WMTS as olWMTS} from 'ol/source'
+import olWMTS from 'ol/source/WMTS'
 
 // I have not seen this code work yet.
 // I was trying to use it in Example8, briefly.

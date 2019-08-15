@@ -16,5 +16,12 @@ const XYZ = (props) => {
 XYZ.propTypes = {
     attributions: PropTypes.oneOfType([PropTypes.string, PropTypes.func,
         PropTypes.arrayOf(PropTypes.string)]),
+    crossOrigin: PropTypes.string, // null | '' | 'anonymous'
+    maxZoom: PropTypes.number,
+    minZoom: PropTypes.number,
+    url: PropTypes.string, // option 1: give me an URL as a string or function
+
+    opaque: PropTypes.bool, // default = true I can't see any difference either way
+    transition: PropTypes.number, // duration of opacity transition, 0=none
 }
 export default XYZ;

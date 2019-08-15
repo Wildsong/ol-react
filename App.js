@@ -18,11 +18,11 @@ const App = ({title}) => {
                 <NavLink to="/example1">1 Draw</NavLink>
                 <NavLink to="/example2">2 REST/WMS</NavLink>
                 <NavLink to="/example3">3 Stamen</NavLink>
-                <NavLink to="/example4">4 XYZ Tiles</NavLink>
+                <NavLink to="/example4">4 Bing + Tiles</NavLink>
                 <NavLink to="/example5">5 Bookmarks</NavLink>
                 <NavLink to="/example6">6 WFS-T</NavLink>
                 <NavLink to="/example7">7 VecTile</NavLink>
-                <NavLink to="/example8">8 VecTile Overlay</NavLink>
+                <NavLink to="/example8">8 VecTile + Overlay</NavLink>
                 <Route path="/" exact component={Example0} />
                 <Route path="/example1" exact component={Example1} />
                 <Route path="/example2" exact component={Example2} />

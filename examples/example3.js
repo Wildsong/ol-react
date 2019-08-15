@@ -22,10 +22,15 @@ const geocacheIcon = require('../assets/traditional.png'); // eslint-disable-lin
 
 const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/' +
                     'World_Imagery/MapServer/tile/{z}/{y}/{x}'
+
 const esriWorldStreetsUrl = "https://services.arcgisonline.com/ArcGIS/rest/services/" +
                     "World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+
 const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
                     "Specialty/ESRI_StateCityHighway_USA/MapServer"
+
+const ccgisBasemap = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/" +
+                    "Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
 
 const Example3 = () => {
     const [theMap] = useState(new olMap({
@@ -80,10 +85,21 @@ const Example3 = () => {
         <>
         <MapProvider map={theMap}>
             <h2>Example 3</h2>
-                Street and map tiles,
-                Stamen watercolor and toner,
-                Vector layer with clustered features
-
+            <ul>
+            <li>Vector: gpx | json | kml drag and drop</li>
+            <li>Image: ESRI US States</li>
+            <li>Tile Stamen: watercolor</li>
+            <li>Tile XYZ: ESRI Streets</li>
+            <li>Tile XYZ: Clatsop County</li>
+            <li>Tile XYZ: ESRI Clarity</li>
+            <li>Tile Stamen: toner</li>
+            </ul>
+            Controls:
+            sliders, fullscreen, scaleline, overviewmap, permalink, layerswitcher, attributions,
+            MousePosition
+            <br />
+            Interactions: draganddrop
+            <b>{gpxFeatureCount? " Features: " + gpxFeatureCount : ''}</b>
                 <OpacitySlider
                     onChange={ changeOpacity1 }
                     title="ESRI streets tiles"
@@ -100,25 +116,17 @@ const Example3 = () => {
                     value={ opacityLayer2 }
                 />
 
-                Controls:
-                    FullScreen
-                    OverviewMap
-                    ScaleLine
-                    LayerSwitcher
-                    MousePosition
-                    Attributions
-                    <br />
-                Interactions:
-                    DragAndDrop (drop a GPX, KML, or GeoJSON file onto the map)
-                    <b>{gpxFeatureCount? " Features: " + gpxFeatureCount : ''}</b>
-
             <Map>
                 <layer.Tile title="Stamen Toner" baseLayer={true} visible={false} permalink="Toner">
                     <source.Stamen layer="toner"/>
                 </layer.Tile>
 
-                <layer.Tile title="ESRI Clarity" baseLayer={true} permalink="Aerial">
+                <layer.Tile title="ESRI Clarity" baseLayer={true} visible={false} permalink="Aerial">
                     <source.XYZ url={esriClarityUrl} attributions="ESRI Clarity"/>
+                </layer.Tile>
+
+                <layer.Tile title="Clatsop County" baseLayer={true} visible={true} permalink="Clatsop">
+                    <source.XYZ url={ccgisBasemap} attributions="Clatsop County" opaque={true}/>
                 </layer.Tile>
 
                 <layer.Tile title="ESRI Streets" opacity={opacityLayer1} permalink="Streets">

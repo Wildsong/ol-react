@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
 import {LayerContext} from '../layer-context'
-import {TileArcGISRest as olTileArcGISRest} from 'ol/source'
+import olTileArcGISRest from 'ol/source/TileArcGISRest'
 
 const TileArcGISRest = (props) => {
     const layer = useContext(LayerContext);
