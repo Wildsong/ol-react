@@ -1,13 +1,15 @@
 import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 import Style from 'ol/style/Style'
-import {Circle, Fill, Stroke} from 'ol/style'
+import {Circle, Fill, Stroke, Icon} from 'ol/style'
 import {Map, Feature, geom, control, layer, source} from '../src' // eslint-disable-line no-unused-vars
 
 import {Map as olMap, View as olView} from 'ol'
 import {fromLonLat} from 'ol/proj'
 
 import {myGeoServer, workspace, DEFAULT_CENTER, MINZOOM} from './constants'
+
+const schoolIcon = require('../assets/school.png'); // eslint-disable-line no-undef
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -34,7 +36,9 @@ const Example6 = () => {
             stroke: new Stroke({color: 'red', width: 1})
         })
     });
-
+    const schoolStyle = new Style({
+        image: new Icon({src: schoolIcon}),
+    });
     return (
         <>
             <h2>Example 6</h2>
@@ -54,7 +58,7 @@ const Example6 = () => {
                 <control.LayerSwitcher show_progress={true}/>
                     <layer.Image title="Bare Earth HS"> <source.ImageWMS url={wmsImageUrl}/> </layer.Image>
                     <layer.Tile title="OpenStreetMap" opacity={.5}> <source.OSM/> </layer.Tile>
-                    <layer.Vector title="Elementary schools" style={pointStyle}>
+                    <layer.Vector title="Elementary schools" style={schoolStyle}>
                         <source.JSON url={featureUrl} loader="esrijson"/>
                     </layer.Vector>
                     <layer.Vector title="Web markers" style={markerStyle}>
