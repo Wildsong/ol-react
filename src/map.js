@@ -26,7 +26,7 @@ const Map = (props) => {
     }
 
     return (
-        <div ref={mapTarget} className="ore-map" style={{position:"relative", top:0, width:600,height:400}}>
+        <div ref={mapTarget} className="ore-map">
         {props.children}
         </div>
     )

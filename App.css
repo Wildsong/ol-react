@@ -14,15 +14,16 @@ a {
 }
 
 .ore-map {
-    width: 450px;
-    height: 250px;
-    position: relative;
-    left: 5px;
+    width: 750px;
+    height: 450px;
+    position: absolute;
     top: 5px;
+    left: 5px;
 }
 
 .ol-overviewmap {
-    background: black;
+    left: 0px;
+    top: 0px;
     z-index: 30;
 }
 
