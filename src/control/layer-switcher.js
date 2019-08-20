@@ -25,5 +25,6 @@ LayerSwitcher.propsTypes = {
     show_progress: PropTypes.bool,
     collapsed: PropTypes.bool,
     collapsible: PropTypes.bool,
+    switcherClass: PropTypes.string, // override className in ol-ext control
 };
 export default LayerSwitcher;

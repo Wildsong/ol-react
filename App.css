@@ -56,6 +56,12 @@ a {
     border-width: medium;
     border-color: red;
 }
+
+/* override ol-ext settings to prove it can be done */
+.ex2switcher button {
+    display: none
+}
+
 .ol-layerswitcher {
     z-index: 50;
 }

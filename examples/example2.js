@@ -207,7 +207,10 @@ const Example2 = () => {
                         <control.Attribution/>
                     </Map>
                     </Col><Col>
-                        <control.LayerSwitcher reordering={false} show_progress={true} collapsed={false} collapsible={false}/>
+                    {/* Override the class with switcherClass property to allow the collapse button to be hidden in App.css.
+                        add ol-layerswitcher so that the other properties are used to style the layer controls instead
+                        of duplicating them in App.css. */}
+                        <control.LayerSwitcher switcherClass="ex2switcher ol-layerswitcher" reordering={false} show_progress={true} collapsed={false} collapsible={false}/>
                     </Col></Row>
                     <Row><Col>
                         <BootstrapTable bootstrap4 striped condensed
