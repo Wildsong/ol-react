@@ -4,7 +4,6 @@ import {Map, Feature, Overlay, control, geom, layer, source, interaction} from '
 import Style from 'ol/style/Style'
 import {Fill, Icon, Stroke, Text} from 'ol/style'
 import {Converter} from 'usng.js'
-import {OverviewMap} from '../src/control' // eslint-disable-line no-unused-vars
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
 
@@ -131,8 +130,8 @@ const Example8 = () => {
                     */}
 
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
-                <OverviewMap layers={ovLayers}/>
                 <control.LayerSwitcher show_progress={true} />
+                <control.OverviewMap layers={ovLayers} target={null}/>
             </Map>
         </MapProvider>
         </>
