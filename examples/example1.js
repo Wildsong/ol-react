@@ -7,7 +7,6 @@ import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line
 import {Map, Feature, geom, control, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import Select from 'react-select' // eslint-disable-line no-unused-vars
 
-import './style.css'
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 

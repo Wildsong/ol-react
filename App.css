@@ -13,23 +13,36 @@ a {
     background-color: #F8F8F8;
 }
 
+.mappage {
+    display: flex;
+    flex-direction: row;
+}
+
+.mapitem {
+    padding: 10px;
+    border-color: green;
+    border-width: 10px;
+}
+
 .ore-map {
     width: 750px;
     height: 450px;
-    position: absolute;
-    top: 5px;
-    left: 5px;
+    z-index: 5;
+    padding: 2px;
+    position: relative;
 }
-
+.ore-overviewmap {
+    z-index: 25;
+}
 .ol-overviewmap {
-    left: 0px;
+    position: relative;
     top: 0px;
-    z-index: 30;
+    left: 0px;
 }
 
 .ol-mouse-position {
     position: relative;
-    z-index: 30;
+    z-index: 50;
 }
 
 // These are default classNames from OpenLayers.
@@ -41,6 +54,10 @@ a {
     width: 16px;
 }
 
+.ore-layerswitcher {
+    border-width: medium;
+    border-color: red;
+}
 .ol-layerswitcher {
     z-index: 50;
 }
@@ -81,15 +98,6 @@ a {
     left: 8px;
     top: 70px;
     background-color: rgba(50,50,240,0.4);
-}
-
-.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
 }
 
 .sliders {

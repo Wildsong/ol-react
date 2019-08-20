@@ -7,14 +7,16 @@ import {OverviewMap as olOverviewMap} from 'ol/control'
 const OverviewMap = (props) => {
     const map = useContext(MapContext);
     const [control] = useState(new olOverviewMap(props));
-    const setTarget = element => {control.setTarget(element);}
+    //const setTarget = element => {control.setTarget(element);}
     useEffect(() => {
         map.addControl(control);
         return () => { map.removeControl(control); };
     }, []);
-    return (
+    return null;
+/*    return (
         <div ref={setTarget} className="ore-overviewmap"></div>
     );
+*/
 }
 OverviewMap.propTypes = {
     layers: PropTypes.arrayOf(PropTypes.instanceOf(olLayer)),

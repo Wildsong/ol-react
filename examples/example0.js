@@ -28,33 +28,36 @@ const Example0 = () => {
     const onMove = () => {
         const newZoom = theMap.getView().getZoom();
         if (newZoom !== zoom) {
-            setZoom(newZoom);
+            setZoom(Math.round(newZoom));
         }
     }
     return (
     <>
-        <h2>ol-react examples</h2>
+        <h2>Simple map</h2>
         <MapProvider map={theMap}>
-        <Container>
-            <Row><Col>
-            <em>Currently using OpenLayers version <OpenLayersVersion/></em>
+
+            <em>OpenLayers version <OpenLayersVersion/></em>
             <p>
-            This is the simplest possible example of using ol-react to show a map.
+            Simple example using ol-react to show a map.
             It is handy after big refactoring jobs to see if <em>anything</em> still works. :-)
             </p>
             <p>Tile source: OpenStreetMap</p>
-            </Col></Row>
-            <Row><Col sm="9">
+
+            <div className="mappage">
+                <div className="mapitem">
                     <Map onMoveEnd={onMove} style={{backgroundColor:"black",width:460,height:265,position:'relative',left:15,top:5}}>
                         <layer.Tile title="OpenStreetMap" opacity={1}> <source.OSM/> </layer.Tile>
-                        <control.MousePosition projection={wgs84}/>
                     </Map>
-                    <Button onClick={incZoom}>+</Button>{zoom}
-                    <Button onClick={decZoom}>-</Button>
-            </Col><Col sm="3">
-                <control.OverviewMap layers={ovLayers} collapsible={false} collapsed={false}/>
-            </Col></Row>
-        </Container>
+                </div>
+                <div className="mapitem">
+                    <Button onClick={incZoom}>+</Button>
+                    <Button className="zoom">{zoom}</Button>
+                    <Button className="zoom" onClick={decZoom}>-</Button>
+
+                    <control.OverviewMap layers={ovLayers} collapsible={false} collapsed={false}/>
+                    <control.MousePosition projection={wgs84}/>
+                </div>
+            </div>
         </MapProvider>
     </>
     );

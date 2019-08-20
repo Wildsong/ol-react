@@ -18,8 +18,6 @@ import {fromLonLat} from 'ol/proj'
 import {myGeoServer, workspace, astoria_ll, astoria_wm, MINZOOM, MAXZOOM} from './constants'
 const DEFAULT_ZOOM = 14;
 
-import './style.css'
-
 // These are for testing passing an OL VectorSource in as a property
 
 const taxlotsKey      = 'taxlotkey';
