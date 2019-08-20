@@ -50,7 +50,7 @@ const Example0 = () => {
                     </Map>
                 </div>
                 <div className="mapitem">
-                    <Button onClick={incZoom}>+</Button>
+                    <Button className="zoom" onClick={incZoom}>+</Button>
                     <Button className="zoom">{zoom}</Button>
                     <Button className="zoom" onClick={decZoom}>-</Button>
 

@@ -95,7 +95,7 @@ const Example3 = () => {
             <li>Tile Stamen: toner</li>
             </ul>
             Controls:
-            sliders, fullscreen, scaleline, overviewmap, permalink, layerswitcher, attributions,
+            sliders, fullscreen, scaleline, overviewmap(in map), permalink, layerswitcher, attributions,
             MousePosition
             <br />
             Interactions: draganddrop
@@ -149,10 +149,10 @@ const Example3 = () => {
 
                 <control.FullScreen/>
                 <control.ScaleLine units="us"/>
-                <control.OverviewMap layers={ovLayers}/>
                 <control.Permalink urlReplace={true} onclick={onPermalink}/>
                 <control.LayerSwitcher show_progress={true} collapsed={false} collapsible={false}/>
                 <control.Attribution tipLabel="Credits"/>
+                <control.OverviewMap layers={ovLayers} target={null}/>
             </Map>
             <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
         </MapProvider>
