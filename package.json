@@ -1,6 +1,6 @@
 {
     "name": "@map46/ol-react",
-    "version": "0.6.11",
+    "version": "0.6.12",
     "description": "React interface for OpenLayers 6",
     "keywords": [
         "mapping",
