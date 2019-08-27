@@ -54,6 +54,8 @@ That will create a link from node-modules/ol to build/ol, and then you are ready
 When you run the samples you should see the current OpenLayers version at the top
 of the home page.
 
+Note that OL6 wants you to install pbf, pixelworks, and rbush yourself (via npm).
+
 ## Run!
 
 The project uses npm and the parcel bundler. You need to install npm and then

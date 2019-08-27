@@ -7,18 +7,19 @@ import {Map, Feature, geom, control, layer, source} from '../src' // eslint-disa
 import {Map as olMap, View as olView} from 'ol'
 import {fromLonLat} from 'ol/proj'
 
-import {myGeoServer, myArcGISServer, workspace, astoria_ll, astoria_wm, DEFAULT_CENTER, XMIN,YMIN,XMAX,YMAX, EXTENT} from './constants'
-const STARTZOOM=15;
+import {myGeoServer, myArcGISServer, workspace, DEFAULT_CENTER, XMIN,YMIN,XMAX,YMAX, EXTENT} from './constants'
+const STARTZOOM=12;
 
-import {wgs84, wm} from '../src/constants'
+import {WGS84, WM} from '../src/constants'
 import {transformExtent} from 'ol/proj';
-const extent_wm = transformExtent(EXTENT, wgs84, wm);
+const EXTENT_WM = transformExtent(EXTENT, WGS84, WM);
 
 const schoolIcon = require('../assets/school.png'); // eslint-disable-line no-undef
 
 // Clatsop County services
 const ccPLSSUrl = myArcGISServer + "/PLSS/MapServer"
 const ccgisBasemap = myArcGISServer + "/Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
+const ccMilepostsUrl = myArcGISServer + "/highway_mileposts/FeatureServer/0";
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -67,6 +68,13 @@ const Example6 = () => {
     const schoolStyle = new Style({
         image: new Icon({src: schoolIcon}),
     });
+    const milepostStyle = new Style({
+        image: new Circle({
+            radius: 3,
+            fill: new Fill({color: 'yellow'}),
+            stroke: new Stroke({color: 'yellow', width: 1})
+        })
+    });
     return (
         <>
             <h2>Example 6</h2>
@@ -93,7 +101,7 @@ const Example6 = () => {
                     <layer.Tile title="Clatsop County" baseLayer={true} visible={true}
                         permalink="Clatsop">
                         <source.XYZ url={ccgisBasemap} transition={0} opaque={true}
-                            attributions="Clatsop County" extent={extent_wm}/>
+                            attributions="Clatsop County" extent={EXTENT_WM}/>
                     </layer.Tile>
 
                     <layer.Tile title="OpenStreetMap" opacity={.70} baseLayer={true} visible={false}>
@@ -102,6 +110,10 @@ const Example6 = () => {
 
                     <layer.Vector title="Elementary schools" style={schoolStyle}>
                         <source.JSON url={featureUrl} loader="esrijson"/>
+                    </layer.Vector>
+
+                    <layer.Vector title="Highway mileposts" style={milepostStyle} reordering={false} extent={EXTENT_WM}>
+                        <source.JSON url={ccMilepostsUrl} loader="esrijson"/>
                     </layer.Vector>
 
                     <layer.Tile title="PLSS (Clatsop County)" style={plssStyle} reordering={false}>
@@ -121,6 +133,7 @@ const Example6 = () => {
                     <layer.Vector title="WFS-T web markers" style={markerStyle}>
                         <source.JSON url={web_markers} loader="geojson"/>
                     </layer.Vector>
+
                 </Map>
             </MapProvider>
         </>

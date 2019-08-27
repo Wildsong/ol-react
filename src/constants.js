@@ -1,5 +1,5 @@
-export const wgs84 = "EPSG:4326";
-export const wm = "EPSG:3857";
+export const WGS84 = "EPSG:4326";
+export const WM = "EPSG:3857";
 
 // TODO test this
 export const llPrecision = [
