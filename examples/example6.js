@@ -20,6 +20,7 @@ const schoolIcon = require('../assets/school.png'); // eslint-disable-line no-un
 const ccPLSSUrl = myArcGISServer + "/PLSS/MapServer"
 const ccgisBasemap = myArcGISServer + "/Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
 const ccMilepostsUrl = myArcGISServer + "/highway_mileposts/FeatureServer/0";
+const ccTaxmapAnnoUrl = myArcGISServer + "/Taxmap_annotation/MapServer"
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -91,17 +92,17 @@ const Example6 = () => {
 
             <MapProvider map={theMap}>
                 <Map>
-                    <control.LayerSwitcher show_progress={true}/>
+                    <control.LayerSwitcher show_progress={true} extent={true} show_progress={true}/>
                     <control.FullScreen/>
 
                     <layer.Image title="Bare Earth HS">
-                        <source.ImageWMS url={wmsImageUrl}/>
+                    <source.ImageWMS url={wmsImageUrl}/>
                     </layer.Image>
 
                     <layer.Tile title="Clatsop County" baseLayer={true} visible={true}
-                        permalink="Clatsop">
-                        <source.XYZ url={ccgisBasemap} transition={0} opaque={true}
-                            attributions="Clatsop County" extent={EXTENT_WM}/>
+                    permalink="Clatsop">
+                    <source.XYZ url={ccgisBasemap} transition={0} opaque={true}
+                    attributions="Clatsop County" extent={EXTENT_WM}/>
                     </layer.Tile>
 
                     <layer.Tile title="OpenStreetMap" opacity={.70} baseLayer={true} visible={false}>
@@ -112,15 +113,19 @@ const Example6 = () => {
                         <source.JSON url={featureUrl} loader="esrijson"/>
                     </layer.Vector>
 
-                    <layer.Vector title="Highway mileposts" style={milepostStyle} reordering={false} extent={EXTENT_WM}>
-                        <source.JSON url={ccMilepostsUrl} loader="esrijson"/>
-                    </layer.Vector>
-
-                    <layer.Tile title="PLSS (Clatsop County)" style={plssStyle} reordering={false}>
-                        <source.TileArcGISRest url={ccPLSSUrl} loader="esrijson"/>
+                    <layer.Tile title="Taxmap annotation" opacity={.80} extent={EXTENT_WM}>
+                        <source.XYZ url={ccTaxmapAnnoUrl + "/tile/{z}/{y}/{x}"}/>
                     </layer.Tile>
 
-                    <layer.Vector title="Extent rectangle" opacity={1}>
+                    <layer.Tile title="PLSS (Clatsop County)" style={plssStyle} reordering={false}>
+                    <source.TileArcGISRest url={ccPLSSUrl} loader="esrijson"/>
+                    </layer.Tile>
+
+                    <layer.Vector title="Highway mileposts" style={milepostStyle} reordering={false} extent={EXTENT_WM}>
+                    <source.JSON url={ccMilepostsUrl} loader="esrijson"/>
+                    </layer.Vector>
+
+                    <layer.Vector title="Extent rectangle" opacity={1} extent={EXTENT_WM}>
                         <source.Vector>
                             <Feature id="Rect1" style={yellowStyle}>
                                 <geom.LineString transform={xform}>
@@ -130,7 +135,7 @@ const Example6 = () => {
                         </source.Vector>
                     </layer.Vector>
 
-                    <layer.Vector title="WFS-T web markers" style={markerStyle}>
+                    <layer.Vector title="WFS-T web markers" style={markerStyle} extent={EXTENT_WM}>
                         <source.JSON url={web_markers} loader="geojson"/>
                     </layer.Vector>
 
