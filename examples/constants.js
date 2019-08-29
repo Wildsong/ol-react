@@ -17,3 +17,4 @@ export const XMAX = -123.3
 export const YMAX =  46.3
 export const DEFAULT_CENTER = [ XMIN + (XMAX-XMIN)/2, YMIN + (YMAX-YMIN)/2 ]
 export const EXTENT = [XMIN,YMIN, XMAX,YMAX]
+export const MAXRESOLUTION = 10

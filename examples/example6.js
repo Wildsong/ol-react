@@ -7,7 +7,7 @@ import {Map, Feature, geom, control, layer, source} from '../src' // eslint-disa
 import {Map as olMap, View as olView} from 'ol'
 import {fromLonLat} from 'ol/proj'
 
-import {myGeoServer, myArcGISServer, workspace, DEFAULT_CENTER, XMIN,YMIN,XMAX,YMAX, EXTENT} from './constants'
+import {myGeoServer, myArcGISServer, workspace, DEFAULT_CENTER, XMIN,YMIN,XMAX,YMAX, EXTENT, MAXRESOLUTION} from './constants'
 const STARTZOOM=12;
 
 import {WGS84, WM} from '../src/constants'
@@ -21,6 +21,13 @@ const ccPLSSUrl = myArcGISServer + "/PLSS/MapServer"
 const ccgisBasemap = myArcGISServer + "/Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
 const ccMilepostsUrl = myArcGISServer + "/highway_mileposts/FeatureServer/0";
 const ccTaxmapAnnoUrl = myArcGISServer + "/Taxmap_annotation/MapServer"
+const ccTaxlotLabelsUrl = myArcGISServer + '/Taxlots/FeatureServer/0'
+const ccTaxlotUrl = myArcGISServer + '/Taxlots/FeatureServer/1'
+const ccTaxlotFormat = 'esrijson'
+const taxlotStyle = new Style({
+    fill: new Fill({color:"rgba(128,0,0,0.1)"}),
+    stroke: new Stroke({color:"rgba(0,0,0,1.0)", width:1}),
+})
 
 const wfsSource = myGeoServer + "/ows?" + "service=WFS&version=2.0.0&request=GetFeature"
 const web_markers = wfsSource + '&typeNames=' + workspace + '%3Aweb_markers'
@@ -35,6 +42,81 @@ const xform = (coordinates) => {
     return coordinates
 }
 
+const getText = (feature, resolution, params) => {
+    const text = "Mocha whip";/*
+    const type = params.text;
+    const maxResolution = params.maxreso;
+    const text = feature.get('name');
+
+    if (resolution > maxResolution) {
+        text = '';
+    } else if (type == 'hide') {
+        text = '';
+    } else if (type == 'shorten') {
+        text = text.trunc(12);
+    } else if (type == 'wrap' && (!params.placement || params.placement != 'line')) {
+        text = stringDivider(text, 16, '\n');
+    }
+*/
+    return text;
+};
+
+const createTextStyle = (feature, resolution, params) => {
+    var align = params.align;
+    var baseline = params.baseline;
+    var size = params.size;
+    var offsetX = parseInt(params.offsetX, 10);
+    var offsetY = parseInt(params.offsetY, 10);
+    var weight = params.weight;
+    var placement = params.placement ? params.placement : undefined;
+    var maxAngle = params.maxangle ? parseFloat(params.maxangle) : undefined;
+    var overflow = params.overflow ? (params.overflow == 'true') : undefined;
+    var rotation = parseFloat(params.rotation);
+    var font = weight + ' ' + size + ' ' + params.font;
+    var fillColor = params.color;
+    var outlineColor = params.outline;
+    var outlineWidth = parseInt(params.outlineWidth, 10);
+
+    return new Text({
+        textAlign: align == '' ? undefined : align,
+        textBaseline: baseline,
+        font: font,
+        text: getText(feature, resolution, params),
+        fill: new Fill({color: fillColor}),
+        stroke: new Stroke({color: outlineColor, width: outlineWidth}),
+        offsetX: offsetX,
+        offsetY: offsetY,
+        placement: placement,
+        maxAngle: maxAngle,
+        overflow: overflow,
+        rotation: rotation
+    });
+}
+
+const params = {
+    text: "Normal",
+    maxreso: 4800,
+    align: "Left",
+    baseline: "Middle",
+    rotation: 0,
+    font: "Verdana",
+    weight: "Bold",
+    placement: "Point",
+    maxangle: 0,
+    overflow: true,
+    size: 18,
+    offsetX: 0,
+    offsetY: 0,
+    color: "black",
+    outline: "white",
+    outlineWidth: 3
+}
+const taxlotTextStyle = (feature, resolution) => {
+    return new Style({
+        fill: new Fill({color: [255, 0, 0, .250]}),
+        text: createTextStyle(feature, resolution, params),
+    });
+}
 const Example6 = () => {
     const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: STARTZOOM}),
@@ -113,6 +195,14 @@ const Example6 = () => {
                         <source.JSON url={featureUrl} loader="esrijson"/>
                     </layer.Vector>
 
+                    <layer.Vector title="Taxlots" style={taxlotStyle} reordering={false} maxResolution={MAXRESOLUTION}>
+                        <source.JSON url={ccTaxlotUrl} loader={ccTaxlotFormat} />
+                    </layer.Vector>
+
+                    <layer.Vector title="Taxlot labels" style={taxlotTextStyle} reordering={false} maxResolution={MAXRESOLUTION}>
+                        <source.JSON url={ccTaxlotLabelsUrl} loader={ccTaxlotFormat} />
+                    </layer.Vector>
+
                     <layer.Tile title="Taxmap annotation" opacity={.80} extent={EXTENT_WM}>
                         <source.XYZ url={ccTaxmapAnnoUrl + "/tile/{z}/{y}/{x}"}/>
                     </layer.Tile>
@@ -135,7 +225,7 @@ const Example6 = () => {
                         </source.Vector>
                     </layer.Vector>
 
-                    <layer.Vector title="WFS-T web markers" style={markerStyle} extent={EXTENT_WM}>
+                    <layer.Vector title="WFS-T web markers" style={markerStyle}>
                         <source.JSON url={web_markers} loader="geojson"/>
                     </layer.Vector>
 
