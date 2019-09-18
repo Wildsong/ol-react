@@ -104,12 +104,12 @@ const params = {
     placement: "Point",
     maxangle: 0,
     overflow: true,
-    size: 18,
+    size: 22,
     offsetX: 0,
     offsetY: 0,
     color: "black",
-    outline: "white",
-    outlineWidth: 3
+    outline: "white", // TODO turn on only with air photo?
+    outlineWidth: 1
 }
 const taxlotTextStyle = (feature, resolution) => {
     return new Style({

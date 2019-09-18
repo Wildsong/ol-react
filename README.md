@@ -42,7 +42,7 @@ I am sure there is a better way to do this, but right now here is what I do.
 Download the tarball or zip file from github and unpack it in the parent folder
 to this project. Or in package.json, alter the "ol" line in "dependencies" that points there.
 
-In that folder (openlayer-6.0.0-beta.13 as of today) do these commands:
+In that folder (openlayer-6.0.0-beta.15 as of today) do these commands:
 ```
 npm install
 npm run build-package

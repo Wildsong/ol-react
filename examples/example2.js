@@ -40,7 +40,7 @@ const taxlotsFormat   = 'esrijson';
 
 // To generate this URL, go into GeoServer Layer Preview,
 // and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
-// clip off the outputFormat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
+// clip off the outpu\rmat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
 const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
 const taxlotsFormat = 'geojson'
@@ -77,22 +77,16 @@ const Example2 = () => {
     const [popupPosition, setPopupPosition] = useState([0,0]) // location on screen
     const [popupText, setPopupText] = useState("HERE") // text for popup
     */
+    // Find the taxlot layer so we can query it for popups.
     const layers = theMap.getLayers();
-    const taxlotLayer = useRef(null);
-
+    const taxlotLayerRef = useRef(null);
     useEffect(() => {
         theMap.addOverlay(popup);
         layers.forEach(layer => {
-            if (layer.get("title") == 'Taxlots') taxlotLayer.current = layer;
+            if (layer.get("title") == 'Taxlots') taxlotLayerRef.current = layer;
         })
-        console.log("taxlotLayer = ", taxlotLayer)
+        console.log("taxlotLayerRef = ", taxlotLayerRef)
     }, []);
-
-
-// IMPROVEMENT
-// https://openlayers.org/en/latest/apidoc/module-ol_interaction_Select-Select.html
-// I need to look at this code to support adding AND removing features
-// in the current selection set.
 
    const myCondition = (e) => {
         switch(e.type) {
@@ -102,7 +96,7 @@ const Example2 = () => {
             case 'pointermove':
                 // roll over - just show taxlot popup
                 {
-                    const features = taxlotLayer.current.getSource().getFeaturesAtCoordinate(e.coordinate)
+                    const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
                     if (features.length > 0) {
                         const text = features[0].get(taxlotPopupField)
                         if (text != null && text.length > 0) {
@@ -125,11 +119,11 @@ const Example2 = () => {
         const viewres = view.getResolution().toFixed(2)
 //        setResolution(viewres);
         try {
-            let maxres = taxlotLayer.current.get("maxResolution");
+            let maxres = taxlotLayerRef.current.get("maxResolution");
             setTaxlotsVisible(maxres >= viewres);
         } catch (err) {
-            // this probably means that taxlotLayer was not found
-            console.error(err, "taxlotLayer not found, perhaps?")
+            // this probably means that taxlot Layer was not found
+            console.error(err, "taxlot layer not found, perhaps?")
         }
         return false; // stop event propagation
     };
@@ -160,7 +154,7 @@ const Example2 = () => {
             popup.hide()
         }
         copyFeaturesToTable(selectedFeatures)
-        return false; // stop event propagation
+        return false;
     }
 
     const coordFormatter = (coord) => {
