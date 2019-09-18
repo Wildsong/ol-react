@@ -1,5 +1,6 @@
-import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
+import React, {useContext, useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 import {Style, Fill, Icon, Stroke} from 'ol/style'
 import {Converter} from 'usng.js'
 // Bootstrap (reactstrap in this case)
@@ -8,31 +9,30 @@ import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line
 import {Map, Feature, control, geom, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat} from 'ol/proj'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
-import {astoria_ll, MINZOOM} from './constants'
-import {wgs84} from '../src/constants'
+import {astoria_ll, MINZOOM, myArcGISServer} from './constants'
+import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll;
-
-import Collection from 'ol/Collection'
 
 const geocacheIcon = require('../assets/traditional.png'); // eslint-disable-line no-undef
 
-const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/' +
-                    'World_Imagery/MapServer/tile/{z}/{y}/{x}'
+const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services' +
+                    '/World_Imagery/MapServer/tile/{z}/{y}/{x}'
 
-const esriWorldStreetsUrl = "https://services.arcgisonline.com/ArcGIS/rest/services/" +
-                    "World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+const esriWorldStreetsUrl = "https://services.arcgisonline.com/ArcGIS/rest/services" +
+                    "/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
 
-const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
-                    "Specialty/ESRI_StateCityHighway_USA/MapServer"
+const esriUSStatesUrl = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services" +
+                    "/Specialty/ESRI_StateCityHighway_USA/MapServer"
 
-const ccgisBasemap = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/" +
-                    "Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
+const ccgisBasemap = myArcGISServer +
+                    "/Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
 
 const Example3 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({
             center: fromLonLat(DEFAULT_CENTER),
@@ -40,6 +40,7 @@ const Example3 = () => {
             minZoom: 8,
             maxZoom: 18,
         }),
+        layers: mapLayers,
         //controls: [],
     }));
 
@@ -117,35 +118,37 @@ const Example3 = () => {
                 />
 
             <Map>
-                <layer.Tile title="Stamen Toner" baseLayer={true} visible={false} permalink="Toner">
-                    <source.Stamen layer="toner"/>
-                </layer.Tile>
+                <CollectionProvider collection={mapLayers}>
+                    <layer.Tile title="Stamen Toner" baseLayer={true} visible={false} permalink="Toner">
+                        <source.Stamen layer="toner"/>
+                    </layer.Tile>
 
-                <layer.Tile title="ESRI Clarity" baseLayer={true} visible={false} permalink="Aerial">
-                    <source.XYZ url={esriClarityUrl} attributions="ESRI Clarity"/>
-                </layer.Tile>
+                    <layer.Tile title="ESRI Clarity" baseLayer={true} visible={false} permalink="Aerial">
+                        <source.XYZ url={esriClarityUrl} attributions="ESRI Clarity"/>
+                    </layer.Tile>
 
-                <layer.Tile title="Clatsop County" baseLayer={true} visible={true} permalink="Clatsop">
-                    <source.XYZ url={ccgisBasemap} attributions="Clatsop County" opaque={true}/>
-                </layer.Tile>
+                    <layer.Tile title="Clatsop County" baseLayer={true} visible={true} permalink="Clatsop">
+                        <source.XYZ url={ccgisBasemap} attributions="Clatsop County" opaque={true}/>
+                    </layer.Tile>
 
-                <layer.Tile title="ESRI Streets" opacity={opacityLayer1} permalink="Streets">
-                    <source.XYZ url={esriWorldStreetsUrl} attributions="ESRI Streets"/>
-                </layer.Tile>
+                    <layer.Tile title="ESRI Streets" opacity={opacityLayer1} permalink="Streets">
+                        <source.XYZ url={esriWorldStreetsUrl} attributions="ESRI Streets"/>
+                    </layer.Tile>
 
-                <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false} permalink="Watercolor">
-                    <source.Stamen layer="watercolor"/>
-                </layer.Tile>
+                    <layer.Tile title="Stamen Watercolor" opacity={opacityLayer2} visible={false} permalink="Watercolor">
+                        <source.Stamen layer="watercolor"/>
+                    </layer.Tile>
 
-                <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false} permalink="States">
-                    <source.ImageArcGISRest url={esriUSStatesUrl} attributions="ESRI States"/>
-                </layer.Image>
+                    <layer.Image title="ESRI US States" opacity={opacityLayer3} visible={false} permalink="States">
+                        <source.ImageArcGISRest url={esriUSStatesUrl} attributions="ESRI States"/>
+                    </layer.Image>
 
-                <layer.Vector title="GPX Drag and drop" style={gpxStyle}>
-                    <source.Vector features={gpxFeatures} addFeature={onAddFeature}>
-                    <interaction.DragAndDrop fit={true}/>
-                    </source.Vector>
-                </layer.Vector>
+                    <layer.Vector title="GPX Drag and drop" style={gpxStyle}>
+                        <source.Vector features={gpxFeatures} addFeature={onAddFeature}>
+                        <interaction.DragAndDrop fit={true}/>
+                        </source.Vector>
+                    </layer.Vector>
+                </CollectionProvider>
 
                 <control.FullScreen/>
                 <control.ScaleLine units="us"/>
@@ -154,7 +157,7 @@ const Example3 = () => {
                 <control.Attribution tipLabel="Credits"/>
                 <control.OverviewMap layers={ovLayers} target={null}/>
             </Map>
-            <control.MousePosition  projection={wgs84} coordinateFormat={coordFormatter} />
+            <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter} />
         </MapProvider>
         </>
     );

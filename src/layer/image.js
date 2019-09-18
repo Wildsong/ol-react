@@ -1,17 +1,17 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
+import {CollectionContext} from '../collection-context'
 import {LayerProvider} from '../layer-context'  // eslint-disable-line no-unused-vars
 import ImageLayer from 'ol/layer/Image'
 
 const Image = (props) => {
-    const map = useContext(MapContext);
+    const layerCollection = useContext(CollectionContext);
     const [layer] = useState(new ImageLayer(props));
 
     useEffect(() => {
-        map.addLayer(layer);
+        layerCollection.push(layer);
         return () => {
-            map.removeLayer(layer);
+            //layerCollection.pop();
         }
     }, []);
 

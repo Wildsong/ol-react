@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
-import Collection from 'ol/Collection'
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
+
 import Style from 'ol/style/Style'
 import {RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
 import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
@@ -10,7 +11,7 @@ import Select from 'react-select' // eslint-disable-line no-unused-vars
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat, toLonLat} from 'ol/proj'
 
 import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
@@ -50,8 +51,11 @@ const typeSelect = [
 /* ============================================================================= */
 
 const Example1 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: MINZOOM}),
+        layers: mapLayers,
+        //controls: [],
     }));
     const [drawType, setDrawType] = useState("LineString");
 
@@ -156,60 +160,62 @@ const Example1 = () => {
 
             <MapProvider map={theMap}>
             <Map style={{position:'relative',left:50,top:0}} onPointerMove={onPointerMove}>
-                <layer.Tile title="Toner" baseLayer={true}>
-                    <source.Stamen layer="toner"/>
-                </layer.Tile>
+                <CollectionProvider collection={mapLayers}>
+                    <layer.Tile title="Toner" baseLayer={true}>
+                        <source.Stamen layer="toner"/>
+                    </layer.Tile>
 
-                <layer.Tile title="OpenStreetMap" opacity={opacityOSM} baseLayer={true}>
-                    <source.OSM/>
-                </layer.Tile>
+                    <layer.Tile title="OpenStreetMap" opacity={opacityOSM} baseLayer={true}>
+                        <source.OSM/>
+                    </layer.Tile>
 
-                <layer.Tile title="Taxlots" maxResolution={10}>
-                    <source.TileWMS url={geoserverWMS}
-                        params={{
-                            LAYERS: geoserverLayers,
-                            STYLES: "redline", // WMS style, from GeoServer in this case
-                            TILED: true}}
-                    />
-                </layer.Tile>
+                    <layer.Tile title="Taxlots" maxResolution={10}>
+                        <source.TileWMS url={geoserverWMS}
+                            params={{
+                                LAYERS: geoserverLayers,
+                                STYLES: "redline", // WMS style, from GeoServer in this case
+                                TILED: true}}
+                        />
+                    </layer.Tile>
 
-                <layer.Vector title="Vector Shapes" opacity={1}>
-                    <source.Vector>
-                        <Feature id="L1" style={lineStyle}>
-                            <geom.LineString transform={transformfn}>
-                                { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
-                            </geom.LineString>
-                        </Feature>
-                        <Feature id="C2" style={polyStyle}>
-                            <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
-                        </Feature>
-                        <Feature id="C4" style={polyStyle}>
-                            <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
-                        </Feature>
-                        <Feature id="Pt5" style={pointStyle}>
-                            <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
-                        </Feature>
-                        <Feature id="P2" style={polyStyle}>
-                            <geom.Polygon transform={transformfn}>
-                                {[
-                                    [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
-                                    [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
-                                ]}
-                            </geom.Polygon>
-                        </Feature>
-                        <Feature id="MP3" style={multipointStyle}>
-                            <geom.MultiPoint transform={transformfn}>
-                                { [[-6000, -4000], [6000, -3000], [0, 6400]] }
-                            </geom.MultiPoint>
-                        </Feature>
-                    </source.Vector>
-                </layer.Vector>
+                    <layer.Vector title="Vector Shapes" opacity={1}>
+                        <source.Vector>
+                            <Feature id="L1" style={lineStyle}>
+                                <geom.LineString transform={transformfn}>
+                                    { [[6000,6000], [-6000, 6000], [-6000, 6000], [-6000, -6000], [6000,-6000]] }
+                                </geom.LineString>
+                            </Feature>
+                            <Feature id="C2" style={polyStyle}>
+                                <geom.Circle transform={ transformfn } >{[6000,0]}</geom.Circle>
+                            </Feature>
+                            <Feature id="C4" style={polyStyle}>
+                                <geom.Circle modify={enableModify}>{[astoria_wm, 2000]}</geom.Circle>
+                            </Feature>
+                            <Feature id="Pt5" style={pointStyle}>
+                                <geom.Point transform={ transformfn }>{[1835, -910]}</geom.Point>
+                            </Feature>
+                            <Feature id="P2" style={polyStyle}>
+                                <geom.Polygon transform={transformfn}>
+                                    {[
+                                        [[-3500, -2000], [3500, -2000], [0, 4000], [-3500, -2000]],
+                                        [[0, -1000], [1000, 1000], [-1000, 1000], [0, -1000]],
+                                    ]}
+                                </geom.Polygon>
+                            </Feature>
+                            <Feature id="MP3" style={multipointStyle}>
+                                <geom.MultiPoint transform={transformfn}>
+                                    { [[-6000, -4000], [6000, -3000], [0, 6400]] }
+                                </geom.MultiPoint>
+                            </Feature>
+                        </source.Vector>
+                    </layer.Vector>
 
-                <layer.Vector title="Draw" opacity={1} style={drawStyle}>
-                    <source.Vector features={drawFeatures}>
-                        <interaction.Draw type={drawType} drawend={handleAddFeature}/>
-                    </source.Vector>
-                </layer.Vector>
+                    <layer.Vector title="Draw" opacity={1} style={drawStyle}>
+                        <source.Vector features={drawFeatures}>
+                            <interaction.Draw type={drawType} drawend={handleAddFeature}/>
+                        </source.Vector>
+                    </layer.Vector>
+                </CollectionProvider>
 
                 <control.Graticule showLabels={true} maxLines={100} targetSize={50}/>
                 <control.Scale/>

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 import Style from 'ol/style/Style'
 import {Circle, Fill, Stroke, Icon} from 'ol/style'
 import {Map, Feature, geom, control, layer, source} from '../src' // eslint-disable-line no-unused-vars
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat} from 'ol/proj'
 
 import {myGeoServer, myArcGISServer, workspace, DEFAULT_CENTER, XMIN,YMIN,XMAX,YMAX, EXTENT, MAXRESOLUTION} from './constants'
@@ -19,7 +20,7 @@ const schoolIcon = require('../assets/school.png'); // eslint-disable-line no-un
 // Clatsop County services
 const ccPLSSUrl = myArcGISServer + "/PLSS/MapServer"
 const ccgisBasemap = myArcGISServer + "/Clatsop_County_basemap/MapServer/tile/{z}/{y}/{x}"
-const ccMilepostsUrl = myArcGISServer + "/highway_mileposts/FeatureServer/0";
+const ccMilepostsUrl = myArcGISServer + "/Highway_Mileposts/FeatureServer/0";
 const ccTaxmapAnnoUrl = myArcGISServer + "/Taxmap_annotation/MapServer"
 const ccTaxlotLabelsUrl = myArcGISServer + '/Taxlots/FeatureServer/0'
 const ccTaxlotUrl = myArcGISServer + '/Taxlots/FeatureServer/1'
@@ -118,8 +119,10 @@ const taxlotTextStyle = (feature, resolution) => {
     });
 }
 const Example6 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: STARTZOOM}),
+        layers: mapLayers,
     }));
 
     const plssStyle = new Style({
@@ -177,58 +180,59 @@ const Example6 = () => {
                     <control.LayerSwitcher show_progress={true} extent={true} show_progress={true}/>
                     <control.FullScreen/>
 
-                    <layer.Image title="Bare Earth HS">
-                    <source.ImageWMS url={wmsImageUrl}/>
-                    </layer.Image>
+                    <CollectionProvider collection={mapLayers}>
+                        <layer.Image title="Bare Earth HS">
+                        <source.ImageWMS url={wmsImageUrl}/>
+                        </layer.Image>
 
-                    <layer.Tile title="Clatsop County" baseLayer={true} visible={true}
-                    permalink="Clatsop">
-                    <source.XYZ url={ccgisBasemap} transition={0} opaque={true}
-                    attributions="Clatsop County" extent={EXTENT_WM}/>
-                    </layer.Tile>
+                        <layer.Tile title="Clatsop County" baseLayer={true} visible={true}
+                        permalink="Clatsop">
+                        <source.XYZ url={ccgisBasemap} transition={0} opaque={true}
+                        attributions="Clatsop County" extent={EXTENT_WM}/>
+                        </layer.Tile>
 
-                    <layer.Tile title="OpenStreetMap" opacity={.70} baseLayer={true} visible={false}>
-                        <source.OSM/>
-                    </layer.Tile>
+                        <layer.Tile title="OpenStreetMap" opacity={.70} baseLayer={true} visible={false}>
+                            <source.OSM/>
+                        </layer.Tile>
 
-                    <layer.Vector title="Elementary schools" style={schoolStyle}>
-                        <source.JSON url={featureUrl} loader="esrijson"/>
-                    </layer.Vector>
+                        <layer.Vector title="Elementary schools" style={schoolStyle}>
+                            <source.JSON url={featureUrl} loader="esrijson"/>
+                        </layer.Vector>
 
-                    <layer.Vector title="Taxlots" style={taxlotStyle} reordering={false} maxResolution={MAXRESOLUTION}>
-                        <source.JSON url={ccTaxlotUrl} loader={ccTaxlotFormat} />
-                    </layer.Vector>
+                        <layer.Vector title="Taxlots" style={taxlotStyle} reordering={false} maxResolution={MAXRESOLUTION}>
+                            <source.JSON url={ccTaxlotUrl} loader={ccTaxlotFormat} />
+                        </layer.Vector>
 
-                    <layer.Vector title="Taxlot labels" style={taxlotTextStyle} reordering={false} maxResolution={MAXRESOLUTION}>
-                        <source.JSON url={ccTaxlotLabelsUrl} loader={ccTaxlotFormat} />
-                    </layer.Vector>
+                        <layer.Vector title="Taxlot labels" style={taxlotTextStyle} reordering={false} maxResolution={MAXRESOLUTION}>
+                            <source.JSON url={ccTaxlotLabelsUrl} loader={ccTaxlotFormat} />
+                        </layer.Vector>
 
-                    <layer.Tile title="Taxmap annotation" opacity={.80} extent={EXTENT_WM}>
-                        <source.XYZ url={ccTaxmapAnnoUrl + "/tile/{z}/{y}/{x}"}/>
-                    </layer.Tile>
+                        <layer.Tile title="Taxmap annotation" opacity={.80} extent={EXTENT_WM}>
+                            <source.XYZ url={ccTaxmapAnnoUrl + "/tile/{z}/{y}/{x}"}/>
+                        </layer.Tile>
 
-                    <layer.Tile title="PLSS (Clatsop County)" style={plssStyle} reordering={false}>
-                    <source.TileArcGISRest url={ccPLSSUrl} loader="esrijson"/>
-                    </layer.Tile>
+                        <layer.Tile title="PLSS (Clatsop County)" style={plssStyle} reordering={false}>
+                        <source.TileArcGISRest url={ccPLSSUrl} loader="esrijson"/>
+                        </layer.Tile>
 
-                    <layer.Vector title="Highway mileposts" style={milepostStyle} reordering={false} extent={EXTENT_WM}>
-                    <source.JSON url={ccMilepostsUrl} loader="esrijson"/>
-                    </layer.Vector>
+                        <layer.Vector title="Highway mileposts" style={milepostStyle} reordering={false} extent={EXTENT_WM}>
+                        <source.JSON url={ccMilepostsUrl} loader="esrijson"/>
+                        </layer.Vector>
 
-                    <layer.Vector title="Extent rectangle" opacity={1} extent={EXTENT_WM}>
-                        <source.Vector>
-                            <Feature id="Rect1" style={yellowStyle}>
-                                <geom.LineString transform={xform}>
-                                    { [[XMIN,YMIN],[XMIN,YMAX],[XMAX,YMAX],[XMAX,YMIN],[XMIN,YMIN]] }
-                                </geom.LineString>
-                            </Feature>
-                        </source.Vector>
-                    </layer.Vector>
+                        <layer.Vector title="Extent rectangle" opacity={1} extent={EXTENT_WM}>
+                            <source.Vector>
+                                <Feature id="Rect1" style={yellowStyle}>
+                                    <geom.LineString transform={xform}>
+                                        { [[XMIN,YMIN],[XMIN,YMAX],[XMAX,YMAX],[XMAX,YMIN],[XMIN,YMIN]] }
+                                    </geom.LineString>
+                                </Feature>
+                            </source.Vector>
+                        </layer.Vector>
 
-                    <layer.Vector title="WFS-T web markers" style={markerStyle}>
-                        <source.JSON url={web_markers} loader="geojson"/>
-                    </layer.Vector>
-
+                        <layer.Vector title="WFS-T web markers" style={markerStyle}>
+                            <source.JSON url={web_markers} loader="geojson"/>
+                        </layer.Vector>
+                    </CollectionProvider>
                 </Map>
             </MapProvider>
         </>

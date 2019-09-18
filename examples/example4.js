@@ -2,9 +2,9 @@ import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import {Map, Feature, control, geom, interaction, layer, source} from '../src'; // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
-import {LayerGroupProvider} from '../src/layer-group-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import LayerGroup from 'ol/layer/Group'
 import {fromLonLat} from 'ol/proj'
 import Style from 'ol/style/Style'
@@ -51,6 +51,14 @@ const osipImageryUrl = osipServer + '/OSIP_2018/OSIP_2018_WM/ImageServer/tile/{z
 const naipImageryUrl = osipServer + '/NAIP_2016/NAIP_2016_WM/ImageServer/tile/{z}/{y}/{x}'
 
 const Example4 = () => {
+    const [baseLayers] = useState(new Collection());
+    const [zoningLayers] = useState(new Collection());
+    const [geologyLayers] = useState(new Collection());
+    const [mapLayers] = useState(new Collection([
+        new LayerGroup({title: "Base", layers:baseLayers}),
+        new LayerGroup({title: "Geology", layers:geologyLayers}),
+        new LayerGroup({title: "Zoning", layers:zoningLayers}),
+    ]));
     const [theMap] = useState(new olMap({
         view: new olView({
             center: fromLonLat(DEFAULT_CENTER),
@@ -58,15 +66,9 @@ const Example4 = () => {
             minZoom: 10,
             maxZoom: 20,
         }),
+        layers: mapLayers
         //controls: [],
     }));
-    const [aerialGroup] = useState(new LayerGroup());
-
-    const [bingVisible, setBingVisible] = useState(false);
-
-    const toggleLayer = () => {
-        setBingVisible(!bingVisible);
-    }
 
     return (
         <>
@@ -78,7 +80,7 @@ const Example4 = () => {
                 <li> BingMaps CanvasLight (roads) </li>
                 </ul>
 
-                <Button onClick={toggleLayer}>Toggle Bing aerial</Button>
+                This example shows how to create groups and shows them in the layerswitcher.
 
                 <p>
                     Controls: ScaleLine <br />
@@ -86,51 +88,57 @@ const Example4 = () => {
 
                 <MapProvider map={theMap}>
                 <Map>
-                    <layer.Tile title="Bing Road" baseLayer={true}>
-                        <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
-                    </layer.Tile>
+                    <CollectionProvider collection={baseLayers}>
+                        <layer.Tile title="Bing Road" baseLayer={true} reordering={false} visible={false}>
+                            <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
+                        </layer.Tile>
 
+                        <layer.Tile title="Bing Aerial"  baseLayer={true} reordering={false} visible={false}>
+                            <source.BingMaps imagerySet="Aerial" apikey={bingmaps_key}/>
+                        </layer.Tile>
 
-                    <layer.Tile title="Bing Aerial" visible={bingVisible} baseLayer={true}>
-                        <source.BingMaps imagerySet="Aerial" apikey={bingmaps_key}/>
-                    </layer.Tile>
+                        <layer.Tile title="Aerial, ESRI Clarity" baseLayer={true} reordering={false} visible={false}>
+                            <source.XYZ url={esriClarityUrl}/>
+                        </layer.Tile>
 
-                    <layer.Tile title="Aerial, ESRI Clarity" baseLayer={true} reordering={false} visible={false}>
-                        <source.XYZ url={esriClarityUrl}/>
-                    </layer.Tile>
+                        <layer.Tile title="Aerial, NAIP 2016" baseLayer={true} reordering={false} visible={false}>
+                            <source.XYZ url={naipImageryUrl}/>
+                        </layer.Tile>
 
-                    <layer.Tile title="Aerial, NAIP 2016" baseLayer={true} reordering={false} visible={false}>
-                        <source.XYZ url={naipImageryUrl}/>
-                    </layer.Tile>
+                        <layer.Tile title="Aerial, Oregon 2018" baseLayer={true} reordering={false} visible={true}>
+                            <source.XYZ url={osipImageryUrl}/>
+                        </layer.Tile>
+                    </CollectionProvider>
 
-                    <layer.Tile title="Aerial, Oregon 2018" baseLayer={true} reordering={false} visible={false}>
-                        <source.XYZ url={osipImageryUrl}/>
-                    </layer.Tile>
+                    <CollectionProvider collection={mapLayers}>
+                        <layer.Tile title="ESRI StateCityHighway USA" visible={false}>
+                            <source.TileArcGISRest url={tileServer} />
+                        </layer.Tile>
 
+                        <CollectionProvider collection={zoningLayers}>
+                            <layer.Vector title="Oregon Zoning 2014" visible={true} style={zoningStyle}>
+                                <source.JSON url={zoning2014FeatureServer} loader="esrijson"/>
+                            </layer.Vector>
 
-                    <layer.Tile title="ESRI StateCityHighway USA" visible={false}>
-                        <source.TileArcGISRest url={tileServer} />
-                    </layer.Tile>
+                            <layer.Vector title="Oregon Zoning 2017" visible={false} style={zoningStyle}>
+                                <source.JSON url={zoning2017FeatureServer} loader="esrijson"/>
+                            </layer.Vector>
+                        </CollectionProvider>
 
-                    <layer.Image title="DOGAMI Landslide Susceptibility">
-                        <source.ImageArcGISRest url={dogamiLandslideUrl}/>
-                    </layer.Image>
+                        <CollectionProvider collection={geologyLayers}>
+                            <layer.Image title="DOGAMI Landslide Susceptibility">
+                            <source.ImageArcGISRest url={dogamiLandslideUrl}/>
+                            </layer.Image>
 
-                    <layer.Image title="DOGAMI Slides">
-                        <source.ImageArcGISRest url={dogamiSlidoUrl}/>
-                    </layer.Image>
+                            <layer.Image title="DOGAMI Slides">
+                            <source.ImageArcGISRest url={dogamiSlidoUrl}/>
+                            </layer.Image>
+                        </CollectionProvider>
 
-                    <layer.Vector title="Oregon Zoning 2017" style={zoningStyle}>
-                    <source.JSON url={zoning2017FeatureServer} loader="esrijson"/>
-                    </layer.Vector>
-
-                    <layer.Vector title="Oregon Zoning 2014" style={zoningStyle}>
-                        <source.JSON url={zoning2014FeatureServer} loader="esrijson"/>
-                    </layer.Vector>
-
-                    <layer.Vector title="PLSS (FEMA)" style={plssStyle}>
-                    <source.JSON url={femaPLSSUrl} loader="esrijson"/>
-                    </layer.Vector>
+                        <layer.Vector title="PLSS (FEMA)" style={plssStyle}>
+                            <source.JSON url={femaPLSSUrl} loader="esrijson"/>
+                        </layer.Vector>
+                    </CollectionProvider>
 
                     <control.ScaleLine units={control.ScaleLineUnits.US} />
                 </Map>

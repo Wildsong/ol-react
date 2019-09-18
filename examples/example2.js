@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
-import {Map as olMap, View as olView} from 'ol'
-import Collection from 'ol/Collection'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import {toStringXY} from 'ol/coordinate'
 import {platformModifierKeyOnly} from 'ol/events/condition'
 import Style from 'ol/style/Style'
@@ -61,8 +61,10 @@ const selectedStyle = new Style({ // yellow
 });
 
 const Example2 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({ center: fromLonLat(DEFAULT_CENTER), zoom: DEFAULT_ZOOM}),
+        layers: mapLayers,
         //controls: [],
     }));
 
@@ -183,20 +185,20 @@ const Example2 = () => {
                 <Container>
                     <Row><Col>
                         <Map onMoveEnd={handleMove} animate={false}>
+                        <CollectionProvider collection={mapLayers}>
+                            <layer.Tile title="OpenStreetMap" baseLayer={true}><source.OSM/></layer.Tile>
 
-                        <layer.Tile title="OpenStreetMap" baseLayer={true}><source.OSM/></layer.Tile>
+                            <layer.Image title="City of Astoria 2015" visible={false}>
+                                <source.ImageWMS url={astoriagis} ttributions="City of Astoria, Oregon"/>
+                            </layer.Image>
 
-                        <layer.Image title="City of Astoria 2015" visible={false}>
-                            <source.ImageWMS url={astoriagis} attributions="City of Astoria, Oregon"/>
-                        </layer.Image>
-
-                        <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
-                            <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
-                                <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
-                                <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
-                            </source.JSON>
-                        </layer.Vector>
-
+                            <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
+                                <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
+                                    <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
+                                    <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                                </source.JSON>
+                            </layer.Vector>
+                        </CollectionProvider>
                         <control.GeoBookmark/>
                         <control.Attribution/>
                     </Map>

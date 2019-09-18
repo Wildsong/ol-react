@@ -9,22 +9,26 @@ A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.or
 
 The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component,
 to generate a map with a square near the equator.
-
-    <Map view=<View resolution={10000} center={[0, 0]}/>>
-      <layer.Tile>
-        <source.OSM />
-      </layer.Tile>
-      <layer.Vector>
-        <source.Vector>
-          <Feature>
-            <geom.LineString>
-              {[[0, 0], [100000, 0], [100000, 100000], [0, 100000]]}
-            </geom.LineString>
-          </Feature>
-        </source.Vector>
-      </layer.Vector>
+```
+  <MapProvider map={theMap}>
+    <Map>
+        <CollectionProvider collection={mapLayers}>
+          <layer.Tile>
+            <source.OSM />
+          </layer.Tile>
+          <layer.Vector>
+            <source.Vector>
+              <Feature>
+                <geom.LineString>
+                  {[[0, 0], [100000, 0], [100000, 100000], [0, 100000]]}
+                </geom.LineString>
+              </Feature>
+            </source.Vector>
+          </layer.Vector>
+        </CollectionProvider>
     </Map>
-
+  </MapProvider>
+```
 To understand what each element does, read the [OpenLayers API documentation](http://openlayers.org/en/latest/apidoc/).
 
 I experimented for months with making the source a property of the layer component and just

@@ -2,6 +2,11 @@ import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {Map, layer, source, control, interaction, overlay} from '../src' // eslint-disable-line no-unused-vars
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap' // eslint-disable-line no-unused-vars
 import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
+import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
+
+import {Map as olMap, View as olView, Collection} from 'ol'
+import {fromLonLat} from 'ol/proj'
 import {Point} from 'ol/geom'
 import {Vector as VectorSource} from 'ol/source'
 import Style from 'ol/style/Style'
@@ -9,11 +14,6 @@ import {Fill, Stroke} from 'ol/style'
 import {Circle as olCircle} from 'ol/geom'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import Feature from 'ol/Feature'
-import Collection from 'ol/Collection'
-import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
-
-import {Map as olMap, View as olView} from 'ol'
-import {fromLonLat} from 'ol/proj'
 
 import {myGeoServer, workspace, astoria_ll, astoria_wm, MINZOOM, MAXZOOM} from './constants'
 const DEFAULT_ZOOM = 14;
@@ -48,9 +48,11 @@ const thunderforestUrl = 'https://tile.thunderforest.com/' + tflayername + '/{z}
 //console.log("url=",thunderforest_url);
 
 const Example5 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({ center: astoria_wm, zoom: DEFAULT_ZOOM}),
-        controls: [] // don't use default controls.
+        controls: [], // don't use default controls.
+        layers: mapLayers,
     }));
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
     const [resolution, setResolution] = useState(0)
@@ -240,29 +242,31 @@ const Example5 = () => {
                     <button name="animate" onClick={toggleAnimate}>{ animate? "on" : "off" }</button>
                 </p>
                 <Map onMoveEnd={handleMove}>
-                    <layer.Tile title="Thunderforest" displayInLayerSwitcher={false}>
-                        <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
-                    </layer.Tile>
+                    <CollectionProvider collection={mapLayers}>
+                        <layer.Tile title="Thunderforest" displayInLayerSwitcher={false}>
+                            <source.XYZ url={thunderforestUrl} apikey={thunderforestKey}/>
+                        </layer.Tile>
 
-                    <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={9}>
-                        <source.JSON url={taxlotsUrl} loader="geojson">
-                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
-                            <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
-                        </source.JSON>
-                    </layer.Vector>
+                        <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={9}>
+                            <source.JSON url={taxlotsUrl} loader="geojson">
+                                <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
+                                <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                            </source.JSON>
+                        </layer.Vector>
 
-                    {/*
-                    <layer.Vector title="Custom taxlot source">
-                        <source.Vector url={completeUrl} strategy={bbox}/>
-                    </layer.Vector>
+                        {/*
+                        <layer.Vector title="Custom taxlot source">
+                            <source.Vector url={completeUrl} strategy={bbox}/>
+                        </layer.Vector>
 
-                    <layer.Vector title="Taxlots">
-                    <source.Vector source={taxlotsSource} strategy={bbox}/>
-                    </layer.Vector>
-                    */}
-                    <layer.Vector title="Custom vectors">
-                        <source.Vector source={myVectorSource}/>
-                    </layer.Vector>
+                        <layer.Vector title="Taxlots">
+                        <source.Vector source={taxlotsSource} strategy={bbox}/>
+                        </layer.Vector>
+                        */}
+                        <layer.Vector title="Custom vectors">
+                            <source.Vector source={myVectorSource}/>
+                        </layer.Vector>
+                    </CollectionProvider>
                 </Map>
                 <control.LayerSwitcher show_progress={true} collapsed={false}/>
                 </Col><Col>

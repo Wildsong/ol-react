@@ -1,18 +1,18 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
+import {CollectionContext} from '../collection-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
 import Style from 'ol/style/Style'
 import VectorTileLayer from 'ol/layer/Vector'
 
 const VectorTile = (props) => {
-    const map = useContext(MapContext);
+    const layerCollection = useContext(CollectionContext);
     const [layer] = useState(new VectorTileLayer(props));
 
     useEffect(() => {
-        map.addLayer(layer);
+        layerCollection.push(layer);
         return () => {
-            map.removeLayer(layer);
+            //layerCollection.pop();
         }
     }, []);
 

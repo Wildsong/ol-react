@@ -1,28 +1,19 @@
 import React, {useState, useContext, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types'
-import {MapContext} from '../map-context'
+import {CollectionContext} from '../collection-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
-//import LayerGroupContext from '../layer-group-context'
 import TileLayer from 'ol/layer/Tile'
 
 const Tile = (props) => {
-    const map = useContext(MapContext);
-//    const layerGroup = useContext(LayerGroupContext);
+    const layerCollection = useContext(CollectionContext);
     const [layer] = useState(new TileLayer(props));
 
     useEffect(() => {
-        console.log("addLayer", props.title);
-//        if (layerGroup != undefined) {
-//            let l = layerGroup.getLayers();
-//            l.push(layer);
-//            layerGroup.setLayers(l)
-//            console.log("oggg", props.group, l)
-//        } else {
-            map.addLayer(layer);
-//        }
+        layerCollection.push(layer);
+        console.log("pushLayer", props.title, layerCollection);
         return () => {
-            console.log("removeLayer", props.title);
-            map.removeLayer(layer);
+            //const l = layerCollection.pop()
+            console.log("popLayer", props.title, layerCollection);
         }
     }, []);
 

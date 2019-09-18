@@ -1,20 +1,23 @@
 import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
+
 import {Map, Feature, Overlay, control, geom, layer, source, interaction} from '../src' // eslint-disable-line no-unused-vars
-import Style from 'ol/style/Style'
-import {Fill, Icon, Stroke, Text} from 'ol/style'
+
 import {Converter} from 'usng.js'
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
-import Popup from 'ol-ext/overlay/Popup'
 
 // abandoning hope of this test of WMTS
 //import {getWidth, getTopLeft} from 'ol/extent'
 //import {get as getProjection} from 'ol/proj.js'
 //import WMTSTileGrid from 'ol/tilegrid/WMTS'
 
-import {Map as olMap, View as olView} from 'ol'
+import {Map as olMap, View as olView, Collection} from 'ol'
 import {toLonLat, fromLonLat} from 'ol/proj'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
+import Style from 'ol/style/Style'
+import {Fill, Icon, Stroke, Text} from 'ol/style'
+import Popup from 'ol-ext/overlay/Popup'
 
 import {myGeoServer, astoria_ll} from './constants'
 import {usngPrecision} from '../src/constants'
@@ -42,6 +45,7 @@ const taxlotVectorStyle = new Style({
 //const taxlotsFormat = "image/png"
 
 const Example8 = () => {
+    const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({
             center: fromLonLat(DEFAULT_CENTER),
@@ -49,6 +53,7 @@ const Example8 = () => {
             minZoom: 12,
             maxZoom: 17,
         }),
+        layers: mapLayers,
     }));
     const [popupPosition, setPopupPosition] = useState([0,0]);
     const [popupText, setPopupText] = useState("here");
@@ -97,38 +102,40 @@ const Example8 = () => {
                 <control.MousePosition coordinateFormat={usngCoordFormatter}/>
             <Button onClick={() => {setSlido(!slidoVisible)}}>Toggle SLIDO</Button>
             <Map onClick={handleMapClick}>
-                <layer.Image title="Bare Earth HS" opacity={.60}
-                    displayInLayerSwitcher={false}>
-                    <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
-                </layer.Image>
+                <CollectionProvider collection={mapLayers}>
+                    <layer.Image title="Bare Earth HS" opacity={.60}
+                        displayInLayerSwitcher={false}>
+                        <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/BareEarthHS/ImageServer"/>
+                    </layer.Image>
 
-                <layer.Tile title="OpenStreetMap" baseLayer={true}>
-                    <source.OSM/>
-                </layer.Tile>
-                <layer.VectorTile title="Mapbox Streets" declutter={true} baseLayer={true} style={mapboxStyle} visible={false}>
-                    <source.VectorTile url={mapboxStreetsUrl}/>
-                </layer.VectorTile>
-
-                <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
-                    <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
-                </layer.Image>
-
-                <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={taxlotVectorStyle}
-                    allwaysOnTop={true}>
-                    <source.VectorTile url={taxlotsUrl}/>
-                </layer.VectorTile>
-
-                {/*
-                    <layer.Tile title="Taxlots">
-                        <source.WMTS url={taxlotsWMTSUrl}
-                            format={taxlotsFormat}
-                    layer="clatsop_wm:taxlots"
-                    tileGrid={tileGrid}
-                    matrixSet={"EPSG:90013"}
-                    />
+                    <layer.Tile title="OpenStreetMap" baseLayer={true}>
+                        <source.OSM/>
                     </layer.Tile>
-                    */}
+                    <layer.VectorTile title="Mapbox Streets" declutter={true} baseLayer={true} style={mapboxStyle} visible={false}>
+                        <source.VectorTile url={mapboxStreetsUrl}/>
+                    </layer.VectorTile>
 
+                    <layer.Image title="DOGAMI Slides" opacity={.90} visible={slidoVisible}>
+                        <source.ImageArcGISRest url="https://gis.dogami.oregon.gov/arcgis/rest/services/Public/SLIDO3_4/MapServer"/>
+                    </layer.Image>
+
+                    <layer.VectorTile title="Taxlots vector tiles" declutter={true} style={taxlotVectorStyle}
+                        allwaysOnTop={true}>
+                        <source.VectorTile url={taxlotsUrl}/>
+                    </layer.VectorTile>
+
+                    {/*
+                        <layer.Tile title="Taxlots">
+                            <source.WMTS url={taxlotsWMTSUrl}
+                                format={taxlotsFormat}
+                        layer="clatsop_wm:taxlots"
+                        tileGrid={tileGrid}
+                        matrixSet={"EPSG:90013"}
+                        />
+                        </layer.Tile>
+                        */}
+                </CollectionProvider>
+                
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
                 <control.LayerSwitcher show_progress={true} />
                 <control.OverviewMap layers={ovLayers} target={null}/>
