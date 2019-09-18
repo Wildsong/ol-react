@@ -2,8 +2,10 @@ import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import {Map, Feature, control, geom, interaction, layer, source} from '../src'; // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
+import {LayerGroupProvider} from '../src/layer-group-context' // eslint-disable-line no-unused-vars
 
 import {Map as olMap, View as olView} from 'ol'
+import LayerGroup from 'ol/layer/Group'
 import {fromLonLat} from 'ol/proj'
 import Style from 'ol/style/Style'
 import {Stroke, Fill} from 'ol/style'
@@ -37,6 +39,17 @@ const plssStyle = new Style({
     //fill: new Fill({color: [255, 0, 0, .250]}),
 });
 
+const esriClarityUrl = 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/' +
+                    'World_Imagery/MapServer/tile/{z}/{y}/{x}'
+
+// DOGAMI "https://gis.dogami.oregon.gov/arcgis/rest/services/Public"
+const bareEarthHSUrl = "https://gis.dogami.oregon.gov/arcgis/services/Public/BareEarthHS/ImageServer/WMSServer?Layers=0"
+
+// OSIP = Oregon State Imagery Program
+const osipServer = "https://imagery.oregonexplorer.info/arcgis/rest/services"
+const osipImageryUrl = osipServer + '/OSIP_2018/OSIP_2018_WM/ImageServer/tile/{z}/{y}/{x}'
+const naipImageryUrl = osipServer + '/NAIP_2016/NAIP_2016_WM/ImageServer/tile/{z}/{y}/{x}'
+
 const Example4 = () => {
     const [theMap] = useState(new olMap({
         view: new olView({
@@ -47,6 +60,8 @@ const Example4 = () => {
         }),
         //controls: [],
     }));
+    const [aerialGroup] = useState(new LayerGroup());
+
     const [bingVisible, setBingVisible] = useState(false);
 
     const toggleLayer = () => {
@@ -75,9 +90,23 @@ const Example4 = () => {
                         <source.BingMaps imagerySet="CanvasLight" apikey={bingmaps_key}/>
                     </layer.Tile>
 
+
                     <layer.Tile title="Bing Aerial" visible={bingVisible} baseLayer={true}>
                         <source.BingMaps imagerySet="Aerial" apikey={bingmaps_key}/>
                     </layer.Tile>
+
+                    <layer.Tile title="Aerial, ESRI Clarity" baseLayer={true} reordering={false} visible={false}>
+                        <source.XYZ url={esriClarityUrl}/>
+                    </layer.Tile>
+
+                    <layer.Tile title="Aerial, NAIP 2016" baseLayer={true} reordering={false} visible={false}>
+                        <source.XYZ url={naipImageryUrl}/>
+                    </layer.Tile>
+
+                    <layer.Tile title="Aerial, Oregon 2018" baseLayer={true} reordering={false} visible={false}>
+                        <source.XYZ url={osipImageryUrl}/>
+                    </layer.Tile>
+
 
                     <layer.Tile title="ESRI StateCityHighway USA" visible={false}>
                         <source.TileArcGISRest url={tileServer} />

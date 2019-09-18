@@ -2,15 +2,24 @@ import React, {useState, useContext, useEffect} from 'react';  // eslint-disable
 import PropTypes from 'prop-types'
 import {MapContext} from '../map-context'
 import {LayerProvider} from '../layer-context' // eslint-disable-line no-unused-vars
+import LayerGroupContext from '../layer-group-context'
 import TileLayer from 'ol/layer/Tile'
 
 const Tile = (props) => {
     const map = useContext(MapContext);
+    const layerGroup = useContext(LayerGroupContext);
     const [layer] = useState(new TileLayer(props));
 
     useEffect(() => {
         console.log("addLayer", props.title);
-        map.addLayer(layer);
+        if (layerGroup != undefined) {
+            let l = layerGroup.getLayers();
+            l.push(layer);
+            layerGroup.setLayers(l)
+            console.log("oggg", props.group, l)
+        } else {
+            map.addLayer(layer);
+        }
         return () => {
             console.log("removeLayer", props.title);
             map.removeLayer(layer);
