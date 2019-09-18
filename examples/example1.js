@@ -211,8 +211,7 @@ const Example1 = () => {
                     </source.Vector>
                 </layer.Vector>
 
-                <layer.Graticule showLabels={true} maxLines={100} targetSize={50}/>
-
+                <control.Graticule showLabels={true} maxLines={100} targetSize={50}/>
                 <control.Scale/>
                 <control.ScaleLine/>
                 <control.FullScreen tipLabel="go full screen"/>

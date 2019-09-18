@@ -1,5 +1,6 @@
 export {default as Attribution} from './attribution'
 export {default as FullScreen} from './full-screen'
+export {default as Graticule} from './graticule'
 export {default as MousePosition} from './mouse-position'
 export {default as OverviewMap} from './overview-map'
 export {default as ScaleLine} from './scale-line'

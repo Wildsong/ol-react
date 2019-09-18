@@ -1,5 +1,4 @@
 //export { default as HeatMap } from './heatmap'
-export {default as Graticule} from './graticule'
 export {default as Image} from './image'
 export {default as Tile} from './tile'
 export {default as Vector} from './vector'
