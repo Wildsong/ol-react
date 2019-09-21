@@ -15,7 +15,7 @@ import {Circle as olCircle} from 'ol/geom'
 import {click, platformModifierKeyOnly} from 'ol/events/condition'
 import Feature from 'ol/Feature'
 
-import {myGeoServer, workspace, astoria_ll, astoria_wm, MINZOOM, MAXZOOM} from './constants'
+import {myGeoServer, workspace, astoria_ll, astoria_wm, MINZOOM, MAXZOOM, BOOKMARKS} from './constants'
 const DEFAULT_ZOOM = 14;
 
 // These are for testing passing an OL VectorSource in as a property
@@ -61,17 +61,6 @@ const Example5 = () => {
     const [rotation, setRotation] = useState(0.00);
     const [animate, setAnimate] = useState(true);
     const view = theMap.getView();
-
-    const bookmarks = {
-        1 : { location: astoria_ll,          zoom: 13, title: "Astoria"},
-        2 : { location: [-123.969,45.893],   zoom: 13, title: "Cannon Beach"},
-        3 : { location: [-123.9188,46.026],  zoom: 13, title: "Gearhart",},
-        4 : { location: [-123.9520,46.2000], zoom: 14, title: "Hammond",},
-        5 : { location: [-123.5032,45.9345], zoom: 14, title: "Jewell",},
-        6 : { location: [-123.9407,45.7297], zoom: 13, title: "Neahkahnie Beach",},
-        7 : { location: [-123.920,45.994],   zoom: 12, title: "Seaside"},
-        8 : { location: [-123.924,46.165],   zoom: 13, title: "Warrenton"}
-    }
 
 // Set the new view and let OpenLayers generate a moveend event.
 // Then use the new view settings to update state in this component.
@@ -130,20 +119,14 @@ const Example5 = () => {
         else
             view.setCenter(center);
     }
-
+/*
     const gotoBookmark = (e) => {
         const bookmarkId = e.target.name;
-
         // Bookmarks are stored in lat,lon
-        const bookmark_wgs84 = bookmarks[bookmarkId]
-        const coord = fromLonLat(bookmark_wgs84.location)
-
-	//setDisplayPoint(bookmark_wgs84.location);
-	//setDisplayZoom(bookmark_wgs84.zoom);
-
-        gotoXY(coord, bookmark_wgs84.zoom);
+        const bookmark = bookmarks[bookmarkId]
+        gotoXY(bookmark.pos, bookmark.zoom);
     }
-
+*/
     const handleMove = (mapEvent) => {
         console.log("Map.onMoveEnd",view.getCenter());
 /*
@@ -155,10 +138,10 @@ const Example5 = () => {
         mapEvent.stopPropagation();
     };
 
-    // Show a list of bookmarks
+/*    // Show a list of bookmarks
     const keys = Object.keys(bookmarks);
-    const bookmarkTitles = keys.map(k => [k, bookmarks[k].title]);
-
+    const bookmarkTitles = keys
+*/
     // Test for issue #2, accept an external data source
     // Create an OpenLayers vector source, and add a
     // styled feature to it, and pass it into a source.Vector component
@@ -262,17 +245,21 @@ const Example5 = () => {
                             <source.Vector source={myVectorSource}/>
                         </layer.Vector>
                     </CollectionProvider>
+
+                    <control.LayerSwitcher show_progress={true} collapsed={false}/>
+                    <control.GeoBookmark marks={BOOKMARKS}/>
+                    <control.Scale/>
                 </Map>
-                <control.LayerSwitcher show_progress={true} collapsed={false}/>
-                <control.GeoBookmark/>
                 </Col><Col>
+                {/*
                 <ListGroup flush={true}>Click to recenter map
-                { bookmarkTitles.map(item =>
+                { bookmarks.map(item =>
                     <ListGroupItem tag="button" key={item[0]} name={item[0]}
                     onClick={gotoBookmark} className="geobookmark"
                     action>{item[0]} {item[1]}</ListGroupItem>
                 )}
                 </ListGroup>
+*/}
                 </Col></Row>
                 <Row><Col>
                 <BootstrapTable bootstrap4 condensed

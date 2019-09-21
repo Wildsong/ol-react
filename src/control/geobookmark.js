@@ -13,9 +13,10 @@ marks: {
 
 const GeoBookmark = (props) => {
     const map = useContext(MapContext);
-    const [control] = useState(new olextGeoBookmark(props));
+    const [control] = useState(new olextGeoBookmark());
 
     useEffect(() => {
+        control.setBookmarks(props.marks);
         map.addControl(control);
         return () => { map.removeControl(control); }
     }, []);
