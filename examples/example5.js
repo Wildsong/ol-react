@@ -30,8 +30,7 @@ const taxlotsColumns  = [
 ]
 
 
-// CC service only works inside firewall
-// const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
+// const taxlotsUrl = "https://delta.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer/"
 
 // To generate this URL, go into GeoServer Layer Preview,
 // and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
@@ -51,7 +50,7 @@ const Example5 = () => {
     const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
         view: new olView({ center: astoria_wm, zoom: DEFAULT_ZOOM}),
-        controls: [], // don't use default controls.
+        //controls: [], // don't use default controls.
         layers: mapLayers,
     }));
     const [zoom, setZoom] = useState(DEFAULT_ZOOM);
@@ -248,27 +247,24 @@ const Example5 = () => {
                         </layer.Tile>
 
                         <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={9}>
-                            <source.JSON url={taxlotsUrl} loader="geojson">
-                                <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
-                                <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
-                            </source.JSON>
+                            <source.JSON url={taxlotsUrl} loader="geojson"/>
+                            <interaction.Select features={selectedFeatures} style={selectedStyle} condition={click} selected={onSelectEvent}/>
+                            <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
                         </layer.Vector>
 
                         {/*
                         <layer.Vector title="Custom taxlot source">
                             <source.Vector url={completeUrl} strategy={bbox}/>
                         </layer.Vector>
-
-                        <layer.Vector title="Taxlots">
-                        <source.Vector source={taxlotsSource} strategy={bbox}/>
-                        </layer.Vector>
                         */}
+
                         <layer.Vector title="Custom vectors">
                             <source.Vector source={myVectorSource}/>
                         </layer.Vector>
                     </CollectionProvider>
                 </Map>
                 <control.LayerSwitcher show_progress={true} collapsed={false}/>
+                <control.GeoBookmark/>
                 </Col><Col>
                 <ListGroup flush={true}>Click to recenter map
                 { bookmarkTitles.map(item =>
