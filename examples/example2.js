@@ -13,7 +13,7 @@ import {Map, source, Feature, control, interaction, layer} from '../src'; // esl
 import Popup from 'ol-ext/overlay/Popup'
 
 import {myGeoServer, workspace, astoria_ll} from './constants'
-import {wgs84} from '../src/constants'
+import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
 
@@ -176,7 +176,7 @@ const Example2 = () => {
                 Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
                 <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
-                <control.MousePosition projection={wgs84} coordinateFormat={coordFormatter}/>
+                <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter}/>
                 <br />
                 ol-ext controls: LayerSwitcher
                 Note that you can use reordering=false on either individual layers or
