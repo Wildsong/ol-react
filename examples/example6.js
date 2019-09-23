@@ -118,6 +118,9 @@ const taxlotTextStyle = (feature, resolution) => {
         text: createTextStyle(feature, resolution, params),
     });
 }
+
+/* =========================================================================== */
+
 const Example6 = () => {
     const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({

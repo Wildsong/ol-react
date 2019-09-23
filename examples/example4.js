@@ -50,6 +50,8 @@ const osipServer = "https://imagery.oregonexplorer.info/arcgis/rest/services"
 const osipImageryUrl = osipServer + '/OSIP_2018/OSIP_2018_WM/ImageServer/tile/{z}/{y}/{x}'
 const naipImageryUrl = osipServer + '/NAIP_2016/NAIP_2016_WM/ImageServer/tile/{z}/{y}/{x}'
 
+/* =========================================================================== */
+
 const Example4 = () => {
     const [baseLayers] = useState(new Collection());
     const [zoningLayers] = useState(new Collection());
