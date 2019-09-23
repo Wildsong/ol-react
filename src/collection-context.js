@@ -7,7 +7,7 @@ import React from 'react';  // eslint-disable-line no-unused-vars
 const CollectionContext = React.createContext();
 
 const CollectionProvider = (props) => (
-    <CollectionContext.Provider collection={props.collection}>
+    <CollectionContext.Provider value={props.collection}>
         {props.children}
     </CollectionContext.Provider>
 )
