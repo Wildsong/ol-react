@@ -148,7 +148,7 @@ const Example1 = () => {
                     Controls: Sliders, Full screen, Zoom (range 8...12)<br />
                     Ol-ext controls: Geobookmarks,
                     Layer switcher, Search Nominatim,
-                    Scale, Scale Line
+                    Scale, Scale Line, Popups
                 </p>
 
             <OpacitySlider title="OSM" onChange={changeOpacityOSM}  value={opacityOSM}/>
@@ -240,7 +240,6 @@ const Example1 = () => {
                 <li> MultiPolygon</li>
                 <li> GeometryCollection</li>
                 <li> Animation</li>
-                <li> Overlay</li>
             </ul>
         </>
     );
