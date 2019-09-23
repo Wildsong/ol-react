@@ -7,6 +7,7 @@ import {RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
 import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
 import {Map, Feature, geom, control, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import Select from 'react-select' // eslint-disable-line no-unused-vars
+import Popup from 'ol-ext/overlay/Popup'
 
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
@@ -14,23 +15,12 @@ import './css/fontmaki2.css'
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat, toLonLat} from 'ol/proj'
 
+
 import {myGeoServer, astoria_wm, astoria_ll, MINZOOM} from './constants'
 const DEFAULT_CENTER = astoria_ll;
 
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
-
-/*
-const initialGeoBookmarks = {
-    "Astoria": { pos: fromLonLat([-123.836,46.182]), zoom: 13, permanent:true },
-	"Cannon Beach": { pos: fromLonLat([-123.969,45.893]), zoom: 13, permanent:true },
-    "Gearhart": { pos: fromLonLat([-123.9188,46.026]), zoom: 13, permanent:true },
-    "Hammond": { pos: fromLonLat([-123.9520,46.2000]), zoom: 14, permanent:true },
-    "Jewell": { pos: fromLonLat([-123.5032,45.9345]), zoom: 14, permanent:true },
-    "Seaside": { pos: fromLonLat([-123.920,45.994]), zoom: 12, permanent:true },
-    "Warrenton": { pos: fromLonLat([-123.924,46.165]), zoom: 13, permanent:true },
-};
-*/
 
 const transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
@@ -57,13 +47,13 @@ const Example1 = () => {
         layers: mapLayers,
         //controls: [],
     }));
-    const [drawType, setDrawType] = useState("LineString");
 
     const [enableModify] = useState(false); // no button yet!
     const [opacityOSM, setOpacityOSM] = useState(.80);
     const [pointer, setPointer] = useState([0,0]);
     const [markerId] = useState(1);
-
+    const [drawType, setDrawType] = useState('Point');
+    
     const onPointerMove = (e) => {
 //        console.log("onPointerMove", e.coordinate)
         setPointer(toLonLat(e.coordinate));
@@ -71,7 +61,12 @@ const Example1 = () => {
     }
 
     const selectDrawType = (e) => {
+        console.log("drawType was ", drawType, ' will be', e.label);
         setDrawType(e.label);
+/*
+        setDraw(new Draw({type: e.label, style: drawStyle}));
+        theMap.removeInteraction(draw);
+*/
     }
 
     const changeOpacityOSM = (value) => {
@@ -84,12 +79,14 @@ const Example1 = () => {
         view.setZoom(18);
     }
 
+    // FIXME: This is a DRAWEND handler, I should test DRAWSTART too!
+
     const handleAddFeature = (e) => {
         console.log("handleAddFeature", e, e.feature);
     }
 
     const drawStyle = new Style({
-        text: new Text({text: markerId.toString(),  offsetY: -10}),
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
     //  currently this draws a blue 5 pointed star
         image: new RegularShape({
             points: 5,
@@ -101,6 +98,7 @@ const Example1 = () => {
         stroke: new Stroke({color: "black", width: 4}),
         fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
     })
+
     const pointStyle = new Style({
         image: new Circle({
             radius: 5,
@@ -108,6 +106,7 @@ const Example1 = () => {
             stroke: new Stroke({color: 'green', width: 5}),
         })
     });
+
     const multipointStyle = new Style({
         image: new Circle({
             radius: 10,
@@ -126,6 +125,15 @@ const Example1 = () => {
     // This is just here to test passing a feature collection down to the Vector source,
     // if you don't explicitly create one, it will be done for you.
     const drawFeatures = new Collection()
+
+    const onCondition = (e) => {
+        switch (e.type) {
+            case 'pointerdown':
+                return true;
+        }
+        console.log('unhandled draw condition', e);
+        return false;
+    }
 
     return (
         <>
@@ -210,11 +218,12 @@ const Example1 = () => {
                         </source.Vector>
                     </layer.Vector>
 
-                    <layer.Vector title="Draw" opacity={1} style={drawStyle}>
-                        <source.Vector features={drawFeatures}>
-                            <interaction.Draw type={drawType} drawend={handleAddFeature}/>
+                    <layer.Vector title="Vector Shapes" opacity={1} style={drawStyle}>
+                        <source.Vector>
+                            <interaction.Draw type={drawType} condition={onCondition} style={drawStyle}/>
                         </source.Vector>
                     </layer.Vector>
+
                 </CollectionProvider>
 
                 <control.Graticule showLabels={true} maxLines={100} targetSize={50}/>
@@ -234,13 +243,6 @@ const Example1 = () => {
             Select vector type to draw
             <Select defaultValue={typeSelect[0]} options={typeSelect} onChange={selectDrawType}/>
 
-            Implement and test...
-            <ul>
-                <li> MultiLineString </li>
-                <li> MultiPolygon</li>
-                <li> GeometryCollection</li>
-                <li> Animation</li>
-            </ul>
         </>
     );
 }

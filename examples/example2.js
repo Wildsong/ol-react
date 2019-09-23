@@ -17,15 +17,15 @@ import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
 
-const taxlotsKey      = 'taxlotkey';
+const taxlotsKey      = 'OBJECTID';
 const taxlotsColumns  = [
-    {dataField: 'taxlotkey',  text: 'Taxlot Key'},
-    {dataField: 'account_id', text: 'Account'},
-    {dataField: 'taxlot',     text: 'Taxlot'},
-    {dataField: 'owner_line', text: 'Owner'},
-    {dataField: 'situs_addr', text: 'Situs Address'},
+    {dataField: 'OBJECTID',   text: 'Id'},
+    {dataField: 'TAXLOTKEY',  text: 'Taxlot Key'},
+    {dataField: 'ACCOUNT_ID', text: 'Account'},
+    {dataField: 'TAXLOT',     text: 'Taxlot'},
+    {dataField: 'OWNER_LINE', text: 'Owner'},
+    {dataField: 'SITUS_ADDR', text: 'Situs Address'},
 ]
-const taxlotPopupField = 'situs_addr';
 
 // CC service
 // https://www.paulleasure.com/ajax-web-design/cors-how-to-set-http-response-header-on-iis-windows-server-2012-r2-to-access-control-allow-origin/
@@ -33,7 +33,8 @@ const taxlotsService  = myArcGISServer + "/Taxlots/FeatureServer"
 const taxlotsLabels   = taxlotsService + "/0";
 const taxlotsFeaturesUrl = taxlotsService + "/1";
 const taxlotsFormat   = 'esrijson';
-const TAXLOT_POPUP_FIELD = 'TAXLOTKEY'
+const TAXLOT_POPUP_FIELD = 'SITUS_ADDR'
+const TAXLOT_KEY_FIELD = 'TAXLOTKEY'
 
 /*
 // To generate this URL, go into GeoServer Layer Preview,
@@ -66,6 +67,7 @@ const Example2 = () => {
         layers: mapLayers,
         //controls: [],
     }));
+    const [popup] = useState(new Popup());
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
     const [selectCount, setSelectCount] = useState(0);
@@ -73,11 +75,9 @@ const Example2 = () => {
     const [rows, setRows] = useState([]) // rows in table
     const view = theMap.getView();
 
-    const [popup] = useState(new Popup());
-    /*
-    const [popupPosition, setPopupPosition] = useState([0,0]) // location on screen
-    const [popupText, setPopupText] = useState("HERE") // text for popup
-    */
+// Measure is the same as Draw, but with a tooltip.
+    const [measureToolActive, setMeasureToolActive] = useState(false);
+
     // Find the taxlot layer so we can query it for popups.
     const layers = theMap.getLayers();
     const taxlotLayerRef = useRef(null);
@@ -89,24 +89,34 @@ const Example2 = () => {
         console.log("taxlotLayerRef = ", taxlotLayerRef)
     }, []);
 
+    useEffect(() => {
+        console.log("POST render: measureToolActive", measureToolActive);
+    }, [measureToolActive]);
+
+    const taxlotPopup = (e) => {
+        // roll over - show taxlot popup
+        console.log("POP measureToolActive", measureToolActive);
+        if (!measureToolActive) {
+            const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
+            if (features.length > 0) {
+                const text = features[0].get(TAXLOT_POPUP_FIELD).trim()
+                const taxlot = features[0].get(TAXLOT_KEY_FIELD)
+                popup.show(e.coordinate, (text !== undefined && text.length > 0)? text: taxlot);
+                return false;
+            } else {
+                popup.hide();
+            }
+        }
+    }
+
    const myCondition = (e) => {
         switch(e.type) {
             case 'click':
+                console.log("CLICK measureToolActive", measureToolActive);
                 return true;
 
             case 'pointermove':
-                // roll over - just show taxlot popup
-                {
-                    const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
-                    if (features.length > 0) {
-                        const text = features[0].get(taxlotPopupField)
-                        if (text != null && text.length > 0) {
-                            popup.show(e.coordinate, text);
-                            return false;
-                        }
-                    }
-                }
-                popup.hide();
+                taxlotPopup(e);
                 return false; // don't do a selection!
 
 //            case 'platformModifierKeyOnly':
@@ -133,6 +143,7 @@ const Example2 = () => {
         const rows = [];
         if (features.getLength()) {
             features.forEach( (feature) => {
+                console.log(feature);
                 const attributes = {};
                 // Copy the data from each feature into a list
                 taxlotsColumns.forEach ( (column) => {
@@ -149,12 +160,8 @@ const Example2 = () => {
         console.log("onSelectEvent", e.mapBrowserEvent.coordinate)
         const s = selectedFeatures.getLength();
         setSelectCount(s);
-        if (s) {
-            const item = selectedFeatures.item(0);
-            popup.show(e.mapBrowserEvent.coordinate, item.get(TAXLOT_POPUP_FIELD).trim());
-        } else {
-            popup.hide()
-        }
+        popup.hide()
+
         copyFeaturesToTable(selectedFeatures)
         return false;
     }
@@ -184,6 +191,11 @@ const Example2 = () => {
 
                 <Container>
                     <Row><Col>
+                        <Button onClick={() => {
+                                setMeasureToolActive(!measureToolActive);
+                                console.log("TOGGLED", measureToolActive);
+                            }}>{measureToolActive? 'Select' : 'Measure'}</Button>
+
                         <Map onMoveEnd={handleMove} animate={false}>
                         <CollectionProvider collection={mapLayers}>
                             <layer.Tile title="OpenStreetMap" baseLayer={true}><source.OSM/></layer.Tile>

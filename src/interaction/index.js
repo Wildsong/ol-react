@@ -2,6 +2,7 @@ export {default as DragAndDrop} from './drag-and-drop';
 export {default as DragBox} from './drag-box';
 export {default as DragOverlay} from './drag-overlay';
 export {default as Draw} from './draw';
+export {default as Measure} from './measure';
 export {default as Select} from './select';
 export {default as SelectDragBox} from './select-drag-box';
 

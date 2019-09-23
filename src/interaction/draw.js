@@ -5,54 +5,52 @@ import {SourceContext} from '../source-context'
 import {Style as olStyle} from 'ol/style'
 import {Draw as olDraw} from 'ol/interaction'
 
-const Draw = (props) => {
+const Draw = ({type, style, condition, drawstart, drawend}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
-    const [interaction, setInteraction] = useState(new olDraw({
-        ...props,
-        source
-    }));
+    const [interaction,setInteraction] = useState();
 
     useEffect(() => {
-        interaction.addEventListener("drawend", (evt) => {
-            if (props.drawend !== undefined) {
-                props.drawend(evt);
-            }
-        });
+        console.log("initial");
+        const interaction = new olDraw({type, style, condition, source});
 
+        if (drawstart !== undefined) {
+            interaction.on('drawstart', e => drawstart(e));
+        }
+        if (drawend !== undefined) {
+            interaction.on(['change:active', 'drawend'], e => drawend(e));
+        }
         map.addInteraction(interaction);
 
-        console.log("Setting draw type to:", props.type);
+        console.log("Draw type set to:", type);
 
-        return () => {
-            map.removeInteraction(interaction);
-        }
+//        return () => {
+//            map.removeInteraction(interaction);
+//        }
     }, []);
 
     useEffect(() => {
-        if (props.type !== interaction.get('type')) {
+        if (interaction !== undefined) {
+            console.log('Draw was', interaction);
             map.removeInteraction(interaction);
-            setInteraction(new olDraw({
-                ...props,
-                source
-            }))
-            console.log("Draw type changed", props, interaction);
-            map.addInteraction(interaction);
         }
-    }, [props.type]);
+        const draw = new olDraw({type, style, condition, source});
+        console.log("Draw type set to ", draw);
+        map.addInteraction(draw);
+        setInteraction(draw);
+    }, [type]);
 
     return null;
 }
 Draw.propTypes = {
-    active: PropTypes.bool,
     type: PropTypes.oneOf(['Point', 'LineString', 'LinearRing',
         'Polygon', 'MultiPoint', 'MultiLineString', 'MultiPolygon',
         'GeometryCollection', 'Circle']).isRequired,
     condition: PropTypes.func,
     drawstart: PropTypes.func,
     drawend: PropTypes.func,
-    maxPoints: PropTypes.number,
-    minPoints: PropTypes.number,
+//    maxPoints: PropTypes.number,
+//    minPoints: PropTypes.number,
     style: PropTypes.oneOfType([PropTypes.func,
         PropTypes.instanceOf(olStyle),
     ]),
