@@ -12,7 +12,7 @@ import {fromLonLat} from 'ol/proj'
 import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
 
-import {myGeoServer, workspace, astoria_ll} from './constants'
+import {myGeoServer, myArcGISServer, workspace, astoria_ll} from './constants'
 import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
@@ -27,24 +27,23 @@ const taxlotsColumns  = [
 ]
 const taxlotPopupField = 'situs_addr';
 
-// CC service only works inside firewall
-// Adding a CORS compliant header, which does not seem to have helped.
+// CC service
 // https://www.paulleasure.com/ajax-web-design/cors-how-to-set-http-response-header-on-iis-windows-server-2012-r2-to-access-control-allow-origin/
-// const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
-/*
-const taxlotsService  = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer"
+const taxlotsService  = myArcGISServer + "/Taxlots/FeatureServer"
 const taxlotsLabels   = taxlotsService + "/0";
 const taxlotsFeaturesUrl = taxlotsService + "/1";
 const taxlotsFormat   = 'esrijson';
-*/
+const TAXLOT_POPUP_FIELD = 'TAXLOTKEY'
 
+/*
 // To generate this URL, go into GeoServer Layer Preview,
 // and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
 // clip off the outpu\rmat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
-const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
+const taxlotsFeaturesUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
 const taxlotsFormat = 'geojson'
-
+const TAXLOT_POPUP_FIELD = 'taxlot'
+*/
 //const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     //"Specialty/ESRI_StateCityHighway_USA/MapServer"
 
@@ -151,7 +150,8 @@ const Example2 = () => {
         const s = selectedFeatures.getLength();
         setSelectCount(s);
         if (s) {
-            popup.show(e.mapBrowserEvent.coordinate, selectedFeatures.item(0).get("taxlot").trim());
+            const item = selectedFeatures.item(0);
+            popup.show(e.mapBrowserEvent.coordinate, item.get(TAXLOT_POPUP_FIELD).trim());
         } else {
             popup.hide()
         }
@@ -175,7 +175,7 @@ const Example2 = () => {
                 This example uses ol-ext popups, for another way see example 8.<br />
                 Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
-                <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
+                <b>{(selectCount>0)? (" Selected features: " + selectCount) :""}</b>
                 <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter}/>
                 <br />
                 ol-ext controls: LayerSwitcher
@@ -193,7 +193,7 @@ const Example2 = () => {
                             </layer.Image>
 
                             <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
-                                <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
+                                <source.JSON url={taxlotsFeaturesUrl} loader={taxlotsFormat}>
                                     <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
                                     <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
                                 </source.JSON>
