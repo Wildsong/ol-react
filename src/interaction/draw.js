@@ -5,40 +5,43 @@ import {SourceContext} from '../source-context'
 import {Style as olStyle} from 'ol/style'
 import {Draw as olDraw} from 'ol/interaction'
 
-const Draw = ({type, style, condition, drawstart, drawend}) => {
+const interinfo = (interactions) => {
+    console.log("draw interactions: ", interactions.getLength());
+}
+
+const Draw = ({type, style, condition, drawstart, drawend, active}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
     const [interaction,setInteraction] = useState();
 
     useEffect(() => {
-        console.log("initial");
-        const interaction = new olDraw({type, style, condition, source});
+        const draw = new olDraw({type, style, condition, source});
+        if (active !== undefined) draw.setActive(active);
 
         if (drawstart !== undefined) {
-            interaction.on('drawstart', e => drawstart(e));
+            draw.on('drawstart', e => drawstart(e));
         }
         if (drawend !== undefined) {
-            interaction.on(['change:active', 'drawend'], e => drawend(e));
+            draw.on(['change:active', 'drawend'], e => drawend(e));
         }
-        map.addInteraction(interaction);
-
-        console.log("Draw type set to:", type);
-
-//        return () => {
-//            map.removeInteraction(interaction);
-//        }
+        map.addInteraction(draw);
+        return () => {
+            map.removeInteraction(draw);
+        }
     }, []);
 
     useEffect(() => {
         if (interaction !== undefined) {
-            console.log('Draw was', interaction);
             map.removeInteraction(interaction);
         }
+        interinfo(map.getInteractions());
         const draw = new olDraw({type, style, condition, source});
-        console.log("Draw type set to ", draw);
+        if (active !== undefined)
+            draw.setActive(active);
         map.addInteraction(draw);
         setInteraction(draw);
-    }, [type]);
+        interinfo(map.getInteractions());
+    }, [type, active]);
 
     return null;
 }
@@ -54,5 +57,6 @@ Draw.propTypes = {
     style: PropTypes.oneOfType([PropTypes.func,
         PropTypes.instanceOf(olStyle),
     ]),
+    active: PropTypes.bool,
 };
 export default Draw;

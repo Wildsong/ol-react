@@ -7,7 +7,7 @@ import {Map as olMap, View as olView, Collection} from 'ol'
 import {toStringXY} from 'ol/coordinate'
 import {platformModifierKeyOnly} from 'ol/events/condition'
 import Style from 'ol/style/Style'
-import {Fill, Stroke} from 'ol/style'
+import {Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
 import {fromLonLat} from 'ol/proj'
 import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
@@ -60,6 +60,8 @@ const selectedStyle = new Style({ // yellow
     fill:   new Fill({color: 'rgba(255, 255, 0, .001)'}),
 });
 
+/* ============================================================================= */
+
 const Example2 = () => {
     const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
@@ -68,10 +70,10 @@ const Example2 = () => {
         //controls: [],
     }));
     const [popup] = useState(new Popup());
+    const [drawType, setDrawType] = useState('LineString');
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
     const [selectCount, setSelectCount] = useState(0);
-//    const [enableModify, setEnableModify] = useState(false) // not implemented yet
     const [rows, setRows] = useState([]) // rows in table
     const view = theMap.getView();
 
@@ -89,30 +91,24 @@ const Example2 = () => {
         console.log("taxlotLayerRef = ", taxlotLayerRef)
     }, []);
 
-    useEffect(() => {
-        console.log("POST render: measureToolActive", measureToolActive);
-    }, [measureToolActive]);
-
     const taxlotPopup = (e) => {
         // roll over - show taxlot popup
-        console.log("POP measureToolActive", measureToolActive);
-        if (!measureToolActive) {
-            const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
-            if (features.length > 0) {
-                const text = features[0].get(TAXLOT_POPUP_FIELD).trim()
-                const taxlot = features[0].get(TAXLOT_KEY_FIELD)
-                popup.show(e.coordinate, (text !== undefined && text.length > 0)? text: taxlot);
-                return false;
-            } else {
-                popup.hide();
-            }
+        //console.log("POPUP", e);
+        const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
+        if (features.length > 0) {
+            const text = features[0].get(TAXLOT_POPUP_FIELD).trim()
+            const taxlot = features[0].get(TAXLOT_KEY_FIELD)
+            popup.show(e.coordinate, (text !== undefined && text.length > 0)? text: taxlot);
+            return false;
+        } else {
+            popup.hide();
         }
     }
 
-   const myCondition = (e) => {
+   const selectCondition = (e) => {
         switch(e.type) {
             case 'click':
-                console.log("CLICK measureToolActive", measureToolActive);
+                console.log("CLICK");
                 return true;
 
             case 'pointermove':
@@ -122,8 +118,32 @@ const Example2 = () => {
 //            case 'platformModifierKeyOnly':
 //                return false;
         }
-//        console.log("mystery", e);
+        console.log("unhandled in select", e);
         return false; // condition has not been met
+    }
+
+    const drawStyle = new Style({
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
+    //  currently this draws a blue 5 pointed star
+        image: new RegularShape({
+            points: 5,
+            radius: 5,
+            radius1: 5,
+            radius2: 2,
+            stroke: new Stroke({color: 'blue', width: 1.5}),
+        }),
+        stroke: new Stroke({color: "black", width: 4}),
+        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+    })
+
+    const drawCondition = (e) => {
+        switch (e.type) {
+            case 'pointerdown':
+                console.log('pointerdown');
+                return true;
+        }
+        console.log('unhandled in draw', e);
+        return false;
     }
 
     const handleMove = () => {
@@ -206,10 +226,17 @@ const Example2 = () => {
 
                             <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
                                 <source.JSON url={taxlotsFeaturesUrl} loader={taxlotsFormat}>
-                                    <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
-                                    <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                                    <interaction.Select features={selectedFeatures} style={selectedStyle} condition={selectCondition} selected={onSelectEvent} active={!measureToolActive}/>
+                                    <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent} active={!measureToolActive}/>
                                 </source.JSON>
                             </layer.Vector>
+
+                            <layer.Vector title="Vector Shapes" opacity={1} style={drawStyle}>
+                                <source.Vector>
+                                    <interaction.Draw type={drawType} condition={drawCondition} style={drawStyle} active={measureToolActive}/>
+                                </source.Vector>
+                            </layer.Vector>
+
                         </CollectionProvider>
                         <control.GeoBookmark/>
                         <control.Attribution/>

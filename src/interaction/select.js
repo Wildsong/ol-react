@@ -8,27 +8,28 @@ import Collection from 'ol/Collection'
 import Condition from 'ol/events/condition'
 import olSelect from 'ol/interaction/Select'
 
-const Select = (props) => {
+const Select = ({condition, style, multi, features, selected, active}) => {
     const map = useContext(MapContext);
     const layer = useContext(LayerContext);
     //const source = useContext(SourceContext);
-    const [selectInteraction] = useState(() => {
-        const interaction = new olSelect({
-            condition: props.condition,
-            features: props.features,
-            layers: [layer],
-            style: props.style,
-        });
-        interaction.on("select", props.selected);
-        return interaction;
-    });
+    const [interaction, setInteraction] = useState();
 
     useEffect(() => {
-        map.addInteraction(selectInteraction);
+        const select = new olSelect({condition, style, multi, features, layers: [layer]});
+        if (active !== undefined) select.setActive(active);
+
+        select.on("select", selected);
+        map.addInteraction(select);
+        setInteraction(select);
         return () => {
-            map.removeInteraction(selectInteraction);
+            map.removeInteraction(select);
         }
     }, []);
+
+    useEffect(() => {
+        if (active !== undefined && interaction !== undefined)
+            interaction.setActive(active);
+    }, [active]);
 
     return null;
 }
@@ -38,5 +39,6 @@ Select.propTypes = {
     multi: PropTypes.bool,
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func,
+    active: PropTypes.bool,
 };
 export default Select;
