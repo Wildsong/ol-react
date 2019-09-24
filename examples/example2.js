@@ -171,8 +171,8 @@ const Example2 = () => {
     const measureStyle = new Style({
     //    text: new Text({text: markerId.toString(),  offsetY: -10}),
         image: new Circle({radius: 5, stroke: new Stroke({color: 'blue', width: 1.5}) }),
-        stroke: new Stroke({color: "black", width: 1}),
-        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+        stroke: new Stroke({color: "grey", width: 1}),
+        fill: new Fill({color: 'rgba(255,255,255, 0.3)'}),
     })
 
     const hiddenStyle = new Style({
