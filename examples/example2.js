@@ -292,7 +292,7 @@ const Example2 = () => {
                 <b>{(selectCount>0)? (" Selected features: " + selectCount) :""}</b>
                 <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter}/>
                 <br />
-                ol-ext controls: LayerSwitcher, Search Nominatim
+                ol-ext controls: LayerSwitcher, Search Nominatim <br />
                 Note that you can use reordering=false on either individual layers or
                 the entire switcher, as I have done here.
 
