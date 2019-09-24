@@ -5,46 +5,48 @@ import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no
 import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {toStringXY} from 'ol/coordinate'
-import {platformModifierKeyOnly} from 'ol/events/condition'
+import {pointerDown, platformModifierKeyOnly} from 'ol/events/condition'
 import Style from 'ol/style/Style'
-import {Fill, Stroke} from 'ol/style'
+import {Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
 import {fromLonLat} from 'ol/proj'
+import {getArea, getLength} from 'ol/sphere';
 import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
+//import Tooltip from 'ol-ext/overlay/Tooltip'
 
-import {myGeoServer, workspace, astoria_ll} from './constants'
+import {myGeoServer, myArcGISServer, workspace, astoria_ll, astoria_wm} from './constants'
 import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
 
-const taxlotsKey      = 'taxlotkey';
+const taxlotsKey      = 'OBJECTID';
 const taxlotsColumns  = [
-    {dataField: 'taxlotkey',  text: 'Taxlot Key'},
-    {dataField: 'account_id', text: 'Account'},
-    {dataField: 'taxlot',     text: 'Taxlot'},
-    {dataField: 'owner_line', text: 'Owner'},
-    {dataField: 'situs_addr', text: 'Situs Address'},
+    {dataField: 'OBJECTID',   text: 'Id'},
+    {dataField: 'TAXLOTKEY',  text: 'Taxlot Key'},
+    {dataField: 'ACCOUNT_ID', text: 'Account'},
+    {dataField: 'TAXLOT',     text: 'Taxlot'},
+    {dataField: 'OWNER_LINE', text: 'Owner'},
+    {dataField: 'SITUS_ADDR', text: 'Situs Address'},
 ]
-const taxlotPopupField = 'situs_addr';
 
-// CC service only works inside firewall
-// Adding a CORS compliant header, which does not seem to have helped.
+// CC service
 // https://www.paulleasure.com/ajax-web-design/cors-how-to-set-http-response-header-on-iis-windows-server-2012-r2-to-access-control-allow-origin/
-// const taxlots = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Assessment_and_Taxation/Taxlots_3857/FeatureServer/"
-/*
-const taxlotsService  = "https://cc-gis.clatsop.co.clatsop.or.us/arcgis/rest/services/Taxlots/FeatureServer"
+const taxlotsService  = myArcGISServer + "/Taxlots/FeatureServer"
 const taxlotsLabels   = taxlotsService + "/0";
 const taxlotsFeaturesUrl = taxlotsService + "/1";
 const taxlotsFormat   = 'esrijson';
-*/
+const TAXLOT_POPUP_FIELD = 'SITUS_ADDR'
+const TAXLOT_KEY_FIELD = 'TAXLOTKEY'
 
+/*
 // To generate this URL, go into GeoServer Layer Preview,
 // and in All Formats, select "WFS GeoJSON(JSONP)" then paste here and
 // clip off the outpu\rmat and maxFeatures attributes (maxFeatures=50&outputFormat=text%2Fjavascript
-const taxlotsUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
+const taxlotsFeaturesUrl = myGeoServer + '/ows?service=WFS&version=1.0.0&request=GetFeature'
     + '&typeName=' + workspace + '%3Ataxlots'
 const taxlotsFormat = 'geojson'
-
+const TAXLOT_POPUP_FIELD = 'taxlot'
+*/
 //const esriService = "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/" +
     //"Specialty/ESRI_StateCityHighway_USA/MapServer"
 
@@ -60,6 +62,8 @@ const selectedStyle = new Style({ // yellow
     fill:   new Fill({color: 'rgba(255, 255, 0, .001)'}),
 });
 
+/* ============================================================================= */
+
 const Example2 = () => {
     const [mapLayers] = useState(new Collection());
     const [theMap] = useState(new olMap({
@@ -67,22 +71,24 @@ const Example2 = () => {
         layers: mapLayers,
         //controls: [],
     }));
+    const [popup] = useState(new Popup());
+//    const [measureTooltip] = useState(new Tooltip({positioning:"auto"})); // http://viglino.github.io/ol-ext/doc/doc-pages/ol.Overlay.Tooltip.html
+    const [measureMode, setMeasureMode] = useState('Distance'); // || Area
+    const [sketch, setSketch] = useState(null);
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
     const [selectCount, setSelectCount] = useState(0);
-//    const [enableModify, setEnableModify] = useState(false) // not implemented yet
     const [rows, setRows] = useState([]) // rows in table
     const view = theMap.getView();
 
-    const [popup] = useState(new Popup());
-    /*
-    const [popupPosition, setPopupPosition] = useState([0,0]) // location on screen
-    const [popupText, setPopupText] = useState("HERE") // text for popup
-    */
+// Measure is the same as Draw, but with a tooltip.
+    const [measureToolActive, setMeasureToolActive] = useState(false);
+
     // Find the taxlot layer so we can query it for popups.
     const layers = theMap.getLayers();
     const taxlotLayerRef = useRef(null);
     useEffect(() => {
+//        theMap.addOverlay(measureTooltip);
         theMap.addOverlay(popup);
         layers.forEach(layer => {
             if (layer.get("title") == 'Taxlots') taxlotLayerRef.current = layer;
@@ -90,36 +96,42 @@ const Example2 = () => {
         console.log("taxlotLayerRef = ", taxlotLayerRef)
     }, []);
 
-   const myCondition = (e) => {
+    const updateTaxlotPopup = (e) => {
+        // roll over - show popup or hide it
+        //console.log("POPUP", e);
+        const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
+        if (features.length > 0) {
+            const text = features[0].get(TAXLOT_POPUP_FIELD).trim()
+            const taxlot = features[0].get(TAXLOT_KEY_FIELD)
+            popup.show(e.coordinate, (text !== undefined && text.length > 0)? text: taxlot);
+            return false;
+        } else {
+            popup.hide();
+        }
+    }
+
+// This 'condition' function is only here to support the "popup on mouse move" thing.
+   const selectCondition = (e) => {
         switch(e.type) {
             case 'click':
                 return true;
-
             case 'pointermove':
-                // roll over - just show taxlot popup
-                {
-                    const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
-                    if (features.length > 0) {
-                        const text = features[0].get(taxlotPopupField)
-                        if (text != null && text.length > 0) {
-                            popup.show(e.coordinate, text);
-                            return false;
-                        }
-                    }
-                }
-                popup.hide();
+                updateTaxlotPopup(e);
                 return false; // don't do a selection!
-
 //            case 'platformModifierKeyOnly':
-//                return false;
+        // quietly ignore these events
+//            case 'wheel':
+            case 'singleclick':
+                return false;
         }
-//        console.log("mystery", e);
+        console.log("unhandled in selectCondition", e.type);
         return false; // condition has not been met
     }
 
     const handleMove = () => {
+        console.log('onMoveEnd');
         const viewres = view.getResolution().toFixed(2)
-//        setResolution(viewres);
+        //        setResolution(viewres);
         try {
             let maxres = taxlotLayerRef.current.get("maxResolution");
             setTaxlotsVisible(maxres >= viewres);
@@ -134,6 +146,7 @@ const Example2 = () => {
         const rows = [];
         if (features.getLength()) {
             features.forEach( (feature) => {
+                console.log(feature);
                 const attributes = {};
                 // Copy the data from each feature into a list
                 taxlotsColumns.forEach ( (column) => {
@@ -147,21 +160,114 @@ const Example2 = () => {
 
     const selectedFeatures = new Collection()
     const onSelectEvent = (e) => {
-        console.log("onSelectEvent", e.mapBrowserEvent.coordinate)
         const s = selectedFeatures.getLength();
         setSelectCount(s);
-        if (s) {
-            popup.show(e.mapBrowserEvent.coordinate, selectedFeatures.item(0).get("taxlot").trim());
-        } else {
-            popup.hide()
-        }
+        popup.hide()
+
         copyFeaturesToTable(selectedFeatures)
         return false;
+    }
+
+    const measureStyle = new Style({
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
+        image: new Circle({radius: 5, stroke: new Stroke({color: 'blue', width: 1.5}) }),
+        stroke: new Stroke({color: "grey", width: 1}),
+        fill: new Fill({color: 'rgba(255,255,255, 0.3)'}),
+    })
+
+    const hiddenStyle = new Style({
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
+//        stroke: new Stroke({color: "white", width: .5, opacity: 0.1}),
+//        fill: new Fill({color: 'rgba(255,255,255, 0.1)'}),
+    })
+
+    const measureCondition = (e) => {
+        console.log('MeasureCondition');
+        switch(e.type) {
+            case 'pointerdown':
+                console.log("CLICK");
+                return true;
+        }
+        console.log("unhandled in measureCondition", e);
+        return false; // condition has not been met
+    }
+
+    const formatLength = (lenM) => {
+        const length = lenM * 3.28084;
+        let output;
+        if (length > (528*2)) {
+            output = (Math.round(length / 5280 * 100) / 100) +
+                ' ' + 'miles';
+        } else {
+            output = (Math.round(length * 100) / 100) +
+                ' ' + "ft";
+        }
+        return output;
+    }
+
+    const formatArea = (areaM) => {
+        const area = areaM * 10.763910
+        let output;
+        if (area >= 43560) {
+            output = (Math.round(area / 43560 * 100) / 100) +
+                ' ' + 'acres';
+        } else {
+            output = (Math.round(area * 100) / 100) +
+                ' ' + 'ft<sup>2</sup>';
+        }
+        return output;
+    }
+
+    theMap.on('pointermove', (e) => {
+        if (!measureToolActive) return true; // continue processing pointermove
+        if (e.dragging) return false;
+        if (!sketch) {
+            popup.hide();
+            return true;
+        }
+        const geom = sketch.getGeometry()
+        const lenM = getLength(geom);
+        if (measureMode === 'Area') {
+            const areaM = getArea(geom);
+            if (areaM > 0) {
+                popup.show(e.coordinate, formatArea(areaM));
+            } else {
+                if (lenM > 1) {
+                    popup.show(e.coordinate, formatLength(lenM));
+                } else {
+                    popup.hide();
+                }
+            }
+        } else { // Distance
+            if (lenM > 1) {
+                popup.show(e.coordinate, formatLength(lenM))
+            } else {
+                popup.hide();
+            }
+        }
+        return true;
+    });
+
+    const measureStart = (e) => {
+        console.log("measureStart", e)
+        setSketch(e.feature);
+    }
+
+    const measureEnd = (e) => {
+        console.log("measureEnd", e)
+        setSketch(null);
+        //measuredFeatures.clear();
     }
 
     const coordFormatter = (coord) => {
 		return toStringXY(coord, 4);
 	}
+
+    const onGeocode = (e) => {
+        const view = theMap.getView();
+        view.setCenter(e.coordinate);
+        view.setZoom(18);
+    }
 
     return (
         <>
@@ -175,15 +281,24 @@ const Example2 = () => {
                 This example uses ol-ext popups, for another way see example 8.<br />
                 Controls: MousePosition, GeoBookmark, Attribution <br />
                 Interactions: Select, SelectDragBox
-                <b>{(selectCount>0)? (selectCount + " selected features") :""}</b>
+                <b>{(selectCount>0)? (" Selected features: " + selectCount) :""}</b>
                 <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter}/>
                 <br />
-                ol-ext controls: LayerSwitcher
+                ol-ext controls: LayerSwitcher, Search Nominatim <br />
                 Note that you can use reordering=false on either individual layers or
                 the entire switcher, as I have done here.
 
                 <Container>
                     <Row><Col>
+                        <Button color={!measureToolActive?"primary":"secondary"}
+                            onClick={() => {setMeasureToolActive(false);}}>Select</Button>
+
+                        <Button color={(measureToolActive && measureMode=='Distance')?"primary":"secondary"}
+                            onClick={() => { setSketch(null); setMeasureMode("Distance"); setMeasureToolActive(true) }}>Distance</Button>
+
+                        <Button color={(measureToolActive && measureMode=='Area')?"primary":"secondary"}
+                            onClick={() => { setSketch(null); setMeasureMode("Area"); setMeasureToolActive(true); }}>Area</Button>
+
                         <Map onMoveEnd={handleMove} animate={false}>
                         <CollectionProvider collection={mapLayers}>
                             <layer.Tile title="OpenStreetMap" baseLayer={true}><source.OSM/></layer.Tile>
@@ -193,13 +308,37 @@ const Example2 = () => {
                             </layer.Image>
 
                             <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
-                                <source.JSON url={taxlotsUrl} loader={taxlotsFormat}>
-                                    <interaction.Select features={selectedFeatures} style={selectedStyle} condition={myCondition} selected={onSelectEvent}/>
-                                    <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent}/>
+                                <source.JSON url={taxlotsFeaturesUrl} loader={taxlotsFormat}>
+                                    <interaction.Select
+                                        features={selectedFeatures}
+                                        style={selectedStyle}
+                                        condition={selectCondition}
+                                        selected={onSelectEvent}
+                                        active={!measureToolActive}/>
+
+                                    <interaction.SelectDragBox
+                                        features={selectedFeatures}
+                                        style={selectedStyle}
+                                        condition={platformModifierKeyOnly}
+                                        selected={onSelectEvent}
+                                        active={!measureToolActive}/>
                                 </source.JSON>
                             </layer.Vector>
+
+                            <layer.Vector title="Measure" opacity={1} style={hiddenStyle}>
+                                <source.Vector>
+                                    <interaction.Draw
+                                        type={(measureMode=='Area')?"Polygon":"LineString"}
+                                        style={measureStyle}
+                                        condition={pointerDown}
+                                        drawstart={measureStart} drawend={measureEnd}
+                                        active={measureToolActive}/>
+                                </source.Vector>
+                            </layer.Vector>
+
                         </CollectionProvider>
                         <control.GeoBookmark/>
+                        <control.SearchNominatim onGeocode={onGeocode}/>
                         <control.Attribution/>
                     </Map>
                     </Col><Col>

@@ -135,7 +135,7 @@ const Example8 = () => {
                         </layer.Tile>
                         */}
                 </CollectionProvider>
-                
+
                 <Overlay id="popups" position={popupPosition} positioning="center-center" element={popupElement} offset={[0,0]}/>
                 <control.LayerSwitcher show_progress={true} />
                 <control.OverviewMap layers={ovLayers} target={null}/>

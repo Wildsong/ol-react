@@ -7,42 +7,40 @@ import Collection from 'ol/Collection'
 import Condition from 'ol/events/condition'
 import {DragBox as olDragBox} from 'ol/interaction'
 
-const SelectDragBox = (props) => {
+const SelectDragBox = ({condition, style, features, selected, active}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
-
+    const [interaction, setInteraction] = useState();
 /*
     const boxstart = (e) => {
 //        console.log("onBoxStart", e)
-        //props.features.clear(); We want to be able to select several times and collect features so don't call this
+        //features.clear(); We want to be able to select several times and collect features so don't call this
         e.stopPropagation(); // this stops draw interaction
     }
 */
-    const boxend = (e) => {
-        const extent = dragboxInteraction.getGeometry().getExtent();
-        source.forEachFeatureIntersectingExtent(extent, (feature) => {
-            props.features.push(feature);
-        });
-        e.stopPropagation(); // this stops draw interaction
-        props.selected(e);
-    }
-
-    const [dragboxInteraction] = useState(() => {
-        const interaction = new olDragBox({
-            condition: props.condition
-        });
+    useEffect(() => {
+        const dragbox = new olDragBox({condition});
         //interaction.on("boxstart", boxstart);
         //use onBoxEnd property instead?
-        interaction.on("boxend", boxend);
-        return interaction;
-    });
-
-    useEffect(() => {
-        map.addInteraction(dragboxInteraction);
+        dragbox.on("boxend", (e) => {
+            const extent = dragbox.getGeometry().getExtent();
+            source.forEachFeatureIntersectingExtent(extent, (feature) => {
+                features.push(feature);
+            });
+            e.stopPropagation(); // this stops draw interaction
+            selected(e);
+        });
+        map.addInteraction(dragbox);
+        setInteraction(dragbox);
         return () => {
-            map.removeInteraction(dragboxInteraction);
+            map.removeInteraction(dragbox);
         }
     }, []);
+
+    useEffect(() => {
+        if (active !== undefined && interaction !== undefined)
+            interaction.setActive(active);
+    }, [active]);
 
     // Read about dragbox selection here
     // https://openlayers.org/en/latest/examples/box-selection.html?q=select
@@ -54,5 +52,6 @@ SelectDragBox.propTypes = {
     style: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(Style)]),
     features: PropTypes.instanceOf(Collection),
     selected: PropTypes.func.isRequired,
+    active: PropTypes.bool,
 };
 export default SelectDragBox;
