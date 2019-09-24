@@ -105,20 +105,20 @@ const Example2 = () => {
         }
     }
 
+// This 'condition' function is only here to support the "popup on mouse move" thing.
    const selectCondition = (e) => {
         switch(e.type) {
             case 'click':
-                console.log("CLICK");
                 return true;
-
             case 'pointermove':
                 taxlotPopup(e);
                 return false; // don't do a selection!
-
 //            case 'platformModifierKeyOnly':
-//                return false;
+            case 'wheel':
+            case 'singleclick':
+                return false;
         }
-        console.log("unhandled in select", e);
+        //console.log("unhandled in selectCondition", e.type);
         return false; // condition has not been met
     }
 
@@ -226,8 +226,19 @@ const Example2 = () => {
 
                             <layer.Vector title="Taxlots" style={taxlotStyle} maxResolution={10}>
                                 <source.JSON url={taxlotsFeaturesUrl} loader={taxlotsFormat}>
-                                    <interaction.Select features={selectedFeatures} style={selectedStyle} condition={selectCondition} selected={onSelectEvent} active={!measureToolActive}/>
-                                    <interaction.SelectDragBox features={selectedFeatures} style={selectedStyle} condition={platformModifierKeyOnly} selected={onSelectEvent} active={!measureToolActive}/>
+                                    <interaction.Select
+                                        features={selectedFeatures}
+                                        style={selectedStyle}
+                                        condition={selectCondition}
+                                        selected={onSelectEvent}
+                                        active={!measureToolActive}/>
+
+                                    <interaction.SelectDragBox
+                                        features={selectedFeatures}
+                                        style={selectedStyle}
+                                        condition={platformModifierKeyOnly}
+                                        selected={onSelectEvent}
+                                        active={!measureToolActive}/>
                                 </source.JSON>
                             </layer.Vector>
 

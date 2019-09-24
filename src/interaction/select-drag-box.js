@@ -12,7 +12,7 @@ const interinfo = (interactions) => {
     interactions.forEach( i => console.log(i) );
 }
 
-const SelectDragBox = (condition, style, features, selected, active) => {
+const SelectDragBox = ({condition, style, features, selected, active}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
     const [interaction, setInteraction] = useState();
@@ -24,22 +24,18 @@ const SelectDragBox = (condition, style, features, selected, active) => {
         e.stopPropagation(); // this stops draw interaction
     }
 */
-    const boxend = (e) => {
-        const extent = dragboxInteraction.getGeometry().getExtent();
-        source.forEachFeatureIntersectingExtent(extent, (feature) => {
-            features.push(feature);
-        });
-        e.stopPropagation(); // this stops draw interaction
-        selected(e);
-    }
-
-
     useEffect(() => {
         const dragbox = new olDragBox({condition});
         //interaction.on("boxstart", boxstart);
         //use onBoxEnd property instead?
-        dragbox.on("boxend", boxend);
-
+        dragbox.on("boxend", (e) => {
+            const extent = dragbox.getGeometry().getExtent();
+            source.forEachFeatureIntersectingExtent(extent, (feature) => {
+                features.push(feature);
+            });
+            e.stopPropagation(); // this stops draw interaction
+            selected(e);
+        });
         map.addInteraction(dragbox);
         setInteraction(dragbox);
         return () => {
