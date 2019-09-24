@@ -7,7 +7,6 @@ import {RegularShape, Circle, Text, Fill, Stroke} from 'ol/style'
 import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
 import {Map, Feature, geom, control, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
 import Select from 'react-select' // eslint-disable-line no-unused-vars
-import Popup from 'ol-ext/overlay/Popup'
 
 import './css/fontmaki.css'
 import './css/fontmaki2.css'
@@ -53,7 +52,7 @@ const Example1 = () => {
     const [pointer, setPointer] = useState([0,0]);
     const [markerId] = useState(1);
     const [drawType, setDrawType] = useState('Point');
-    
+
     const onPointerMove = (e) => {
 //        console.log("onPointerMove", e.coordinate)
         setPointer(toLonLat(e.coordinate));
@@ -154,9 +153,8 @@ const Example1 = () => {
                     <br />
                     Interactions: DRAW into "draw" layer.
                     Controls: Sliders, Full screen, Zoom (range 8...12)<br />
-                    Ol-ext controls: Geobookmarks,
-                    Layer switcher, Search Nominatim,
-                    Scale, Scale Line, Popups
+                    Ol-ext controls: Layer switcher, Search Nominatim,
+                    Scale, Scale Line
                 </p>
 
             <OpacitySlider title="OSM" onChange={changeOpacityOSM}  value={opacityOSM}/>
@@ -232,10 +230,6 @@ const Example1 = () => {
                 <control.FullScreen tipLabel="go full screen"/>
                 <control.SearchNominatim onGeocode={onGeocode}/>
                 <control.Attribution />
-{/*
-                <control.LayerPopup/>
-                <control.GeoBookmarkControl className="bookmark" marks={ initialGeoBookmarks }/>
-*/}
 
             </Map>
             </MapProvider>

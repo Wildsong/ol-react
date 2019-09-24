@@ -9,10 +9,12 @@ import {platformModifierKeyOnly} from 'ol/events/condition'
 import Style from 'ol/style/Style'
 import {Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
 import {fromLonLat} from 'ol/proj'
+import {getArea, getLength} from 'ol/sphere';
 import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
 import Popup from 'ol-ext/overlay/Popup'
+//import Tooltip from 'ol-ext/overlay/Tooltip'
 
-import {myGeoServer, myArcGISServer, workspace, astoria_ll} from './constants'
+import {myGeoServer, myArcGISServer, workspace, astoria_ll, astoria_wm} from './constants'
 import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
@@ -70,7 +72,9 @@ const Example2 = () => {
         //controls: [],
     }));
     const [popup] = useState(new Popup());
-    const [drawType, setDrawType] = useState('LineString');
+//    const [measureTooltip] = useState(new Tooltip({positioning:"auto"})); // http://viglino.github.io/ol-ext/doc/doc-pages/ol.Overlay.Tooltip.html
+    const [measureMode, setMeasureMode] = useState('Distance'); // || Area
+    const [sketch, setSketch] = useState(null);
 
     const [taxlotsVisible, setTaxlotsVisible] = useState(false);
     const [selectCount, setSelectCount] = useState(0);
@@ -84,6 +88,7 @@ const Example2 = () => {
     const layers = theMap.getLayers();
     const taxlotLayerRef = useRef(null);
     useEffect(() => {
+//        theMap.addOverlay(measureTooltip);
         theMap.addOverlay(popup);
         layers.forEach(layer => {
             if (layer.get("title") == 'Taxlots') taxlotLayerRef.current = layer;
@@ -91,8 +96,8 @@ const Example2 = () => {
         console.log("taxlotLayerRef = ", taxlotLayerRef)
     }, []);
 
-    const taxlotPopup = (e) => {
-        // roll over - show taxlot popup
+    const updateTaxlotPopup = (e) => {
+        // roll over - show popup or hide it
         //console.log("POPUP", e);
         const features = taxlotLayerRef.current.getSource().getFeaturesAtCoordinate(e.coordinate)
         if (features.length > 0) {
@@ -111,44 +116,22 @@ const Example2 = () => {
             case 'click':
                 return true;
             case 'pointermove':
-                taxlotPopup(e);
+                updateTaxlotPopup(e);
                 return false; // don't do a selection!
 //            case 'platformModifierKeyOnly':
-            case 'wheel':
+        // quietly ignore these events
+//            case 'wheel':
             case 'singleclick':
                 return false;
         }
-        //console.log("unhandled in selectCondition", e.type);
+        console.log("unhandled in selectCondition", e.type);
         return false; // condition has not been met
     }
 
-    const drawStyle = new Style({
-    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
-    //  currently this draws a blue 5 pointed star
-        image: new RegularShape({
-            points: 5,
-            radius: 5,
-            radius1: 5,
-            radius2: 2,
-            stroke: new Stroke({color: 'blue', width: 1.5}),
-        }),
-        stroke: new Stroke({color: "black", width: 4}),
-        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
-    })
-
-    const drawCondition = (e) => {
-        switch (e.type) {
-            case 'pointerdown':
-                console.log('pointerdown');
-                return true;
-        }
-        console.log('unhandled in draw', e);
-        return false;
-    }
-
     const handleMove = () => {
+        console.log('onMoveEnd');
         const viewres = view.getResolution().toFixed(2)
-//        setResolution(viewres);
+        //        setResolution(viewres);
         try {
             let maxres = taxlotLayerRef.current.get("maxResolution");
             setTaxlotsVisible(maxres >= viewres);
@@ -177,7 +160,6 @@ const Example2 = () => {
 
     const selectedFeatures = new Collection()
     const onSelectEvent = (e) => {
-        console.log("onSelectEvent", e.mapBrowserEvent.coordinate)
         const s = selectedFeatures.getLength();
         setSelectCount(s);
         popup.hide()
@@ -186,9 +168,114 @@ const Example2 = () => {
         return false;
     }
 
+    const measureStyle = new Style({
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
+        image: new Circle({radius: 5, stroke: new Stroke({color: 'blue', width: 1.5}) }),
+        stroke: new Stroke({color: "black", width: 1}),
+        fill: new Fill({color: 'rgba(0,0,255, 0.8)'}),
+    })
+
+    const hiddenStyle = new Style({
+    //    text: new Text({text: markerId.toString(),  offsetY: -10}),
+//        stroke: new Stroke({color: "white", width: .5, opacity: 0.1}),
+//        fill: new Fill({color: 'rgba(255,255,255, 0.1)'}),
+    })
+
+    const [measuredFeatures] = useState(new Collection())
+
+    const measureCondition = (e) => {
+        console.log('MeasureCondition');
+        switch(e.type) {
+            case 'pointerdown':
+                console.log("CLICK", measuredFeatures);
+                return true;
+//            case 'pointermove':
+//            case 'platformModifierKeyOnly':
+        // quietly ignore these events
+//            case 'wheel':
+//            case 'singleclick':
+//                return false;
+        }
+        console.log("unhandled in measureCondition", e);
+        return false; // condition has not been met
+    }
+
+    const formatLength = (lenM) => {
+        const length = lenM * 3.28084;
+        let output;
+        if (length > (528*2)) {
+            output = (Math.round(length / 5280 * 100) / 100) +
+                ' ' + 'miles';
+        } else {
+            output = (Math.round(length * 100) / 100) +
+                ' ' + "ft";
+        }
+        return output;
+    }
+
+    const formatArea = (areaM) => {
+        const area = areaM * 10.763910
+        let output;
+        if (area >= 43560) {
+            output = (Math.round(area / 43560 * 100) / 100) +
+                ' ' + 'acres';
+        } else {
+            output = (Math.round(area * 100) / 100) +
+                ' ' + 'ft<sup>2</sup>';
+        }
+        return output;
+    }
+
+    theMap.on('pointermove', (e) => {
+        if (!measureToolActive) return true; // continue processing pointermove
+        if (e.dragging) return false;
+        if (!sketch) {
+            popup.hide();
+            return true;
+        }
+        const geom = sketch.getGeometry()
+        const lenM = getLength(geom);
+        if (measureMode === 'Area') {
+            const areaM = getArea(geom);
+            if (areaM > 0) {
+                popup.show(e.coordinate, formatArea(areaM));
+            } else {
+                if (lenM > 1) {
+                    popup.show(e.coordinate, formatLength(lenM));
+                } else {
+                    popup.hide();
+                }
+            }
+        } else { // Distance
+            if (lenM > 1) {
+                popup.show(e.coordinate, formatLength(lenM))
+            } else {
+                popup.hide();
+            }
+        }
+        return true;
+    });
+
+    const measureStart = (e) => {
+        setSketch(e.feature);
+        console.log("measureStart", e)
+    }
+
+    const measureEnd = (e) => {
+        console.log("measureEnd", e)
+        setSketch(null);
+        measuredFeatures.clear();
+    }
+
     const coordFormatter = (coord) => {
 		return toStringXY(coord, 4);
 	}
+
+    const onGeocode = (e) => {
+        const view = theMap.getView();
+        view.setCenter(e.coordinate);
+        view.setZoom(18);
+    }
 
     return (
         <>
@@ -205,16 +292,20 @@ const Example2 = () => {
                 <b>{(selectCount>0)? (" Selected features: " + selectCount) :""}</b>
                 <control.MousePosition projection={WGS84} coordinateFormat={coordFormatter}/>
                 <br />
-                ol-ext controls: LayerSwitcher
+                ol-ext controls: LayerSwitcher, Search Nominatim
                 Note that you can use reordering=false on either individual layers or
                 the entire switcher, as I have done here.
 
                 <Container>
                     <Row><Col>
-                        <Button onClick={() => {
-                                setMeasureToolActive(!measureToolActive);
-                                console.log("TOGGLED", measureToolActive);
-                            }}>{measureToolActive? 'Select' : 'Measure'}</Button>
+                        <Button color={!measureToolActive?"primary":"secondary"}
+                            onClick={() => {setMeasureToolActive(false);}}>Select</Button>
+
+                        <Button color={(measureToolActive&&measureMode=='Distance')?"primary":"secondary"}
+                            onClick={() => { setMeasureMode("Distance"); setMeasureToolActive(true) }}>Distance</Button>
+
+                        <Button color={(measureToolActive&&measureMode=='Area')?"primary":"secondary"}
+                            onClick={() => { setMeasureMode("Area"); setMeasureToolActive(true); }}>Area</Button>
 
                         <Map onMoveEnd={handleMove} animate={false}>
                         <CollectionProvider collection={mapLayers}>
@@ -242,14 +333,20 @@ const Example2 = () => {
                                 </source.JSON>
                             </layer.Vector>
 
-                            <layer.Vector title="Vector Shapes" opacity={1} style={drawStyle}>
-                                <source.Vector>
-                                    <interaction.Draw type={drawType} condition={drawCondition} style={drawStyle} active={measureToolActive}/>
+                            <layer.Vector title="Measure" opacity={1} style={hiddenStyle}>
+                                <source.Vector features={measuredFeatures}>
+                                    <interaction.Draw
+                                        type={(measureMode=='Area')?"Polygon":"LineString"}
+                                        style={measureStyle}
+                                        condition={measureCondition}
+                                        drawstart={measureStart} drawend={measureEnd}
+                                        active={measureToolActive}/>
                                 </source.Vector>
                             </layer.Vector>
 
                         </CollectionProvider>
                         <control.GeoBookmark/>
+                        <control.SearchNominatim onGeocode={onGeocode}/>
                         <control.Attribution/>
                     </Map>
                     </Col><Col>
