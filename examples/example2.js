@@ -5,7 +5,7 @@ import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no
 import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {toStringXY} from 'ol/coordinate'
-import {platformModifierKeyOnly} from 'ol/events/condition'
+import {pointerDown, platformModifierKeyOnly} from 'ol/events/condition'
 import Style from 'ol/style/Style'
 import {Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
 import {fromLonLat} from 'ol/proj'
@@ -181,20 +181,12 @@ const Example2 = () => {
 //        fill: new Fill({color: 'rgba(255,255,255, 0.1)'}),
     })
 
-    const [measuredFeatures] = useState(new Collection())
-
     const measureCondition = (e) => {
         console.log('MeasureCondition');
         switch(e.type) {
             case 'pointerdown':
-                console.log("CLICK", measuredFeatures);
+                console.log("CLICK");
                 return true;
-//            case 'pointermove':
-//            case 'platformModifierKeyOnly':
-        // quietly ignore these events
-//            case 'wheel':
-//            case 'singleclick':
-//                return false;
         }
         console.log("unhandled in measureCondition", e);
         return false; // condition has not been met
@@ -257,14 +249,14 @@ const Example2 = () => {
     });
 
     const measureStart = (e) => {
-        setSketch(e.feature);
         console.log("measureStart", e)
+        setSketch(e.feature);
     }
 
     const measureEnd = (e) => {
         console.log("measureEnd", e)
         setSketch(null);
-        measuredFeatures.clear();
+        //measuredFeatures.clear();
     }
 
     const coordFormatter = (coord) => {
@@ -301,11 +293,11 @@ const Example2 = () => {
                         <Button color={!measureToolActive?"primary":"secondary"}
                             onClick={() => {setMeasureToolActive(false);}}>Select</Button>
 
-                        <Button color={(measureToolActive&&measureMode=='Distance')?"primary":"secondary"}
-                            onClick={() => { setMeasureMode("Distance"); setMeasureToolActive(true) }}>Distance</Button>
+                        <Button color={(measureToolActive && measureMode=='Distance')?"primary":"secondary"}
+                            onClick={() => { setSketch(null); setMeasureMode("Distance"); setMeasureToolActive(true) }}>Distance</Button>
 
-                        <Button color={(measureToolActive&&measureMode=='Area')?"primary":"secondary"}
-                            onClick={() => { setMeasureMode("Area"); setMeasureToolActive(true); }}>Area</Button>
+                        <Button color={(measureToolActive && measureMode=='Area')?"primary":"secondary"}
+                            onClick={() => { setSketch(null); setMeasureMode("Area"); setMeasureToolActive(true); }}>Area</Button>
 
                         <Map onMoveEnd={handleMove} animate={false}>
                         <CollectionProvider collection={mapLayers}>
@@ -334,11 +326,11 @@ const Example2 = () => {
                             </layer.Vector>
 
                             <layer.Vector title="Measure" opacity={1} style={hiddenStyle}>
-                                <source.Vector features={measuredFeatures}>
+                                <source.Vector>
                                     <interaction.Draw
                                         type={(measureMode=='Area')?"Polygon":"LineString"}
                                         style={measureStyle}
-                                        condition={measureCondition}
+                                        condition={pointerDown}
                                         drawstart={measureStart} drawend={measureEnd}
                                         active={measureToolActive}/>
                                 </source.Vector>

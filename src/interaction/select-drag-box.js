@@ -7,16 +7,10 @@ import Collection from 'ol/Collection'
 import Condition from 'ol/events/condition'
 import {DragBox as olDragBox} from 'ol/interaction'
 
-const interinfo = (interactions) => {
-    console.log("select interactions: ", interactions.getLength());
-    interactions.forEach( i => console.log(i) );
-}
-
 const SelectDragBox = ({condition, style, features, selected, active}) => {
     const map = useContext(MapContext);
     const source = useContext(SourceContext);
     const [interaction, setInteraction] = useState();
-
 /*
     const boxstart = (e) => {
 //        console.log("onBoxStart", e)
@@ -46,7 +40,6 @@ const SelectDragBox = ({condition, style, features, selected, active}) => {
     useEffect(() => {
         if (active !== undefined && interaction !== undefined)
             interaction.setActive(active);
-        interinfo(map.getInteractions());
     }, [active]);
 
     // Read about dragbox selection here
