@@ -14,7 +14,7 @@ import {Map, source, Feature, control, interaction, layer} from '../src'; // esl
 import Popup from 'ol-ext/overlay/Popup'
 //import Tooltip from 'ol-ext/overlay/Tooltip'
 
-import {myGeoServer, myArcGISServer, workspace, astoria_ll, astoria_wm} from './constants'
+import {myGeoServer, myArcGISServer, workspace, astoria_ll, astoria_wm, EXTENT} from './constants'
 import {WGS84} from '../src/constants'
 const DEFAULT_CENTER = astoria_ll
 const DEFAULT_ZOOM = 14;
@@ -338,7 +338,7 @@ const Example2 = () => {
 
                         </CollectionProvider>
                         <control.GeoBookmark/>
-                        <control.SearchNominatim onGeocode={onGeocode}/>
+                        <control.SearchNominatim onGeocode={onGeocode} viewbox={EXTENT} bounded={true}/>
                         <control.Attribution/>
                     </Map>
                     </Col><Col>
