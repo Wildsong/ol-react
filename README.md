@@ -1,8 +1,7 @@
 This code started out as richardhills/ol-react for ol3
-and brian32768 rewrote it for ol5/ol6
+and brian32768 rewrote it for ol6
 
-This version is written for OpenLayers 6.
-It builds with ol5 but there is a weird re-render thing going on with it. So, use ol6!
+This version is written for OpenLayers 6 (which has been released!! 2019-Sep-26)
 
 ## Overview
 A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
@@ -40,25 +39,6 @@ Someone sent me a link to [allenhkim/react-openlayers](https://github.com/allenh
 ## Trying it out
 The examples at this point rely pretty heavily on data that I host for my own development.
 They will still run but there will be layers missing.
-
-### Set up OpenLayers 6 beta.
-
-I am sure there is a better way to do this, but right now here is what I do.
-Download the tarball or zip file from github and unpack it in the parent folder
-to this project. Or in package.json, alter the "ol" line in "dependencies" that points there.
-
-In that folder (openlayer-6.0.0-beta.15 as of today) do these commands:
-```
-npm install
-npm run build-package
-mv build/ol ..
-```
-Once it's done you will have an ol folder containing the latest OpenLayers build.
-Go back into the ol-react source folder and do
-```npm install```
-That will create a link from node-modules/ol to ../ol, and then you are ready.
-When you run the samples you should see the current OpenLayers version at the top
-of the home page.
 
 Note that OL6 wants you to install pbf, pixelworks, and rbush yourself (via npm).
 
