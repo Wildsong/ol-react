@@ -21,6 +21,8 @@ const DEFAULT_CENTER = astoria_ll;
 const geoserverWMS = myGeoServer + "/wms?"
 const geoserverLayers = "taxlots"
 
+const coastalAccessWMS = "https://maps.oda.state.or.us/arcgis/rest/services/Projects/OCMP_CoastalAccess/MapServer/WMSServer?service=WMS"
+
 const transformfn = (coordinates) => {
     for (let i = 0; i < coordinates.length; i+=2) {
         coordinates[i]   += astoria_wm[0];
@@ -138,7 +140,8 @@ const Example1 = () => {
         <>
             <h2>Example 1 - Vector draw tools</h2>
             Tile source: OpenStreetMap<br />
-            WMS source: taxlots from GeoServer
+            WMS source: taxlots from GeoServer<br />
+  	    WMS source: OCMP Coastal Access
             <h4>Vector source</h4>
                 <ul>
                     <li> Point: small green circle near Astor Column</li>
@@ -182,6 +185,10 @@ const Example1 = () => {
                                 STYLES: "redline", // WMS style, from GeoServer in this case
                                 TILED: true}}
                         />
+                    </layer.Tile>
+
+                    <layer.Tile title="OCMP Coastal Access" maxResolution={10}>
+                        <source.TileWMS url={coastalAccessWMS}/>
                     </layer.Tile>
 
                     <layer.Vector title="Vector Shapes" opacity={1}>
