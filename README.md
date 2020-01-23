@@ -1,7 +1,11 @@
 This code started out as richardhills/ol-react for ol3
 and brian32768 rewrote it for ol6
 
-This version is written for OpenLayers 6 (which has been released!! 2019-Sep-26)
+This version is written for OpenLayers 6.
+
+There is a version of the code running [HERE](https://delta.co.clatsop.or.us/maps/) right now.
+I don't know how many of the services I used are firewalled, I need to look at that!
+But you should be able to see maps, some layers will not be available, that's all.
 
 ## Overview
 A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
