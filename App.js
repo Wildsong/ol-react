@@ -6,7 +6,8 @@ import 'ol/ol.css'
 import 'ol-ext/dist/ol-ext.css'
 import './App.css';
 
-import {Example0, Example1, Example2, Example3, Example4, Example5, Example6, Example7, Example8} from './examples'
+import {Example0, Example1, Example2, Example3, Example4, Example5, 
+    Example6, Example7, Example8} from './examples'
 
 const App = ({title}) => {
     return (
