@@ -7,6 +7,8 @@ There is a version of the code running [HERE](https://delta.co.clatsop.or.us/map
 I don't know how many of the services I used are firewalled, I need to look at that!
 But you should be able to see maps, some layers will not be available, that's all.
 
+I have to figure out how to deploy the api keys for Mapbox and Bing etc without revealing them in this repo.
+
 ## Overview
 A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
 
