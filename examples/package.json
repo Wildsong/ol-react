@@ -1,0 +1,13 @@
+{
+  "name": "vector-tile-info",
+  "dependencies": {
+    "ol": "6.1.1"
+  },
+  "devDependencies": {
+    "parcel": "1.11.0"
+  },
+  "scripts": {
+    "start": "parcel esrivectortest.html",
+    "build": "parcel build --experimental-scope-hoisting --public-url . esrivectortest.html"
+  }
+}
