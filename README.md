@@ -133,8 +133,10 @@ https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-moch
 
 ## How to test and develop
 
-Set up OpenLayers 6 as described above.
-For more help see also the react-simplemap repo.
+I use Visual Studio Code, so I have a .vscode/launch.json file set up.
+First in a shell window start the app running "npm start".
+Then you can launch the debug session in VSCode with F5.
+Official instructions are here: https://parceljs.org/debugging.html
 
 ### Test
 The command `npm start` will launch the demo setup in a browser. Currently that is where I do my testing.
