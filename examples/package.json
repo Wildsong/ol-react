@@ -1,10 +1,10 @@
 {
   "name": "vector-tile-info",
   "dependencies": {
-    "ol": "6.1.1"
+    "ol": "^6.5.0"
   },
   "devDependencies": {
-    "parcel": "1.11.0"
+    "parcel": "1.12.4"
   },
   "scripts": {
     "start": "parcel esrivectortest.html",

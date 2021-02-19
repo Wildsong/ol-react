@@ -80,6 +80,7 @@ const Example4 = () => {
                 <li> Zoning: ArcGIS FeatureServer JSON format </li>
                 <li> BingMaps aerial </li>
                 <li> BingMaps CanvasLight (roads) </li>
+                <li> Oregon imagery </li>
                 </ul>
 
                 This example shows how to create groups and shows them in the layerswitcher.

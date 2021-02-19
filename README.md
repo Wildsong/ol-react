@@ -10,7 +10,7 @@ But you should be able to see maps, some layers will not be available, that's al
 I have to figure out how to deploy the api keys for Mapbox and Bing etc without revealing them in this repo.
 
 ## Overview
-A wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
+This is a wrapper for [OpenLayers](http://openlayers.org/) in [React](https://reactjs.org/).
 
 The goal is to be able to write applications using OpenLayers maps in a declarative way. For example, the following is JSX, which can be returned by the render() method on a React component,
 to generate a map with a square near the equator.
@@ -37,7 +37,7 @@ to generate a map with a square near the equator.
 To understand what each element does, read the [OpenLayers API documentation](http://openlayers.org/en/latest/apidoc/).
 
 I experimented for months with making the source a property of the layer component and just
-went back! So I don't even have to change the documentation!
+went back! So I don't even have to change this documentation!
 
 ### Other similar projects
 Someone sent me a link to [allenhkim/react-openlayers](https://github.com/allenhwkim/react-openlayers), which looks good too. If you know of others let me know.
@@ -52,13 +52,7 @@ Note that OL6 wants you to install pbf, pixelworks, and rbush yourself (via npm)
 
 The project uses npm and the parcel bundler. You need to install npm and then
 install parcel globally. (``npm install parcel -g``) Once you have done that, use
-```
-npm start
-```
-to launch node and open a brower on http://localhost:1234/
-
-```
-npm
+"npm start" to launch node and open a brower on http://localhost:1234/
 ### Styles
 
 The original richardhills version of ol-react had a way to generate styles in JSX notation
@@ -125,7 +119,7 @@ THUNDERFOREST_KEY="89ausduhasd898asduyuhadha0s9djd"
 
 ### Testing
 
-I just ran across this article on testing that is very useful. Partly becauase of testing :-)
+I just ran across this article on testing that is very useful. Partly because of testing :-)
 and partly because it shows me how to solve some little React problems in ways I have not
 seen before.
 
@@ -157,6 +151,7 @@ npm run test
 This will publish the contents of the src/ folder as a new release.
 To install it for use in your own project, use "npm install @map46/ol-react".
 
+```
     # Save all changes to github
     git push
     # Move to master branch
@@ -165,26 +160,35 @@ To install it for use in your own project, use "npm install @map46/ol-react".
     git merge dev
     git commit -a
     git push
+```
 
 I had to wrestle for an hour before finding I had to do this to make "npm version" work.
 
+```
     eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github_bwilsoncc
+```
 
 or at home,
 
+```
     eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
+```
 
 Update version in package.json (see below)
 
+```
     npm version minor
     # or
     npm version patch
+```
 
 Get the current version number from the npm version command and use it here, without the leading 'v'.
 
+```
     npm login
     tasks/publish.sh 0.2.18
     git checkout master
+```
 
 Do NOT run "npm publish" yourself in the top level folder. It will publish too much!
 The publish script will run "npm build-package" and "npm publish" for you.
