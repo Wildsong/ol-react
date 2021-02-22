@@ -70,11 +70,11 @@ main() {
   assert_clean
   checkout_tag ${1}
   assert_version_match ${1}
-  npm install
-  npm run build-package
+  yarn install
+  yarn run build-package
   cd ${BUILT_PACKAGE}
   sed -i 's#../openlayers-6#../../../../openlayers-6#' package.json
-  npm publish
+  yarn publish
 }
 
 if test ${#} -ne 1; then

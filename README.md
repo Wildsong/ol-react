@@ -54,9 +54,9 @@ Note that OL6 wants you to install pbf, pixelworks, and rbush yourself (via npm)
 
 ## Run!
 
-The project uses npm and the parcel bundler. You need to install npm and then
-install parcel globally. (``npm install parcel -g``) Once you have done that, use
-"npm start" to launch node and open a brower on http://localhost:1234/
+The project uses yarn and the parcel bundler. You need to install yarn and then
+install parcel globally. (``yarn add parcel -g``) Once you have done that, use
+"yarn start" to launch node and open a brower on http://localhost:1234/
 
 ### Styles
 
@@ -138,13 +138,13 @@ https://medium.com/@compatt84/how-to-test-open-layers-react-components-with-moch
 ## How to test and develop
 
 I use Visual Studio Code, so I have a .vscode/launch.json file set up.
-First in a shell window start the app running "npm start".
+First in a shell window start the app running "yarn start".
 Then you can launch the debug session in VSCode with F5.
 Official instructions are here: https://parceljs.org/debugging.html
 
 ### Test
 
-The command `npm start` will launch the demo setup in a browser. Currently that is where I do my testing.
+The command `yarn start` will launch the demo setup in a browser. Currently that is where I do my testing.
 
 ### Build a package and test it
 
@@ -160,7 +160,7 @@ npm run test
 ### How I publish to npmjs.com
 
 This will publish the contents of the src/ folder as a new release.
-To install it for use in your own project, use "npm install @map46/ol-react".
+To install it for use in your own project, use "yarn add @map46/ol-react".
 
 ```bash
 # Save all changes to github
@@ -173,7 +173,7 @@ git commit -a
 git push
 ```
 
-I had to wrestle for an hour before finding I had to do this to make "npm version" work.
+I had to wrestle for an hour before finding I had to do this to make "yarn version" work.
 
 ```bash
 eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github_bwilsoncc
@@ -188,22 +188,20 @@ eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
 Update version in package.json (see below)
 
 ```bash
-npm version minor
-# or
-npm version patch
+yarn version
 ```
 
-Get the current version number from the npm version command and use it here, without the leading 'v'.
+Get the current version number from the yarn version command and use it here, without the leading 'v'.
 
 ```bash
-npm login
+yarn login
 tasks/publish.sh 0.2.18
 git checkout master
 ```
 
-Do NOT run "npm publish" yourself in the top level folder. It will publish too much!
-The publish script will run "npm build-package" and "npm publish" for you.
-The script runs 'npm publish' after chdir'ing down into the build folder.
+Do NOT run "yarn publish" yourself in the top level folder. It will publish too much!
+The publish script will run "yarn run build-package" and "yarn publish" for you.
+The script runs 'yarn publish' after chdir'ing down into the build folder.
 
 At this point do 'git status' and you will see you're not on a branch.
 You need to do a 'git checkout master' to move back onto that branch or 'git checkout dev' to go back to work.
@@ -212,17 +210,12 @@ You need to do a 'git checkout master' to move back onto that branch or 'git che
 
 When I do significant changes I bump the patch version number or possibly the minor version
 
-The "npm version" command fails if changes are left uncommitted, so 'git commit' first.
+The "yarn version" command fails if changes are left uncommitted, so 'git commit' first.
 
-If the current version in package.json is 0.1.9 then
-````npm version patch```` would bump the third digit (eg 0.1.10)
-and
-````npm version minor```` would bump the second digit (eg 0.2.0)
-and in either case, it's all pushed up to github.
-
+Yarn will prompt you for the new version, it's up to you to decide what to use.
 ### Deploy
 
-Install in your project with ````npm install @map46/ol-react````.
+Install in your project with ````yarn add @map46/ol-react````.
 
 ## The cry for help
 
