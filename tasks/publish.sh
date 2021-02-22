@@ -54,7 +54,7 @@ assert_clean
 
 yarn version --new-version ${1}
 
-checkout_tag ${1}
+checkout_tag v${1}
 assert_version_match ${1}
 yarn install
 yarn run build-package
