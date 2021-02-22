@@ -4,7 +4,6 @@
     "ol": "^6.5.0"
   },
   "devDependencies": {
-    "parcel": "1.12.4"
   },
   "scripts": {
     "start": "parcel esrivectortest.html",

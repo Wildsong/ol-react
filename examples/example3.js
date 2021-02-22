@@ -3,11 +3,9 @@ import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-
 import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 import {Style, Fill, Icon, Stroke} from 'ol/style'
 import {Converter} from 'usng.js'
-// Bootstrap (reactstrap in this case)
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
 import {Map, Feature, control, geom, interaction, layer, source} from '../src' // eslint-disable-line no-unused-vars
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat} from 'ol/proj'

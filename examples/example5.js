@@ -1,7 +1,7 @@
 import React, {useState} from 'react';  // eslint-disable-line no-unused-vars
 import {Map, layer, source, control, interaction, overlay} from '../src' // eslint-disable-line no-unused-vars
 import {Container, Row, Col, Button, Tooltip, ListGroup, ListGroupItem } from 'reactstrap' // eslint-disable-line no-unused-vars
-import BootstrapTable from 'react-bootstrap-table-next' // eslint-disable-line no-unused-vars
+import {Table as BootstrapTable} from 'reactstrap' // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 
