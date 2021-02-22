@@ -18,22 +18,6 @@ BUILT_PACKAGE=build/@map46/ol-react
 REMOTE=git@github.com:Wildsong/ol-react.git
 
 #
-# Display usage and exit.
-#
-display_usage() {
-  cat <<-EOF
-
-  Usage: ${1} <version>
-
-  To publish a new release, update the version number in package.json and
-  create a tag for the release. Normally you can do this with the
-  "npm release {minor|patch}" command. That will bump the version,
-  update package.json, and create the matching tag in github.
-
-EOF
-}
-
-#
 # Exit if the current working tree is not clean.
 #
 assert_clean() {
@@ -64,22 +48,18 @@ checkout_tag() {
 #
 # Build the package and publish.
 #
-main() {
-  root=$(cd -P -- "$(dirname -- "${0}")" && pwd -P)/..
-  cd ${root}
-  assert_clean
-  checkout_tag ${1}
-  assert_version_match ${1}
-  yarn install
-  yarn run build-package
-  cd ${BUILT_PACKAGE}
-  sed -i 's#../openlayers-6#../../../../openlayers-6#' package.json
-  yarn publish
-}
+root=$(cd -P -- "$(dirname -- "${0}")" && pwd -P)/..
+cd ${root}
+assert_clean
 
-if test ${#} -ne 1; then
-  display_usage ${0}
-  exit 1
-else
-  main ${1}
-fi
+yarn version --new-version ${1}
+
+checkout_tag ${1}
+assert_version_match ${1}
+yarn install
+yarn run build-package
+cd ${BUILT_PACKAGE}
+sed -i 's#../openlayers-6#../../../../openlayers-6#' package.json
+yarn publish
+
+
