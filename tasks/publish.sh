@@ -27,6 +27,7 @@ cd ${root}
 source `git --exec-path`/git-sh-setup && \
 require_clean_work_tree "publish" "Please commit or stash them."
 
+# Don't prompt for a version
 yarn version --new-version ${1}
 git checkout ${1}
 
@@ -34,8 +35,10 @@ yarn install
 yarn run build-package
 
 cd ${BUILT_PACKAGE}
-sed -i 's#../openlayers-6#../../../../openlayers-6#' package.json
 
-yarn publish
+# Don't prompt for a version
+yarn publish --new-version ${1}
+
+git checkout master
 
 
