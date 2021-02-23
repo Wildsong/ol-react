@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';  // eslint-disable-line no-unused-vars
 import {Map, control, layer, source} from '../src' // eslint-disable-line no-unused-vars
-import {Container, Row, Col, Button} from 'reactstrap' // eslint-disable-line no-unused-vars
+import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
 

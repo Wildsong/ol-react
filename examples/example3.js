@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';  // eslint-disable-line no-unused-vars
 import {MapProvider} from '../src/map-context' // eslint-disable-line no-unused-vars
 import {CollectionProvider} from '../src/collection-context' // eslint-disable-line no-unused-vars
-import {Style, Fill, Icon, Stroke} from 'ol/style'
 import {Converter} from 'usng.js'
 import {Button} from 'reactstrap' // eslint-disable-line no-unused-vars
 import OpacitySlider from '../src/control/opacity-slider' // eslint-disable-line no-unused-vars
@@ -9,6 +8,7 @@ import {Map, Feature, control, geom, interaction, layer, source} from '../src' /
 
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {fromLonLat} from 'ol/proj'
+import {Style, Fill, Icon, Stroke} from 'ol/style'
 import {defaultOverviewLayers as ovLayers} from '../src/map-layers'
 
 import {astoria_ll, MINZOOM, myArcGISServer} from './constants'

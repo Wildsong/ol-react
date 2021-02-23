@@ -6,8 +6,7 @@ import {Table as BootstrapTable} from 'reactstrap' // eslint-disable-line no-unu
 import {Map as olMap, View as olView, Collection} from 'ol'
 import {toStringXY} from 'ol/coordinate'
 import {pointerDown, platformModifierKeyOnly} from 'ol/events/condition'
-import Style from 'ol/style/Style'
-import {Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
+import {Style, Fill, Stroke, RegularShape, Circle, Text} from 'ol/style'
 import {fromLonLat} from 'ol/proj'
 import {getArea, getLength} from 'ol/sphere';
 import {Map, source, Feature, control, interaction, layer} from '../src'; // eslint-disable-line no-unused-vars
