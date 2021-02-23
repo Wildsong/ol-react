@@ -164,6 +164,7 @@ To install it for use in your own project, use "yarn add @map46/ol-react".
 
 ```bash
 # Save all changes to github
+git commit -a
 git push
 # Move to master branch
 git checkout master
@@ -185,34 +186,19 @@ or at home,
 eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa_github
 ```
 
-Update version in package.json (see below)
-
-```bash
-yarn version
-```
-
-Get the current version number from the yarn version command and use it here, without the leading 'v'.
+Get the current version number from package.json.
+Insert it for "NEWVERSION".
 
 ```bash
 yarn login
-tasks/publish.sh 0.2.18
-git checkout master
+tasks/publish.sh NEWVERSION
 ```
 
 Do NOT run "yarn publish" yourself in the top level folder. It will publish too much!
-The publish script will run "yarn run build-package" and "yarn publish" for you.
-The script runs 'yarn publish' after chdir'ing down into the build folder.
+The publish script will build and publish for you.
 
-At this point do 'git status' and you will see you're not on a branch.
-You need to do a 'git checkout master' to move back onto that branch or 'git checkout dev' to go back to work.
+This should end up with "master" checked out unless something fails.
 
-### Update git
-
-When I do significant changes I bump the patch version number or possibly the minor version
-
-The "yarn version" command fails if changes are left uncommitted, so 'git commit' first.
-
-Yarn will prompt you for the new version, it's up to you to decide what to use.
 ### Deploy
 
 Install in your project with ````yarn add @map46/ol-react````.
